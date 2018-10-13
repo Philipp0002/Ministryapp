@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_counter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.philipphahn.dienstapp.Counter"
+    tools:deviceIds="wear">
+
+    <android.support.percent.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/time_counter"
+            app:layout_heightPercent="30%"
+            android:layout_width="fill_parent"
+            android:text="00:00"
+            android:textSize="26.4sp"
+            app:layout_box="all"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+
+    </android.support.percent.PercentFrameLayout>
+
+
+    <android.support.percent.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/action_counter_layout">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/FAB2_counter"
+            app:layout_marginTopPercent="60%"
+            app:layout_heightPercent="30%"
+            app:layout_widthPercent="50%"
+            app:backgroundTint="#F44336"
+            android:src="@drawable/delete"
+            app:layout_box="all"
+            android:layout_gravity="right"
+            android:layout_marginRight="16sp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/FAB1_counter"
+            app:layout_marginTopPercent="60%"
+            app:layout_heightPercent="30%"
+            app:layout_widthPercent="50%"
+            app:layout_box="all"
+            android:src="@drawable/play"
+            app:backgroundTint="#4CAF50"
+            android:layout_gravity="left"
+            android:layout_marginLeft="16sp" />
+
+
+    </android.support.percent.PercentFrameLayout>
+
+
+    <android.support.percent.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/clock_counter_layout">
+
+        <TextView
+            android:id="@+id/clock_counter_title"
+            app:layout_marginTopPercent="60%"
+            app:layout_heightPercent="10%"
+            android:layout_width="fill_parent"
+            android:text="@string/time"
+            app:layout_box="all"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="16.8sp"
+            android:textColor="#fff"/>
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/clock_counter"
+            app:layout_marginTopPercent="70%"
+            app:layout_heightPercent="30%"
+            android:layout_width="fill_parent"
+            android:text="CL:CK"
+            app:layout_box="all"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textColor="#fff"/>
+
+
+    </android.support.percent.PercentFrameLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

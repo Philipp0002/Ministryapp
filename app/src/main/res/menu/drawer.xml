@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/bericht"
+            android:checked="false"
+            android:checkable="true"
+            android:icon="@drawable/ic_class_black_24dp"
+            android:title="@string/title_section1" />
+
+        <item
+            android:id="@+id/rueckbesuche"
+            android:checked="false"
+            android:icon="@drawable/ic_comment_black_24dp"
+            android:title="@string/title_section2" />
+
+        <item
+            android:id="@+id/notizen"
+            android:checked="false"
+            android:icon="@drawable/ic_description_black_24dp"
+            android:title="@string/title_section3" />
+
+        <item
+            android:id="@+id/empfehlungen"
+            android:checked="false"
+            android:icon="@drawable/ic_thumb_up_black_24dp"
+            android:title="@string/title_section4" />
+
+        <item
+            android:id="@+id/videos"
+            android:checked="false"
+            android:icon="@drawable/ic_video_library_black_24dp"
+            android:title="@string/title_section7" />
+
+    </group>
+
+    <item android:title="@string/title_section_more">
+        <menu>
+            <item
+                android:id="@+id/item_settings_drawer"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/title_section5" />
+
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Dienst</string>
+    <string name="splash_app_name">Dienstapp</string>
+    <string name="motto">„Vertraue auf Jehova, und tue Gutes“</string>
+    <string name="title_section1">Bericht</string>
+    <string name="title_section2">Rückbesuche</string>
+    <string name="title_section3">Notizen</string>
+    <string name="title_section4">Empfehlungen</string>
+    <string name="title_section5">Einstellungen</string>
+    <string name="title_section6">Deinen Bericht versenden</string>
+    <string name="title_section7">Videos</string>
+    <string name="title_section8">Gebiete</string>
+    <string name="title_section9">Kalender</string>
+    <string name="title_section_more">Mehr</string>
+    <string name="reset">Berichtsdaten zurücksetzten</string>
+    <string name="resetdialog_message">ALLE Daten werden gelöscht! Fortfahren?</string>
+    <string name="resetdialog_title">Wirklich zurücksetzen?</string>
+    <string name="action_save">Speichern</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_main_activity3">MainActivity3</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="action_ziel">Ziel</string>
+    <string name="action_delete_rueck">Person löschen</string>
+    <string name="title_activity_senden">Senden</string>
+    <string name="title_activity_empfehlungen">Empfehlungen</string>
+    <string name="title_activity_settings_new">Einstellungen</string>
+
+    <string name="noreturnvisit">Keine Rückbesuche</string>
+    <string name="age_returnvisit">Alter</string>
+    <string name="genderreturnvisit">Geschlecht</string>
+    <string name="notes_returnvisit">Notizen</string>
+    <string name="wohnortreturnvisit">Wohnort</string>
+    <string name="remove_returnvisit">LÖSCHEN</string>
+    <string name="notsaid">Nicht&#160;angegeben</string>
+    <string name="weiblich">Weiblich</string>
+    <string name="männlich">Männlich</string>
+    <string name="citynotsaid">Stadt&#160;nicht&#160;angegeben</string>
+    <string name="streetnotsaid">Straße&#160;nicht&#160;angegeben</string>
+    <string name="nonotes">Keine&#160;Notizen!</string>
+    <string name="noconnect">Keine&#160;Verbindung!</string>
+    <string name="URL_end">de</string>
+
+    <string name="title_activity_stunden">Stunden</string>
+    <string name="title_activity_abgaben">Abgaben</string>
+    <string name="title_activity_rückbesuche">Rückbesuche</string>
+    <string name="title_activity_videos">Videos</string>
+    <string name="title_activity_heimb">Bibelstudien</string>
+    <string name="attention">ACHTUNG</string>
+    <string name="warnung">Du musst dafür sorgen, dass niemand an deine Rückbesuchsdaten herankommt! Es wird keine Haftung bei Diebstahl der Daten übernommen!</string>
+    <string name="notes_text">Schreibe hier Notizen!</string>
+    <string name="sendreport_text">Bericht senden zu</string>
+    <string name="error">FEHLER</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="video_exception">Es ist ein Problem beim Download aufgetreten!</string>
+    <string name="videolist_exception">Es ist ein Problem beim Laden der Videoliste aufgetreten.</string>
+
+
+    <string-array name="months_array">
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>März</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
+    </string-array>
+
+    <string-array name="year_array">
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+    </string-array>
+
+    <string name="monat1">Januar</string>
+    <string name="monat2">Februar</string>
+    <string name="monat3">März</string>
+    <string name="monat4">April</string>
+    <string name="monat5">Mai</string>
+    <string name="monat6">Juni</string>
+    <string name="monat7">Juli</string>
+    <string name="monat8">August</string>
+    <string name="monat9">September</string>
+    <string name="monat10">Oktober</string>
+    <string name="monat11">November</string>
+    <string name="monat12">Dezember</string>
+
+    <string name="reportfor">Bericht von:&#160;</string>
+    <string name="reportmonth">Monat:&#160;</string>
+    <string name="reporthours">Stunden:&#160;</string>
+    <string name="reportplace">Abgaben:&#160;</string>
+    <string name="reportvisits">Rückbesuche:&#160;</string>
+    <string name="reportvideo">Video Vorführungen:&#160;</string>
+    <string name="reportstudy">Heimbibelstudien:&#160;</string>
+    <string name="reportminutes">Minuten:&#160;</string>
+    <string name="reportsentvia">Gesendet über Dienstapp</string>
+
+    <string name="title_activity_see_rueck">SeeRueck</string>
+
+    <string name="title_videos_success">1 Video heruntergeladen</string>
+    <string name="searchable">Searchable</string>
+    <string name="title_activity_bericht_add_frame">abc</string>
+    <string name="ok">OK</string>
+
+    <string name="download_sure">Bist du dir sicher?</string>
+    <string name="download_text">Das Video \"%a\" wird heruntergeladen.</string>
+    <string name="download_ok">BEGINNEN</string>
+    <string name="download_cancel">ABBRECHEN</string>
+
+    <string name="delete_sure">Bist du dir sicher?</string>
+    <string name="delete_text">Das Video \"%a\" wird gelöscht.</string>
+    <string name="delete_ok">LÖSCHEN</string>
+    <string name="delete_cancel">ABBRECHEN</string>
+    <string name="video_open_error">Es gab einen Fehler beim Öffnen des Videos. Bitte warte bis es heruntergeladen ist.</string>
+
+    <string name="data_cleared">Berichtsdaten gelöscht!</string>
+    <string name="shortcut_entry">App Schnellzugriffe</string>
+    <string name="shortcuts_dialog_title">Wähle deine Launcher Shortcuts</string>
+    <string name="shortcuts_not_availible">Schnellzugriffe sind in dieser Android Version nicht verfügbar.</string>
+    <string name="add_bericht">Bericht hinzufügen</string>
+    <string name="change_bericht">Bericht ändern</string>
+    <string name="date">Datum</string>
+    <string name="minutes">Minuten</string>
+    <string name="onehour">Maximale Minutenanzahl ist 59!</string>
+    <string name="twentyfourhours">Es gibt nur 24 Stunden am Tag!</string>
+    <string name="insgesamt">INSGESAMT</string>
+    <string name="swipe_up_for_more">Wische hoch für Zusammenfassung</string>
+    <string name="no_bericht">Keine Berichtsdaten für diesen Monat! Füge Daten mit \"+\" hinzu!</string>
+
+
+
+    <string name="warnung2">Um diese Funktion nutzen zu können, musst du einen Sperrbildschirm einrichten. Soll ich dir dabei helfen?</string>
+    <string name="activate_data">Schalte WLAN oder dein mobiles Datenvolumen ein um dieses Video herunter zu laden.</string>
+    <string name="bericht_error">Upps.. Es gab einen Fehler beim Laden des Berichts. Wenn der Bericht nicht richtig angezeigt wird, starte die App neu.</string>
+
+    <string name="bericht_undo_1">Eintrag entfernt</string>
+    <string name="bericht_undo_2">Rückgängig</string>
+    <string name="videos_offline_mode">OFFLINE-MODUS</string>
+
+
+    <string name="goal_set">Setze dein monatliches Ziel</string>
+    <string name="goal_msg">Gib hier dein monatliches Stundenziel ein:</string>
+    <string name="OK">OK</string>
+    <string name="goal_no">Ziel löschen</string>
+    <string name="goal_text_mult">%a Stunden um Ziel zu erreichen</string>
+    <string name="goal_text_1">%a Stunde um Ziel zu erreichen</string>
+    <string name="goal_text_reached">Du hast dein Ziel erreicht!</string>
+    <string name="goal_text_reached_more">Du hast dein Ziel erreicht! +%ah mehr</string>
+
+    <string name="goal_invalid">Ungültiges Ziel</string>
+    <string name="impressum">Impressum</string>
+    <string name="licenses">Lizenzen</string>
+
+    <string name="weusethat">Wir bedanken uns bei den Erstellern der Projekte, die wir nutzen! Die APIs, die wir nutzen sind:</string>
+
+    <string name="gebiet_add">Gebiet hinzufügen</string>
+    <string name="gebiet_add_msg">Gib eine Straße deines Gebietes ein (mit Stadt dahinter):</string>
+    <string name="gebiet_add_cancel">Abbrechen</string>
+
+    <string name="gebiet_house_add">Haus hinzufügen</string>
+    <string name="gebiet_house_add_msg">Gib hier die Hausnummer (mit optionalem Buchstaben) ein:</string>
+    <string name="gebiet_house_add_msg_change">Gib hier die neue Hausnummer (mit optionalem Buchstaben) ein:</string>
+    <string name="gebiet_house_add_invalid">Diese Hausnummer existiert bereits!</string>
+    <string name="gebiet_house_wohnungsinhaber">Wohnungsinhaber</string>
+    <string name="gebiet_house_add_wohnungsinhaber">Wohnungsinhaber hinzufügen</string>
+    <string name="gebiet_house_first_name">Vorname</string>
+    <string name="gebiet_house_last_name">Nachname</string>
+    <string name="gebiet_house_last_first_name">Nachname Vorname</string>
+    <string name="gebiet_house_age">Alter</string>
+    <string name="gebiet_house_native_lang">Sprache</string>
+    <string name="gebiet_house_publications">Publikationen (mit Enter bestätigen)</string>
+    <string name="gebiet_house_notes">Notizen</string>
+    <string name="gebiet_delete">Löschen</string>
+    <string name="gebiet_send">Senden</string>
+    <string name="gebiet_maps">Karte öffnen</string>
+    <string name="gebiet_maps_title">Öffnen in...</string>
+    <string name="gebiet_maps_google">Google Maps</string>
+    <string name="gebiet_maps_osm">OpenStreetMap (Hausnummern)</string>
+    <string name="gebiet_delete_sure_title">xx löschen?</string>
+    <string name="gebiet_delete_sure">Das Gebiet kann dann nicht mehr wiederhergestellt werden.</string>
+    <string name="gebiet_housenumber_delete_sure">Die Hausnummer kann dann nicht mehr wiederhergestellt werden.</string>
+    <string name="gebiet_maps_no_map_app">Da keine Karten App installiert ist, wird die Karte im Browser geöffnet.</string>
+    <string name="no_gebiet">Keine Gebietsdaten hinterlegt! Füge Daten mit \"+\" hinzu!</string>
+
+    <string name="gebiet_house_rename">Hausnummer umbenennen</string>
+    <string name="gebiet_house_delete">Hausnummer löschen</string>
+    <string name="gebiet_householder_delete">Wohnungsinhaber löschen</string>
+    <string name="gebiet_house_change">xx ändern</string>
+    <string name="gebiet_house_not_valid_age">Alter ungültig</string>
+    <string-array name="gebiet_house_genders">
+        <item>Männlich</item>
+        <item>Weiblich</item>
+    </string-array>
+    <string-array name="gebiet_house_interest_types">
+        <item> </item>
+        <item>Interessiert</item>
+        <item>Kein Interesse</item>
+        <item>Nicht zu Hause</item>
+        <item>Bibelstudium</item>
+        <item>Rückbesuch</item>
+    </string-array>
+    <string name="gebiet_householder_edit">Wohnungsinhaber bearbeiten</string>
+
+    <string name="drawer_alt">ALT</string>
+    <string name="bericht_type_name">Bitte gib hier deinen Namen ein, damit der Bericht vollständig ist.</string>
+
+    <string name="report_layout_settings">Berichtslayout</string>
+    <string name="report_layout_msg">Hier kannst du das Layout der Berichtsseite ändern.\nVorschau:</string>
+    <string name="report_layout_1">Groß</string>
+    <string name="report_layout_2">Klein</string>
+
+    <string name="rueck_no_add_anymore_title">Tschau!</string>
+    <string name="rueck_no_add_anymore">Sag tschüss zu den Rückbesuchen! Die Funktion wird bald verschwinden, aber es gibt schon eine Alternative: Gebiete</string>
+
+    <string name="drawer_ticker_news">NEUES</string>
+    <string name="drawer_ticker_no_news">++NEUES++ Zurzeit keine Neuigkeiten verfügbar ++NEUES++</string>
+
+    <string name="transition_fab">fab_transition</string>
+    <string name="title_activity_gebiete_houses">GebieteHouses</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_change_gebiet_householder">ChangeGebietHouseholder</string>
+
+    <string name="empf_not_available">Empfehlungen nicht für Systemzeit verfügbar.</string>
+
+    <string name="vid_no_storage_access">Du musst Zugriff auf den Speicher gewähren, damit Videos geladen werden können.</string>
+    <string name="vid_wait">Bitte warten... Infos werden abgerufen</string>
+    <string name="title_activity_kalender">Kalender</string>
+
+    <string name="kalender_no_events">Kein Dienst für diesen Tag geplant!</string>
+    <string name="title_activity_kalender_add_frame">Dienst hinzufügen</string>
+    <string name="kalender_partner">Partner</string>
+    <string name="kalender_notes">Notizen</string>
+
+    <string name="kalender_menu_title">Diensteintrag</string>
+    <string name="kalender_menu_edit">Bearbeiten</string>
+    <string name="kalender_menu_delete">Löschen</string>
+    <string name="kalender_menu_delete_title">Eintrag löschen?</string>
+    <string name="kalender_menu_delete_msg">Möchtest du wirklich diesen Eintrag löschen?</string>
+
+    <string name="dsgvo_accept">Akzeptieren</string>
+    <string name="dsgvo_title">Datenschutzerklärung</string>
+
+    <string name="filter_territory">Filter nach Interessenstyp</string>
+    <string name="title_activity_gebiet_import">In Dienstapp importieren</string>
+    <string name="not_accepted_import">Um zu importieren muss der Zugriff auf den Speicher gewährt werden.</string>
+    <string name="import_address">Adresse</string>
+    <string name="import_select_territory">Wähle das Gebiet</string>
+    <string name="import_select_house">Wähle das Haus</string>
+    <string name="import_info_title">Information</string>
+    <string name="import_info_msg">Beim Import von Daten der Ministry Assistant App können Daten verloren gehen.</string>
+
+    <string name="export_share">Teilen</string>
+    <string name="carryover">Übertrag</string>
+    <string name="carryover_msg">Die übrigen Minuten werden diesem Monat abgezogen und dem nächsten hinzugefügt.</string>
+    <string name="carryover_null">Keine Berichtsdaten!</string>
+
+    <string name="action_refresh_vid">Liste neuladen</string>
+    <string name="video_refresh_error_title">Keine Verbindung</string>
+    <string name="video_refresh_error_msg">Bitte überprüfe deine Internetverbindung und versuche es noch einmal.</string>
+    <string name="not_accepted_videonew">Um Videos zu downloaden muss der Zugriff auf den Speicher gewährt werden.</string>
+    <string name="videonew_lostfile">Hmm.. Irgendwie ist das Video verloren gegangen. :/</string>
+
+    <string name="report_private">Privater Modus an - Dein Bericht ist versteckt.</string>
+    <string name="report_private_show">Anzeigen</string>
+    <string name="report_private_mode">Privater Modus</string>
+    <string name="report_private_onoff">Der private Modus versteckt deinen Bericht solange, bis du einen Knopf drückst.</string>
+    <string name="report_private_on">An</string>
+    <string name="report_private_off">Aus</string>
+
+</resources>

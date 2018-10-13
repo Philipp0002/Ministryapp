@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--color name="ColorPrimary">#00897B</color>
+    <color name="ColorPrimaryDark">#00695C</color-->
+    <color name="ColorPrimary">#1B1B1B</color>
+    <color name="ColorPrimaryDark">#171717</color>
+    <color name="color_accent">#ffffff</color>
+    <color name="buttonColor">#b71c1c</color>
+    <color name="goalColor">#171717</color>
+    <color name="dark_grey_color">#4a636f</color>
+    <color name="list_bericht_info">#fff</color>
+    <color name="list_bericht_data">#fff</color>
+    <color name="list_bericht_date">#fff</color>
+    <color name="background">#1B1B1B</color>
+    <color name="green_accent">#01ff49</color>
+
+
+
+</resources>
