@@ -1,7 +1,6 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -9,7 +8,6 @@
     tools:context=".Empfehlungen">
 
     <RelativeLayout
-        android:id="@+id/container4"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="fill_parent">
@@ -36,7 +34,7 @@
             android:textSize="40dp"
             android:visibility="visible" /-->
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
         <ProgressBar
             android:id="@+id/progressBar_empf"
@@ -113,12 +111,10 @@
 
     </RelativeLayout>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
+    <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/header"
         app:menu="@menu/drawer" />
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

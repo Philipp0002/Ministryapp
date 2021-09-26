@@ -1,15 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+        <!-- Customize your theme here.-->
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimary</item>
-        <!-- <item name="colorButtonNormal">@color/buttonColor</item>-->
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:fitsSystemWindows">false</item>
-        <item name="colorButtonNormal">#ffffff</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorAccent">@color/accent_color</item>
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/material_drawer_background</item>
@@ -20,16 +18,24 @@
         <item name="material_drawer_divider">@color/material_drawer_divider</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
         <item name="material_drawer_selected_text">@color/background</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_header_selection_text
-        </item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+        <!-- Customize your theme here.-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
     <style name="Splash" parent="AppTheme">
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimary</item>
         <item name="android:windowBackground">@color/background</item>
+
     </style>
 
     <style name="BerichtAddFrameThemeTranslucent" parent="AppTheme">
@@ -40,16 +46,6 @@
         <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="AppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimary</item>
-        <!-- <item name="colorButtonNormal">@color/buttonColor</item>-->
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="DrawerTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -64,6 +60,4 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
 </resources>

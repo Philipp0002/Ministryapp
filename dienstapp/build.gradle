@@ -18,6 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '27.0.1'
 }
 
 
@@ -25,9 +26,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.google.android.support:wearable:2.0.0'
     compile 'com.google.android.gms:play-services-wearable:10.2.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    provided 'com.google.android.wearable:wearable:2.0.0'
+    compile 'androidx.legacy:legacy-support-v4:1.0.0'
+    compileOnly 'com.google.android.wearable:wearable:2.0.0'
     compile 'me.grantland:autofittextview:0.2.+'
-    compile 'com.android.support:percent:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'androidx.percentlayout:percentlayout:1.0.0'
+    compile 'com.google.android.material:material:1.1.0-alpha01'
 }

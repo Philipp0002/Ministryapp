@@ -6,7 +6,7 @@
 
 
     <tk.phili.dienst.dienst.ScrollTextView
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:layout_marginBottom="4dp"
         android:id="@+id/tickerview"
         android:layout_width="match_parent"

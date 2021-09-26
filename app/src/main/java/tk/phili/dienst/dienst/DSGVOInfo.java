@@ -2,7 +2,7 @@ package tk.phili.dienst.dienst;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -30,9 +30,9 @@ public class DSGVOInfo extends AppCompatActivity {
 
         WebView web = findViewById(R.id.webView);
         if(Locale.getDefault().getLanguage().equalsIgnoreCase("de")) {
-            web.loadUrl("https://dienstapp.raffaelhahn.de/de/gdpr.html");
+            web.loadUrl("https://ministryapp.de/de/gdpr.html");
         }else{
-            web.loadUrl("https://dienstapp.raffaelhahn.de/en/gdpr.html");
+            web.loadUrl("https://ministryapp.de/en/gdpr.html");
         }
 
         findViewById(R.id.accept_dsgvo).setOnClickListener(new View.OnClickListener() {

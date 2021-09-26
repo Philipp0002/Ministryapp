@@ -10,31 +10,32 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -105,131 +106,160 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
         nonet.setVisibility(View.INVISIBLE);
         ImageView pic = (ImageView) findViewById(R.id.imageView3);
         pic.setVisibility(View.INVISIBLE);
-        /*Button retry = (Button) findViewById(R.id.retry_empf);
-        retry.setVisibility(View.INVISIBLE);*/
         WebView myWebView = (WebView) findViewById(R.id.webView);
         myWebView.setVisibility(View.VISIBLE);
         try {
             unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
 
-        String urlend = Locale.getDefault().getLanguage();
+        String urlend = sp.getString("sample_presentations_locale", Locale.getDefault().getLanguage());
+
         final Empfehlungen em = this;
-        //GET DATESarray
-        Ion.with(getApplicationContext())
-                .load("https://dienstapp.raffaelhahn.de/whatempfehlungen.php?lang=" + urlend)
-                .noCache()
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        try {
-                            String res = result;
-                            String[] tags = res.split("_");
 
-                            final Spinner spinner = (Spinner) findViewById(R.id.spinner_nav_empf);
+
+        final EmpfehlungenAsyncFetcher asyncFetcher = new EmpfehlungenAsyncFetcher();
+        asyncFetcher.language = urlend;
+        asyncFetcher.futurerun = new Runnable() {
+            @Override
+            public void run() {
+                JSONObject obj = asyncFetcher.response;
+
+                if(obj != null) {
+                    final Spinner spinner = (Spinner) findViewById(R.id.spinner_nav_empf);
+                    Empfehlungen.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
                             spinner.setVisibility(View.VISIBLE);
+                        }
+                    });
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(em,
-                                    R.layout.spinner_main, tags);
+                    ArrayList<String> listItems = new ArrayList<String>();
+                    final ArrayList<String> listUrls = new ArrayList<String>();
+                    JSONArray monthsArray = null;
+                    String baseURL = "";
+                    try {
+                        monthsArray = obj.getJSONArray("months");
+                        baseURL = obj.getString("baseURL");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+                    for (int i = 0; i < monthsArray.length(); i++) {
+                        listItems.add(new DateFormatSymbols().getMonths()[i]);
+                        try {
+                            listUrls.add(baseURL + monthsArray.getJSONObject(i).getString("url"));
+                        } catch (JSONException e) { e.printStackTrace(); }
+                    }
+
+                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(em,
+                            R.layout.spinner_main, listItems);
+
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+                    Empfehlungen.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
                             spinner.setAdapter(adapter);
+                        }
+                    });
 
-                            String thismonthname = monthnameconverter(getMonth() + "", false);
 
+                    Empfehlungen.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
                             try {
-                                spinner.setSelection(getMonth());//Locale.getDefault().getLanguage();
-                            }catch(Exception ex){
+                            spinner.setSelection(getMonth());//Locale.getDefault().getLanguage();
+                            }catch(Throwable ex){
                                 Toast.makeText(Empfehlungen.this, getString(R.string.empf_not_available), Toast.LENGTH_SHORT);
                             }
-
-                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                                    String monthname = spinner.getItemAtPosition(position).toString();
-                                    String number = (position+1)+"";//monthnameconverter(monthname, true);
-
-                                    WebView mWebView = (WebView) findViewById(R.id.webView);
-                                    WebSettings webSettings = mWebView.getSettings();
-                                    webSettings.setJavaScriptEnabled(true);
-
-                                    // add progress bar
-                                    mWebView.setWebChromeClient(new MyWebChromeClient(Empfehlungen.this));
-                                    mWebView.setWebViewClient(new WebViewClient() {
-
-                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                            if (url.equals(lasturl) || url.contains("/d/")) {
-                                                return false;
-                                            } else {
-                                                return true;
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                                            super.onPageStarted(view, url, favicon);
-                                            if(!pageSuccess)return;
-                                            pageSuccess = true;
-                                            ((ProgressBar) findViewById(R.id.progressBar_empf)).setVisibility(View.VISIBLE);
-                                            view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
-                                            view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                                view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
-                                            } else {
-                                                view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            super.onPageFinished(view, url);
-                                            if(!pageSuccess)return;
-                                            pageSuccess = true;
-                                            ((ProgressBar) findViewById(R.id.progressBar_empf)).setVisibility(View.GONE);
-                                            view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
-                                            view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                                view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
-                                            } else {
-                                                view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
-                                            }
-
-                                        }
+                        }
+                    });
 
 
-                                        @Override
-                                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                                            pageSuccess = false;
-                                            if(isConnectedtoNet()) {
-                                                setSpinnerText();
-                                            }else{
-                                                setErrorSpinner();
-                                            }
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                                        }
-                                    });
-                                    lasturl = "https://dienstapp.raffaelhahn.de/empfehlungen.php?lang=" + Locale.getDefault().getLanguage() + "&month=" + number + "&year=" + getYear();
-                                    mWebView.loadUrl("https://dienstapp.raffaelhahn.de/empfehlungen.php?lang=" + Locale.getDefault().getLanguage() + "&month=" + number + "&year=" + getYear());
+                            WebView mWebView = (WebView) findViewById(R.id.webView);
+                            WebSettings webSettings = mWebView.getSettings();
+                            webSettings.setJavaScriptEnabled(true);
+
+                            // add progress bar
+                            mWebView.setWebChromeClient(new MyWebChromeClient(Empfehlungen.this));
+                            mWebView.setWebViewClient(new WebViewClient() {
+
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    if (url.equals(lasturl) || url.contains("/d/")) {
+                                        return false;
+                                    } else {
+                                        return true;
+                                    }
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> parentView) {
-                                    // your code here
+                                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                                    super.onPageStarted(view, url, favicon);
+                                    if(!pageSuccess)return;
+                                    pageSuccess = true;
+                                    ((ProgressBar) findViewById(R.id.progressBar_empf)).setVisibility(View.VISIBLE);
+                                    view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
+                                    view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
+                                    } else {
+                                        view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
+                                    }
                                 }
 
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    super.onPageFinished(view, url);
+                                    if(!pageSuccess)return;
+                                    pageSuccess = true;
+                                    ((ProgressBar) findViewById(R.id.progressBar_empf)).setVisibility(View.GONE);
+                                    view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
+                                    view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
+                                    } else {
+                                        view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
+                                    }
+
+                                }
+
+
+                                @Override
+                                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                                    pageSuccess = false;
+                                    if(isConnectedtoNet()) {
+                                        setSpinnerText();
+                                    }else{
+                                        setErrorSpinner();
+                                    }
+
+                                }
                             });
-                        }catch(Exception exce){ }
-                    }
-                });
+
+                            lasturl = listUrls.get(position);
+                            mWebView.loadUrl(listUrls.get(position));
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {
+                            // your code here
+                        }
+
+                    });
 
 
 
-
-
-
-
+                }
+            }
+        };
+        asyncFetcher.execute();
 
     }
 
@@ -318,86 +348,6 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
         return super.onOptionsItemSelected(item);
     }
 
-
-    public String monthnameconverter(String month, boolean tonumber){
-        if(tonumber){
-            if(month.equalsIgnoreCase(getString(R.string.monat1))){
-                return "1";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat2))){
-                return "2";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat3))){
-                return "3";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat4))){
-                return "4";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat5))){
-                return "5";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat6))){
-                return "6";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat7))){
-                return "7";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat8))){
-                return "8";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat9))){
-                return "9";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat10))){
-                return "10";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat11))){
-                return "11";
-            }
-            if(month.equalsIgnoreCase(getString(R.string.monat12))){
-                return "12";
-            }
-        }
-        if(!tonumber){
-            if(month.equalsIgnoreCase("1")){
-                return getString(R.string.monat1);
-            }
-            if(month.equalsIgnoreCase("2")){
-                return getString(R.string.monat2);
-            }
-            if(month.equalsIgnoreCase("3")){
-                return getString(R.string.monat3);
-            }
-            if(month.equalsIgnoreCase("4")){
-                return getString(R.string.monat4);
-            }
-            if(month.equalsIgnoreCase("5")){
-                return getString(R.string.monat5);
-            }
-            if(month.equalsIgnoreCase("6")){
-                return getString(R.string.monat6);
-            }
-            if(month.equalsIgnoreCase("7")){
-                return getString(R.string.monat7);
-            }
-            if(month.equalsIgnoreCase("8")){
-                return getString(R.string.monat8);
-            }
-            if(month.equalsIgnoreCase("9")){
-                return getString(R.string.monat9);
-            }
-            if(month.equalsIgnoreCase("10")){
-                return getString(R.string.monat10);
-            }
-            if(month.equalsIgnoreCase("11")){
-                return getString(R.string.monat11);
-            }
-            if(month.equalsIgnoreCase("12")){
-                return getString(R.string.monat12);
-            }
-        }
-        return "FEHLER";
-    }
 
     @Override
     protected void onDestroy() {

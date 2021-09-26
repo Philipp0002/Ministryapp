@@ -3,13 +3,16 @@ package tk.phili.dienst.dienst;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class Notizen extends AppCompatActivity{
@@ -53,22 +56,34 @@ public class Notizen extends AppCompatActivity{
         toolbar.bringToFront();
         Drawer.addDrawer(this, toolbar, 3);
 
-        EditText et = (EditText)findViewById(R.id.notes);
+        final EditText et = (EditText)findViewById(R.id.notes);
+
+        //et.setLinksClickable(true);
+        //et.setAutoLinkMask(Linkify.WEB_URLS);
+        //et.setMovementMethod(CustomNotesMovementMethod.getInstance());
+//If the edit text contains previous text with potential links
+        Linkify.addLinks(et, Linkify.WEB_URLS);
+        CharSequence text = TextUtils.concat(et.getText(), "\u200B");
+        et.setText(text);
+
         et.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
 
                 // you can call or do what you want with your EditText here
                 EditText add_button = (EditText) findViewById(R.id.notes);
-                editor.putString("NOTES", add_button.getText() + "");
+                editor.putString("NOTES", add_button.getText().toString().replace("\u200B", "") + "");
                 editor.commit();
 
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Linkify.addLinks(et, Linkify.WEB_URLS);
+            }
         });
+        et.requestFocus();
 
     }
 
@@ -98,5 +113,10 @@ public class Notizen extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onResume() {
+        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        super.onResume();
+    }
 }

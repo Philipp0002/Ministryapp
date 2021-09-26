@@ -5,16 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.LayoutRes;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.LayoutRes;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
-import com.mikepenz.fastadapter.IItem;
 import com.mikepenz.materialdrawer.model.AbstractDrawerItem;
-import com.mikepenz.materialize.util.UIUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -68,17 +63,12 @@ public class DrawerTicker extends AbstractDrawerItem<DrawerTicker, DrawerTicker.
         try{
             if(viewHolder != null){
                 final String url = URL;
-                c.runOnUiThread(new Runnable() {
+                viewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        viewHolder.view.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse(url));
-                                c.startActivity(i);
-                            }
-                        });
+                    public void onClick(View view) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        c.startActivity(i);
                     }
                 });
 
@@ -137,9 +127,6 @@ public class DrawerTicker extends AbstractDrawerItem<DrawerTicker, DrawerTicker.
 
         if(URL != null) {
             final String url = URL;
-            c.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
                     viewHolder.view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -148,8 +135,6 @@ public class DrawerTicker extends AbstractDrawerItem<DrawerTicker, DrawerTicker.
                             c.startActivity(i);
                         }
                     });
-                }
-            });
         }
 
         //call the onPostBindView method to trigger post bind view actions (like the listener to modify the item if required)

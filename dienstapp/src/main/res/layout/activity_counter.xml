@@ -8,7 +8,7 @@
     tools:context="de.philipphahn.dienstapp.Counter"
     tools:deviceIds="wear">
 
-    <android.support.percent.PercentFrameLayout
+    <androidx.percentlayout.widget.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,15 +23,15 @@
             android:gravity="center"/>
 
 
-    </android.support.percent.PercentFrameLayout>
+    </androidx.percentlayout.widget.PercentFrameLayout>
 
 
-    <android.support.percent.PercentFrameLayout
+    <androidx.percentlayout.widget.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/action_counter_layout">
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/FAB2_counter"
             app:layout_marginTopPercent="60%"
             app:layout_heightPercent="30%"
@@ -42,7 +42,7 @@
             android:layout_gravity="right"
             android:layout_marginRight="16sp"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/FAB1_counter"
             app:layout_marginTopPercent="60%"
             app:layout_heightPercent="30%"
@@ -54,10 +54,10 @@
             android:layout_marginLeft="16sp" />
 
 
-    </android.support.percent.PercentFrameLayout>
+    </androidx.percentlayout.widget.PercentFrameLayout>
 
 
-    <android.support.percent.PercentFrameLayout
+    <androidx.percentlayout.widget.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
@@ -88,6 +88,6 @@
             android:textColor="#fff"/>
 
 
-    </android.support.percent.PercentFrameLayout>
+    </androidx.percentlayout.widget.PercentFrameLayout>
 
 </android.support.wearable.view.BoxInsetLayout>

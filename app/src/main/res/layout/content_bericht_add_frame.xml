@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:layout_row="0"
-                    android:layout_column="1" />
+                    android:layout_column="1" ><requestFocus/></EditText>
 
             </TableRow>
 
@@ -239,7 +239,41 @@
                     android:layout_column="1" />
 
             </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    app:srcCompat="@drawable/ic_comment_black_24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@+id/editText2"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:layout_alignBottom="@+id/editText2"
+                    android:layout_toLeftOf="@+id/editText2"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_width="20dp" />
+
+                <EditText
+                    android:id="@+id/add_bericht_annotation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:ems="10"
+                    android:hint="@string/title_activity_annotation"
+                    android:inputType="textMultiLine|text|textImeMultiLine" />
+
+            </TableRow>
         </TableLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -3,7 +3,6 @@
 
     <string name="app_name">Ministry</string>
     <string name="splash_app_name">Ministryapp</string>
-    <string name="motto">\"Trust in Jehovah and do what is good.\"</string>
     <string name="title_section1">Report</string>
     <string name="title_section2">Return visits</string>
     <string name="title_section3">Notes</string>
@@ -11,37 +10,22 @@
     <string name="title_section5">Settings</string>
     <string name="title_section6">Send your report</string>
     <string name="title_section7">Videos</string>
-    <string name="title_section8">Territories</string>
+    <string name="title_tt">Daily Text</string>
     <string name="title_section9">Calendar</string>
     <string name="title_section_more">More</string>
     <string name="reset">Reset all reportdata</string>
     <string name="resetdialog_message">ALL data will be lost! Continue?</string>
     <string name="resetdialog_title">Really?</string>
     <string name="action_save">Save</string>
-    <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="title_activity_main_activity3">MainActivity3</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_ziel">Goal</string>
-    <string name="action_delete_rueck">Remove person</string>
     <string name="title_activity_senden">Send</string>
     <string name="title_activity_empfehlungen">Sample Presentations</string>
-    <string name="title_activity_settings_new">Settings</string>
 
     <string name="transition_fab">fab_transition</string>
 
 
-    <string name="noreturnvisit">No Return Visits</string>
-    <string name="age_returnvisit">Age</string>
-    <string name="genderreturnvisit">Gender</string>
-    <string name="notes_returnvisit">Notes</string>
-    <string name="wohnortreturnvisit">Residence</string>
-    <string name="remove_returnvisit">REMOVE</string>
-    <string name="notsaid">Not&#160;specified</string>
-    <string name="weiblich">Female</string>
-    <string name="männlich">Male</string>
-    <string name="citynotsaid">City&#160;not&#160;specified</string>
-    <string name="streetnotsaid">Street&#160;not&#160;specified</string>
-    <string name="nonotes">No&#160;Notes</string>
     <string name="noconnect">No&#160;network available!</string>
     <string name="URL_end">en</string>
 
@@ -50,15 +34,13 @@
     <string name="title_activity_rückbesuche">Return Visits</string>
     <string name="title_activity_videos">Videos</string>
     <string name="title_activity_heimb">Bible Studies</string>
-    <string name="attention">ATTENTION</string>
-    <string name="warnung">Ensure, that nobody can see the returnvisits! The apps creator assumes no liability.</string>
+    <string name="title_activity_annotation">Annotations</string>
     <string name="notes_text">Write down your notes!</string>
     <string name="sendreport_text">Send ministry report to</string>
     <string name="error">ERROR</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="video_exception">There was an error while downloading a video.</string>
-    <string name="videolist_exception">There was an error while loading the list of videos.</string>
 
     <string-array name="months_array">
         <item>January</item>
@@ -87,20 +69,11 @@
         <item>2024</item>
         <item>2025</item>
         <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+        <item>2029</item>
+        <item>2030</item>
     </string-array>
-
-    <string name="monat1">January</string>
-    <string name="monat2">February</string>
-    <string name="monat3">March</string>
-    <string name="monat4">April</string>
-    <string name="monat5">May</string>
-    <string name="monat6">June</string>
-    <string name="monat7">July</string>
-    <string name="monat8">August</string>
-    <string name="monat9">September</string>
-    <string name="monat10">October</string>
-    <string name="monat11">November</string>
-    <string name="monat12">December</string>
 
     <string name="reportfor">Report for:&#160;</string>
     <string name="reportmonth">Month:&#160;</string>
@@ -112,10 +85,7 @@
     <string name="reportminutes">Minutes:&#160;</string>
     <string name="reportsentvia">Sent via Ministryapp</string>
 
-    <string name="title_activity_see_rueck">SeeRueck</string>
-
     <string name="title_videos_success">Downloaded 1 video</string>
-    <string name="searchable">Searchable</string>
 
     <string name="download_sure">Sure?</string>
     <string name="download_text">The video \"%a\" will be downloaded.</string>
@@ -146,17 +116,14 @@
     <string name="no_bericht">No reportdata for this month! To add data click the "+" button!</string>
 
 
-    <string name="warnung2">To use this function you have to set-up a screen lock. Should I help you with that?</string>
-    <string name="activate_data">Activate your wi-fi or data connection to download this video.</string>
     <string name="bericht_error">Oops.. There was an error while loading your report. If your report is not displayed correctly, restart the app.</string>
 
     <string name="bericht_undo_1">Removed entry</string>
     <string name="bericht_undo_2">UNDO</string>
-    <string name="videos_offline_mode">OFFLINE-MODE</string>
 
-
+    <string name="goal">Goal</string>
     <string name="goal_set">Set your monthly goal</string>
-    <string name="goal_msg">Type in your monthly hour goal:</string>
+    <string name="goal_msg">Enter your monthly hour goal:</string>
     <string name="OK">OK</string>
     <string name="goal_no">Remove goal</string>
     <string name="goal_text_mult">%a hours to reach the goal</string>
@@ -170,66 +137,16 @@
 
     <string name="weusethat">We thank all the creators of the libraries, we use, for their great work! The libraries we\'re using are:</string>
 
-    <string name="gebiet_add">Add territory</string>
-    <string name="gebiet_add_msg">Type in a streetname of your territory (with name of city behind):</string>
     <string name="gebiet_add_cancel">Cancel</string>
 
-    <string name="gebiet_house_add">Add house</string>
-    <string name="gebiet_house_add_msg">Type in a house number (with additional letter):</string>
-    <string name="gebiet_house_add_msg_change">Type in the new house number (with additional letter):</string>
-    <string name="gebiet_house_add_invalid">This house number is already existing!</string>
-    <string name="gebiet_house_wohnungsinhaber">householder(s)</string>
-    <string name="gebiet_house_add_wohnungsinhaber">Add householder</string>
-    <string name="gebiet_house_first_name">First name</string>
-    <string name="gebiet_house_last_name">Last name</string>
-    <string name="gebiet_house_last_first_name">Last name First name</string>
-    <string name="gebiet_house_age">Age</string>
-    <string name="gebiet_house_native_lang">Language</string>
-    <string name="gebiet_house_publications">Publications (add with Enter)</string>
-    <string name="gebiet_house_notes">Notes</string>
-    <string name="gebiet_delete">Delete</string>
-    <string name="gebiet_send">Send</string>
-    <string name="gebiet_maps">See in map</string>
-    <string name="gebiet_maps_title">Open with...</string>
-    <string name="gebiet_maps_google">Google Maps</string>
-    <string name="gebiet_maps_osm">OpenStreetMap (house numbers)</string>
-    <string name="gebiet_delete_sure_title">Delete xx?</string>
-    <string name="gebiet_delete_sure">This action can\'t be undone.</string>
-    <string name="gebiet_housenumber_delete_sure">This action can\'t be undone.</string>
-    <string name="gebiet_maps_no_map_app">There\'s no maps app installed, so the map will open in your browser.</string>
-    <string name="no_gebiet">No territories! To add data click the "+" button!</string>
-
-    <string name="gebiet_house_rename">Rename house number</string>
-    <string name="gebiet_house_delete">Delete housenumber</string>
-    <string name="gebiet_householder_delete">Delete householder</string>
-    <string name="gebiet_house_change">Change xx</string>
-    <string name="gebiet_house_not_valid_age">Entered age invalid</string>
-    <string-array name="gebiet_house_genders">
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-    <string-array name="gebiet_house_interest_types">
-        <item> </item>
-        <item>Interested</item>
-        <item>No interest</item>
-        <item>Not at home</item>
-        <item>Bible study</item>
-        <item>Return visit</item>
-    </string-array>
-    <string name="gebiet_householder_edit">Edit householder</string>
-
-    <string name="drawer_alt">OLD</string>
-    <string name="bericht_type_name">Please type in your name, so your report can be completed.</string>
+    <string name="bericht_type_name">Please enter your name to complete your report.</string>
+    <string name="bericht_type_name_hint">Your name</string>
 
     <string name="report_layout_settings">Reports layout</string>
     <string name="report_layout_msg">Here you can change the layout of the reports page.\nPreview:</string>
     <string name="report_layout_1">Big</string>
     <string name="report_layout_2">Small</string>
 
-    <string name="rueck_no_add_anymore_title">Bye bye!</string>
-    <string name="rueck_no_add_anymore">The return visits say goodbye! This function will soon be gone, but there\'s already an alternative: The territory tab.</string>
-    <string name="title_activity_gebiete_houses">GebieteHouses</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_change_gebiet_householder">ChangeGebietHouseholder</string>
 
     <string name="drawer_ticker_news">NEWS</string>
@@ -237,7 +154,6 @@
 
     <string name="empf_not_available">Sample Presentations not availible for system date.</string>
 
-    <string name="vid_no_storage_access">In order to download videos you need to grant access to your storage.</string>
     <string name="vid_wait">Please wait... Retrieving information</string>
     <string name="title_activity_kalender">Calendar</string>
 
@@ -255,23 +171,16 @@
     <string name="dsgvo_accept">Accept</string>
     <string name="dsgvo_title">Privacy Policy</string>
 
-    <string name="filter_territory">Filter by type of interest</string>
-    <string name="title_activity_gebiet_import">Import to Ministryapp</string>
+    <string name="title_activity_global_import">Import to Ministryapp (.minapp)</string>
     <string name="not_accepted_import">You need to allow access to your storage for importing data.</string>
-    <string name="import_address">Address</string>
-    <string name="import_select_territory">Select the territory</string>
-    <string name="import_select_house">Select the house</string>
-    <string name="import_info_title">Information</string>
-    <string name="import_info_msg">Some data can get lost when importing from Ministry Assistant.</string>
 
-    <string name="export_share">Share</string>
     <string name="carryover">Carry</string>
     <string name="carryover_msg">The minutes will be carried over to the next month.</string>
     <string name="carryover_null">You have no reportdata!</string>
 
     <string name="action_refresh_vid">Refresh list</string>
     <string name="video_refresh_error_title">No connection</string>
-    <string name="video_refresh_error_msg">Please check your network connection and retry to refresh.</string>
+    <string name="video_refresh_error_msg">Please check your network connection and try to refresh.</string>
     <string name="not_accepted_videonew">You need to allow access to your storage for downloading videos.</string>
     <string name="videonew_lostfile">Hmm.. Somehow the video got lost. :/</string>
 
@@ -281,5 +190,43 @@
     <string name="report_private_onoff">The private mode hides your report until you press a button.</string>
     <string name="report_private_on">On</string>
     <string name="report_private_off">Off</string>
+
+    <string name="export">Export</string>
+    <string name="import_deletes_data">Importing an .minapp File, will remove all the app\'s already existing data. Continue?</string>
+    <string name="import_error_fnf">An error occured: File not found!</string>
+    <string name="import_error">An error occured!</string>
+    <string name="import_title">Import</string>
+
+    <string name="pref_legal">Legal</string>
+    <string name="pref_general">General</string>
+
+
+    <string name="calendar_time_of_notification">Time of notification</string>
+    <string name="calendar_notification">Notification settings</string>
+    <string name="calendar_notification_day">Day(s)</string>
+    <string name="calendar_notification_hour">Hour(s)</string>
+    <string name="calendar_notification_title">Ministry with %a at %b</string>
+    <string name="calendar_notification_msg">Planned ministry on %a</string>
+
+    <string name="language">Language</string>
+    <string name="language_default">System default</string>
+    <string name="widget_no_network_title">No connection!</string>
+    <string name="widget_no_network_text">Tap here to retry.</string>
+    <string name="widget_loading">Loading</string>
+    <string name="widget_loading_wait">Please wait...</string>
+
+    <string name="select_month_year">Select month / year</string>
+
+    <string name="no_partner">No preaching partner</string>
+    <string name="calendar_activate_gcal_title">Use Google Calendar?</string>
+    <string name="calendar_activate_gcal_msg">Do you want to automatically sync Ministryapp with Google Calendar?</string>
+    <string name="calendar_activate_gcal_not_available">Unfortunately syncing is not supported by your device...</string>
+    <string name="calendar_activate_gcal_not_working">Couldn\'t sync calendar!</string>
+    <string name="calendar_gcal_setting">Disconnect Google Calendar</string>
+    <string name="calendar_gcal_reset_to_default">Google Calendar settings reset!</string>
+    <string name="calendar_gcal_remove_title">Disconnect Google Calendar?</string>
+    <string name="calendar_gcal_remove_msg">This will unlink Ministryapp from Google Calendar. Continue?</string>
+    <string name="calendar_event_title">Ministry with %a</string>
+    <string name="calendar_activate_not_found">Calendar can\'t be found!</string>
 
 </resources>

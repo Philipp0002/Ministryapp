@@ -1,31 +1,28 @@
 package tk.phili.dienst.dienst;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -77,10 +74,21 @@ public class KalenderList extends ArrayAdapter<String>{
 
         GregorianCalendar cal = new GregorianCalendar(year, month, day, hour, minute);
         Date newDate = new Date(cal.getTimeInMillis());
-        String s = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.MEDIUM).format(newDate);
+        String s = java.text.DateFormat.getTimeInstance(DateFormat.SHORT).format(newDate);
 
         holder.dateTv.setText(s);
-        holder.partnerTv.setText(dienstpartner);
+
+        if(dienstpartner == null || dienstpartner.trim().isEmpty()){
+            holder.partnerTv.setText(getContext().getResources().getString(R.string.no_partner));
+        }else{
+            holder.partnerTv.setText(dienstpartner);
+        }
+
+        if(beschreibung == null || beschreibung.trim().isEmpty()){
+            holder.notesTv.setVisibility(View.GONE);
+        }else{
+            holder.notesTv.setVisibility(View.VISIBLE);
+        }
         holder.notesTv.setText(beschreibung);
 
         holder.mainView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -131,7 +139,50 @@ public class KalenderList extends ArrayAdapter<String>{
                                             }
 
                                             editor.putStringSet("Calendar", newSet);
+
+                                            Set<String> setShown = sp.getStringSet("Calendar_Shown", new HashSet<String>());
+                                            Set<String> newSetShown = new HashSet<String>();
+                                            for(String s : setShown){
+                                                if(Integer.parseInt(s) != id){
+                                                    newSetShown.add(s);
+                                                }
+                                            }
+                                            editor.putStringSet("Calendar_Shown", newSetShown);
+
                                             editor.commit();
+                                            if(sp.getBoolean("CalendarSyncActive", false)) {
+                                                boolean gCalExistsEvent = false;
+                                                String gAccEvent = null;
+                                                Long calendarIdEvent = (long) -1;
+                                                Long eventIdEvent = (long) -1;
+                                                Set<String> setSync = sp.getStringSet("CalendarSync", new HashSet<String>());
+                                                HashSet<String> newsetSync = new HashSet<String>();
+                                                for (String s : setSync) {
+                                                    if (Integer.parseInt(s.split("ʷ")[0]) == id) {
+                                                        gCalExistsEvent = true;
+                                                        gAccEvent = s.split("ʷ")[1];
+                                                        calendarIdEvent = Long.parseLong(s.split("ʷ")[2]);
+                                                        eventIdEvent = Long.parseLong(s.split("ʷ")[3]);
+                                                    } else {
+                                                        newsetSync.add(s);
+                                                    }
+                                                }
+                                                editor.putStringSet("CalendarSync", newsetSync);
+                                                editor.commit();
+
+                                                if (gCalExistsEvent) {
+                                                    long eventId = eventIdEvent;
+                                                    // 刪除活動
+                                                    ContentResolver cr = getContext().getContentResolver();
+                                                    // 因為targetSDK=25，所以要在Apps運行時檢查權限
+                                                    int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                                                            Manifest.permission.WRITE_CALENDAR);
+                                                    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                                                        Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
+                                                        cr.delete(uri, null, null);
+                                                    }
+                                                }
+                                            }
 
                                             c.refreshAll();
                                         }

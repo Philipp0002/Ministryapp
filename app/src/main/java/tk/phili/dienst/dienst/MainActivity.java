@@ -1,31 +1,34 @@
 package tk.phili.dienst.dienst;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.transition.Fade;
-import android.support.transition.Transition;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.ActionBar;
+
+import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.Window;
@@ -35,17 +38,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,31 +67,21 @@ import at.grabner.circleprogress.UnitPosition;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean wannaup = true;
-
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     public static AlertDialog.Builder builder;
-    MenuItem bericht;
 
     private Toolbar toolbar;
 
     Set<String> lastlist = null;
 
-    private ActionBarDrawerToggle actionbartoggle;
+    BerichtList bl;
 
-    private Spinner spinner;
-    private Spinner spinneryear;
+    Calendar calendarShow;
 
-    public static String monthforsending = "";
-    public static String monthselected = "";
+    //CircleProgressView cpv;
 
-    public static String yearforsending = "";
-    public static String yearselected = "";
-
-    private boolean is_add_hour_clicked = false;
-    private boolean is_sub_hour_clicked = false;
-    CircleProgressView cpv;
+    RoundCornerProgressBar rpb;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -98,10 +98,6 @@ public class MainActivity extends AppCompatActivity {
         sp = getPreferences(Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        yearselected = "_" + getYear();
-        yearforsending = getYear() + "";
-        monthselected = "_" + getMonth();
-        monthforsending = getMonth() + "";
 
         Set<String> allHashTags = new HashSet<String>();
 
@@ -120,11 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
         View inflated = stub.inflate();
 
-        monthselected = "_" + getMonth();
-        yearselected = "_" + getYear();
         mTitle = getTitle();
-
-        //boolean updated = updateToNewSystem();
 
         if(sp.getBoolean("private_mode", false)){
             findViewById(R.id.private_block).setVisibility(View.VISIBLE);
@@ -136,10 +128,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        cpv = (CircleProgressView) findViewById(R.id.circle_goal);
+
+        rpb = findViewById(R.id.progress_goal);
+        /*cpv = (CircleProgressView) findViewById(R.id.circle_goal);
         cpv.setTextMode(TextMode.PERCENT);
-        cpv.setBarColor(Color.YELLOW, Color.GREEN);
-        cpv.setRimColor(Color.LTGRAY);
+        cpv.setBarColor(Color.RED, Color.YELLOW, Color.GREEN);
+        cpv.setRimColor(Color.WHITE);
         cpv.setOuterContourSize(0);
         cpv.setInnerContourSize(0);
         cpv.setAutoTextSize(true);
@@ -147,74 +141,47 @@ public class MainActivity extends AppCompatActivity {
         cpv.setUnitVisible(true);
         cpv.setUnit("%");
         cpv.setUnitToTextScale(1F);
-        cpv.setTextColorAuto(true);
+        cpv.setUnitColor(Color.WHITE);
+        cpv.setTextColor(Color.WHITE);
         cpv.setUnitPosition(UnitPosition.RIGHT_TOP);
         cpv.setValueAnimated(0F);
         cpv.setRimWidth(15);
-        cpv.setBarWidth(15);
+        cpv.setBarWidth(15);*/
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
-    if(true) {
-        spinneryear = (Spinner) findViewById(R.id.spinner_nav_year);
+        calendarShow = Calendar.getInstance();
 
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.year_array, R.layout.spinner_main);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinneryear.setAdapter(adapter);
+        final TextView tbv = findViewById(R.id.toolbar_title);
+        tbv.setText(dateFormat.format(calendarShow.getTime()));
 
 
-        spinneryear.setSelection(Math.abs(2016-Integer.parseInt(yearselected.substring(1))));
-
-        spinneryear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tbv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                int yearint = 2016+position;
-                yearselected = "_" + yearint;
-                yearforsending = yearint + "";
-                updateList();
+            public void onClick(View v) {
+
+                MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(calendarShow.get(Calendar.MONTH), calendarShow.get(Calendar.YEAR), getString(R.string.select_month_year));
+
+                dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(int year, int monthOfYear) {
+
+                        calendarShow.set(Calendar.MONTH, monthOfYear);
+                        calendarShow.set(Calendar.YEAR, year);
+                        tbv.setText(dateFormat.format(calendarShow.getTime()));
+                        updateList();
+                    }
+                });
+
+                dialogFragment.show(getSupportFragmentManager(), null);
+
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-
         });
 
-    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        spinner = (Spinner) findViewById(R.id.spinner_nav);
-
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.months_array, R.layout.spinner_main);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
 
 
-        spinner.setSelection(getMonth());
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                monthselected = "_" + position;
-                monthforsending = position + "";
-                updateList();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-
-        });
 
 
         /////////////////DRAWER/////////////////////////////////////////
@@ -225,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar.bringToFront();
 
         ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setParallaxOffset(100);
+
+
 
         ((FloatingActionButton)findViewById(R.id.addBerichtButton)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,18 +218,24 @@ public class MainActivity extends AppCompatActivity {
 
         Drawer.addDrawer(this, toolbar, 1);
 
-        ((Button)findViewById(R.id.swipe_up_share)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.swipe_up_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(((TextView) findViewById(R.id.swipe_up_share)).getAlpha() != 0F){
                     ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
                     alert.setTitle(getString(R.string.title_section6));
                     alert.setMessage(getString(R.string.bericht_type_name));
 
-                    final EditText input = new EditText(MainActivity.this);
-                    alert.setView(input);
+                    //final EditText input = new EditText(MainActivity.this);
+                    View input_view = LayoutInflater.from(MainActivity.this)
+                            .inflate(R.layout.bericht_send_input, null, false);
+                    final EditText input = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
+                    alert.setView(input_view);
+                    input.setText(sp.getString("lastSendName", ""));
 
                     alert.setPositiveButton(getString(R.string.title_activity_senden), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
@@ -281,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((Button)findViewById(R.id.swipe_up_carryover)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.swipe_up_carryover).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(((TextView) findViewById(R.id.swipe_up_carryover)).getAlpha() != 0F){
@@ -309,11 +284,11 @@ public class MainActivity extends AppCompatActivity {
         ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                ((TextView) findViewById(R.id.swipe_up_text)).setAlpha(1 - slideOffset);
-                ((ImageView) findViewById(R.id.swipe_up_lefticon)).setRotation(slideOffset*180);
-                ((ImageView) findViewById(R.id.swipe_up_righticon)).setAlpha(1 - slideOffset);
-                ((TextView) findViewById(R.id.swipe_up_share)).setAlpha(slideOffset);
-                ((TextView) findViewById(R.id.swipe_up_carryover)).setAlpha(slideOffset);
+                findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
+                findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset*180);
+                findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
+                findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
+                findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
             }
 
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
@@ -332,8 +307,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void carry(){
-        int m = Integer.parseInt(monthforsending) + 1;
-        int y = Integer.parseInt(yearforsending);
+        int m = calendarShow.get(Calendar.MONTH)+1;
+        int y = calendarShow.get(Calendar.YEAR);
         int id = 0;
 
         Set<String> berichteID = sp.getStringSet("BERICHTE", null);
@@ -371,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
             String month = date.split(Pattern.quote("."))[1];
             int i = Integer.parseInt(month);
             i--;
-            if (year.equals(yearforsending + "") && i == Integer.parseInt(monthforsending)) {
+            if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
                 hours = hours + Integer.parseInt(stunden);
                 minutes = minutes + Integer.parseInt(minuten);
                 abgaben = abgaben + Integer.parseInt(abgabenn);
@@ -445,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<String> rück = new ArrayList<String>();
                 ArrayList<String> videos = new ArrayList<String>();
                 ArrayList<String> studien = new ArrayList<String>();
+                ArrayList<String> anmerkungen = new ArrayList<String>();
                 for (String s : berichte) {
                     String[] s1 = s.split(";");
                     String id = s1[0];
@@ -455,15 +431,31 @@ public class MainActivity extends AppCompatActivity {
                     String rückbe = s1[5];
                     String vid = s1[6];
                     String studs = s1[7];
+                    String anmerkung = "";
+                    try {
+                        anmerkung = s1[8];
+                    }catch (Exception e){}
+
+                    if(minuten.contains("-")){
+                        continue;
+                    }
 
                     //YEAR MONTH CHECK
                     String year = date.split(Pattern.quote("."))[2];
                     String month = date.split(Pattern.quote("."))[1];
+                    String day = date.split(Pattern.quote("."))[0];
                     int i = Integer.parseInt(month);
                     i--;
-                    if (year.equals(yearforsending + "") && i == Integer.parseInt(monthforsending)) {
+                    if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
                         ids.add(id);
-                        dates.add(date);
+
+                        DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+                        Date dateIN = format.parse(date);
+
+                        DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
+                        String dateOUT = dateFormatter.format(dateIN);
+
+                        dates.add(dateOUT);
                         if (Integer.parseInt(minuten) != 0) {
                             if (Integer.parseInt(stunden) != 0) {
                                 hours.add(stunden + ":" + minuten);
@@ -477,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
                         rück.add(rückbe);
                         videos.add(vid);
                         studien.add(studs);
+                        anmerkungen.add(anmerkung);
                     }
                 }
                 final String[] idset = ids.toArray(new String[ids.size()]);
@@ -486,6 +479,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] rückset = rück.toArray(new String[rück.size()]);
                 String[] videoset = videos.toArray(new String[videos.size()]);
                 String[] studienset = studien.toArray(new String[studien.size()]);
+                String[] anmerkungenset = anmerkungen.toArray(new String[anmerkungen.size()]);
 
                 if (ids.isEmpty()) {
                     if (findViewById(R.id.no_bericht_img) != null) {
@@ -499,8 +493,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                final BerichtList bl = new BerichtList(this, idset, dateset, hoursset, abgabenset, rückset, videoset, studienset);
-                ((ListView) findViewById(R.id.bericht_liste)).setAdapter(bl);
+                    bl = new BerichtList(this, idset, dateset, hoursset, abgabenset, rückset, videoset, studienset, anmerkungenset);
+                    ((ListView) findViewById(R.id.bericht_liste)).setAdapter(bl);
                 updateInsgesamt();
 
                 ((ListView) findViewById(R.id.bericht_liste)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -539,6 +533,7 @@ public class MainActivity extends AppCompatActivity {
                                             if (sp.contains("BERICHTE")) {
                                                 Set<String> berichteold = sp.getStringSet("BERICHTE", null);
                                                 Animation anim = android.view.animation.AnimationUtils.loadAnimation(findViewById(R.id.addBerichtButton).getContext(),  android.R.anim.slide_out_right);
+                                                anim.setInterpolator(android.view.animation.AnimationUtils.loadInterpolator(MainActivity.this, android.R.anim.accelerate_interpolator));
                                                 anim.setDuration(200L);
                                                 anim.setAnimationListener(new Animation.AnimationListener() {
                                                     @Override
@@ -583,10 +578,17 @@ public class MainActivity extends AppCompatActivity {
                                                             });
 
                                                         }
+
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                findViewById(R.id.acmaincorners).setBackgroundResource(R.drawable.sliding_up_corners);
+                                                            }
+                                                        });
                                                     }
                                                 }, 3500);
 
-                                                Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG).setAction(R.string.bericht_undo_2, new View.OnClickListener() {
+                                                Snackbar snackbar = Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG).setAction(R.string.bericht_undo_2, new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View v) {
                                                         editor.putStringSet("BERICHTE", lastlist);
@@ -596,7 +598,11 @@ public class MainActivity extends AppCompatActivity {
                                                         updateList();
                                                         updateInsgesamt();
                                                     }
-                                                }).show();
+                                                });
+                                                snackbar.show();
+
+                                                findViewById(R.id.acmaincorners).setBackgroundColor(Color.WHITE);
+
                                                 if (berichteold != null && !(berichteold.isEmpty())) {
                                                     lastlist = berichteold;
                                                     for (String s : berichteold) {
@@ -679,9 +685,11 @@ public class MainActivity extends AppCompatActivity {
                 String month = date.split(Pattern.quote("."))[1];
                 int i = Integer.parseInt(month);
                 i--;
-                if (year.equals(yearforsending + "") && i == Integer.parseInt(monthforsending)) {
-                    hours = hours + Integer.parseInt(stunden);
-                    minutes = minutes + Integer.parseInt(minuten);
+                if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
+                    try { hours = hours + Integer.parseInt(stunden);
+                    }catch(Exception e){e.printStackTrace();}
+                    try { minutes = minutes + Integer.parseInt(minuten);
+                    }catch(Exception e){e.printStackTrace();}
                     abgaben = abgaben + Integer.parseInt(abgabenn);
                     rück = rück + Integer.parseInt(rückbe);
                     videos = videos + Integer.parseInt(vid);
@@ -707,8 +715,9 @@ public class MainActivity extends AppCompatActivity {
             if(sp.contains("goal") && !sp.getString("goal", "0").equals("0")){
                 findViewById(R.id.goalview).setVisibility(View.VISIBLE);
                 int goal = Integer.parseInt(sp.getString("goal", "0"));
-                float percent = hours * 100 / goal;
-                cpv.setValueAnimated(percent);
+                float percent = (float)(((double)hours + ((double)minutes/60)) * 100 / (double)goal);
+                //cpv.setValueAnimated(percent);
+                rpb.setProgress(percent);
                 TextView tv = (TextView) findViewById(R.id.goaltext);
                 if(goal - hours == 0){
                     tv.setText(getString(R.string.goal_text_reached));
@@ -719,8 +728,7 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         tv.setText(getString(R.string.goal_text_mult).replace("%a", ""+(goal - hours)));
                     }
-                }
-                if(goal - hours < 0){
+                }else if(goal - hours < 0){
                     tv.setText(getString(R.string.goal_text_reached_more).replace("%a", ""+Math.abs(goal - hours)));
                 }
             }else{
@@ -728,15 +736,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            if(minutes != 0){
-                if(hours != 0) {
+            if(minutes > 0){
+                if(hours > 0) {
                     ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(hours + ":" + minutestring);
+                    ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.title_activity_stunden));
                 }else{
                     ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(minutestring);
                     ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.minutes));
                 }
             }else{
                 ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(hours+"");
+                ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.title_activity_stunden));
             }
             ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_brosch_count)).setText(abgaben+"");
             ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_rueck_count)).setText(rück+"");
@@ -747,10 +757,11 @@ public class MainActivity extends AppCompatActivity {
             ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
                 @Override
                 public void onPanelSlide(View panel, float slideOffset) {
-                    ((TextView) findViewById(R.id.swipe_up_text)).setAlpha(1 - slideOffset);
-                    ((ImageView) findViewById(R.id.swipe_up_lefticon)).setRotation(slideOffset*180);
-                    ((ImageView) findViewById(R.id.swipe_up_righticon)).setAlpha(1 - slideOffset);
-                    ((TextView) findViewById(R.id.swipe_up_share)).setAlpha(slideOffset);
+                    findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
+                    findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset*180);
+                    findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
+                    findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
+                    findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
 
                 }
 
@@ -767,17 +778,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public boolean isConnectedtoNet(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null && connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            return true;
-        }else {
-            return false;
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -793,10 +793,16 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.action_goal) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = this.getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.goal_popup, null);
-            dialogBuilder.setView(dialogView);
 
-            final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
+            View input_view = LayoutInflater.from(MainActivity.this)
+                    .inflate(R.layout.goal_set_input, null, false);
+            final EditText edt = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
+            dialogBuilder.setView(input_view);
+
+            //final View dialogView = inflater.inflate(R.layout.goal_popup, null);
+            //dialogBuilder.setView(dialogView);
+
+            //final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
 
             if(sp.contains("goal") && !sp.getString("goal", "0").equals("0")){
                 edt.setText(sp.getString("goal", "0"));
@@ -833,6 +839,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void sendReport(String name){
+        editor.putString("lastSendName", name);
+        editor.commit();
         if(!name.toString().matches("")) {
             String hourstring = "0";
             String abgabenstring = "0";
@@ -863,13 +871,25 @@ public class MainActivity extends AppCompatActivity {
                     String month = date.split(Pattern.quote("."))[1];
                     int i = Integer.parseInt(month);
                     i--;
-                    if (year.equals(MainActivity.yearforsending + "") && i == Integer.parseInt(MainActivity.monthforsending)) {
-                        hours = hours + Integer.parseInt(stunden);
-                        minutes = minutes + Integer.parseInt(minuten);
-                        abgaben = abgaben + Integer.parseInt(abgabenn);
-                        rück = rück + Integer.parseInt(rückbe);
-                        videos = videos + Integer.parseInt(vid);
-                        studien = studien + Integer.parseInt(studs);
+                    if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
+                        try {
+                            hours = hours + Integer.parseInt(stunden);
+                        }catch(Exception e){ e.printStackTrace(); }
+                        try {
+                            minutes = minutes + Integer.parseInt(minuten);
+                        }catch(Exception e){ e.printStackTrace(); }
+                        try {
+                            abgaben = abgaben + Integer.parseInt(abgabenn);
+                        }catch(Exception e){ e.printStackTrace(); }
+                        try {
+                            rück = rück + Integer.parseInt(rückbe);
+                        }catch(Exception e){ e.printStackTrace(); }
+                        try {
+                            videos = videos + Integer.parseInt(vid);
+                        }catch(Exception e){ e.printStackTrace(); }
+                        try {
+                            studien = studien + Integer.parseInt(studs);
+                        }catch(Exception e){ e.printStackTrace(); }
                     }
                 }
 
@@ -889,10 +909,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+                if(hours != 0 && minutes != 0){
+                    hourstring = hours + ":" + minutestring;
+                }else if(hours != 0 && minutes == 0){
+                    hourstring =  hours+"";
+                }else if(hours == 0 && minutes != 0){
+                    hourstring =  minutestring + "min";
+                }else{
+                    hourstring =  hours+"";
+                }
 
 
-
-                if(minutes != 0){
+                /*if(minutes != 0){
                     if(hours != 0) {
                         hourstring = hours + ":" + minutestring;
                     }else{
@@ -900,18 +928,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }else{
                     hourstring =  hours+"";
-                }
+                }*/
                 abgabenstring = abgaben+"";
                 rückstring = rück+"";
                 videosstring = videos+"";
                 studystring =  studien+"";
 
+
             }
 
 
 
-
-            String text = getResources().getString(R.string.reportfor) + name + "\n"+ getResources().getString(R.string.reportmonth) + getMonthnametoID(Integer.parseInt(MainActivity.monthforsending)) + "\n==============\n";
+            String text = getResources().getString(R.string.reportfor) + name + "\n"+ getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
             if(!hourstring.endsWith("min")) {
                 text = text + getResources().getString(R.string.reporthours) + hourstring + "\n";
             }else{
@@ -930,47 +958,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getMonthnametoID(int MonthID){
-        switch (MonthID){
-            case 0:
-                return getResources().getString(R.string.monat1);
-
-            case 1:
-                return getResources().getString(R.string.monat2);
-
-            case 2:
-                return getResources().getString(R.string.monat3);
-
-            case 3:
-                return getResources().getString(R.string.monat4);
-
-            case 4:
-                return getResources().getString(R.string.monat5);
-
-            case 5:
-                return getResources().getString(R.string.monat6);
-
-            case 6:
-                return getResources().getString(R.string.monat7);
-
-            case 7:
-                return getResources().getString(R.string.monat8);
-
-            case 8:
-                return getResources().getString(R.string.monat9);
-
-            case 9:
-                return getResources().getString(R.string.monat10);
-
-            case 10:
-                return getResources().getString(R.string.monat11);
-
-            case 11:
-                return getResources().getString(R.string.monat12);
-        }
-        return "ERROR";
-
-    }
 
 
 

@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tableLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TableRow>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tableRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="#3a2d2d">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="75dp">
+                android:id="@+id/relativeLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.45">
 
                 <ImageView
                     android:id="@+id/listpreviewimage"
@@ -21,92 +43,149 @@
                     android:scaleType="centerCrop" />
 
                 <ImageView
+                    android:id="@+id/listpreviewimagegradient"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="#b4ffffff" />
+                    android:src="@drawable/video_list_gradient" />
 
 
             </RelativeLayout>
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/listsinglerellay"
+
+
+
+            <TextView
+                android:id="@+id/mb"
                 android:layout_width="wrap_content"
-                android:layout_height="75dp">
+                android:layout_height="25dp"
+                android:layout_alignTop="@+id/imageView5"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
+                android:text="0MB"
+                android:textSize="14sp"
+                android:textColor="#fff"
+                app:layout_constraintBottom_toBottomOf="@+id/time"
+                app:layout_constraintEnd_toStartOf="@+id/imageView6" />
+
+            <ImageView
+                android:id="@+id/bg"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.7"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bg_videos" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/mb"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:tint="#fff"
+                app:layout_constraintBottom_toBottomOf="@+id/time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mb"
+                app:srcCompat="@drawable/ic_cloud_download_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:tint="#fff"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mb"
+                app:srcCompat="@drawable/ic_done_black_24dp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignTop="@+id/imageView5"
+                android:layout_toEndOf="@+id/imageView5"
+                android:layout_toRightOf="@+id/imageView5"
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toStartOf="@+id/mb"
+                android:layout_toLeftOf="@+id/mb"
+                android:layout_weight=".70"
+                android:ellipsize="none"
+                android:fadingEdgeLength="40dp"
+                android:requiresFadingEdge="horizontal"
+                android:text="ERROR"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="16dp"
+                android:tint="#fff"
+                app:layout_constraintStart_toStartOf="@+id/txt"
+                app:layout_constraintTop_toBottomOf="@+id/txt"
+                app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
 
-                <TextView
-                    android:id="@+id/mb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/imageView5"
-                    android:gravity="center"
-                    android:text="0MB"
-                    android:textSize="20dp" />
-
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/mb"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    app:srcCompat="@drawable/ic_cloud_download_black_24dp"
-                    android:tint="@android:color/darker_gray" />
-
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/time"
-                    app:srcCompat="@drawable/ic_done_black_24dp"
-                    android:tint="@android:color/darker_gray"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_alignTop="@+id/imageView5"
-                    android:layout_toEndOf="@+id/imageView5"
-                    android:layout_toRightOf="@+id/imageView5"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/txt"
-                    android:layout_width="200px"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/mb"
-                    android:layout_toStartOf="@+id/mb"
-                    android:layout_weight=".70"
-                    android:ellipsize="none"
-                    android:fadingEdgeLength="40dp"
-                    android:requiresFadingEdge="horizontal"
-                    android:text="ERROR"
-                    android:textColor="#000"
-                    android:textSize="20dp" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/txt"
-                    app:srcCompat="@drawable/ic_play_arrow_black_24dp"
-                    android:tint="@android:color/darker_gray" />
+            <com.akexorcist.roundcornerprogressbar.indeterminate.IndeterminateCenteredRoundCornerProgressBar
+                android:id="@+id/progress_download_indeterminate"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/time"
+                app:layout_constraintEnd_toEndOf="@+id/bg"
+                app:layout_constraintStart_toEndOf="@+id/time"
+                app:layout_constraintTop_toTopOf="@+id/time"
+                app:rcAnimationEnable="true"
+                app:rcAnimationSpeedScale="5"
+                app:rcBackgroundColor="#363636"
+                app:rcBackgroundPadding="2dp"
+                app:rcMax="100"
+                app:rcProgress="0"
+                app:rcProgressColor="#EF5350"
+                app:rcRadius="20dp" />
 
 
-            </RelativeLayout>
-
-        </RelativeLayout>
-    </TableRow>
-</TableLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

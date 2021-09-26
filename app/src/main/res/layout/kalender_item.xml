@@ -1,113 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="5dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="4dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_marginLeft="20dp"
-                app:srcCompat="@drawable/ic_date_range_black_24dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_height="match_parent"
-                android:tint="#fff"
-                android:layout_toStartOf="@+id/editText2"
-                android:layout_alignParentTop="true"
-                android:adjustViewBounds="true"
-                android:layout_alignBottom="@+id/editText2"
-                android:layout_toLeftOf="@+id/editText2"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_width="20dp" />
+    <TextView
+        android:id="@+id/see_kalender_partner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/kalender_partner"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:ems="10"
-                android:id="@+id/see_kalender_date"
-                android:text="@string/date"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:layout_row="0"
-                android:layout_column="1" />
 
-        </TableRow>
+    <ImageView
+        android:id="@+id/see_kalender_date_ico"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:adjustViewBounds="true"
+        android:tint="#8c8c8c"
+        app:layout_constraintBottom_toBottomOf="@+id/see_kalender_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/see_kalender_partner"
+        app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
-    <TableRow
+    <TextView
+        android:id="@+id/see_kalender_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/date"
+        android:textColor="#8c8c8c"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/see_kalender_date_ico"
+        app:layout_constraintTop_toBottomOf="@+id/see_kalender_partner" />
+
+
+    <TextView
+        android:id="@+id/see_kalender_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/kalender_partner"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/see_kalender_date" />
+
+
+    <!--View
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#707070"
+        app:layout_constraintTop_toBottomOf="@+id/t1" /-->
 
-        <ImageView
-            android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/ic_people_black_24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_height="match_parent"
-            android:tint="#fff"
-            android:layout_toStartOf="@+id/editText2"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:layout_alignBottom="@+id/editText2"
-            android:layout_toLeftOf="@+id/editText2"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_width="20dp" />
+    <View
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/green_accent"
+        app:layout_constraintBottom_toBottomOf="@+id/see_kalender_notes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/see_kalender_partner" />
 
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:ems="10"
-            android:id="@+id/see_kalender_partner"
-            android:text="@string/kalender_partner"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_row="0"
-            android:layout_column="1" />
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/ic_chrome_reader_mode_black_24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_height="match_parent"
-            android:tint="#fff"
-            android:layout_toStartOf="@+id/editText2"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:layout_alignBottom="@+id/editText2"
-            android:layout_toLeftOf="@+id/editText2"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_width="20dp" />
-
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:ems="10"
-            android:id="@+id/see_kalender_notes"
-            android:text="@string/kalender_partner"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_row="0"
-            android:layout_column="1" />
-
-    </TableRow>
-
-</TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,34 +1,32 @@
 package tk.phili.dienst.dienst;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
-import android.util.Log;
+import androidx.cardview.widget.CardView;
+
+import android.os.Build;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class BerichtList extends ArrayAdapter<String>{
 
     //DECLARATIONS
-    String[] ids,dates,hours,abgaben,rück,videos,bibelstudien = {};
+    String[] ids,dates,hours,abgaben,rück,videos,bibelstudien,anmerkungen = {};
     Context c;
     LayoutInflater inflater;
 
-    public BerichtList(Context context, String[] ids, String[] dates, String[] hours, String[] abgaben, String[] rück, String[] videos, String[] bibelstudien) {
+    public BerichtList(Context context, String[] ids, String[] dates, String[] hours, String[] abgaben, String[] rück, String[] videos, String[] bibelstudien, String[] anmerkungen) {
         super(context, R.layout.list_bericht, ids);
         this.c = context;
         this.ids = ids;
@@ -38,6 +36,7 @@ public class BerichtList extends ArrayAdapter<String>{
         this.rück = rück;
         this.videos = videos;
         this.bibelstudien = bibelstudien;
+        this.anmerkungen = anmerkungen;
     }
 
     public class ViewHolder{
@@ -48,6 +47,7 @@ public class BerichtList extends ArrayAdapter<String>{
         TextView rückTv;
         TextView videosTv;
         TextView studienTv;
+        TextView descTv;
     }
 
     public String getIdofPosition(int position){
@@ -77,20 +77,41 @@ public class BerichtList extends ArrayAdapter<String>{
         holder.rückTv = (TextView) convertView.findViewById(R.id.bericht_rueck_count);
         holder.videosTv = (TextView) convertView.findViewById(R.id.bericht_videos_count);
         holder.studienTv = (TextView) convertView.findViewById(R.id.bericht_studies_count);
+        holder.descTv = (TextView) convertView.findViewById(R.id.bericht_desc);
 
         if(hours[position].endsWith("min")){
             holder.stundenTv.setText(hours[position].replace("min", ""));
             ((TextView) convertView.findViewById(R.id.bericht_stunden_info)).setText(c.getString(R.string.minutes));
-        }else{ holder.stundenTv.setText(hours[position]); }
+        }else{
+            holder.stundenTv.setText(hours[position]);
+            ((TextView) convertView.findViewById(R.id.bericht_stunden_info)).setText(c.getString(R.string.title_activity_stunden));
+        }
         holder.dateTv.setText(dates[position]);
         holder.abgabenTv.setText(abgaben[position]);
         holder.rückTv.setText(rück[position]);
         holder.videosTv.setText(videos[position]);
         holder.studienTv.setText(bibelstudien[position]);
 
+        holder.descTv.setText(anmerkungen[position]);
+
+        if(anmerkungen[position] == null || anmerkungen[position].isEmpty()){
+            holder.descTv.setVisibility(View.GONE);
+        }else{
+            holder.descTv.setVisibility(View.VISIBLE);
+
+            //holder.descTv.setLinksClickable(true);
+            //holder.descTv.setAutoLinkMask(Linkify.WEB_URLS);
+            //holder.descTv.setMovementMethod(LinkMovementMethod.getInstance());
+            //Linkify.addLinks(holder.descTv., Linkify.ALL );
+        }
+
         String date = dates[position];
         if(holder.cardv != null){
             holder.cardv.setCardBackgroundColor(getColor(date));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                holder.cardv.setOutlineAmbientShadowColor(getColor(date));
+                holder.cardv.setOutlineSpotShadowColor(getColor(date));
+            }
         }
         if(date.startsWith("32.") || date.startsWith("0.")){
             holder.dateTv.setText(c.getString(R.string.carryover));
@@ -106,7 +127,7 @@ public class BerichtList extends ArrayAdapter<String>{
         if(date.startsWith("32.") || date.startsWith("0.")){
             return Color.BLACK;
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat formatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
         try {
             Calendar c = Calendar.getInstance();
             Date dateobj = formatter.parse(date);

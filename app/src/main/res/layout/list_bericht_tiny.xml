@@ -11,158 +11,176 @@
             android:layout_height="wrap_content">
 
 
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <androidx.cardview.widget.CardView
                 android:id="@+id/card_view"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginRight="8dp"
-                android:layout_height="100dp"
-                card_view:cardElevation="2dp"
-                card_view:cardCornerRadius="2dp"
-                card_view:cardBackgroundColor="#2D566B">
+                android:layout_marginBottom="4dp"
+                app:cardBackgroundColor="@color/bericht_card_color"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
 
-
-                    <android.support.percent.PercentFrameLayout
-                        android:layout_marginTop="10dp"
+                    <androidx.percentlayout.widget.PercentFrameLayout
+                        android:id="@+id/bericht_info_line"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_below="@+id/bericht_date"
-                        android:id="@+id/bericht_info_line"
+                        android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
-                       <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_widthPercent="20%"
+                        <com.lb.auto_fit_textview.AutoResizeTextView
+                            android:id="@+id/bericht_stunden_info"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="@string/title_activity_stunden"
                             android:textColor="@color/list_bericht_info"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
-                            android:id="@+id/bericht_stunden_info" />
+                            app:layout_widthPercent="20%" />
 
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="20%"
-                            app:layout_widthPercent="20%"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="@string/title_activity_abgaben"
                             android:textColor="@color/list_bericht_info"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
-                            android:id="@+id/bericht_brosch_info" />
+                            app:layout_marginLeftPercent="20%"
+                            app:layout_widthPercent="20%" />
 
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="40%"
-                            app:layout_widthPercent="20%"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="@string/title_activity_rückbesuche"
                             android:textColor="@color/list_bericht_info"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
-                            android:id="@+id/bericht_rueck_info" />
+                            app:layout_marginLeftPercent="40%"
+                            app:layout_widthPercent="20%" />
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="60%"
-                            app:layout_widthPercent="20%"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="@string/title_activity_videos"
                             android:textColor="@color/list_bericht_info"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
-                            android:id="@+id/bericht_videos_info" />
+                            app:layout_marginLeftPercent="60%"
+                            app:layout_widthPercent="20%" />
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="80%"
-                            app:layout_widthPercent="20%"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="@string/title_activity_heimb"
                             android:textColor="@color/list_bericht_info"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
-                            android:id="@+id/bericht_studies_info" />
+                            app:layout_marginLeftPercent="80%"
+                            app:layout_widthPercent="20%" />
 
 
+                    </androidx.percentlayout.widget.PercentFrameLayout>
 
-                    </android.support.percent.PercentFrameLayout>
-
-                    <android.support.percent.PercentFrameLayout
+                    <androidx.percentlayout.widget.PercentFrameLayout
+                        android:id="@+id/bericht_count_line"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/bericht_count_line"
                         android:layout_below="@+id/bericht_info_line"
+                        android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
+                        android:orientation="vertical">
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_widthPercent="20%"
-                            android:text="0"
-                            android:textColor="@color/list_bericht_data"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
                             android:id="@+id/bericht_stunden_count"
-                            android:textSize="36sp" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/archivo"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="0"
+                            android:textColor="@color/list_bericht_data"
+                            android:textSize="36sp"
+                            app:layout_widthPercent="20%" />
 
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="20%"
-                            app:layout_widthPercent="20%"
-                            android:text="0"
-                            android:textColor="@color/list_bericht_data"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
                             android:id="@+id/bericht_brosch_count"
-                            android:textSize="36sp" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/archivo"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="0"
+                            android:textColor="@color/list_bericht_data"
+                            android:textSize="36sp"
+                            app:layout_marginLeftPercent="20%"
+                            app:layout_widthPercent="20%" />
 
 
                         <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="40%"
-                            app:layout_widthPercent="20%"
-                            android:text="0"
-                            android:textColor="@color/list_bericht_data"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
                             android:id="@+id/bericht_rueck_count"
-                            android:textSize="36sp" />
-
-                        <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="60%"
-                            app:layout_widthPercent="20%"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/archivo"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="0"
                             android:textColor="@color/list_bericht_data"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
+                            android:textSize="36sp"
+                            app:layout_marginLeftPercent="40%"
+                            app:layout_widthPercent="20%" />
+
+                        <com.lb.auto_fit_textview.AutoResizeTextView
                             android:id="@+id/bericht_videos_count"
-                            android:textSize="36sp" />
-
-                        <com.lb.auto_fit_textview.AutoResizeTextView
-                            app:layout_marginLeftPercent="80%"
-                            app:layout_widthPercent="20%"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/archivo"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:text="0"
                             android:textColor="@color/list_bericht_data"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:gravity="center"
+                            android:textSize="36sp"
+                            app:layout_marginLeftPercent="60%"
+                            app:layout_widthPercent="20%" />
+
+                        <com.lb.auto_fit_textview.AutoResizeTextView
                             android:id="@+id/bericht_studies_count"
-                            android:textSize="36sp" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/archivo"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="0"
+                            android:textColor="@color/list_bericht_data"
+                            android:textSize="36sp"
+                            app:layout_marginLeftPercent="80%"
+                            app:layout_widthPercent="20%" />
 
 
-                    </android.support.percent.PercentFrameLayout>
+                    </androidx.percentlayout.widget.PercentFrameLayout>
+
+                    <TextView
+                        android:id="@+id/bericht_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/bericht_count_line"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginRight="16dp"
+                        android:paddingBottom="6dp"
+                        android:text="DESC"
+                        android:textColor="@color/list_bericht_date"
+                        android:textStyle="normal"
+                        android:visibility="gone"
+                        android:textColorLink="@color/list_bericht_date" />
 
                     <TextView
                         android:id="@+id/bericht_date"
@@ -170,32 +188,32 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/open_sans"
                         android:text="@string/insgesamt"
                         android:textColor="@color/list_bericht_date"
                         android:textStyle="normal|bold" />
 
 
-                    <android.support.percent.PercentFrameLayout
-                        android:layout_below="@id/bericht_date"
+                    <androidx.percentlayout.widget.PercentFrameLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="5dp"
                         android:layout_height="1dp"
-                        android:orientation="vertical"
+                        android:layout_below="@id/bericht_date"
                         android:layout_centerHorizontal="true"
-                        android:id="@+id/trenner">
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
 
                         <View
                             android:layout_height="match_parent"
-                            app:layout_widthPercent="70%"
+                            android:background="@android:color/darker_gray"
                             app:layout_marginLeftPercent="15%"
-                            android:background="@android:color/darker_gray" />
+                            app:layout_widthPercent="70%" />
 
 
-                    </android.support.percent.PercentFrameLayout>
+                    </androidx.percentlayout.widget.PercentFrameLayout>
 
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
     </TableRow>
