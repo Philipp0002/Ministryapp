@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Tagestext"
+    android:background="@color/background"
+    tools:showIn="@layout/activity_tagestext">
+
+    <WebView
+        android:id="@+id/tt_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </WebView>
+
+    <ProgressBar
+        android:id="@+id/tt_progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/toolbar_3"
+        android:layout_x="6dp"
+        android:layout_y="1dp"
+        android:progressTint="@color/green_accent" />
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/tt_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            app:srcCompat="@drawable/ic_signal_wifi_off_black_24dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:tint="#fff"
+            android:id="@+id/imageView3"
+            android:layout_height="100dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:text="@string/noconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="#fff"
+            android:layout_below="@id/imageView3"
+            android:gravity="center_horizontal"
+            android:id="@+id/no_net"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
