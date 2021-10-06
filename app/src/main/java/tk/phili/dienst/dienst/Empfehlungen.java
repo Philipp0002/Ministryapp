@@ -164,10 +164,10 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
                         @Override
                         public void run() {
                             spinner.setAdapter(adapter);
-                            try {
-                            spinner.setSelection(getMonth());//Locale.getDefault().getLanguage();
-                            }catch(Throwable ex){
-                                Toast.makeText(Empfehlungen.this, getString(R.string.empf_not_available), Toast.LENGTH_SHORT);
+                            if(listItems.size() > getMonth()){
+                                spinner.setSelection(getMonth());
+                            }else{
+                                Toast.makeText(Empfehlungen.this, getString(R.string.empf_not_available), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

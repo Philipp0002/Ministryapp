@@ -21,5 +21,11 @@
     <color name="bericht_action_color">#407B98</color>
     <color name="bericht_swipe_up_background">#ffffff</color>
 
+    <color name="widget_icon_color">#7d4693</color>
+    <color name="widget_background_top">#f8edf8</color>
+    <color name="widget_background">#d6d7d7</color>
+    <color name="widget_text_top">#000000</color>
+    <color name="widget_text">#000000</color>
+
 
 </resources>

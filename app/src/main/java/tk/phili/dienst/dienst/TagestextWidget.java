@@ -45,7 +45,7 @@ public class TagestextWidget extends AppWidgetProvider {
         //views.setImageViewBitmap(R.id.ttw_text, getFontBitmap(context, text, Color.parseColor("#000000"), 18));
 
         Intent intent = new Intent(context, Tagestext.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
 
         views.setOnClickPendingIntent(R.id.tt_widget, pendingIntent);
 

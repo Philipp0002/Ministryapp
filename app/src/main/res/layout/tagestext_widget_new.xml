@@ -14,7 +14,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/dienstapp_icon_nobckgrnd"
-        android:tint="#ffb3af" />
+        android:tint="@color/widget_icon_color" />
 
     <LinearLayout
         android:id="@+id/ttw_1"
@@ -34,7 +34,7 @@
             android:layout_marginBottom="8dp"
             android:gravity="right|end"
             android:text="Montag, 12. April"
-            android:textColor="#ffedeb"
+            android:textColor="@color/widget_text_top"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST"
-        android:textColor="#ffffff"
+        android:textColor="@color/widget_text"
         android:textSize="18sp" />
 
 </RelativeLayout>
