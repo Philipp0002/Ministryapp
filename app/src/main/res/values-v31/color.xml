@@ -7,5 +7,6 @@
 
     <color name="bericht_card_color">@android:color/system_accent2_500</color>
     <color name="bericht_action_color">@android:color/system_accent2_700</color>
+    <color name="bericht_swipe_up_background">@android:color/system_accent1_50</color>
     
 </resources>

@@ -122,6 +122,14 @@ public class MainActivityNew extends AppCompatActivity {
                 findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
                 findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
 
+                if(slideOffset == 0){
+                    findViewById(R.id.swipe_up_share).setVisibility(View.GONE);
+                    findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
+                }else{
+                    findViewById(R.id.swipe_up_share).setVisibility(View.VISIBLE);
+                    findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
+                }
+
                 float alpha = 1-slideOffset;
                 if(alpha <=0.4F) alpha = 0.4F;
 

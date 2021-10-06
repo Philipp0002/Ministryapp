@@ -158,17 +158,12 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
+
+
                     Empfehlungen.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             spinner.setAdapter(adapter);
-                        }
-                    });
-
-
-                    Empfehlungen.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
                             try {
                             spinner.setSelection(getMonth());//Locale.getDefault().getLanguage();
                             }catch(Throwable ex){

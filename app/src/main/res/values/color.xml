@@ -19,6 +19,7 @@
 
     <color name="bericht_card_color">#2D566B</color>
     <color name="bericht_action_color">#407B98</color>
+    <color name="bericht_swipe_up_background">#ffffff</color>
 
 
 </resources>

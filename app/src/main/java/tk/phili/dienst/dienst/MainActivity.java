@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -289,7 +290,16 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
                 findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
                 findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
+
+                if(slideOffset == 0){
+                    findViewById(R.id.swipe_up_share).setVisibility(View.GONE);
+                    findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
+                }else{
+                    findViewById(R.id.swipe_up_share).setVisibility(View.VISIBLE);
+                    findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
+                }
             }
+
 
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
 

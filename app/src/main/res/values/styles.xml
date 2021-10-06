@@ -19,6 +19,7 @@
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
         <item name="material_drawer_selected_text">@color/background</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
+        <item name="shapeAppearanceOverlay">@style/FabShapeStyle1</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
@@ -60,4 +61,9 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FabShapeStyle1" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">16dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
 </resources>
