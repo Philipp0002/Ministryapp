@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -112,18 +113,11 @@ public class KalenderAddFrame extends AppCompatActivity {
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 new TimePickerDialog(KalenderAddFrame.this, time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(KalenderAddFrame.this))
                     .show();
+
                 findViewById(R.id.add_calendar_partner).requestFocus();
             }
         };
 
-        /*findViewById(R.id.add_calendar_date).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(KalenderAddFrame.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });*/
 
         findViewById(R.id.add_calendar_date).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

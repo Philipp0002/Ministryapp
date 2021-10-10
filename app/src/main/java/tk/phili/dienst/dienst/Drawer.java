@@ -99,9 +99,6 @@ public class Drawer {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(c)
                 .withSelectionListEnabledForSingleProfile(false)
-               /* .addProfiles(
-                        new ProfileDrawerItem().withName(" ").withEmail(sp.getString("motto", "ERR Code 12")).withIcon(c.getResources().getDrawable(R.drawable.jworg))
-                )*/
                 .withCompactStyle(true)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
