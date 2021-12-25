@@ -27,5 +27,7 @@
     <color name="widget_text_top">#000000</color>
     <color name="widget_text">#000000</color>
 
+    <color name="drawer_background">@color/material_drawer_background</color>
+
 
 </resources>

@@ -98,7 +98,7 @@
     <string name="shortcut_entry">App Schnellzugriffe</string>
     <string name="shortcuts_dialog_title">Wähle deine Launcher Shortcuts</string>
     <string name="shortcuts_not_availible">Schnellzugriffe sind in dieser Android Version nicht verfügbar.</string>
-    <string name="add_bericht">Bericht hinzufügen</string>
+    <string name="add_bericht">Eintrag hinzufügen</string>
     <string name="change_bericht">Bericht ändern</string>
     <string name="date">Datum</string>
     <string name="minutes">Minuten</string>

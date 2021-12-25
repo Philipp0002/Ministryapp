@@ -10,4 +10,5 @@
         <item name="android:windowSplashScreenBackground">@color/background</item>
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
     </style>
+
 </resources>

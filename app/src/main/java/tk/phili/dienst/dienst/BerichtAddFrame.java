@@ -1,19 +1,24 @@
 package tk.phili.dienst.dienst;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
+import androidx.transition.Transition;
 
 import android.text.Editable;
 import android.text.TextUtils;
@@ -55,7 +60,10 @@ public class BerichtAddFrame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_bericht_add_frame);
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_add_bericht);
         setSupportActionBar(toolbar);
 
@@ -82,7 +90,7 @@ public class BerichtAddFrame extends AppCompatActivity {
                 }
             }
             myCalendar = Calendar.getInstance();
-            ((EditText)findViewById(R.id.add_bericht_date)).setText(DateFormat.getDateInstance(DateFormat.DEFAULT).format(new java.util.Date()));
+            ((EditText)findViewById(R.id.add_bericht_date)).setText(DateFormat.getDateInstance(DateFormat.DEFAULT).format(new Date()));
         }else{
             ((CollapsingToolbarLayout)findViewById(R.id.toolbar_layout_bericht)).setTitle(getString(R.string.change_bericht));
             //id+";"+date+";"+hours+";"+minutes+";"+abgaben+";"+rück+";"+videos+";"+studien
@@ -271,7 +279,7 @@ public class BerichtAddFrame extends AppCompatActivity {
         });
 
         final View view = findViewById(R.id.revealLayout);
-        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        /*view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 v.removeOnLayoutChangeListener(this);
@@ -295,7 +303,7 @@ public class BerichtAddFrame extends AppCompatActivity {
                     animator.start();
                 }
             }
-        });
+        });*/
 
         ((AppBarLayout)findViewById(R.id.app_bar_rueck)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override

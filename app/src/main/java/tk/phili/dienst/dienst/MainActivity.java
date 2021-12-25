@@ -24,6 +24,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        ((FloatingActionButton)findViewById(R.id.addBerichtButton)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.addBerichtButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent mainIntent = new Intent(MainActivity.this, BerichtAddFrame.class);
@@ -207,7 +208,9 @@ public class MainActivity extends AppCompatActivity {
 
                 mainIntent.putExtra("id", Integer.MAX_VALUE);
 
-                startActivity(mainIntent);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(MainActivity.this, v, "bericht_add_frame");
+                startActivity(mainIntent, options.toBundle());
                 //overridePendingTransition(0,0); // Maybe add again if didn't fix
             }
         });
@@ -519,7 +522,9 @@ public class MainActivity extends AppCompatActivity {
                             mainIntent.putExtra("yReveal", y);
 
                             mainIntent.putExtra("id", Integer.parseInt(idset[i]));
-                            MainActivity.this.startActivity(mainIntent);
+                            ActivityOptionsCompat options = ActivityOptionsCompat.
+                                    makeSceneTransitionAnimation(MainActivity.this, view, "bericht_add_frame");
+                            MainActivity.this.startActivity(mainIntent, options.toBundle());
                         }
                     }
                 });

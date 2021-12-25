@@ -140,39 +140,39 @@ public class Drawer {
                         if(drawerItem.equals(i1)){
                             if(item == 1)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), MainActivity.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
                         if(drawerItem.equals(i3)){
                             if(item == 3)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), Notizen.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
                         if(drawerItem.equals(i4)){
                             if(item == 4)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), Empfehlungen.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
                         if(drawerItem.equals(i5)){
                             if(item == 5)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), Tagestext.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
                         if(drawerItem.equals(i6)){
                             if(item == 6)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), VideoNew.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
                         if(drawerItem.equals(i7)){
                             if(item == 7)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), Kalender.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
                         if(drawerItem.equals(i8)){
                             if(item == 8)return false;
                             c.startActivity(new Intent(c.getApplicationContext(), Settings.class));
-                            ((AppCompatActivity)c).finish();
+                            c.finish();
                         }
-                        ((AppCompatActivity)c).overridePendingTransition(0, 0);
+                        c.overridePendingTransition(0, 0);
                         return true;
                     }
                 })
