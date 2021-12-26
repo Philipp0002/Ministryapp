@@ -42,9 +42,10 @@ public class Notizen extends AppCompatActivity{
             edit2.remove("NOTES");
             edit2.commit();
         }
+
+        final EditText et = (EditText)findViewById(R.id.notes);
         if(sp.contains("NOTES")){
-            EditText add_button = (EditText) findViewById(R.id.notes);
-            add_button.setText(sp.getString("NOTES", "0"));
+            et.setText(sp.getString("NOTES", "0"));
         }
 
 
@@ -56,7 +57,6 @@ public class Notizen extends AppCompatActivity{
         toolbar.bringToFront();
         Drawer.addDrawer(this, toolbar, 3);
 
-        final EditText et = (EditText)findViewById(R.id.notes);
 
         //et.setLinksClickable(true);
         //et.setAutoLinkMask(Linkify.WEB_URLS);

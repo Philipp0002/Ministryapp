@@ -36,6 +36,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -91,32 +92,30 @@ public class Kalender extends AppCompatActivity {
         });
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mainIntent = new Intent(Kalender.this, KalenderAddFrame.class);
-                float x = findViewById(R.id.imageButton).getX()+findViewById(R.id.imageButton).getWidth()/2;
-                float y = findViewById(R.id.imageButton).getY()+findViewById(R.id.imageButton).getHeight()/2;
-                mainIntent.putExtra("xReveal",x);
-                mainIntent.putExtra("yReveal",y);
+        findViewById(R.id.imageButton).setOnClickListener(view -> {
+            Intent mainIntent = new Intent(Kalender.this, KalenderAddFrame.class);
+            FloatingActionButton imageButton = findViewById(R.id.imageButton);
+            float x = imageButton.getX() + imageButton.getWidth()/2;
+            float y = imageButton.getY() + imageButton.getHeight()/2;
+            mainIntent.putExtra("xReveal",x);
+            mainIntent.putExtra("yReveal",y);
 
-                mainIntent.putExtra("day",cal.get(Calendar.DAY_OF_MONTH));
-                mainIntent.putExtra("month",cal.get(Calendar.MONTH));
-                mainIntent.putExtra("year",cal.get(Calendar.YEAR));
+            mainIntent.putExtra("day",cal.get(Calendar.DAY_OF_MONTH));
+            mainIntent.putExtra("month",cal.get(Calendar.MONTH));
+            mainIntent.putExtra("year",cal.get(Calendar.YEAR));
 
-                int idmax = 0;
-                Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
-                for(String s : set){
-                    int id = Integer.parseInt(s.split("ʷ")[0]);
-                    if(id > idmax){
-                        idmax = id;
-                    }
+            int idmax = 0;
+            Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
+            for(String s : set){
+                int id = Integer.parseInt(s.split("ʷ")[0]);
+                if(id > idmax){
+                    idmax = id;
                 }
-                idmax++;
-                mainIntent.putExtra("id", idmax);
-
-                startActivity(mainIntent);
             }
+            idmax++;
+            mainIntent.putExtra("id", idmax);
+
+            startActivity(mainIntent);
         });
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
@@ -124,60 +123,54 @@ public class Kalender extends AppCompatActivity {
         tbv.setText(dateFormat.format(cal.getTime()));
 
 
-        tbv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tbv.setOnClickListener(v -> {
 
-                MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), getString(R.string.select_month_year));
+            MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), getString(R.string.select_month_year));
 
-                dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(int year, int monthOfYear) {
+            dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(int year, int monthOfYear) {
 
-                        cal.set(Calendar.MONTH, monthOfYear);
-                        cal.set(Calendar.YEAR, year);
-                        tbv.setText(dateFormat.format(cal.getTime()));
-                        compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
-                        refreshDay();
-                    }
-                });
+                    cal.set(Calendar.MONTH, monthOfYear);
+                    cal.set(Calendar.YEAR, year);
+                    tbv.setText(dateFormat.format(cal.getTime()));
+                    compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
+                    refreshDay();
+                }
+            });
 
-                dialogFragment.show(getSupportFragmentManager(), null);
+            dialogFragment.show(getSupportFragmentManager(), null);
 
-            }
         });
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        if (ContextCompat.checkSelfPermission(Kalender.this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
-                                || ContextCompat.checkSelfPermission(Kalender.this, android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat
-                                    .requestPermissions(Kalender.this, new String[]{android.Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
-                            return;
-                        }else{
-                            try {
-                                Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                                        new String[] { GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE }, false, null, null, null, null);
-                                startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST );  //GET_ACCOUNT_NAME_REQUEST是一個自訂的int, 用作分辨所返回的結果
-                            } catch (ActivityNotFoundException e) {
-                                Toast.makeText(Kalender.this, R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
-                                editor.putBoolean("CalendarSyncActive", false);
-                                editor.commit();
-                            }
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    if (ContextCompat.checkSelfPermission(Kalender.this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+                            || ContextCompat.checkSelfPermission(Kalender.this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat
+                                .requestPermissions(Kalender.this, new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
+                        return;
+                    }else{
+                        try {
+                            Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+                                    new String[] { GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE }, false, null, null, null, null);
+                            startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST );  //GET_ACCOUNT_NAME_REQUEST是一個自訂的int, 用作分辨所返回的結果
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(Kalender.this, R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
+                            editor.putBoolean("CalendarSyncActive", false);
+                            editor.commit();
                         }
+                    }
 
-                        editor.putBoolean("CalendarSyncActive", true);
-                        editor.commit();
-                        break;
+                    editor.putBoolean("CalendarSyncActive", true);
+                    editor.commit();
+                    break;
 
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        editor.putBoolean("CalendarSyncActive", false);
-                        editor.commit();
-                        break;
-                }
+                case DialogInterface.BUTTON_NEGATIVE:
+                    editor.putBoolean("CalendarSyncActive", false);
+                    editor.commit();
+                    break;
             }
         };
 

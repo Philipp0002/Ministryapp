@@ -264,33 +264,6 @@ public class BerichtAddFrame extends AppCompatActivity {
             }
         });
 
-        final View view = findViewById(R.id.revealLayout);
-        /*view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                v.removeOnLayoutChangeListener(this);
-                ((AppCompatActivity)BerichtAddFrame.this).overridePendingTransition(0, 0);
-                if(getIntent().hasExtra("xReveal") && getIntent().hasExtra("yReveal")){
-                    View myView = findViewById(R.id.revealLayout);
-
-                    // get the center for the clipping circle
-                    int cx = (int)getIntent().getFloatExtra("xReveal", 0);
-                    int cy = (int)getIntent().getFloatExtra("yReveal", 0);
-
-                    // get the final radius for the clipping circle
-                    int dx = myView.getWidth();
-                    int dy = myView.getHeight();
-                    float finalRadius = (float) Math.hypot(dx, dy);
-
-                    // Android native animator
-                    Animator animator = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-                    animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                    animator.setDuration(500);
-                    animator.start();
-                }
-            }
-        });*/
-
         ((AppBarLayout)findViewById(R.id.app_bar_rueck)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
