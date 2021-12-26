@@ -22,7 +22,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:minHeight="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -72,7 +72,7 @@
             app:cardBackgroundColor="#141414"
             app:cardElevation="8dp">
 
-            <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.github.sundeepk.compactcalendarview.CompactCalendarView
                 android:id="@+id/compactcalendar_view"
                 android:layout_width="fill_parent"
                 android:layout_height="250dp"

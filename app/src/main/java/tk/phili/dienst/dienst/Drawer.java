@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -18,7 +19,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.prof.rssparser.Article;
 import com.prof.rssparser.Parser;
 
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 
 public class Drawer {
 
-    public static Bitmap bmp = null;
     public static DrawerTicker ticker;
     public static DrawerHeader header;
     public static PrimaryDrawerItem i1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.title_section1).withIcon(R.drawable.ic_class_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
@@ -49,9 +48,6 @@ public class Drawer {
     public static void addDrawer(final Activity c, Toolbar tb, final int item){
         final SharedPreferences sp = c.getSharedPreferences("MainActivity", c.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
-
-
-
 
         ticker = new DrawerTicker(c);
         header = new DrawerHeader(c);
@@ -100,12 +96,7 @@ public class Drawer {
                 .withActivity(c)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withCompactStyle(true)
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
+                .withOnAccountHeaderListener((view, profile, current) -> false)
                 .build();
 
     }
@@ -130,65 +121,61 @@ public class Drawer {
                         items
                 )
                 .withSelectedItem(item)
-                .withOnDrawerItemClickListener(new com.mikepenz.materialdrawer.Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        result.closeDrawer();
-                        if(parsercopy != null){
-                            parsercopy.cancel(true);
-                        }
-                        if(drawerItem.equals(i1)){
-                            if(item == 1)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), MainActivity.class));
-                            c.finish();
-                        }
-                        if(drawerItem.equals(i3)){
-                            if(item == 3)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), Notizen.class));
-                            c.finish();
-                        }
-                        if(drawerItem.equals(i4)){
-                            if(item == 4)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), Empfehlungen.class));
-                            c.finish();
-                        }
-                        if(drawerItem.equals(i5)){
-                            if(item == 5)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), Tagestext.class));
-                            c.finish();
-                        }
-                        if(drawerItem.equals(i6)){
-                            if(item == 6)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), VideoNew.class));
-                            c.finish();
-                        }
-                        if(drawerItem.equals(i7)){
-                            if(item == 7)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), Kalender.class));
-                            c.finish();
-                        }
-                        if(drawerItem.equals(i8)){
-                            if(item == 8)return false;
-                            c.startActivity(new Intent(c.getApplicationContext(), Settings.class));
-                            c.finish();
-                        }
-                        c.overridePendingTransition(0, 0);
-                        return true;
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    result.closeDrawer();
+                    if(parsercopy != null){
+                        parsercopy.cancel(true);
                     }
+                    if(drawerItem.equals(i1)){
+                        if(item == 1)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), MainActivity.class));
+                    }
+                    if(drawerItem.equals(i3)){
+                        if(item == 3)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), Notizen.class));
+                    }
+                    if(drawerItem.equals(i4)){
+                        if(item == 4)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), Empfehlungen.class));
+                    }
+                    if(drawerItem.equals(i5)){
+                        if(item == 5)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), Tagestext.class));
+                    }
+                    if(drawerItem.equals(i6)){
+                        if(item == 6)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), VideoNew.class));
+                    }
+                    if(drawerItem.equals(i7)){
+                        if(item == 7)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), Kalender.class));
+                    }
+                    if(drawerItem.equals(i8)){
+                        if(item == 8)return false;
+                        c.startActivity(new Intent(c.getApplicationContext(), Settings.class));
+                    }
+                    hideKeyboard(c);
+                    c.finish();
+                    c.overridePendingTransition(0, 0);
+                    return true;
                 })
-                //.withAccountHeader(headerResult)
                 .withDisplayBelowStatusBar(false)
                 .withActionBarDrawerToggleAnimated(true)
                 .build();
 
                 result.getDrawerLayout().setStatusBarBackgroundColor(Color.parseColor("#1e1518"));
-
-
-
     }
 
-
-
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     public static void setRSSFeed(Context c, SharedPreferences.Editor editor){
         ticker.setVisible(true);

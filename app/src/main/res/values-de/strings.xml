@@ -39,36 +39,6 @@
     <string name="yes">Ja</string>
     <string name="video_exception">Es ist ein Problem beim Download aufgetreten!</string>
 
-
-    <string-array name="months_array">
-        <item>Januar</item>
-        <item>Februar</item>
-        <item>März</item>
-        <item>April</item>
-        <item>Mai</item>
-        <item>Juni</item>
-        <item>Juli</item>
-        <item>August</item>
-        <item>September</item>
-        <item>Oktober</item>
-        <item>November</item>
-        <item>Dezember</item>
-    </string-array>
-
-    <string-array name="year_array">
-        <item>2016</item>
-        <item>2017</item>
-        <item>2018</item>
-        <item>2019</item>
-        <item>2020</item>
-        <item>2021</item>
-        <item>2022</item>
-        <item>2023</item>
-        <item>2024</item>
-        <item>2025</item>
-        <item>2026</item>
-    </string-array>
-
     <string name="reportfor">Bericht von:&#160;</string>
     <string name="reportmonth">Monat:&#160;</string>
     <string name="reporthours">Stunden:&#160;</string>
@@ -95,9 +65,6 @@
     <string name="video_open_error">Es gab einen Fehler beim Öffnen des Videos. Bitte warte bis es heruntergeladen ist.</string>
 
     <string name="data_cleared">Berichtsdaten gelöscht!</string>
-    <string name="shortcut_entry">App Schnellzugriffe</string>
-    <string name="shortcuts_dialog_title">Wähle deine Launcher Shortcuts</string>
-    <string name="shortcuts_not_availible">Schnellzugriffe sind in dieser Android Version nicht verfügbar.</string>
     <string name="add_bericht">Eintrag hinzufügen</string>
     <string name="change_bericht">Bericht ändern</string>
     <string name="date">Datum</string>
@@ -142,9 +109,6 @@
     <string name="drawer_ticker_news">NEUES</string>
     <string name="drawer_ticker_no_news">++NEUES++ Zurzeit keine Neuigkeiten verfügbar ++NEUES++</string>
 
-    <string name="transition_fab">fab_transition</string>
-    <string name="title_activity_change_gebiet_householder">ChangeGebietHouseholder</string>
-
     <string name="empf_not_available">Empfehlungen nicht für Systemzeit verfügbar.</string>
 
     <string name="vid_wait">Bitte warten... Infos werden abgerufen</string>
@@ -180,9 +144,6 @@
     <string name="report_private">Privater Modus an - Dein Bericht ist versteckt.</string>
     <string name="report_private_show">Anzeigen</string>
     <string name="report_private_mode">Privater Modus</string>
-    <string name="report_private_onoff">Der private Modus versteckt deinen Bericht solange, bis du einen Knopf drückst.</string>
-    <string name="report_private_on">An</string>
-    <string name="report_private_off">Aus</string>
 
     <string name="export">Export</string>
     <string name="import_deletes_data">Durch das Importieren werden bereits vorhandene Daten überschrieben. Fortfahren?</string>
@@ -204,8 +165,6 @@
     <string name="language_default">Systemsprache</string>
     <string name="widget_no_network_title">Keine Verbindung!</string>
     <string name="widget_no_network_text">Tippe hier zum laden.</string>
-    <string name="widget_loading">Lädt</string>
-    <string name="widget_loading_wait">Bitte warten...</string>
 
     <string name="select_month_year">Monat / Jahr wählen</string>
     <string name="no_partner">Kein Dienstpartner</string>

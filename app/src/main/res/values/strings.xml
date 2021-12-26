@@ -23,8 +23,6 @@
     <string name="title_activity_senden">Send</string>
     <string name="title_activity_empfehlungen">Sample Presentations</string>
 
-    <string name="transition_fab">fab_transition</string>
-
 
     <string name="noconnect">No&#160;network available!</string>
     <string name="URL_end">en</string>
@@ -42,38 +40,6 @@
     <string name="yes">Yes</string>
     <string name="video_exception">There was an error while downloading a video.</string>
 
-    <string-array name="months_array">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
-    </string-array>
-
-    <string-array name="year_array">
-        <item>2016</item>
-        <item>2017</item>
-        <item>2018</item>
-        <item>2019</item>
-        <item>2020</item>
-        <item>2021</item>
-        <item>2022</item>
-        <item>2023</item>
-        <item>2024</item>
-        <item>2025</item>
-        <item>2026</item>
-        <item>2027</item>
-        <item>2028</item>
-        <item>2029</item>
-        <item>2030</item>
-    </string-array>
 
     <string name="reportfor">Report for:&#160;</string>
     <string name="reportmonth">Month:&#160;</string>
@@ -99,9 +65,6 @@
     <string name="video_open_error">There was an error while starting the video. Please wait until it\'s downloaded.</string>
 
     <string name="data_cleared">Cleared data!</string>
-    <string name="shortcut_entry">App shortcuts</string>
-    <string name="shortcuts_dialog_title">Select homescreen shortcuts</string>
-    <string name="shortcuts_not_availible">Shortcuts are not available for your version of andoid.</string>
     <string name="title_activity_bericht_add_frame">abc</string>
     <string name="ok">OK</string>
 
@@ -147,8 +110,6 @@
     <string name="report_layout_1">Big</string>
     <string name="report_layout_2">Small</string>
 
-    <string name="title_activity_change_gebiet_householder">ChangeGebietHouseholder</string>
-
     <string name="drawer_ticker_news">NEWS</string>
     <string name="drawer_ticker_no_news">++NEWS++ No news available ++NEWS++</string>
 
@@ -187,9 +148,6 @@
     <string name="report_private">Private mode on - Your reports are hidden.</string>
     <string name="report_private_show">Show</string>
     <string name="report_private_mode">Private mode</string>
-    <string name="report_private_onoff">The private mode hides your report until you press a button.</string>
-    <string name="report_private_on">On</string>
-    <string name="report_private_off">Off</string>
 
     <string name="export">Export</string>
     <string name="import_deletes_data">Importing an .minapp File, will remove all the app\'s already existing data. Continue?</string>
@@ -212,8 +170,6 @@
     <string name="language_default">System default</string>
     <string name="widget_no_network_title">No connection!</string>
     <string name="widget_no_network_text">Tap here to retry.</string>
-    <string name="widget_loading">Loading</string>
-    <string name="widget_loading_wait">Please wait...</string>
 
     <string name="select_month_year">Select month / year</string>
 
