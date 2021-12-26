@@ -53,38 +53,9 @@ public class Splash extends Activity {
 
         s = getIntent().getStringExtra("Activity");
 
-        Shortcuts.updateShortcuts("12345", Splash.this, true);
+        Shortcuts.updateShortcuts(Splash.this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(isUp) {
-                    Intent mainIntent = null;
-
-                    if(s == null || s.equals("MainActivity")) {
-                        mainIntent = new Intent(Splash.this, MainActivity.class);
-                    }else if(s.equals("Notizen")) {
-                        mainIntent = new Intent(Splash.this, Notizen.class);
-                    }else if(s.equals("Empfehlungen")) {
-                        mainIntent = new Intent(Splash.this, Empfehlungen.class);
-                    }else if(s.equals("Videos")) {
-                        mainIntent = new Intent(Splash.this, VideoNew.class);
-                    }else if(s.equals("Tagestext")) {
-                        mainIntent = new Intent(Splash.this, Tagestext.class);
-                    }else if(s.equals("Kalender")) {
-                        mainIntent = new Intent(Splash.this, Kalender.class);
-                    }
-
-                    if(!sp.getBoolean("dsgvo_accept", false)){
-                        mainIntent = new Intent(Splash.this, DSGVOInfo.class);
-                    }
-
-                    Splash.this.startActivity(mainIntent);
-                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    Splash.this.finish();
-                }
-            }
-        }, 500);//3
+        runDelayedHandler();
     }
 
     @Override
@@ -92,34 +63,35 @@ public class Splash extends Activity {
         super.onResume();
         isUp = true;
         createNotificationChannel();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(isUp) {
-                    Intent mainIntent = null;
+        runDelayedHandler();
+    }
 
-                    if(s == null || s.equals("MainActivity")) {
-                        mainIntent = new Intent(Splash.this, MainActivity.class);
-                    }else if(s.equals("Notizen")) {
-                        mainIntent = new Intent(Splash.this, Notizen.class);
-                    }else if(s.equals("Empfehlungen")) {
-                        mainIntent = new Intent(Splash.this, Empfehlungen.class);
-                    }else if(s.equals("Videos")) {
-                        mainIntent = new Intent(Splash.this, VideoNew.class);
-                    }else if(s.equals("Tagestext")) {
-                        mainIntent = new Intent(Splash.this, Tagestext.class);
-                    }else if(s.equals("Kalender")) {
-                        mainIntent = new Intent(Splash.this, Kalender.class);
-                    }
+    public void runDelayedHandler(){
+        new Handler().postDelayed(() -> {
+            if(isUp) {
+                Intent mainIntent = null;
 
-                    if(!sp.getBoolean("dsgvo_accept", false)){
-                        mainIntent = new Intent(Splash.this, DSGVOInfo.class);
-                    }
-
-                    Splash.this.startActivity(mainIntent);
-                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    Splash.this.finish();
+                if(s == null || s.equals("MainActivity")) {
+                    mainIntent = new Intent(Splash.this, MainActivity.class);
+                }else if(s.equals("Notizen")) {
+                    mainIntent = new Intent(Splash.this, Notizen.class);
+                }else if(s.equals("Empfehlungen")) {
+                    mainIntent = new Intent(Splash.this, Empfehlungen.class);
+                }else if(s.equals("Videos")) {
+                    mainIntent = new Intent(Splash.this, VideoNew.class);
+                }else if(s.equals("Tagestext")) {
+                    mainIntent = new Intent(Splash.this, Tagestext.class);
+                }else if(s.equals("Kalender")) {
+                    mainIntent = new Intent(Splash.this, Kalender.class);
                 }
+
+                if(!sp.getBoolean("dsgvo_accept", false)){
+                    mainIntent = new Intent(Splash.this, DSGVOInfo.class);
+                }
+
+                Splash.this.startActivity(mainIntent);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                Splash.this.finish();
             }
         }, 500);
     }

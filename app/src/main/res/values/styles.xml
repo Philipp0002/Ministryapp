@@ -6,8 +6,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryContainer">@color/ColorSecondary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorAccent">@color/accent_color</item>
+
+        <item name="colorSecondary">@color/ColorSecondary</item>
+        <item name="colorOnSecondary">@color/ColorOnSecondary</item>
 
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_background">@color/drawer_background</item>

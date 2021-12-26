@@ -11,4 +11,5 @@
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
     </style>
 
+
 </resources>

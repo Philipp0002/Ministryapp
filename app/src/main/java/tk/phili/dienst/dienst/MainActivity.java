@@ -1,30 +1,23 @@
 package tk.phili.dienst.dienst;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 
-import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,17 +26,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.Window;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,17 +53,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
-import at.grabner.circleprogress.CircleProgressView;
-import at.grabner.circleprogress.TextMode;
-import at.grabner.circleprogress.UnitPosition;
-
 public class MainActivity extends AppCompatActivity {
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     public static AlertDialog.Builder builder;
-
-    private Toolbar toolbar;
 
     Set<String> lastlist = null;
 
@@ -81,33 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
     Calendar calendarShow;
 
-    //CircleProgressView cpv;
-
     RoundCornerProgressBar rpb;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Window window = this.getWindow();
-
         sp = getPreferences(Context.MODE_PRIVATE);
         editor = sp.edit();
 
-
-        Set<String> allHashTags = new HashSet<String>();
-
-        if (!sp.contains("SHORTCUTS")) {
-            editor.putString("SHORTCUTS", "012");
-            editor.commit();
-            Shortcuts.updateShortcuts("012", this, true);
-        }
 
         int layout = sp.getInt("report_layout", 0);
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
@@ -116,39 +83,15 @@ public class MainActivity extends AppCompatActivity {
         }else if(layout == 1) {
             stub.setLayoutResource(R.layout.list_bericht_tiny);
         }
-        View inflated = stub.inflate();
-
-        mTitle = getTitle();
+        stub.inflate();
 
         if(sp.getBoolean("private_mode", false)){
             findViewById(R.id.private_block).setVisibility(View.VISIBLE);
-            ((Button)findViewById(R.id.private_disable)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    findViewById(R.id.private_block).setVisibility(View.GONE);
-                }
-            });
+            ((Button)findViewById(R.id.private_disable)).setOnClickListener(view -> findViewById(R.id.private_block).setVisibility(View.GONE));
         }
 
 
         rpb = findViewById(R.id.progress_goal);
-        /*cpv = (CircleProgressView) findViewById(R.id.circle_goal);
-        cpv.setTextMode(TextMode.PERCENT);
-        cpv.setBarColor(Color.RED, Color.YELLOW, Color.GREEN);
-        cpv.setRimColor(Color.WHITE);
-        cpv.setOuterContourSize(0);
-        cpv.setInnerContourSize(0);
-        cpv.setAutoTextSize(true);
-        cpv.setTextScale(0.7F);
-        cpv.setUnitVisible(true);
-        cpv.setUnit("%");
-        cpv.setUnitToTextScale(1F);
-        cpv.setUnitColor(Color.WHITE);
-        cpv.setTextColor(Color.WHITE);
-        cpv.setUnitPosition(UnitPosition.RIGHT_TOP);
-        cpv.setValueAnimated(0F);
-        cpv.setRimWidth(15);
-        cpv.setBarWidth(15);*/
 
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
@@ -159,26 +102,20 @@ public class MainActivity extends AppCompatActivity {
         tbv.setText(dateFormat.format(calendarShow.getTime()));
 
 
-        tbv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tbv.setOnClickListener(v -> {
 
-                MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(calendarShow.get(Calendar.MONTH), calendarShow.get(Calendar.YEAR), getString(R.string.select_month_year));
+            MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(calendarShow.get(Calendar.MONTH), calendarShow.get(Calendar.YEAR), getString(R.string.select_month_year));
 
-                dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(int year, int monthOfYear) {
+            dialogFragment.setOnDateSetListener((year, monthOfYear) -> {
 
-                        calendarShow.set(Calendar.MONTH, monthOfYear);
-                        calendarShow.set(Calendar.YEAR, year);
-                        tbv.setText(dateFormat.format(calendarShow.getTime()));
-                        updateList();
-                    }
-                });
+                calendarShow.set(Calendar.MONTH, monthOfYear);
+                calendarShow.set(Calendar.YEAR, year);
+                tbv.setText(dateFormat.format(calendarShow.getTime()));
+                updateList();
+            });
 
-                dialogFragment.show(getSupportFragmentManager(), null);
+            dialogFragment.show(getSupportFragmentManager(), null);
 
-            }
         });
 
 
@@ -188,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         /////////////////DRAWER/////////////////////////////////////////
         // Initializing Toolbar and setting it as the actionbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
@@ -197,22 +134,23 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        findViewById(R.id.addBerichtButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mainIntent = new Intent(MainActivity.this, BerichtAddFrame.class);
-                float x = findViewById(R.id.addBerichtButton).getX()+findViewById(R.id.addBerichtButton).getWidth()/2;
-                float y = findViewById(R.id.addBerichtButton).getY()+findViewById(R.id.addBerichtButton).getHeight()/2;
-                mainIntent.putExtra("xReveal",x);
-                mainIntent.putExtra("yReveal",y);
+        findViewById(R.id.addBerichtButton).setOnClickListener(v -> {
+            Intent mainIntent = new Intent(MainActivity.this, BerichtAddFrame.class);
+            float x = v.getX()+v.getWidth()/2;
+            float y = v.getY()+v.getHeight()/2;
+            mainIntent.putExtra("xReveal",x);
+            mainIntent.putExtra("yReveal",y);
 
-                mainIntent.putExtra("id", Integer.MAX_VALUE);
+            mainIntent.putExtra("id", Integer.MAX_VALUE);
 
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(MainActivity.this, v, "bericht_add_frame");
-                startActivity(mainIntent, options.toBundle());
-                //overridePendingTransition(0,0); // Maybe add again if didn't fix
-            }
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(MainActivity.this, v, "bericht_add_frame");
+            startActivity(mainIntent, options.toBundle());
+
+            Log.d("SCROLLLLLLIST", findViewById(R.id.bericht_liste).getScrollY()+"");
+            //Log.d("SCROLLLLLVIEW", ((NestedScrollView)findViewById(R.id.bericht_liste).getParent()).get+"");
+
+            //overridePendingTransition(0,0); // Maybe add again if didn't fix
         });
 
 
@@ -222,66 +160,49 @@ public class MainActivity extends AppCompatActivity {
 
         Drawer.addDrawer(this, toolbar, 1);
 
-        findViewById(R.id.swipe_up_share).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((TextView) findViewById(R.id.swipe_up_share)).getAlpha() != 0F){
-                    ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        findViewById(R.id.swipe_up_share).setOnClickListener(v -> {
+            if(((TextView) findViewById(R.id.swipe_up_share)).getAlpha() != 0F){
+                ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
-                    alert.setTitle(getString(R.string.title_section6));
-                    alert.setMessage(getString(R.string.bericht_type_name));
+                alert.setTitle(getString(R.string.title_section6));
+                alert.setMessage(getString(R.string.bericht_type_name));
 
-                    //final EditText input = new EditText(MainActivity.this);
-                    View input_view = LayoutInflater.from(MainActivity.this)
-                            .inflate(R.layout.bericht_send_input, null, false);
-                    final EditText input = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
-                    alert.setView(input_view);
-                    input.setText(sp.getString("lastSendName", ""));
+                View input_view = LayoutInflater.from(MainActivity.this)
+                        .inflate(R.layout.bericht_send_input, null, false);
+                final EditText input = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
+                alert.setView(input_view);
+                input.setText(sp.getString("lastSendName", ""));
 
-                    alert.setPositiveButton(getString(R.string.title_activity_senden), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String value = input.getText().toString();
-                            if(!value.isEmpty()) {
-                                sendReport(value);
-                            }
+                alert.setPositiveButton(getString(R.string.title_activity_senden), (dialog, whichButton) -> {
+                    String value = input.getText().toString();
+                    if(!value.isEmpty()) {
+                        sendReport(value);
+                    }
 
-                        }
-                    });
+                });
 
-                    alert.setNegativeButton(getString(R.string.gebiet_add_cancel), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {     }
-                    });
+                alert.setNegativeButton(getString(R.string.gebiet_add_cancel), (dialog, whichButton) -> {     });
 
-                    alert.show();
-                }
+                alert.show();
             }
         });
 
-        findViewById(R.id.swipe_up_carryover).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((TextView) findViewById(R.id.swipe_up_carryover)).getAlpha() != 0F){
-                    ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        findViewById(R.id.swipe_up_carryover).setOnClickListener(v -> {
+            if(((TextView) findViewById(R.id.swipe_up_carryover)).getAlpha() != 0F){
+                ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
-                    alert.setTitle(getString(R.string.carryover));
-                    alert.setMessage(getString(R.string.carryover_msg));
+                alert.setTitle(getString(R.string.carryover));
+                alert.setMessage(getString(R.string.carryover_msg));
 
-                    alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            carry();
-                        }
-                    });
+                alert.setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> carry());
 
-                    alert.setNegativeButton(getString(R.string.delete_cancel), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {     }
-                    });
+                alert.setNegativeButton(getString(R.string.delete_cancel), (dialog, whichButton) -> {     });
 
-                    alert.show();
-                }
+                alert.show();
             }
         });
 
@@ -308,6 +229,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        ViewCompat.setNestedScrollingEnabled(findViewById(R.id.bericht_liste), true);
+
+
+
 
         updateList();
 
@@ -426,14 +352,14 @@ public class MainActivity extends AppCompatActivity {
             if (sp.contains("BERICHTE")) {
                 Set<String> berichte1 = sp.getStringSet("BERICHTE", null);
                 ArrayList<String> berichte = sortByDate(berichte1);
-                ArrayList<String> ids = new ArrayList<String>();
-                ArrayList<String> dates = new ArrayList<String>();
-                ArrayList<String> hours = new ArrayList<String>();
-                ArrayList<String> abgaben = new ArrayList<String>();
-                ArrayList<String> rück = new ArrayList<String>();
-                ArrayList<String> videos = new ArrayList<String>();
-                ArrayList<String> studien = new ArrayList<String>();
-                ArrayList<String> anmerkungen = new ArrayList<String>();
+                ArrayList<String> ids = new ArrayList<>();
+                ArrayList<String> dates = new ArrayList<>();
+                ArrayList<String> hours = new ArrayList<>();
+                ArrayList<String> abgaben = new ArrayList<>();
+                ArrayList<String> rück = new ArrayList<>();
+                ArrayList<String> videos = new ArrayList<>();
+                ArrayList<String> studien = new ArrayList<>();
+                ArrayList<String> anmerkungen = new ArrayList<>();
                 for (String s : berichte) {
                     String[] s1 = s.split(";");
                     String id = s1[0];
@@ -510,22 +436,19 @@ public class MainActivity extends AppCompatActivity {
                     ((ListView) findViewById(R.id.bericht_liste)).setAdapter(bl);
                 updateInsgesamt();
 
-                ((ListView) findViewById(R.id.bericht_liste)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        String date = dateset[i];
-                        if(!date.startsWith("32.") && !date.startsWith("0.")) {
-                            Intent mainIntent = new Intent(MainActivity.this, BerichtAddFrame.class);
-                            float x = view.getX() + view.getWidth() / 2;
-                            float y = view.getY() + view.getHeight() / 2;
-                            mainIntent.putExtra("xReveal", x);
-                            mainIntent.putExtra("yReveal", y);
+                ((ListView) findViewById(R.id.bericht_liste)).setOnItemClickListener((adapterView, view, i, l) -> {
+                    String date = dateset[i];
+                    if(!date.startsWith("32.") && !date.startsWith("0.")) {
+                        Intent mainIntent = new Intent(MainActivity.this, BerichtAddFrame.class);
+                        float x = view.getX() + view.getWidth() / 2;
+                        float y = view.getY() + view.getHeight() / 2;
+                        mainIntent.putExtra("xReveal", x);
+                        mainIntent.putExtra("yReveal", y);
 
-                            mainIntent.putExtra("id", Integer.parseInt(idset[i]));
-                            ActivityOptionsCompat options = ActivityOptionsCompat.
-                                    makeSceneTransitionAnimation(MainActivity.this, view, "bericht_add_frame");
-                            MainActivity.this.startActivity(mainIntent, options.toBundle());
-                        }
+                        mainIntent.putExtra("id", Integer.parseInt(idset[i]));
+                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation(MainActivity.this, view, "bericht_add_frame");
+                        MainActivity.this.startActivity(mainIntent, options.toBundle());
                     }
                 });
 
@@ -543,7 +466,6 @@ public class MainActivity extends AppCompatActivity {
                                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                         for (int position : reverseSortedPositions) {
 
-                                            //your_arraylist.remove(position);
                                             Set<String> berichte = new HashSet<>();
                                             if (sp.contains("BERICHTE")) {
                                                 Set<String> berichteold = sp.getStringSet("BERICHTE", null);
@@ -585,38 +507,22 @@ public class MainActivity extends AppCompatActivity {
                                                             });
                                                             anim.setInterpolator(new ReverseInterpolator());
 
-                                                            MainActivity.this.runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    findViewById(R.id.addBerichtButton).startAnimation(anim);
-                                                                }
-                                                            });
+                                                            MainActivity.this.runOnUiThread(() -> findViewById(R.id.addBerichtButton).startAnimation(anim));
 
                                                         }
 
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                findViewById(R.id.acmaincorners).setBackgroundResource(R.drawable.sliding_up_corners);
-                                                            }
-                                                        });
                                                     }
                                                 }, 3500);
 
-                                                Snackbar snackbar = Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG).setAction(R.string.bericht_undo_2, new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        editor.putStringSet("BERICHTE", lastlist);
-                                                        editor.commit();
-                                                        editor.apply();
-                                                        bl.notifyDataSetChanged();
-                                                        updateList();
-                                                        updateInsgesamt();
-                                                    }
+                                                Snackbar snackbar = Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG).setAction(R.string.bericht_undo_2, v -> {
+                                                    editor.putStringSet("BERICHTE", lastlist);
+                                                    editor.commit();
+                                                    editor.apply();
+                                                    bl.notifyDataSetChanged();
+                                                    updateList();
+                                                    updateInsgesamt();
                                                 });
                                                 snackbar.show();
-
-                                                findViewById(R.id.acmaincorners).setBackgroundColor(Color.WHITE);
 
                                                 if (berichteold != null && !(berichteold.isEmpty())) {
                                                     lastlist = berichteold;
@@ -641,7 +547,52 @@ public class MainActivity extends AppCompatActivity {
                                 });
 
                 ((ListView) findViewById(R.id.bericht_liste)).setOnTouchListener(touchListener);
-                ((ListView) findViewById(R.id.bericht_liste)).setOnScrollListener(touchListener.makeScrollListener());
+                ((ListView)findViewById(R.id.bericht_liste)).setOnScrollListener(new AbsListView.OnScrollListener() {
+                    private int lastFirstVisibleItem;
+                    private int lastTopEdge = 1;
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                        touchListener.setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
+                    }
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                        ExtendedFloatingActionButton fab = findViewById(R.id.addBerichtButton);
+
+                        int topEdge = 0;
+                        if(((ListView)findViewById(R.id.bericht_liste)).getChildCount() != 0) {
+                            topEdge = ((ListView) findViewById(R.id.bericht_liste)).getChildAt(0).getTop();
+                        }
+
+                        if(lastFirstVisibleItem<firstVisibleItem){
+                            if(fab.isExtended())
+                                fab.shrink();
+
+                            lastTopEdge = 1;
+                        }else if(lastFirstVisibleItem>firstVisibleItem){
+                            if(!fab.isExtended())
+                                fab.extend();
+
+                            lastTopEdge = 1;
+                        }else if(lastFirstVisibleItem == firstVisibleItem){
+                            if(lastTopEdge != 1) {
+                                if (lastTopEdge > topEdge) {
+                                    if (fab.isExtended())
+                                        fab.shrink();
+                                }else if (lastTopEdge < topEdge) {
+                                    if (!fab.isExtended())
+                                        fab.extend();
+                                }
+                            }
+
+                            lastTopEdge = topEdge;
+                        }
+
+                        Log.d("SCROLLLLLLL", lastTopEdge+"");
+                        lastFirstVisibleItem=firstVisibleItem;
+                    }
+
+                });
 
             } else {
                 if (findViewById(R.id.no_bericht_img) != null) {
@@ -656,12 +607,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle(R.string.error)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                    .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
                     .setCancelable(false)
                     .setMessage(R.string.bericht_error)
                     .show();
@@ -720,18 +666,17 @@ public class MainActivity extends AppCompatActivity {
                 minutes = minutes - minutesub;
             }
 
-            String minutestring = "";
+            String minutestring;
             if(minutes < 10){
                 minutestring = "0"+minutes;
             }else{
                 minutestring = ""+minutes;
             }
 
-            if(sp.contains("goal") && !sp.getString("goal", "0").equals("0")){
+            if(sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))){
                 findViewById(R.id.goalview).setVisibility(View.VISIBLE);
                 int goal = Integer.parseInt(sp.getString("goal", "0"));
                 float percent = (float)(((double)hours + ((double)minutes/60)) * 100 / (double)goal);
-                //cpv.setValueAnimated(percent);
                 rpb.setProgress(percent);
                 TextView tv = (TextView) findViewById(R.id.goaltext);
                 if(goal - hours == 0){
@@ -807,17 +752,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_goal) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = this.getLayoutInflater();
 
             View input_view = LayoutInflater.from(MainActivity.this)
                     .inflate(R.layout.goal_set_input, null, false);
             final EditText edt = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
             dialogBuilder.setView(input_view);
-
-            //final View dialogView = inflater.inflate(R.layout.goal_popup, null);
-            //dialogBuilder.setView(dialogView);
-
-            //final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
 
             if(sp.contains("goal") && !sp.getString("goal", "0").equals("0")){
                 edt.setText(sp.getString("goal", "0"));
@@ -825,25 +764,21 @@ public class MainActivity extends AppCompatActivity {
 
             dialogBuilder.setTitle(getString(R.string.goal_set));
             dialogBuilder.setMessage(getString(R.string.goal_msg));
-            dialogBuilder.setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    try{
-                        Integer.parseInt(edt.getText().toString());
-                    }catch(Exception e){
-                        Toast.makeText(MainActivity.this, getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    editor.putString("goal", edt.getText().toString());
-                    editor.commit();
-                    updateInsgesamt();
+            dialogBuilder.setPositiveButton(getString(R.string.OK), (dialog, whichButton) -> {
+                try{
+                    Integer.parseInt(edt.getText().toString());
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
+                    return;
                 }
+                editor.putString("goal", edt.getText().toString());
+                editor.commit();
+                updateInsgesamt();
             });
-            dialogBuilder.setNegativeButton(getString(R.string.goal_no), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    editor.putString("goal", "0");
-                    editor.commit();
-                    updateInsgesamt();
-                }
+            dialogBuilder.setNegativeButton(getString(R.string.goal_no), (dialog, whichButton) -> {
+                editor.putString("goal", "0");
+                editor.commit();
+                updateInsgesamt();
             });
             AlertDialog b = dialogBuilder.create();
             b.show();
@@ -856,7 +791,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendReport(String name){
         editor.putString("lastSendName", name);
         editor.commit();
-        if(!name.toString().matches("")) {
+        if(!name.matches("")) {
             String hourstring = "0";
             String abgabenstring = "0";
             String rückstring = "0";
@@ -915,7 +850,7 @@ public class MainActivity extends AppCompatActivity {
                     minutes = minutes - minutesub;
                 }
 
-                String minutestring = "";
+                String minutestring;
                 if(minutes < 10){
                     minutestring = "0"+minutes;
                 }else{
@@ -935,15 +870,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                /*if(minutes != 0){
-                    if(hours != 0) {
-                        hourstring = hours + ":" + minutestring;
-                    }else{
-                        hourstring =  minutestring + "min";
-                    }
-                }else{
-                    hourstring =  hours+"";
-                }*/
                 abgabenstring = abgaben+"";
                 rückstring = rück+"";
                 videosstring = videos+"";
@@ -973,49 +899,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-    private boolean is1 = true;
-    private boolean is2 = false;
-    private boolean is3 = false;
-    public void onSectionAttached(int number) {
-
-    }
-
     public int getDay(){
         Calendar calendar = Calendar.getInstance();
-        int thisMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        return thisMonth;
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public int getMonth(){
         Calendar calendar = Calendar.getInstance();
-        int thisMonth = calendar.get(Calendar.MONTH);
-        return thisMonth;
+        return calendar.get(Calendar.MONTH);
     }
 
     public int getYear(){
         Calendar calendar = Calendar.getInstance();
-        int thisYear = calendar.get(Calendar.YEAR);
-       return thisYear;
+        return calendar.get(Calendar.YEAR);
     }
-
-
-    public void openWebURL( String inURL ) {
-        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse(inURL) ); startActivity( browse ); }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-
 
 
 }

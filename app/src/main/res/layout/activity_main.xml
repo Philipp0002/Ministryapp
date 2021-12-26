@@ -83,7 +83,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <ScrollView
+            <!--androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true"
@@ -93,19 +93,24 @@
                 android:background="@color/background"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true">
+                android:layout_alignParentBottom="true"
+                -->
 
 
             <ListView
+                android:layout_below="@id/goalview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/background"
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 android:id="@+id/bericht_liste"
                 android:footerDividersEnabled="false"
-                android:headerDividersEnabled="false" />
-        </ScrollView>
+                android:headerDividersEnabled="false"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"/>
+        <!--/androidx.core.widget.NestedScrollView-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -199,7 +204,6 @@
 
 
         <RelativeLayout
-            android:id="@+id/acmaincorners"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/sliding_up_corners">

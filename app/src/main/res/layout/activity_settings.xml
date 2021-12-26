@@ -43,13 +43,6 @@
             <com.yarolegovich.mp.MaterialStandardPreference
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/shortcut_entry"
-                android:visibility="gone"
-                app:mp_title="@string/shortcut_entry"/>
-
-            <com.yarolegovich.mp.MaterialStandardPreference
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/export"
                 app:mp_title="@string/export"/>
 

@@ -111,6 +111,15 @@ public class KalenderAddFrame extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                /*MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                        .setTimeFormat(DateFormat.is24HourFormat(KalenderAddFrame.this) ? TimeFormat.CLOCK_24H : TimeFormat.CLOCK_12H)
+                        .setHour(myCalendar.get(Calendar.HOUR_OF_DAY))
+                        .setMinute(myCalendar.get(Calendar.MINUTE))
+                        .build();
+
+                materialTimePicker.show(getSupportFragmentManager(), "time_picker");*/
+
                 new TimePickerDialog(KalenderAddFrame.this, time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(KalenderAddFrame.this))
                     .show();
 
