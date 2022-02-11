@@ -4,13 +4,13 @@
     android:id="@+id/drawer_10"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings">
+    tools:context=".settings.Settings">
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="tk.phili.dienst.dienst.Settings"
+        tools:context="tk.phili.dienst.dienst.settings.Settings"
         tools:ignore="MergeRootFrame">
 
         <androidx.appcompat.widget.Toolbar

@@ -1,12 +1,11 @@
 package tk.phili.dienst.dienst;
 
-import android.app.Application;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.multidex.MultiDexApplication;
-import androidx.work.WorkerParameters;
+
+import tk.phili.dienst.dienst.calendar.KalenderWorker;
 
 public class MinistryApplication extends MultiDexApplication {
 

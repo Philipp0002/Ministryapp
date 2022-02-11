@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <tk.phili.dienst.dienst.ScrollTextView
+    <tk.phili.dienst.dienst.utils.ScrollTextView
         android:layout_marginTop="12dp"
         android:layout_marginBottom="4dp"
         android:id="@+id/tickerview"

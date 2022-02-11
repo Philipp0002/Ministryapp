@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:background="@android:color/transparent"
     android:backgroundTint="@android:color/transparent"
-    tools:context="tk.phili.dienst.dienst.KalenderAddFrame">
+    tools:context="tk.phili.dienst.dienst.calendar.KalenderAddFrame">
 
     <io.codetail.widget.RevealFrameLayout
         android:backgroundTint="@android:color/transparent"

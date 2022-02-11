@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
-    tools:context="tk.phili.dienst.dienst.DSGVOInfo">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    tools:context="tk.phili.dienst.dienst.settings.DSGVOInfo">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_3"
@@ -19,42 +15,38 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:visibility="visible"
-        app:title="@string/dsgvo_title"
-        app:theme="@style/DrawerTheme">
+        app:theme="@style/DrawerTheme"
+        app:title="@string/dsgvo_title">
 
     </androidx.appcompat.widget.Toolbar>
 
 
-
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/bottombar"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/ColorPrimary"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/background">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/accept_dsgvo"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/ColorPrimary"
-            android:background="@color/ColorPrimary"
-            android:textColor="@color/green_accent"
-            android:text="@string/dsgvo_accept"
-            android:id="@+id/accept_dsgvo"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"/>
-
+            android:layout_marginRight="8dp"
+            android:text="@string/dsgvo_accept"
+            app:icon="@drawable/ic_baseline_check_24" />
 
 
     </RelativeLayout>
 
     <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/webView"
-        android:layout_below="@id/toolbar_3"
-        android:layout_above="@id/bottombar"></WebView>
+        android:layout_above="@id/bottombar"
+        android:layout_below="@id/toolbar_3"></WebView>
 
 </RelativeLayout>
 
-</androidx.drawerlayout.widget.DrawerLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="#fff"
-    tools:context="tk.phili.dienst.dienst.KalenderAddFrame"
+    tools:context="tk.phili.dienst.dienst.calendar.KalenderAddFrame"
     tools:showIn="@layout/activity_kalender_add_frame">
 
     <TableLayout

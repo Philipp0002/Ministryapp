@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
-    tools:context="tk.phili.dienst.dienst.Kalender">
+    tools:context="tk.phili.dienst.dienst.calendar.Kalender">
 
     <RelativeLayout
         android:id="@+id/container"

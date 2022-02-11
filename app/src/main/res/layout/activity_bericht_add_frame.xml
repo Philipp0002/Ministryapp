@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:background="@android:color/transparent"
     android:backgroundTint="@android:color/transparent"
-    tools:context="tk.phili.dienst.dienst.BerichtAddFrame">
+    tools:context="tk.phili.dienst.dienst.report.BerichtAddFrame">
 
     <io.codetail.widget.RevealFrameLayout
         android:backgroundTint="@android:color/transparent"

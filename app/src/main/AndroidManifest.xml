@@ -35,7 +35,7 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".report.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:exported="true"
@@ -59,40 +59,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Settings"
+            android:name=".settings.Settings"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Empfehlungen"
+            android:name=".samplepresentations.Empfehlungen"
             android:label="@string/title_activity_empfehlungen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Notizen"
+            android:name=".notes.Notizen"
             android:label="@string/title_activity_main_activity3"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".VideoNew"
+            android:name=".videos.VideoNew"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BerichtAddFrame"
+            android:name=".report.BerichtAddFrame"
             android:label="@string/title_activity_bericht_add_frame"
             android:theme="@style/BerichtAddFrameThemeTranslucent" />
         <activity
-            android:name=".Licenses"
+            android:name=".settings.Licenses"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Kalender"
+            android:name=".calendar.Kalender"
             android:label="@string/title_activity_kalender"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".KalenderAddFrame"
+            android:name=".calendar.KalenderAddFrame"
             android:label="@string/title_activity_kalender_add_frame"
             android:theme="@style/BerichtAddFrameThemeTranslucent" />
-        <activity android:name=".DSGVOInfo" />
+        <activity android:name=".settings.DSGVOInfo" />
         <activity
-            android:name=".GlobalImport"
+            android:name=".settings.GlobalImport"
             android:label="@string/title_activity_global_import"
             android:theme="@style/AppTheme"
             android:exported="true"
@@ -172,11 +172,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Tagestext"
+            android:name=".dailytext.Tagestext"
             android:label="@string/title_tt"
             android:theme="@style/AppTheme" />
 
-        <receiver android:name=".TagestextWidget"
+        <receiver android:name=".dailytext.widget.TagestextWidget"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

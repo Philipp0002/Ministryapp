@@ -10,7 +10,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -18,6 +18,16 @@ import androidx.work.WorkManager;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
+
+import tk.phili.dienst.dienst.calendar.Kalender;
+import tk.phili.dienst.dienst.calendar.KalenderWorker;
+import tk.phili.dienst.dienst.dailytext.Tagestext;
+import tk.phili.dienst.dienst.notes.Notizen;
+import tk.phili.dienst.dienst.report.MainActivity;
+import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
+import tk.phili.dienst.dienst.settings.DSGVOInfo;
+import tk.phili.dienst.dienst.utils.Shortcuts;
+import tk.phili.dienst.dienst.videos.VideoNew;
 
 
 public class Splash extends Activity {
@@ -53,7 +63,11 @@ public class Splash extends Activity {
 
         s = getIntent().getStringExtra("Activity");
 
-        Shortcuts.updateShortcuts(Splash.this);
+        try {
+            Shortcuts.updateShortcuts(Splash.this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         runDelayedHandler();
     }
