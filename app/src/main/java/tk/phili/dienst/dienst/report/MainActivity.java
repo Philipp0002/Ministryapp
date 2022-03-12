@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 
@@ -26,7 +27,6 @@ import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,18 +66,24 @@ public class MainActivity extends AppCompatActivity {
     Calendar calendarShow;
 
     RoundCornerProgressBar rpb;
+    ListView reportsList;
+    ConstraintLayout goalView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sp = getPreferences(Context.MODE_PRIVATE);
+        sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
+        rpb = findViewById(R.id.progress_goal);
+
+        reportsList = findViewById(R.id.bericht_liste);
+        goalView = findViewById(R.id.goalview);
 
         int layout = sp.getInt("report_layout", 0);
-        ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
+        ViewStub stub = findViewById(R.id.layout_stub);
         if(layout == 0) {
             stub.setLayoutResource(R.layout.list_bericht);
         }else if(layout == 1) {
@@ -87,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(sp.getBoolean("private_mode", false)){
             findViewById(R.id.private_block).setVisibility(View.VISIBLE);
-            ((Button)findViewById(R.id.private_disable)).setOnClickListener(view -> findViewById(R.id.private_block).setVisibility(View.GONE));
+            findViewById(R.id.private_disable).setOnClickListener(view -> findViewById(R.id.private_block).setVisibility(View.GONE));
         }
 
 
-        rpb = findViewById(R.id.progress_goal);
+
 
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
@@ -125,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         /////////////////DRAWER/////////////////////////////////////////
         // Initializing Toolbar and setting it as the actionbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
@@ -146,11 +152,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityOptionsCompat options = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(MainActivity.this, v, "bericht_add_frame");
             startActivity(mainIntent, options.toBundle());
-
-            Log.d("SCROLLLLLLIST", findViewById(R.id.bericht_liste).getScrollY()+"");
-            //Log.d("SCROLLLLLVIEW", ((NestedScrollView)findViewById(R.id.bericht_liste).getParent()).get+"");
-
-            //overridePendingTransition(0,0); // Maybe add again if didn't fix
         });
 
 
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         Drawer.addDrawer(this, toolbar, 1);
 
         findViewById(R.id.swipe_up_share).setOnClickListener(v -> {
-            if(((TextView) findViewById(R.id.swipe_up_share)).getAlpha() != 0F){
+            if(findViewById(R.id.swipe_up_share).getAlpha() != 0F){
                 ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.swipe_up_carryover).setOnClickListener(v -> {
-            if(((TextView) findViewById(R.id.swipe_up_carryover)).getAlpha() != 0F){
+            if(findViewById(R.id.swipe_up_carryover).getAlpha() != 0F){
                 ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
@@ -230,13 +231,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ViewCompat.setNestedScrollingEnabled(findViewById(R.id.bericht_liste), true);
-
-
-
+        ViewCompat.setNestedScrollingEnabled(reportsList, true);
 
         updateList();
-
     }
 
     @Override
@@ -306,9 +303,7 @@ public class MainActivity extends AppCompatActivity {
         if(sp.contains("BERICHTE")) {
             Set<String> berichteold = sp.getStringSet("BERICHTE", null);
             if(berichteold != null && !(berichteold.isEmpty())){
-                for(String s : berichteold){
-                    berichte.add(s);
-                }
+                berichte.addAll(berichteold);
             }
         }
 
@@ -433,10 +428,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                     bl = new BerichtList(this, idset, dateset, hoursset, abgabenset, rückset, videoset, studienset, anmerkungenset);
-                    ((ListView) findViewById(R.id.bericht_liste)).setAdapter(bl);
+
+                reportsList.setAdapter(bl);
                 updateInsgesamt();
 
-                ((ListView) findViewById(R.id.bericht_liste)).setOnItemClickListener((adapterView, view, i, l) -> {
+                reportsList.setOnItemClickListener((adapterView, view, i, l) -> {
                     String date = dateset[i];
                     if(!date.startsWith("32.") && !date.startsWith("0.")) {
                         Intent mainIntent = new Intent(MainActivity.this, BerichtAddFrame.class);
@@ -455,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
 
                 SwipeDismissListViewTouchListener touchListener =
                         new SwipeDismissListViewTouchListener(
-                                ((ListView) findViewById(R.id.bericht_liste)),
+                                reportsList,
                                 new SwipeDismissListViewTouchListener.DismissCallbacks() {
                                     @Override
                                     public boolean canDismiss(int position) {
@@ -546,8 +542,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
 
-                ((ListView) findViewById(R.id.bericht_liste)).setOnTouchListener(touchListener);
-                ((ListView)findViewById(R.id.bericht_liste)).setOnScrollListener(new AbsListView.OnScrollListener() {
+                reportsList.setOnTouchListener(touchListener);
+                reportsList.setOnScrollListener(new AbsListView.OnScrollListener() {
                     private int lastFirstVisibleItem;
                     private int lastTopEdge = 1;
                     @Override
@@ -560,8 +556,8 @@ public class MainActivity extends AppCompatActivity {
                         ExtendedFloatingActionButton fab = findViewById(R.id.addBerichtButton);
 
                         int topEdge = 0;
-                        if(((ListView)findViewById(R.id.bericht_liste)).getChildCount() != 0) {
-                            topEdge = ((ListView) findViewById(R.id.bericht_liste)).getChildAt(0).getTop();
+                        if(reportsList.getChildCount() != 0) {
+                            topEdge = reportsList.getChildAt(0).getTop();
                         }
 
                         if(lastFirstVisibleItem<firstVisibleItem){
@@ -599,8 +595,8 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.no_bericht_img).setVisibility(View.VISIBLE);
                     findViewById(R.id.no_bericht_text).setVisibility(View.VISIBLE);
                 }
-                if(findViewById(R.id.goalview) != null) {
-                    findViewById(R.id.goalview).setVisibility(View.GONE);
+                if(goalView != null) {
+                    goalView.setVisibility(View.GONE);
                 }
             }
         }catch (Exception e){
@@ -614,7 +610,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class ReverseInterpolator implements Interpolator {
+    public static class ReverseInterpolator implements Interpolator {
         @Override
         public float getInterpolation(float paramFloat) {
             return Math.abs(paramFloat -1f);
@@ -674,11 +670,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if(sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))){
-                findViewById(R.id.goalview).setVisibility(View.VISIBLE);
+                goalView.setVisibility(View.VISIBLE);
                 int goal = Integer.parseInt(sp.getString("goal", "0"));
                 float percent = (float)(((double)hours + ((double)minutes/60)) * 100 / (double)goal);
                 rpb.setProgress(percent);
-                TextView tv = (TextView) findViewById(R.id.goaltext);
+                TextView tv = findViewById(R.id.goaltext);
                 if(goal - hours == 0){
                     tv.setText(getString(R.string.goal_text_reached));
                 }
@@ -692,7 +688,7 @@ public class MainActivity extends AppCompatActivity {
                     tv.setText(getString(R.string.goal_text_reached_more).replace("%a", ""+Math.abs(goal - hours)));
                 }
             }else{
-                findViewById(R.id.goalview).setVisibility(View.GONE);
+                goalView.setVisibility(View.GONE);
             }
 
 
@@ -705,13 +701,13 @@ public class MainActivity extends AppCompatActivity {
                     ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.minutes));
                 }
             }else{
-                ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(hours+"");
+                ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(Integer.toString(hours));
                 ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.title_activity_stunden));
             }
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_brosch_count)).setText(abgaben+"");
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_rueck_count)).setText(rück+"");
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_videos_count)).setText(videos+"");
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_studies_count)).setText(studien+"");
+            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_brosch_count)).setText(Integer.toString(abgaben));
+            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_rueck_count)).setText(Integer.toString(rück));
+            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_videos_count)).setText(Integer.toString(videos));
+            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_studies_count)).setText(Integer.toString(studien));
             ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_date)).setText(getString(R.string.insgesamt));
 
             ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -897,11 +893,6 @@ public class MainActivity extends AppCompatActivity {
             sendIntent.setType("text/plain");
             startActivity(Intent.createChooser(sendIntent, R.string.sendreport_text + ""));
         }
-    }
-
-    public int getDay(){
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public int getMonth(){

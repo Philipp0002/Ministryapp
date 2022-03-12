@@ -76,7 +76,7 @@ public class Settings extends MainActivity {
 
         /////////////////DRAWER/////////////////////////////////////////
         // Initializing Toolbar and setting it as the actionbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_5);
+        Toolbar toolbar = findViewById(R.id.toolbar_5);
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
