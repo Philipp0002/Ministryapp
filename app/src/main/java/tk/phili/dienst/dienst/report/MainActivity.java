@@ -370,9 +370,6 @@ public class MainActivity extends AppCompatActivity {
                         anmerkung = s1[8];
                     }catch (Exception e){}
 
-                    if(minuten.contains("-")){
-                        continue;
-                    }
 
                     //YEAR MONTH CHECK
                     String year = date.split(Pattern.quote("."))[2];
@@ -380,16 +377,20 @@ public class MainActivity extends AppCompatActivity {
                     String day = date.split(Pattern.quote("."))[0];
                     int i = Integer.parseInt(month);
                     i--;
+
                     if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
                         ids.add(id);
 
-                        DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-                        Date dateIN = format.parse(date);
+                        if(!date.startsWith("32.") && !date.startsWith("0.")) {
+                            DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+                            Date dateIN = format.parse(date);
 
-                        DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
-                        String dateOUT = dateFormatter.format(dateIN);
-
-                        dates.add(dateOUT);
+                            DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT);
+                            String dateOUT = dateFormatter.format(dateIN);
+                            dates.add(dateOUT);
+                        }else{
+                            dates.add(date);
+                        }
                         if (Integer.parseInt(minuten) != 0) {
                             if (Integer.parseInt(stunden) != 0) {
                                 hours.add(stunden + ":" + minuten);
@@ -427,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                    bl = new BerichtList(this, idset, dateset, hoursset, abgabenset, rückset, videoset, studienset, anmerkungenset);
+                bl = new BerichtList(this, idset, dateset, hoursset, abgabenset, rückset, videoset, studienset, anmerkungenset);
 
                 reportsList.setAdapter(bl);
                 updateInsgesamt();
@@ -584,7 +585,6 @@ public class MainActivity extends AppCompatActivity {
                             lastTopEdge = topEdge;
                         }
 
-                        Log.d("SCROLLLLLLL", lastTopEdge+"");
                         lastFirstVisibleItem=firstVisibleItem;
                     }
 

@@ -72,14 +72,14 @@ public class BerichtList extends ArrayAdapter<String>{
         }
 
         final ViewHolder holder = new ViewHolder();
-        holder.cardv = (CardView) convertView.findViewById(R.id.card_view);
-        holder.dateTv = (TextView) convertView.findViewById(R.id.bericht_date);
-        holder.stundenTv = (TextView) convertView.findViewById(R.id.bericht_stunden_count);
-        holder.abgabenTv = (TextView) convertView.findViewById(R.id.bericht_brosch_count);
-        holder.rückTv = (TextView) convertView.findViewById(R.id.bericht_rueck_count);
-        holder.videosTv = (TextView) convertView.findViewById(R.id.bericht_videos_count);
-        holder.studienTv = (TextView) convertView.findViewById(R.id.bericht_studies_count);
-        holder.descTv = (TextView) convertView.findViewById(R.id.bericht_desc);
+        holder.cardv = convertView.findViewById(R.id.card_view);
+        holder.dateTv = convertView.findViewById(R.id.bericht_date);
+        holder.stundenTv = convertView.findViewById(R.id.bericht_stunden_count);
+        holder.abgabenTv = convertView.findViewById(R.id.bericht_brosch_count);
+        holder.rückTv = convertView.findViewById(R.id.bericht_rueck_count);
+        holder.videosTv = convertView.findViewById(R.id.bericht_videos_count);
+        holder.studienTv = convertView.findViewById(R.id.bericht_studies_count);
+        holder.descTv = convertView.findViewById(R.id.bericht_desc);
 
         if(hours[position].endsWith("min")){
             holder.stundenTv.setText(hours[position].replace("min", ""));
