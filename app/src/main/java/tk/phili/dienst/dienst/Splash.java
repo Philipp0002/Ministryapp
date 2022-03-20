@@ -23,7 +23,7 @@ import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
 import tk.phili.dienst.dienst.dailytext.Tagestext;
 import tk.phili.dienst.dienst.notes.Notizen;
-import tk.phili.dienst.dienst.report.MainActivity;
+import tk.phili.dienst.dienst.newreport.MainActivity;
 import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
 import tk.phili.dienst.dienst.utils.Shortcuts;

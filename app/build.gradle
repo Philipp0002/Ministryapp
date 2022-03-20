@@ -24,6 +24,8 @@ android {
     }
     buildToolsVersion '31.0.0'
     compileOptions {
+        coreLibraryDesugaringEnabled = true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -64,4 +66,5 @@ dependencies {
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.2'
     implementation 'androidx.core:core:1.6.0'
 
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 }

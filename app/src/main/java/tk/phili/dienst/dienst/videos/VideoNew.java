@@ -140,9 +140,7 @@ public class VideoNew extends AppCompatActivity {
 
         File a = new File(this.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath());
         for(File f : a.listFiles()){
-            Log.d("vidniu", f.getAbsolutePath());
             for(File f1 : f.listFiles()){
-                Log.d("vidniu", f1.getAbsolutePath());
             }
         }
 
@@ -168,7 +166,6 @@ public class VideoNew extends AppCompatActivity {
             List<Boolean> isDownloaded = new ArrayList<Boolean>();
             for(String s : all){
                 if(s.split(";")[0].equalsIgnoreCase(getString(R.string.URL_end))) {
-                    Log.d("Dienstapp-s", s);
                     id.add(Integer.parseInt(s.split(";")[1]));
                     title.add(s.split(";")[2]);
                     length.add(s.split(";")[3].replace("-", ":"));
