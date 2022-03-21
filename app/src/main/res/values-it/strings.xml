@@ -74,10 +74,10 @@
     <string name="goal_msg">"Digita il tuo obiettivo orario mensile:"</string>
     <string name="OK">"Ok"</string>
     <string name="goal_no">"Rimuovere Obiettivo "</string>
-    <string name="goal_text_mult">"% di ore per raggiungere l'obiettivo"</string>
-    <string name="goal_text_1">"% un'ora per raggiungere l'obiettivo"</string>
+    <string name="goal_text_mult">"%a di ore per raggiungere l'obiettivo"</string>
+    <string name="goal_text_1">"%a un'ora per raggiungere l'obiettivo"</string>
     <string name="goal_text_reached">"Hai raggiunto il tuo obiettivo!"</string>
-    <string name="goal_text_reached_more">"Hai raggiunto il tuo obiettivo! +% ah di più"</string>
+    <string name="goal_text_reached_more">"Hai raggiunto il tuo obiettivo! +%a di più"</string>
     <string name="goal_invalid">"Obiettivo non valido"</string>
     <string name="impressum">"Info sul creatore App"</string>
     <string name="licenses">"Licenza"</string>

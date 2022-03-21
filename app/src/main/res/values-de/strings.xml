@@ -89,7 +89,7 @@
     <string name="goal_text_mult">%a Stunden um Ziel zu erreichen</string>
     <string name="goal_text_1">%a Stunde um Ziel zu erreichen</string>
     <string name="goal_text_reached">Du hast dein Ziel erreicht!</string>
-    <string name="goal_text_reached_more">Du hast dein Ziel erreicht! +%ah mehr</string>
+    <string name="goal_text_reached_more">Du hast dein Ziel erreicht! +%a mehr</string>
 
     <string name="goal_invalid">Ungültiges Ziel</string>
     <string name="impressum">Impressum</string>

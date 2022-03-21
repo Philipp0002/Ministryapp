@@ -34,15 +34,15 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
-import tk.phili.dienst.dienst.report.BerichtList;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,10 +50,6 @@ public class MainActivity extends AppCompatActivity {
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     public static AlertDialog.Builder builder;
-
-    Set<String> lastlist = null;
-
-    BerichtList bl;
 
     Calendar calendarShow;
 
@@ -208,13 +204,6 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
                 findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
 
-                /*if (slideOffset == 0) {
-                    findViewById(R.id.swipe_up_share).setVisibility(View.GONE);
-                    findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
-                } else {
-                    findViewById(R.id.swipe_up_share).setVisibility(View.VISIBLE);
-                    findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
-                }*/
             }
 
 
@@ -222,8 +211,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        //ViewCompat.setNestedScrollingEnabled(reportsList, true);
 
         updateList();
     }
@@ -373,9 +360,11 @@ public class MainActivity extends AppCompatActivity {
                     report.setType(Report.Type.NORMAL);
                     tv.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(this)[0]));
                 }
-            }/*else if(goal - hours < 0){
-                    tv.setText(getString(R.string.goal_text_reached_more).replace("%a", ""+Math.abs(goal - hours)));
-                }*/
+            }else if((goal * 60) - summarizedReport.getMinutes() < 0){ //TODO
+                    tv.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
+                            Duration.ofMinutes( summarizedReport.getMinutes() )
+                    ).toString()));
+                }
         } else {
             goalView.setVisibility(View.GONE);
         }
