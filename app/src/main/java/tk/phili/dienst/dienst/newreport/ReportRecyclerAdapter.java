@@ -50,8 +50,11 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Report report = reports.get(position);
 
+        String[] formattedTime = report.getFormattedHoursAndMinutes(context);
+
         holder.date.setText(report.getFormattedDate(context));
-        holder.time.setText(report.getFormattedHoursAndMinutes());
+        holder.time.setText(formattedTime[0]);
+        holder.timeInfo.setText(formattedTime[1]);
         holder.bibleStudies.setText(Integer.toString(report.getBibleStudies()));
         holder.annotation.setText(report.getAnnotation());
         holder.returnVisits.setText(Integer.toString(report.getReturnVisits()));
@@ -100,6 +103,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
         public CardView cardView;
         public TextView date;
         public TextView time;
+        public TextView timeInfo;
         public TextView placements;
         public TextView returnVisits;
         public TextView videos;
@@ -112,6 +116,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
             cardView = itemView.findViewById(R.id.card_view);
             date = itemView.findViewById(R.id.bericht_date);
             time = itemView.findViewById(R.id.bericht_stunden_count);
+            timeInfo = itemView.findViewById(R.id.bericht_stunden_info);
             placements = itemView.findViewById(R.id.bericht_brosch_count);
             returnVisits = itemView.findViewById(R.id.bericht_rueck_count);
             videos = itemView.findViewById(R.id.bericht_videos_count);

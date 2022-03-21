@@ -36,14 +36,14 @@
     <string name="yes">"Si"</string>
     <string name="video_exception">"Si è verificato un errore durante il download di un video."</string>
 
-    <string name="reportfor">"Segnala"</string>
-    <string name="reportmonth">"Mese"</string>
-    <string name="reporthours">"Ore"</string>
-    <string name="reportplace">"Pubblicazioni"</string>
-    <string name="reportvisits">"Visite Ulteriori "</string>
-    <string name="reportvideo">"Video "</string>
-    <string name="reportstudy">"Studi Biblici"</string>
-    <string name="reportminutes">"Minuti"</string>
+    <string name="reportfor">"Segnala:&#160;"</string>
+    <string name="reportmonth">"Mese:&#160;"</string>
+    <string name="reporthours">"Ore:&#160;"</string>
+    <string name="reportplace">"Pubblicazioni:&#160;"</string>
+    <string name="reportvisits">"Visite Ulteriori:&#160;"</string>
+    <string name="reportvideo">"Video:&#160;"</string>
+    <string name="reportstudy">"Studi Biblici:&#160;"</string>
+    <string name="reportminutes">"Minuti:&#160;"</string>
     <string name="reportsentvia">"Invia tramite Ministyapp"</string>
     <string name="title_videos_success">"Download 1 Video"</string>
     <string name="download_sure">"Sicuro? "</string>

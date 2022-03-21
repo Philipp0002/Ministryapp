@@ -100,10 +100,24 @@ public class Report {
         this.minutes = minutes;
     }
 
-    public String getFormattedHoursAndMinutes(){
-        return LocalTime.MIN.plus(
-                Duration.ofMinutes( getMinutes() )
-        ).toString();
+    public String[] getFormattedHoursAndMinutes(Context context){
+        String minutesString = "";
+        String timeFormatString = context.getString(R.string.title_activity_stunden);
+
+        if(minutes % 60 == 0){
+            minutesString = ((minutes / 60)+ "");
+        }else{
+            if(minutes < 60){
+                minutesString = minutes + "";
+                timeFormatString = context.getString(R.string.minutes);
+            }else{
+                minutesString = LocalTime.MIN.plus(
+                        Duration.ofMinutes( getMinutes() )
+                ).toString();
+            }
+        }
+
+        return new String[]{ minutesString, timeFormatString};
     }
 
     public int getPlacements() {
