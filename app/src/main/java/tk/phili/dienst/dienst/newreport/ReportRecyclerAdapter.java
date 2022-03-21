@@ -71,11 +71,28 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
         if(color != null) {
             holder.cardView.setCardBackgroundColor(getColor(report));
         }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClicked(report, v);
+            }
+        });
     }
+
+    /*
+    Can be overridden
+     */
+    public void onClicked(Report report, View view){ }
 
     @Override
     public int getItemCount() {
         return reports.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return reports.get(position).getId();
     }
 
     public Integer getColor(Report report) {

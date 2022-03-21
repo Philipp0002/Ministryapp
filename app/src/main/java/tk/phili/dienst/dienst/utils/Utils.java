@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Optional;
 
 public class Utils {
 
@@ -62,7 +63,13 @@ public class Utils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().getDisplayMetrics());
     }
 
-
+    public static Optional<Integer> parseInt(String toParse) {
+        try {
+            return Optional.of(Integer.parseInt(toParse));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+    }
 
 }
 

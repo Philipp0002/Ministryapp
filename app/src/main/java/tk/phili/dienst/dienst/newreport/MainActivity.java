@@ -10,12 +10,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
-import android.widget.AbsListView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,39 +22,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Pattern;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
-import tk.phili.dienst.dienst.report.BerichtAddFrame;
 import tk.phili.dienst.dienst.report.BerichtList;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
-import tk.phili.dienst.dienst.utils.SwipeDismissListViewTouchListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -99,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         goalView = findViewById(R.id.goalview);
         initList();
 
-        if(sp.getBoolean("private_mode", false)){
+        if (sp.getBoolean("private_mode", false)) {
             findViewById(R.id.private_block).setVisibility(View.VISIBLE);
             findViewById(R.id.private_disable).setOnClickListener(view -> findViewById(R.id.private_block).setVisibility(View.GONE));
         }
@@ -130,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
         /////////////////DRAWER/////////////////////////////////////////
         // Initializing Toolbar and setting it as the actionbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -141,16 +123,15 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
 
-        ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setParallaxOffset(100);
-
+        ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setParallaxOffset(100);
 
 
         findViewById(R.id.addBerichtButton).setOnClickListener(v -> {
-            Intent mainIntent = new Intent(MainActivity.this, tk.phili.dienst.dienst.report.BerichtAddFrame.class);
-            float x = v.getX()+v.getWidth()/2;
-            float y = v.getY()+v.getHeight()/2;
-            mainIntent.putExtra("xReveal",x);
-            mainIntent.putExtra("yReveal",y);
+            Intent mainIntent = new Intent(MainActivity.this, ReportAddFrame.class);
+            float x = v.getX() + v.getWidth() / 2;
+            float y = v.getY() + v.getHeight() / 2;
+            mainIntent.putExtra("xReveal", x);
+            mainIntent.putExtra("yReveal", y);
 
             mainIntent.putExtra("id", Integer.MAX_VALUE);
 
@@ -160,15 +141,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Animation anim = android.view.animation.AnimationUtils.loadAnimation(findViewById(R.id.addBerichtButton).getContext(),  R.anim.slide_in_bottom);
+        Animation anim = android.view.animation.AnimationUtils.loadAnimation(findViewById(R.id.addBerichtButton).getContext(), R.anim.slide_in_bottom);
         anim.setDuration(1000L);
         findViewById(R.id.upswipy).startAnimation(anim);
 
         Drawer.addDrawer(this, toolbar, 1);
 
         findViewById(R.id.swipe_up_share).setOnClickListener(v -> {
-            if(findViewById(R.id.swipe_up_share).getAlpha() != 0F){
-                ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            if (findViewById(R.id.swipe_up_share).getAlpha() != 0F) {
+                ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
@@ -178,56 +159,62 @@ public class MainActivity extends AppCompatActivity {
 
                 View input_view = LayoutInflater.from(MainActivity.this)
                         .inflate(R.layout.bericht_send_input, null, false);
-                final EditText input = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
+                final EditText input = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
                 alert.setView(input_view);
                 input.setText(sp.getString("lastSendName", ""));
 
                 alert.setPositiveButton(getString(R.string.title_activity_senden), (dialog, whichButton) -> {
                     String value = input.getText().toString();
-                    if(!value.isEmpty()) {
+                    if (!value.isEmpty()) {
                         sendReport(value);
                     }
 
                 });
 
-                alert.setNegativeButton(getString(R.string.gebiet_add_cancel), (dialog, whichButton) -> {     });
+                alert.setNegativeButton(getString(R.string.gebiet_add_cancel), (dialog, whichButton) -> {
+                });
 
                 alert.show();
             }
         });
 
         findViewById(R.id.swipe_up_carryover).setOnClickListener(v -> {
-            if(findViewById(R.id.swipe_up_carryover).getAlpha() != 0F){
-                ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            if (findViewById(R.id.swipe_up_carryover).getAlpha() != 0F) {
+                ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
                 alert.setTitle(getString(R.string.carryover));
                 alert.setMessage(getString(R.string.carryover_msg));
 
-                alert.setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> carry());
+                alert.setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> {
+                    if (carry()) {
+                        updateList();
+                    }
+                });
 
-                alert.setNegativeButton(getString(R.string.delete_cancel), (dialog, whichButton) -> {     });
+                alert.setNegativeButton(getString(R.string.delete_cancel), (dialog, whichButton) -> {
+                });
 
                 alert.show();
             }
         });
 
-        ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+        ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
-                findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset*180);
+                findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset * 180);
                 findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
                 findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
                 findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
 
-                if(slideOffset == 0){
+                /*if (slideOffset == 0) {
                     findViewById(R.id.swipe_up_share).setVisibility(View.GONE);
                     findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
-                }else{
+                } else {
                     findViewById(R.id.swipe_up_share).setVisibility(View.VISIBLE);
                     findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
-                }
+                }*/
             }
 
 
@@ -247,107 +234,57 @@ public class MainActivity extends AppCompatActivity {
         updateList();
     }
 
-    public void carry(){
-        int m = calendarShow.get(Calendar.MONTH)+1;
-        int y = calendarShow.get(Calendar.YEAR);
-        int id = 0;
+    public boolean carry() {
+        Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
-        Set<String> berichteID = sp.getStringSet("BERICHTE", null);
-        if(berichteID == null){
-            Toast.makeText(this, getString(R.string.carryover_null), Toast.LENGTH_LONG).show();
-            return;
+        int minutes = (int) summarizedReport.getMinutes() % 60;
+        if (minutes != 0) {
+            long nextId = reportManager.getNextId();
+
+            LocalDate date1 = LocalDate.of(calendarShow.get(Calendar.YEAR), calendarShow.get(Calendar.MONTH) + 1, 1);
+            Report report1 = new Report();
+            report1.setId(nextId);
+            report1.setMinutes(-minutes);
+            report1.setDate(date1);
+            report1.setType(Report.Type.CARRY_SUB);
+
+            LocalDate date2 = LocalDate.of(calendarShow.get(Calendar.YEAR), calendarShow.get(Calendar.MONTH) + 1, 1);
+            date2 = date2.plusMonths(1);
+            Report report2 = new Report();
+            report2.setId(nextId);
+            report2.setMinutes(minutes);
+            report2.setDate(date2);
+            report2.setType(Report.Type.CARRY_ADD);
+
+            reportManager.createReport(report1);
+            reportManager.createReport(report2);
+            return true;
+        } else {
+            return false;
         }
-        for (String s : berichteID) {
-            String inti = s.split(";")[0];
-            Integer inte = Integer.parseInt(inti);
-            if (id <= inte) {
-                id = inte + 1;
-            }
-        }
-        Set<String> berichte1 = sp.getStringSet("BERICHTE", null);
-        ArrayList<String> berichtem = sortByDate(berichte1);
-        int hours = 0;
-        int minutes = 0;
-        int abgaben = 0;
-        int rück = 0;
-        int videos = 0;
-        int studien = 0;
-        for (String s : berichtem) {
-            String[] s1 = s.split(";");
-            String date = s1[1];
-            String stunden = s1[2];
-            String minuten = s1[3];
-            String abgabenn = s1[4];
-            String rückbe = s1[5];
-            String vid = s1[6];
-            String studs = s1[7];
-
-            //YEAR MONTH CHECK
-            String year = date.split(Pattern.quote("."))[2];
-            String month = date.split(Pattern.quote("."))[1];
-            int i = Integer.parseInt(month);
-            i--;
-            if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
-                hours = hours + Integer.parseInt(stunden);
-                minutes = minutes + Integer.parseInt(minuten);
-                abgaben = abgaben + Integer.parseInt(abgabenn);
-                rück = rück + Integer.parseInt(rückbe);
-                videos = videos + Integer.parseInt(vid);
-                studien = studien + Integer.parseInt(studs);
-            }
-        }
-
-        if(minutes >= 60){
-            int times = minutes / 60;
-            hours = hours + times;
-            int minutesub = times*60;
-            minutes = minutes - minutesub;
-        }
-
-        Set<String> berichte = new HashSet<>();
-        if(sp.contains("BERICHTE")) {
-            Set<String> berichteold = sp.getStringSet("BERICHTE", null);
-            if(berichteold != null && !(berichteold.isEmpty())){
-                berichte.addAll(berichteold);
-            }
-        }
-
-        String toset = id+";32."+m+"."+y+";"+0+";"+(-minutes)+";"+0+";"+0+";"+0+";"+0;
-        berichte.add(toset);
-
-        m++;
-        if(m == 13){
-            m = 1;
-            y++;
-        }
-
-        String toset2 = id+";0."+m+"."+y+";"+0+";"+(minutes)+";"+0+";"+0+";"+0+";"+0;
-        berichte.add(toset2);
-        editor.putStringSet("BERICHTE", berichte);
-        editor.commit();
-
-        updateList();
     }
 
-
-    public ArrayList<String> sortByDate(Set<String> list){
-        ArrayList<String> listsorted = new ArrayList<String>();
-        int day = 0;
-        while (day <= 32) {
-            for (String s : list) {
-                String day_s = s.split(";")[1].split(Pattern.quote("."))[0];
-                Integer int_day_s = Integer.parseInt(day_s);
-                if (int_day_s == day) {
-                    listsorted.add(s);
+    public void initList() {
+        reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList()){
+            @Override
+            public void onClicked(Report report, View view) {
+                if(report.getType() != Report.Type.NORMAL){
+                    return;
                 }
-            }
-            day++;
-        }
-        return listsorted;
-    }
+                Intent mainIntent = new Intent(MainActivity.this, ReportAddFrame.class);
+                float x = view.getX() + view.getWidth() / 2;
+                float y = view.getY() + view.getHeight() / 2;
+                mainIntent.putExtra("xReveal", x);
+                mainIntent.putExtra("yReveal", y);
 
-    public void initList(){
-        reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList());
+                mainIntent.putExtra("id", report.getId());
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(MainActivity.this, view, "bericht_add_frame");
+                startActivity(mainIntent, options.toBundle());
+            }
+        };
+        reportRecyclerAdapter.setHasStableIds(true);
         reportsRecycler.setAdapter(reportRecyclerAdapter);
         reportsRecycler.setLayoutManager(new LinearLayoutManager(this));
 
@@ -360,72 +297,88 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getAdapterPosition();
-                deleteReport(reportRecyclerAdapter.reports.get(pos));
+                if (deleteReport(reportRecyclerAdapter.reports.get(pos))) {
+                    updateList();
+                }
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(reportsRecycler);
     }
 
-    public void updateList(){
-        if(reportRecyclerAdapter == null){
+    public void updateList() {
+        if (reportRecyclerAdapter == null) {
             initList();
         }
-        List<Report> reports = reportManager.getReports(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR));
+        List<Report> reports = reportManager.getReports(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
         reportRecyclerAdapter.reports = reports;
         reportRecyclerAdapter.notifyDataSetChanged();
 
 
-        updateInsgesamt();
+        updateSummary();
     }
 
-    public void deleteReport(Report report){
-        reportManager.deleteReport(report);
+    public boolean deleteReport(Report report) {
+        boolean deleted = reportManager.deleteReport(report);
+        if(deleted) {
+            Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.bericht_undo_2, v -> {
+                reportManager.createReport(report);
+                updateList();
+            }).show();
+        }
+        return deleted;
     }
 
     public static class ReverseInterpolator implements Interpolator {
         @Override
         public float getInterpolation(float paramFloat) {
-            return Math.abs(paramFloat -1f);
+            return Math.abs(paramFloat - 1f);
         }
     }
 
-    public void updateInsgesamt(){
-        Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR));
+    public void updateSummary() {
+        Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
         summarizedRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList(summarizedReport));
         summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
         summarizedRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-            if(sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))){
-                goalView.setVisibility(View.VISIBLE);
-                int goal = Integer.parseInt(sp.getString("goal", "0"));
-                float percent = (float)summarizedReport.getMinutes() / ((float)goal*(float)60)*100;
-                rpb.setProgress(percent);
-                Log.d("PERCENNNT", percent+"");
-                TextView tv = findViewById(R.id.goaltext);
-                if((int)percent == 100){
-                    tv.setText(getString(R.string.goal_text_reached));
-                }
-                if((goal*60) - summarizedReport.getMinutes() > 0){
-                    if(summarizedReport.getMinutes() % 60 == 0) {
-                        if ((goal) - (summarizedReport.getMinutes()/60) == 1) {
-                            tv.setText(getString(R.string.goal_text_1).replace("%a", "" + (goal - (summarizedReport.getMinutes()/60))));
-                        } else {
-                            tv.setText(getString(R.string.goal_text_mult).replace("%a", "" + (goal - (summarizedReport.getMinutes()/60))));
-                        }
-                    }else{
-                        Report report = new Report();
-                        report.setMinutes((goal*60)-summarizedReport.getMinutes());
-                        report.setType(Report.Type.NORMAL);
-                        tv.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(this)[0]));
+        if(summarizedReport.getMinutes() % 60 == 0){
+            findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
+        }else{
+            findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
+        }
+
+        if (sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))) {
+            goalView.setVisibility(View.VISIBLE);
+            int goal = Integer.parseInt(sp.getString("goal", "0"));
+            float percent = (float) summarizedReport.getMinutes() / ((float) goal * (float) 60) * 100;
+            rpb.setProgress(percent);
+            Log.d("PERCENNNT", percent + "");
+            TextView tv = findViewById(R.id.goaltext);
+            if ((int) percent == 100) {
+                tv.setText(getString(R.string.goal_text_reached));
+            }
+            if ((goal * 60) - summarizedReport.getMinutes() > 0) {
+                if (summarizedReport.getMinutes() % 60 == 0) {
+                    if ((goal) - (summarizedReport.getMinutes() / 60) == 1) {
+                        tv.setText(getString(R.string.goal_text_1).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
+                    } else {
+                        tv.setText(getString(R.string.goal_text_mult).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
                     }
-                }/*else if(goal - hours < 0){
+                } else {
+                    Report report = new Report();
+                    report.setMinutes((goal * 60) - summarizedReport.getMinutes());
+                    report.setType(Report.Type.NORMAL);
+                    tv.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(this)[0]));
+                }
+            }/*else if(goal - hours < 0){
                     tv.setText(getString(R.string.goal_text_reached_more).replace("%a", ""+Math.abs(goal - hours)));
                 }*/
-            }else{
-                goalView.setVisibility(View.GONE);
-            }
+        } else {
+            goalView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -438,35 +391,35 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_goal) {
+        if (item.getItemId() == R.id.action_goal) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
             View input_view = LayoutInflater.from(MainActivity.this)
                     .inflate(R.layout.goal_set_input, null, false);
-            final EditText edt = ((TextInputLayout)input_view.findViewById(R.id.name_text_field)).getEditText();
+            final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
             dialogBuilder.setView(input_view);
 
-            if(sp.contains("goal") && !sp.getString("goal", "0").equals("0")){
+            if (sp.contains("goal") && !sp.getString("goal", "0").equals("0")) {
                 edt.setText(sp.getString("goal", "0"));
             }
 
             dialogBuilder.setTitle(getString(R.string.goal_set));
             dialogBuilder.setMessage(getString(R.string.goal_msg));
             dialogBuilder.setPositiveButton(getString(R.string.OK), (dialog, whichButton) -> {
-                try{
+                try {
                     Integer.parseInt(edt.getText().toString());
-                }catch(Exception e){
+                } catch (Exception e) {
                     Toast.makeText(MainActivity.this, getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
                     return;
                 }
                 editor.putString("goal", edt.getText().toString());
                 editor.commit();
-                updateInsgesamt();
+                updateSummary();
             });
             dialogBuilder.setNegativeButton(getString(R.string.goal_no), (dialog, whichButton) -> {
                 editor.putString("goal", "0");
                 editor.commit();
-                updateInsgesamt();
+                updateSummary();
             });
             AlertDialog b = dialogBuilder.create();
             b.show();
@@ -476,12 +429,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void sendReport(String name){
+    public void sendReport(String name) {
         editor.putString("lastSendName", name);
         editor.commit();
-        if(!name.matches("")) {
-            Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR));
-            String text = getResources().getString(R.string.reportfor) + name + "\n"+ getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
+        if (!name.matches("")) {
+            Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
+            String text = getResources().getString(R.string.reportfor) + name + "\n" + getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
 
             String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(this);
             text = text + formattedTime[1] + ": " + formattedTime[0] + "\n";
@@ -499,12 +452,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int getMonth(){
+    public int getMonth() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.MONTH);
     }
 
-    public int getYear(){
+    public int getYear() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.YEAR);
     }

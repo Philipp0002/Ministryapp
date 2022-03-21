@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.settings;
 
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -41,13 +43,12 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import tk.phili.dienst.dienst.report.MainActivity;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.widget.TagestextWidget;
 import tk.phili.dienst.dienst.drawer.Drawer;
 
 
-public class Settings extends MainActivity {
+public class Settings extends AppCompatActivity {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;

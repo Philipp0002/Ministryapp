@@ -38,21 +38,54 @@ public class ReportManager {
      */
     public boolean deleteReport(Report report){
         List<Report> reports = getReports();
-        boolean removed = reports.remove(report);
+        boolean removed = reports.removeIf(report::equals);
 
         if(removed){
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                    .create();
-            Type listType = new TypeToken<List<Report>>() {}.getType();
-            String json = gson.toJson(reports, listType);
-
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("reports", json);
-            editor.apply();
+            saveReports(reports);
         }
 
         return removed;
+    }
+
+    /**
+     * Adds a report to the database.
+     * Report needs a pre-set ID.
+     * @param report Report to add
+     */
+    public void createReport(Report report){
+        List<Report> reports = getReports();
+        reports.add(report);
+        saveReports(reports);
+    }
+
+    /**
+     * Provides the next id to set when
+     * creating a report object
+     * @return next id
+     */
+    public long getNextId(){
+        List<Report> reports = getReports();
+        long highest = 0;
+        for(Report r : reports){
+            if(highest < r.getId()){
+                highest = r.getId();
+            }
+        }
+        return highest+1;
+    }
+
+    /**
+     * Get a report by its id
+     * @param id id to be looked up
+     * @return report or null if doesnt exist
+     */
+    public Report getReportById(long id){
+        for(Report report : getReports()){
+            if(report.getId() == id){
+                return report;
+            }
+        }
+        return null;
     }
 
     /**
@@ -151,6 +184,18 @@ public class ReportManager {
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
+    }
+
+    private void saveReports(List<Report> reports){
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        Type listType = new TypeToken<List<Report>>() {}.getType();
+        String json = gson.toJson(reports, listType);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("reports", json);
+        editor.apply();
     }
 
     public int getReportLayoutSetting(){
