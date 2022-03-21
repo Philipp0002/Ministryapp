@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
         sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        ReportFormatConverter.convertToNewFormat(sp);
+        if(!sp.contains("reports")) {
+            ReportFormatConverter.convertToNewFormat(sp);
+        }
         reportManager = new ReportManager(this);
 
 
@@ -252,10 +254,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initList() {
-        reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList()){
+        reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList()) {
             @Override
             public void onClicked(Report report, View view) {
-                if(report.getType() != Report.Type.NORMAL){
+                if (report.getType() != Report.Type.NORMAL) {
                     return;
                 }
                 Intent mainIntent = new Intent(MainActivity.this, ReportAddFrame.class);
@@ -307,12 +309,12 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean deleteReport(Report report) {
         boolean deleted = reportManager.deleteReport(report);
-        if(deleted) {
+        if (deleted) {
             Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG)
                     .setAction(R.string.bericht_undo_2, v -> {
-                reportManager.createReport(report);
-                updateList();
-            }).show();
+                        reportManager.createReport(report);
+                        updateList();
+                    }).show();
         }
         return deleted;
     }
@@ -331,9 +333,9 @@ public class MainActivity extends AppCompatActivity {
         summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
         summarizedRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        if(summarizedReport.getMinutes() % 60 == 0){
+        if (summarizedReport.getMinutes() % 60 == 0) {
             findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
-        }else{
+        } else {
             findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
         }
 
@@ -360,11 +362,11 @@ public class MainActivity extends AppCompatActivity {
                     report.setType(Report.Type.NORMAL);
                     tv.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(this)[0]));
                 }
-            }else if((goal * 60) - summarizedReport.getMinutes() < 0){ //TODO
-                    tv.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
-                            Duration.ofMinutes( summarizedReport.getMinutes() )
-                    ).toString()));
-                }
+            } else if ((goal * 60) - summarizedReport.getMinutes() < 0) {
+                tv.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
+                        Duration.ofMinutes(summarizedReport.getMinutes())
+                ).toString()));
+            }
         } else {
             goalView.setVisibility(View.GONE);
         }
