@@ -454,104 +454,16 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("lastSendName", name);
         editor.commit();
         if(!name.matches("")) {
-            String hourstring = "0";
-            String abgabenstring = "0";
-            String rückstring = "0";
-            String videosstring = "0";
-            String studystring = "0";
-
-            if(sp.contains("BERICHTE")) {
-                Set<String> berichte1 = sp.getStringSet("BERICHTE", null);
-                int hours = 0;
-                int minutes = 0;
-                int abgaben = 0;
-                int rück = 0;
-                int videos = 0;
-                int studien = 0;
-                for (String s : berichte1) {
-                    String[] s1 = s.split(";");
-                    String date = s1[1];
-                    String stunden = s1[2];
-                    String minuten = s1[3];
-                    String abgabenn = s1[4];
-                    String rückbe = s1[5];
-                    String vid = s1[6];
-                    String studs = s1[7];
-
-                    //YEAR MONTH CHECK
-                    String year = date.split(Pattern.quote("."))[2];
-                    String month = date.split(Pattern.quote("."))[1];
-                    int i = Integer.parseInt(month);
-                    i--;
-                    if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
-                        try {
-                            hours = hours + Integer.parseInt(stunden);
-                        }catch(Exception e){ e.printStackTrace(); }
-                        try {
-                            minutes = minutes + Integer.parseInt(minuten);
-                        }catch(Exception e){ e.printStackTrace(); }
-                        try {
-                            abgaben = abgaben + Integer.parseInt(abgabenn);
-                        }catch(Exception e){ e.printStackTrace(); }
-                        try {
-                            rück = rück + Integer.parseInt(rückbe);
-                        }catch(Exception e){ e.printStackTrace(); }
-                        try {
-                            videos = videos + Integer.parseInt(vid);
-                        }catch(Exception e){ e.printStackTrace(); }
-                        try {
-                            studien = studien + Integer.parseInt(studs);
-                        }catch(Exception e){ e.printStackTrace(); }
-                    }
-                }
-
-                if(minutes >= 60){
-                    int times = minutes / 60;
-                    hours = hours + times;
-                    int minutesub = times*60;
-                    minutes = minutes - minutesub;
-                }
-
-                String minutestring;
-                if(minutes < 10){
-                    minutestring = "0"+minutes;
-                }else{
-                    minutestring = ""+minutes;
-                }
-
-
-
-                if(hours != 0 && minutes != 0){
-                    hourstring = hours + ":" + minutestring;
-                }else if(hours != 0 && minutes == 0){
-                    hourstring =  hours+"";
-                }else if(hours == 0 && minutes != 0){
-                    hourstring =  minutestring + "min";
-                }else{
-                    hourstring =  hours+"";
-                }
-
-
-                abgabenstring = abgaben+"";
-                rückstring = rück+"";
-                videosstring = videos+"";
-                studystring =  studien+"";
-
-
-            }
-
-
-
+            Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR));
             String text = getResources().getString(R.string.reportfor) + name + "\n"+ getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
-            if(!hourstring.endsWith("min")) {
-                text = text + getResources().getString(R.string.reporthours) + hourstring + "\n";
-            }else{
-                text = text + getResources().getString(R.string.reportminutes) + hourstring.replace("min", "") + "\n";
-            }
-            text = text + getResources().getString(R.string.reportplace) + abgabenstring + "\n";
-            text = text + getResources().getString(R.string.reportvisits) + rückstring + "\n";
-            text = text + getResources().getString(R.string.reportvideo) + videosstring + "\n";
-            text = text + getResources().getString(R.string.reportstudy) + studystring + "\n";
+
+            String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(this);
+            text = text + formattedTime[1] + ": " + formattedTime[0] + "\n";
+
+            text = text + getResources().getString(R.string.reportplace) + summarizedReport.getPlacements() + "\n";
+            text = text + getResources().getString(R.string.reportvisits) + summarizedReport.getReturnVisits() + "\n";
+            text = text + getResources().getString(R.string.reportvideo) + summarizedReport.getVideos() + "\n";
+            text = text + getResources().getString(R.string.reportstudy) + summarizedReport.getBibleStudies() + "\n";
             text = text + "==============\n" + getResources().getString(R.string.reportsentvia);
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
