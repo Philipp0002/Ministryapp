@@ -39,6 +39,7 @@ import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -69,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
     RoundCornerProgressBar rpb;
     RecyclerView reportsRecycler;
+    RecyclerView summarizedRecycler;
     ReportRecyclerAdapter reportRecyclerAdapter;
+    ReportRecyclerAdapter summarizedRecyclerAdapter;
     ConstraintLayout goalView;
 
     ReportManager reportManager;
@@ -89,24 +92,22 @@ public class MainActivity extends AppCompatActivity {
         rpb = findViewById(R.id.progress_goal);
 
         reportsRecycler = findViewById(R.id.bericht_liste);
+        summarizedRecycler = findViewById(R.id.swipe_up_bericht);
         goalView = findViewById(R.id.goalview);
 
-        int layout = sp.getInt("report_layout", 0);
+        /*int layout = sp.getInt("report_layout", 0);
         ViewStub stub = findViewById(R.id.layout_stub);
         if(layout == 0) {
             stub.setLayoutResource(R.layout.list_bericht);
         }else if(layout == 1) {
             stub.setLayoutResource(R.layout.list_bericht_tiny);
         }
-        stub.inflate();
+        stub.inflate();*/
 
         if(sp.getBoolean("private_mode", false)){
             findViewById(R.id.private_block).setVisibility(View.VISIBLE);
             findViewById(R.id.private_disable).setOnClickListener(view -> findViewById(R.id.private_block).setVisibility(View.GONE));
         }
-
-
-
 
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
@@ -369,56 +370,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateInsgesamt(){
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR));
-        /*if(sp.contains("BERICHTE")) {
-            Set<String> berichte1 = sp.getStringSet("BERICHTE", null);
-            ArrayList<String> berichte = sortByDate(berichte1);
-            int hours = 0;
-            int minutes = 0;
-            int abgaben = 0;
-            int rück = 0;
-            int videos = 0;
-            int studien = 0;
-            for (String s : berichte) {
-                String[] s1 = s.split(";");
-                String date = s1[1];
-                String stunden = s1[2];
-                String minuten = s1[3];
-                String abgabenn = s1[4];
-                String rückbe = s1[5];
-                String vid = s1[6];
-                String studs = s1[7];
 
-                //YEAR MONTH CHECK
-                String year = date.split(Pattern.quote("."))[2];
-                String month = date.split(Pattern.quote("."))[1];
-                int i = Integer.parseInt(month);
-                i--;
-                if (year.equals(calendarShow.get(Calendar.YEAR) + "") && i == calendarShow.get(Calendar.MONTH)) {
-                    try { hours = hours + Integer.parseInt(stunden);
-                    }catch(Exception e){e.printStackTrace();}
-                    try { minutes = minutes + Integer.parseInt(minuten);
-                    }catch(Exception e){e.printStackTrace();}
-                    abgaben = abgaben + Integer.parseInt(abgabenn);
-                    rück = rück + Integer.parseInt(rückbe);
-                    videos = videos + Integer.parseInt(vid);
-                    studien = studien + Integer.parseInt(studs);
-                }
-            }
-
-
-            if(minutes >= 60){
-                int times = minutes / 60;
-                hours = hours + times;
-                int minutesub = times*60;
-                minutes = minutes - minutesub;
-            }
-
-            String minutestring;
-            if(minutes < 10){
-                minutestring = "0"+minutes;
-            }else{
-                minutestring = ""+minutes;
-            }*/
+        summarizedRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList(summarizedReport));
+        summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
+        summarizedRecycler.setLayoutManager(new LinearLayoutManager(this));
 
             if(sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))){
                 goalView.setVisibility(View.VISIBLE);
@@ -446,49 +401,7 @@ public class MainActivity extends AppCompatActivity {
                 goalView.setVisibility(View.GONE);
             }
 
-
-            /*if(minutes > 0){
-                if(hours > 0) {
-                    ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(hours + ":" + minutestring);
-                    ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.title_activity_stunden));
-                }else{
-                    ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(minutestring);
-                    ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.minutes));
-                }
-            }else{
-                ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_count)).setText(Integer.toString(hours));
-                ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_stunden_info)).setText(getString(R.string.title_activity_stunden));
-            }
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_brosch_count)).setText(Integer.toString(abgaben));
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_rueck_count)).setText(Integer.toString(rück));
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_videos_count)).setText(Integer.toString(videos));
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_studies_count)).setText(Integer.toString(studien));
-            ((TextView)findViewById(R.id.swipe_up_bericht).findViewById(R.id.bericht_date)).setText(getString(R.string.insgesamt));
-
-            ((SlidingUpPanelLayout)findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-                @Override
-                public void onPanelSlide(View panel, float slideOffset) {
-                    findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
-                    findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset*180);
-                    findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
-                    findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
-                    findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
-
-                }
-
-                @Override
-                public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-
-                }
-            });
-        }*/
-
-
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -496,8 +409,6 @@ public class MainActivity extends AppCompatActivity {
         MenuTintUtils.tintAllIcons(menu, Color.WHITE);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

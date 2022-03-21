@@ -62,6 +62,7 @@ public class ReportManager {
         List<Report> allReportsMonth = getReports(month, year);
 
         Report summarizedReport = new Report();
+        summarizedReport.setType(Report.Type.SUMMARY);
         for(Report report : allReportsMonth){
             if(report.getDate().getMonth() == Month.of(month) && report.getDate().getYear() == year){
 

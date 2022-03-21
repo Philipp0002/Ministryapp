@@ -87,6 +87,8 @@ public class Report {
         if(getType() == Type.NORMAL) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
             return getDate().format(dateTimeFormatter);
+        }else if(getType() == Type.SUMMARY) {
+            return context.getString(R.string.insgesamt);
         }else{
             return context.getString(R.string.carryover);
         }
@@ -168,7 +170,7 @@ public class Report {
         this.type = type;
     }
 
-    enum Type {
-        NORMAL, CARRY_SUB, CARRY_ADD;
+    public enum Type {
+        NORMAL, CARRY_SUB, CARRY_ADD, SUMMARY;
     }
 }

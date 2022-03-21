@@ -51,6 +51,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
         Report report = reports.get(position);
 
         String[] formattedTime = report.getFormattedHoursAndMinutes(context);
+        Integer color = getColor(report);
 
         holder.date.setText(report.getFormattedDate(context));
         holder.time.setText(formattedTime[0]);
@@ -66,7 +67,10 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
         }else{
             holder.annotation.setVisibility(View.VISIBLE);
         }
-        holder.cardView.setCardBackgroundColor(getColor(report));
+
+        if(color != null) {
+            holder.cardView.setCardBackgroundColor(getColor(report));
+        }
     }
 
     @Override
@@ -74,7 +78,10 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
         return reports.size();
     }
 
-    public int getColor(Report report) {
+    public Integer getColor(Report report) {
+        if(report.getType() == Report.Type.SUMMARY){
+            return null;
+        }
         if(report.getType() != Report.Type.NORMAL){
             return Color.BLACK;
         }
