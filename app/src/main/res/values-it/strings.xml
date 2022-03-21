@@ -157,4 +157,5 @@ perso. : /"</string>
     <string name="calendar_activate_not_found">Impossibile trovare il calendario!</string>
     <string name="bericht_type_name_hint">Il tuo nome</string>
     <string name="goal">Obiettivo</string>
+    <string name="goal_text_minutes">%a per raggiungere l\'obiettivo</string>
 </resources>

@@ -180,4 +180,5 @@
     <string name="calendar_activate_not_found">Kalender kann nicht gefunden werden!</string>
     <string name="bericht_type_name_hint">Dein Name</string>
     <string name="goal">Ziel</string>
+    <string name="goal_text_minutes">%a um Ziel zu erreichen</string>
 </resources>

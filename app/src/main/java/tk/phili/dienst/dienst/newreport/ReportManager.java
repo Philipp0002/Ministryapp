@@ -32,7 +32,31 @@ public class ReportManager {
     }
 
     /**
-     * Retrieve all report objects in unsorted order
+     * Deletes a report from database
+     * @param report Report to delete
+     * @return true if item existed
+     */
+    public boolean deleteReport(Report report){
+        List<Report> reports = getReports();
+        boolean removed = reports.remove(report);
+
+        if(removed){
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                    .create();
+            Type listType = new TypeToken<List<Report>>() {}.getType();
+            String json = gson.toJson(reports, listType);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("reports", json);
+            editor.apply();
+        }
+
+        return removed;
+    }
+
+    /**
+     * Retrieve all report objects
      * @return all report objects
      */
     public List<Report> getReports(){
@@ -44,6 +68,11 @@ public class ReportManager {
         return reports;
     }
 
+    /**
+     * Retrieve all report objects for
+     * a certain month and year
+     * @return all report objects
+     */
     public List<Report> getReports(int month, int year){
         ArrayList<Report> reports = new ArrayList<>();
         List<Report> allReports = getReports();
@@ -58,6 +87,12 @@ public class ReportManager {
         return reports;
     }
 
+    /**
+     * Retrieve a summary of all reports
+     * for a given month and year
+     * @return Report object that contains
+     * all summarized data
+     */
     public Report getSummary(int month, int year){
         List<Report> allReportsMonth = getReports(month, year);
 
@@ -79,6 +114,20 @@ public class ReportManager {
 
     private Comparator<Report> getReportComparator(){
         return (o1, o2) -> {
+            if(o1.getType() == Report.Type.CARRY_ADD){
+                return -1;
+            }
+            if(o1.getType() == Report.Type.CARRY_SUB){
+                return 1;
+            }
+
+            if(o2.getType() == Report.Type.CARRY_ADD){
+                return 1;
+            }
+            if(o2.getType() == Report.Type.CARRY_SUB){
+                return -1;
+            }
+
             int yearComp = Integer.compare(o1.getDate().getYear(), o2.getDate().getYear());
             if(yearComp != 0){
                 return yearComp;
@@ -87,13 +136,6 @@ public class ReportManager {
             int monthComp = Integer.compare(o1.getDate().getMonthValue(), o2.getDate().getMonthValue());
             if(monthComp != 0){
                 return monthComp;
-            }
-
-            if(o1.getType() == Report.Type.CARRY_ADD){
-                return -1;
-            }
-            if(o1.getType() == Report.Type.CARRY_SUB){
-                return 1;
             }
 
             int dayComp = Integer.compare(o1.getDate().getDayOfMonth(), o2.getDate().getDayOfMonth());

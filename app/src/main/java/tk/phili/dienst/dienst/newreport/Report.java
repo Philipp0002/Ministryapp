@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
+import java.util.Objects;
 
 import tk.phili.dienst.dienst.R;
 
@@ -83,6 +84,13 @@ public class Report {
         this.date = date;
     }
 
+    /**
+     * Returns the formatted date of a report.
+     * If the report is a summary or a carry-over
+     * that will be returned instead.
+     * @param context Application context for language support
+     * @return Date of report or type of report
+     */
     public String getFormattedDate(Context context){
         if(getType() == Type.NORMAL) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
@@ -102,6 +110,12 @@ public class Report {
         this.minutes = minutes;
     }
 
+    /**
+     * Converts Hours into HH:mm format if it is necessary.
+     * Otherwise only full minutes or hours are returned.
+     * @param context Application context for language support
+     * @return String array -> [0] = time -> [1] = time unit
+     */
     public String[] getFormattedHoursAndMinutes(Context context){
         String minutesString = "";
         String timeFormatString = context.getString(R.string.title_activity_stunden);
@@ -168,6 +182,19 @@ public class Report {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Report report = (Report) o;
+        return id == report.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public enum Type {

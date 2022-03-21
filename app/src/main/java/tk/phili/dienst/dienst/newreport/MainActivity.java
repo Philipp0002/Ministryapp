@@ -19,12 +19,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +45,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
@@ -94,15 +97,7 @@ public class MainActivity extends AppCompatActivity {
         reportsRecycler = findViewById(R.id.bericht_liste);
         summarizedRecycler = findViewById(R.id.swipe_up_bericht);
         goalView = findViewById(R.id.goalview);
-
-        /*int layout = sp.getInt("report_layout", 0);
-        ViewStub stub = findViewById(R.id.layout_stub);
-        if(layout == 0) {
-            stub.setLayoutResource(R.layout.list_bericht);
-        }else if(layout == 1) {
-            stub.setLayoutResource(R.layout.list_bericht_tiny);
-        }
-        stub.inflate();*/
+        initList();
 
         if(sp.getBoolean("private_mode", false)){
             findViewById(R.id.private_block).setVisibility(View.VISIBLE);
@@ -351,14 +346,41 @@ public class MainActivity extends AppCompatActivity {
         return listsorted;
     }
 
-
-    public void updateList(){
-        reportRecyclerAdapter = new ReportRecyclerAdapter(this, reportManager.
-                getReports(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR)));
+    public void initList(){
+        reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList());
         reportsRecycler.setAdapter(reportRecyclerAdapter);
         reportsRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getAdapterPosition();
+                deleteReport(reportRecyclerAdapter.reports.get(pos));
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(reportsRecycler);
+    }
+
+    public void updateList(){
+        if(reportRecyclerAdapter == null){
+            initList();
+        }
+        List<Report> reports = reportManager.getReports(calendarShow.get(Calendar.MONTH)+1, calendarShow.get(Calendar.YEAR));
+        reportRecyclerAdapter.reports = reports;
+        reportRecyclerAdapter.notifyDataSetChanged();
+
+
         updateInsgesamt();
+    }
+
+    public void deleteReport(Report report){
+        reportManager.deleteReport(report);
     }
 
     public static class ReverseInterpolator implements Interpolator {
@@ -378,21 +400,25 @@ public class MainActivity extends AppCompatActivity {
             if(sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))){
                 goalView.setVisibility(View.VISIBLE);
                 int goal = Integer.parseInt(sp.getString("goal", "0"));
-                float percent = (float)summarizedReport.getMinutes() / ((float)goal*(float)60);
+                float percent = (float)summarizedReport.getMinutes() / ((float)goal*(float)60)*100;
                 rpb.setProgress(percent);
+                Log.d("PERCENNNT", percent+"");
                 TextView tv = findViewById(R.id.goaltext);
                 if((int)percent == 100){
                     tv.setText(getString(R.string.goal_text_reached));
                 }
                 if((goal*60) - summarizedReport.getMinutes() > 0){
-                    if(summarizedReport.getMinutes()%60 == 0) {
+                    if(summarizedReport.getMinutes() % 60 == 0) {
                         if ((goal) - (summarizedReport.getMinutes()/60) == 1) {
                             tv.setText(getString(R.string.goal_text_1).replace("%a", "" + (goal - (summarizedReport.getMinutes()/60))));
                         } else {
                             tv.setText(getString(R.string.goal_text_mult).replace("%a", "" + (goal - (summarizedReport.getMinutes()/60))));
                         }
                     }else{
-                        //TODO Minutengenau angabe bis ziel erreicht
+                        Report report = new Report();
+                        report.setMinutes((goal*60)-summarizedReport.getMinutes());
+                        report.setType(Report.Type.NORMAL);
+                        tv.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(this)[0]));
                     }
                 }/*else if(goal - hours < 0){
                     tv.setText(getString(R.string.goal_text_reached_more).replace("%a", ""+Math.abs(goal - hours)));
