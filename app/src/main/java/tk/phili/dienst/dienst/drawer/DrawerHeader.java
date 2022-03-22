@@ -12,12 +12,12 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikepenz.materialdrawer.model.AbstractDrawerItem;
 
 import java.util.List;
-
-import androidx.annotation.LayoutRes;
-import androidx.recyclerview.widget.RecyclerView;
 
 import tk.phili.dienst.dienst.R;
 

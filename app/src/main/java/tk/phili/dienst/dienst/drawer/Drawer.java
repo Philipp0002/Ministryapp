@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -24,13 +23,13 @@ import com.prof.rssparser.Parser;
 
 import java.util.ArrayList;
 
-import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
-import tk.phili.dienst.dienst.calendar.Kalender;
-import tk.phili.dienst.dienst.report.ReportActivity;
-import tk.phili.dienst.dienst.notes.Notizen;
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.settings.Settings;
+import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.dailytext.Tagestext;
+import tk.phili.dienst.dienst.notes.Notizen;
+import tk.phili.dienst.dienst.report.ReportActivity;
+import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
+import tk.phili.dienst.dienst.settings.Settings;
 import tk.phili.dienst.dienst.videos.VideoNew;
 
 /**

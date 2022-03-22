@@ -2,10 +2,11 @@ package tk.phili.dienst.dienst.settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 

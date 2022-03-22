@@ -6,7 +6,6 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.util.Log;
 
 import java.util.ArrayList;
 

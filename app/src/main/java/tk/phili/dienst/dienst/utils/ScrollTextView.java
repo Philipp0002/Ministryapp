@@ -2,8 +2,9 @@ package tk.phili.dienst.dienst.utils;
 
 import android.content.Context;
 import android.graphics.Rect;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by fipsi on 02.04.2018.

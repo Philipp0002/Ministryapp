@@ -5,9 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
+
 import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import com.mikepenz.materialdrawer.model.AbstractDrawerItem;
 

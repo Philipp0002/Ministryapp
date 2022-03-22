@@ -15,7 +15,6 @@ import android.net.NetworkInfo;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-
 import androidx.core.content.res.ResourcesCompat;
 
 import org.json.JSONException;

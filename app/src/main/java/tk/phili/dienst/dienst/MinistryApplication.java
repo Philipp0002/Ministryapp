@@ -1,9 +1,9 @@
 package tk.phili.dienst.dienst;
 
+import androidx.multidex.MultiDexApplication;
+
 import java.util.Timer;
 import java.util.TimerTask;
-
-import androidx.multidex.MultiDexApplication;
 
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
 
