@@ -36,14 +36,14 @@
     <string name="yes">"Si"</string>
     <string name="video_exception">"Si è verificato un errore durante il download di un video."</string>
 
-    <string name="reportfor">"Segnala"</string>
-    <string name="reportmonth">"Mese"</string>
-    <string name="reporthours">"Ore"</string>
-    <string name="reportplace">"Pubblicazioni"</string>
-    <string name="reportvisits">"Visite Ulteriori "</string>
-    <string name="reportvideo">"Video "</string>
-    <string name="reportstudy">"Studi Biblici"</string>
-    <string name="reportminutes">"Minuti"</string>
+    <string name="reportfor">"Segnala:&#160;"</string>
+    <string name="reportmonth">"Mese:&#160;"</string>
+    <string name="reporthours">"Ore:&#160;"</string>
+    <string name="reportplace">"Pubblicazioni:&#160;"</string>
+    <string name="reportvisits">"Visite Ulteriori:&#160;"</string>
+    <string name="reportvideo">"Video:&#160;"</string>
+    <string name="reportstudy">"Studi Biblici:&#160;"</string>
+    <string name="reportminutes">"Minuti:&#160;"</string>
     <string name="reportsentvia">"Invia tramite Ministyapp"</string>
     <string name="title_videos_success">"Download 1 Video"</string>
     <string name="download_sure">"Sicuro? "</string>
@@ -74,10 +74,10 @@
     <string name="goal_msg">"Digita il tuo obiettivo orario mensile:"</string>
     <string name="OK">"Ok"</string>
     <string name="goal_no">"Rimuovere Obiettivo "</string>
-    <string name="goal_text_mult">"% di ore per raggiungere l'obiettivo"</string>
-    <string name="goal_text_1">"% un'ora per raggiungere l'obiettivo"</string>
+    <string name="goal_text_mult">"%a di ore per raggiungere l'obiettivo"</string>
+    <string name="goal_text_1">"%a un'ora per raggiungere l'obiettivo"</string>
     <string name="goal_text_reached">"Hai raggiunto il tuo obiettivo!"</string>
-    <string name="goal_text_reached_more">"Hai raggiunto il tuo obiettivo! +% ah di più"</string>
+    <string name="goal_text_reached_more">"Hai raggiunto il tuo obiettivo! +%a di più"</string>
     <string name="goal_invalid">"Obiettivo non valido"</string>
     <string name="impressum">"Info sul creatore App"</string>
     <string name="licenses">"Licenza"</string>
@@ -157,4 +157,5 @@ perso. : /"</string>
     <string name="calendar_activate_not_found">Impossibile trovare il calendario!</string>
     <string name="bericht_type_name_hint">Il tuo nome</string>
     <string name="goal">Obiettivo</string>
+    <string name="goal_text_minutes">%a per raggiungere l\'obiettivo</string>
 </resources>

@@ -7,7 +7,7 @@
     android:layout_height="fill_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
-    tools:context=".report.MainActivity">
+    tools:context=".report.ReportActivity">
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/sliding_layout"
@@ -83,21 +83,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <!--androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:scrollbars = "vertical"
-                android:layout_below="@id/goalview"
-                android:scrollbarStyle="insideOverlay"
-                android:background="@color/background"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                -->
-
-
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_below="@id/goalview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -110,7 +96,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"/>
-        <!--/androidx.core.widget.NestedScrollView-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -290,9 +275,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="68dp">
             <!--include android:id="@+id/swipe_up_bericht" layout="@layout/list_bericht"/-->
-            <ViewStub
-                android:id="@+id/layout_stub"
-                android:inflatedId="@+id/swipe_up_bericht" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/swipe_up_bericht" android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
 
         </RelativeLayout>

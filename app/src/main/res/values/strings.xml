@@ -91,8 +91,9 @@
     <string name="goal_no">Remove goal</string>
     <string name="goal_text_mult">%a hours to reach the goal</string>
     <string name="goal_text_1">%a hour to reach the goal</string>
+    <string name="goal_text_minutes">%a to reach the goal</string>
     <string name="goal_text_reached">You reached your goal!</string>
-    <string name="goal_text_reached_more">You reached your goal! +%ah more</string>
+    <string name="goal_text_reached_more">You reached your goal! +%a more</string>
 
     <string name="goal_invalid">Invalid goal</string>
     <string name="impressum">Imprint</string>
