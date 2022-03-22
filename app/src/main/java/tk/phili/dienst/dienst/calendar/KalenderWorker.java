@@ -72,7 +72,7 @@ public class KalenderWorker extends Worker {
                             sendNotification(c, id,day,month,year,hour,minute,dienstpartner,beschreibung);
                             setShown.add(id+"");
                             edit.putStringSet("Calendar_Shown", setShown);
-                            edit.commit();
+                            edit.apply();
                         }
                     }
                 }else if (pref_unit == 1) { //day
@@ -82,7 +82,7 @@ public class KalenderWorker extends Worker {
                         sendNotification(c, id,day,month,year,hour,minute,dienstpartner,beschreibung);
                         setShown.add(id+"");
                         edit.putStringSet("Calendar_Shown", setShown);
-                        edit.commit();
+                        edit.apply();
                     }
                 }
             }

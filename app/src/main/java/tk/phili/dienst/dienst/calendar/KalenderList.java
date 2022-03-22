@@ -150,7 +150,7 @@ public class KalenderList extends ArrayAdapter<String>{
                                             }
                                             editor.putStringSet("Calendar_Shown", newSetShown);
 
-                                            editor.commit();
+                                            editor.apply();
                                             if(sp.getBoolean("CalendarSyncActive", false)) {
                                                 boolean gCalExistsEvent = false;
                                                 String gAccEvent = null;
@@ -169,7 +169,7 @@ public class KalenderList extends ArrayAdapter<String>{
                                                     }
                                                 }
                                                 editor.putStringSet("CalendarSync", newsetSync);
-                                                editor.commit();
+                                                editor.apply();
 
                                                 if (gCalExistsEvent) {
                                                     long eventId = eventIdEvent;

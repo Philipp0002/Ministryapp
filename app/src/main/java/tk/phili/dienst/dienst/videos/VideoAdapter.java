@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,7 +67,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         return new ViewHolder(v);
     }
 
-    @Override public void onBindViewHolder(final ViewHolder holder, final int position) {
+    @Override public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setIsRecyclable(false);
         final SharedPreferences sp = context.getSharedPreferences("MainActivity", context.MODE_PRIVATE);
 
@@ -146,14 +147,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     builder.setMessage(context.getString(R.string.download_text).replace("%a", vidTitle));
 
                     String positiveText = context.getString(R.string.download_ok);
-                    builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    long a = doDownload(vidTitle, vidURL);
-                                    holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
-                                    pendingDownload.put(a, vidId);
-                                }
-                            });
+                    builder.setPositiveButton(positiveText, (dialog, which) -> {
+                        long a = doDownload(vidTitle, vidURL);
+                        holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
+                        pendingDownload.put(a, vidId);
+                    });
 
                     String negativeText = context.getString(R.string.download_cancel);
                     builder.setNegativeButton(negativeText, null);
@@ -168,12 +166,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             }
         });
 
-        holder.mainView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                showDeleteDialog(vidTitle);
-                return false;
-            }
+        holder.mainView.setOnLongClickListener(view -> {
+            showDeleteDialog(vidTitle);
+            return false;
         });
 
 

@@ -43,26 +43,18 @@ public class GlobalImport extends AppCompatActivity {
         setTitle(getString(R.string.import_title));
         filePath = getIntent().getData();
 
-        findViewById(R.id.import_do).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(GlobalImport.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
-                    ActivityCompat
-                            .requestPermissions(GlobalImport.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-                }else{
-                    process(filePath);
-                    startActivity(new Intent(GlobalImport.this, Splash.class));
-                    finish();
-                }
-            }
-        });
-
-        findViewById(R.id.import_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        findViewById(R.id.import_do).setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(GlobalImport.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat
+                        .requestPermissions(GlobalImport.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }else{
+                process(filePath);
+                startActivity(new Intent(GlobalImport.this, Splash.class));
                 finish();
             }
         });
+
+        findViewById(R.id.import_cancel).setOnClickListener(view -> finish());
 
 
     }
@@ -134,8 +126,8 @@ public class GlobalImport extends AppCompatActivity {
                 }
             }
 
-            edit.commit();
-            edit2.commit();
+            edit.apply();
+            edit2.apply();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

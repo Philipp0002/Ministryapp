@@ -109,7 +109,7 @@ public class Settings extends AppCompatActivity {
                 }else{
                     editor.putString("sample_presentations_locale", langcodes[item]);
                 }
-                editor.commit();
+                editor.apply();
                 dialog.dismiss();
             });
 
@@ -155,7 +155,7 @@ public class Settings extends AppCompatActivity {
                     }else{
                         editor.putString("tt_locale", langCode.get(keysSort.toArray(new String[]{})[item]));
                     }
-                    editor.commit();
+                    editor.apply();
 
 
 
@@ -191,17 +191,17 @@ public class Settings extends AppCompatActivity {
                 .setIcon(null)
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     editor.clear();
-                    editor.commit();
+                    editor.apply();
 
                     SharedPreferences sp1 = getSharedPreferences("Splash", MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = sp1.edit();
                     editor1.clear();
-                    editor1.commit();
+                    editor1.apply();
 
                     SharedPreferences sp2 = getSharedPreferences("MainActivity3", MODE_PRIVATE);
                     SharedPreferences.Editor editor2 = sp2.edit();
                     editor2.clear();
-                    editor2.commit();
+                    editor2.apply();
 
 
 
@@ -299,7 +299,7 @@ public class Settings extends AppCompatActivity {
                                 editor.remove("CalendarSyncGacc");
                                 editor.remove("CalendarSyncTCID");
                                 editor.remove("CalendarSync");
-                                editor.commit();
+                                editor.apply();
                                 Toast.makeText(Settings.this, R.string.calendar_gcal_reset_to_default, Toast.LENGTH_LONG).show();
                                 runOnUiThread(() -> findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE));
                                 break;
@@ -318,7 +318,7 @@ public class Settings extends AppCompatActivity {
                     editor.remove("CalendarSyncGacc");
                     editor.remove("CalendarSyncTCID");
                     editor.remove("CalendarSync");
-                    editor.commit();
+                    editor.apply();
                     runOnUiThread(() -> findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE));
                 }
             }
@@ -367,7 +367,7 @@ public class Settings extends AppCompatActivity {
                 editor.putInt("Calendar_Time", Integer.parseInt(edt.getText().toString()));
                 editor.putInt("Calendar_Unit", spin.getSelectedItemPosition());
                 editor.remove("Calendar_Shown");
-                editor.commit();
+                editor.apply();
             });
             AlertDialog b = dialogBuilder.create();
             b.show();
@@ -429,7 +429,7 @@ public class Settings extends AppCompatActivity {
                 alert.setPositiveButton(getString(R.string.action_save), (dialog, whichButton) -> {
                     int i = dropdown.getSelectedItemPosition();
                     editor.putInt("report_layout", i);
-                    editor.commit();
+                    editor.apply();
                     if(i == 0) {
                         listener.onInput(Settings.this.getString(R.string.report_layout_1));
                     }else{
@@ -466,7 +466,7 @@ public class Settings extends AppCompatActivity {
             if(key.equalsIgnoreCase("private_mode")) {
                 editor.putBoolean("private_mode", value);
             }
-            editor.commit();
+            editor.apply();
         }
 
         @Override

@@ -253,7 +253,7 @@ public class ReportAddFrame extends AppCompatActivity {
     }
 
     public void save() {
-        //
+
         String text = ((EditText) findViewById(R.id.add_bericht_minutes)).getText().toString();
         if (!text.isEmpty()) {
             int i = Integer.parseInt(text);
@@ -262,7 +262,7 @@ public class ReportAddFrame extends AppCompatActivity {
                 return;
             }
         }
-        //
+
         String text2 = ((EditText) findViewById(R.id.add_bericht_hours)).getText().toString();
         if (!text2.isEmpty()) {
             int i = Integer.parseInt(text2);
@@ -272,8 +272,8 @@ public class ReportAddFrame extends AppCompatActivity {
             }
         }
 
-        int minutes = Utils.parseInt(((EditText) findViewById(R.id.add_bericht_minutes)).getText().toString()).orElse(0);
-        int hours = Utils.parseInt(((EditText) findViewById(R.id.add_bericht_hours)).getText().toString()).orElse(0);
+        int minutes = Utils.parseInt(text).orElse(0);
+        int hours = Utils.parseInt(text2).orElse(0);
         int placements = Utils.parseInt(((EditText) findViewById(R.id.add_bericht_abgaben)).getText().toString()).orElse(0);
         int returnVisits = Utils.parseInt(((EditText) findViewById(R.id.add_bericht_returns)).getText().toString()).orElse(0);
         int videos = Utils.parseInt(((EditText) findViewById(R.id.add_bericht_videos)).getText().toString()).orElse(0);
