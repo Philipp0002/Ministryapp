@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.DailytextActivity;
-import tk.phili.dienst.dienst.dailytext.TagestextJSONAsyncFetcher;
+import tk.phili.dienst.dienst.dailytext.DailytextJSONAsyncFetcher;
 
 /**
  * Implementation of App Widget functionality.
@@ -151,7 +151,7 @@ public class TagestextWidget extends AppWidgetProvider {
             SharedPreferences sp = context.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
             String lang = sp.getString("tt_locale", Locale.getDefault().getLanguage());
 
-            final TagestextJSONAsyncFetcher asyncFetcher = new TagestextJSONAsyncFetcher();
+            final DailytextJSONAsyncFetcher asyncFetcher = new DailytextJSONAsyncFetcher();
             asyncFetcher.year = y;
             asyncFetcher.month = m;
             asyncFetcher.day = d;

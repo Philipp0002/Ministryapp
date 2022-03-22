@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 
 import tk.phili.dienst.dienst.utils.Utils;
 
-public class TagestextJSONAsyncFetcher extends AsyncTask<Void, Void, Void> {
+public class DailytextJSONAsyncFetcher extends AsyncTask<Void, Void, Void> {
 
     public int day;
     public int month;

@@ -67,7 +67,7 @@
             android:label="@string/title_activity_empfehlungen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".notes.Notizen"
+            android:name=".notes.Notes"
             android:label="@string/title_activity_main_activity3"
             android:screenOrientation="portrait" />
         <activity

@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
 
-public class Notizen extends AppCompatActivity{
+public class Notes extends AppCompatActivity{
 
     public SharedPreferences spp;
     public SharedPreferences sp;
