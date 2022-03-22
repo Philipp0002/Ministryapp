@@ -244,9 +244,6 @@ public class SettingsActivity extends AppCompatActivity {
                 .setLibrary(new Library("Android Sliding Up Panel",
                         "https://github.com/umano/AndroidSlidingUpPanel",
                         License.Companion.getAPACHE2()))
-                .setLibrary(new Library("Picasso",
-                        "https://github.com/square/picasso",
-                        License.Companion.getAPACHE2()))
                 .setLibrary(new Library("RoundCornerProgressBar",
                         "https://github.com/akexorcist/RoundCornerProgressBar",
                         License.Companion.getAPACHE2()))

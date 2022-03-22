@@ -11,10 +11,6 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
-
-    <!--uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" /-->
-
     <uses-sdk tools:overrideLibrary="at.grabner.circleprogress"/>
 
     <application
@@ -68,19 +64,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".notes.Notes"
-            android:label="@string/title_activity_main_activity3"
+            android:label="@string/title_section3"
             android:screenOrientation="portrait" />
         <activity
             android:name=".videos.VideoActivity"
+            android:label="@string/title_section7"
             android:screenOrientation="portrait" />
         <activity
             android:name=".report.ReportAddFrame"
-            android:label="@string/title_activity_bericht_add_frame"
+            android:label="@string/add_bericht"
             android:theme="@style/BerichtAddFrameThemeTranslucent" />
-        <activity
-            android:name=".settings.Licenses"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".calendar.Kalender"
             android:label="@string/title_activity_kalender"
