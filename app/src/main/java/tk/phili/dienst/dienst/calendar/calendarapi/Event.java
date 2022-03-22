@@ -1,4 +1,4 @@
-package tk.phili.dienst.dienst.calendarapi;
+package tk.phili.dienst.dienst.calendar.calendarapi;
 
 import android.Manifest;
 import android.content.ContentResolver;
