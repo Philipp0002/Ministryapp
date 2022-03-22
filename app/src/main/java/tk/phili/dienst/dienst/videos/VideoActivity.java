@@ -67,7 +67,7 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_new);
+        setContentView(R.layout.activity_video);
 
         setTitle(getResources().getString(R.string.title_section7));
 

@@ -27,7 +27,7 @@ public class Notizen extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_activity3);
+        setContentView(R.layout.activity_notes);
         setTitle(getResources().getString(R.string.title_section3));
         sp = getSharedPreferences("MainActivity3",  Context.MODE_PRIVATE );
         editor = sp.edit();

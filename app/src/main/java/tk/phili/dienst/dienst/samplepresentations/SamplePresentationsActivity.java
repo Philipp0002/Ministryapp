@@ -65,7 +65,7 @@ public class SamplePresentationsActivity extends AppCompatActivity implements My
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_empfehlungen);
+        setContentView(R.layout.activity_sample_presentations);
         setTitle(getResources().getString(R.string.title_section4));
         sp = getSharedPreferences("MainActivity", MODE_PRIVATE);
         editor = sp.edit();
