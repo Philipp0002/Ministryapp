@@ -258,6 +258,13 @@ public class ReportActivity extends AppCompatActivity {
         reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList()) {
             @Override
             public void onClicked(Report report, View view) {
+
+                SlidingUpPanelLayout slidingUpPanelLayout = ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout));
+                if(slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+                    slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    return;
+                }
+
                 if (report.getType() != Report.Type.NORMAL) {
                     return;
                 }
