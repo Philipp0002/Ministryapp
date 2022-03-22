@@ -38,7 +38,7 @@ import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.HttpUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class VideoNew extends AppCompatActivity {
+public class VideoActivity extends AppCompatActivity {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -134,7 +134,7 @@ public class VideoNew extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat
-                    .requestPermissions(VideoNew.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+                    .requestPermissions(VideoActivity.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
             return;
         }
 
@@ -216,7 +216,7 @@ public class VideoNew extends AppCompatActivity {
     }
 
     public void refreshListData(){
-        final ProgressDialog dialog = ProgressDialog.show(VideoNew.this, "",
+        final ProgressDialog dialog = ProgressDialog.show(VideoActivity.this, "",
                 getString(R.string.vid_wait), true);
         dialog.setCancelable(false);
 
@@ -231,7 +231,7 @@ public class VideoNew extends AppCompatActivity {
                     refreshList();
                 }else{
                     dialog.cancel();
-                    new AlertDialog.Builder(VideoNew.this)
+                    new AlertDialog.Builder(VideoActivity.this)
                             .setTitle(R.string.video_refresh_error_title)
                             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
@@ -272,7 +272,7 @@ public class VideoNew extends AppCompatActivity {
                         grantResults[1] == PackageManager.PERMISSION_GRANTED) { // Permission Granted
                     refreshList();
                 } else { // Permission Denied
-                    Toast.makeText(VideoNew.this, getString(R.string.not_accepted_videonew), Toast.LENGTH_LONG).show();
+                    Toast.makeText(VideoActivity.this, getString(R.string.not_accepted_videonew), Toast.LENGTH_LONG).show();
                 }
                 break;
             default:

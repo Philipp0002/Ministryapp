@@ -47,7 +47,7 @@ import tk.phili.dienst.dienst.dailytext.widget.TagestextWidget;
 import tk.phili.dienst.dienst.drawer.Drawer;
 
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -68,7 +68,7 @@ public class Settings extends AppCompatActivity {
         sp = getSharedPreferences("MainActivity", MODE_PRIVATE);
         editor = sp.edit();
 
-        builder = new AlertDialog.Builder(Settings.this);
+        builder = new AlertDialog.Builder(SettingsActivity.this);
 
         SettingsStorageModule ssm = new SettingsStorageModule();
         SettingsInputModule sim = new SettingsInputModule();
@@ -94,7 +94,7 @@ public class Settings extends AppCompatActivity {
         findViewById(R.id.language_empf).setOnClickListener(view -> {
             final CharSequence[] items = {getString(R.string.language_default), "English", "German", "Italian", "French", "Polish", "Turkish", "Thai", "Greek"};
             final String[] langcodes = {"0", "en", "de", "it", "fr", "pl", "tr", "th", "el"};
-            AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
             builder.setTitle(R.string.language);
 
             int checkedItem = 0;
@@ -121,7 +121,7 @@ public class Settings extends AppCompatActivity {
 
         findViewById(R.id.language_tt).setOnClickListener(view -> {
             final HashMap<String, String> langCode = new HashMap<>();
-            AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
             builder.setTitle(R.string.language);
 
             langCode.put(getString(R.string.language_default), "0");
@@ -159,7 +159,7 @@ public class Settings extends AppCompatActivity {
 
 
 
-                    Intent intent = new Intent(Settings.this, TagestextWidget.class);
+                    Intent intent = new Intent(SettingsActivity.this, TagestextWidget.class);
                     intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
 // since it seems the onUpdate() is only fired on that:
@@ -221,7 +221,7 @@ public class Settings extends AppCompatActivity {
             startActivity(i);
         });
 
-        findViewById(R.id.licenses).setOnClickListener(view -> new LicenserDialog(Settings.this, R.style.MaterialBaseTheme_Dialog)
+        findViewById(R.id.licenses).setOnClickListener(view -> new LicenserDialog(SettingsActivity.this, R.style.MaterialBaseTheme_Dialog)
                 .setTitle(getString(R.string.licenses))
                 .setLibrary(new Library("AndroidX Support Libraries",
                         "https://developer.android.com/jetpack/androidx",
@@ -281,7 +281,7 @@ public class Settings extends AppCompatActivity {
             startActivity(i);
         });
 
-        findViewById(R.id.export).setOnClickListener(view -> Export.exportGlobal(Settings.this, Export.Format.DIENSTAPP_GLOBAL));
+        findViewById(R.id.export).setOnClickListener(view -> Export.exportGlobal(SettingsActivity.this, Export.Format.DIENSTAPP_GLOBAL));
 
         if(!sp.contains("CalendarSyncActive")) {
             findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE);
@@ -300,7 +300,7 @@ public class Settings extends AppCompatActivity {
                                 editor.remove("CalendarSyncTCID");
                                 editor.remove("CalendarSync");
                                 editor.apply();
-                                Toast.makeText(Settings.this, R.string.calendar_gcal_reset_to_default, Toast.LENGTH_LONG).show();
+                                Toast.makeText(SettingsActivity.this, R.string.calendar_gcal_reset_to_default, Toast.LENGTH_LONG).show();
                                 runOnUiThread(() -> findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE));
                                 break;
 
@@ -309,11 +309,11 @@ public class Settings extends AppCompatActivity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
                     builder.setTitle(R.string.calendar_gcal_remove_title).setMessage(R.string.calendar_gcal_remove_msg).setPositiveButton(R.string.yes, dialogClickListener)
                             .setNegativeButton(R.string.no, dialogClickListener).show();
                 }else{
-                    Toast.makeText(Settings.this, R.string.calendar_gcal_reset_to_default, Toast.LENGTH_LONG).show();
+                    Toast.makeText(SettingsActivity.this, R.string.calendar_gcal_reset_to_default, Toast.LENGTH_LONG).show();
                     editor.remove("CalendarSyncActive");
                     editor.remove("CalendarSyncGacc");
                     editor.remove("CalendarSyncTCID");
@@ -332,7 +332,7 @@ public class Settings extends AppCompatActivity {
             Intent intent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 intent = new Intent(android.provider.Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                        .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, Settings.this.getPackageName())
+                        .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, SettingsActivity.this.getPackageName())
                         .putExtra(android.provider.Settings.EXTRA_CHANNEL_ID, "calendar");
             }else {
                 intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
@@ -346,8 +346,8 @@ public class Settings extends AppCompatActivity {
         });
 
         findViewById(R.id.calendar_time_of_notification).setOnClickListener(view -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Settings.this);
-            LayoutInflater inflater = Settings.this.getLayoutInflater();
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SettingsActivity.this);
+            LayoutInflater inflater = SettingsActivity.this.getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.notification_time_popup, null);
             dialogBuilder.setView(dialogView);
 
@@ -355,7 +355,7 @@ public class Settings extends AppCompatActivity {
             final Spinner spin = (Spinner) dialogView.findViewById(R.id.unit);
 
             String[] units = {getResources().getString(R.string.calendar_notification_hour), getResources().getString(R.string.calendar_notification_day)};
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(Settings.this, android.R.layout.simple_list_item_1, units);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingsActivity.this, android.R.layout.simple_list_item_1, units);
             spin.setAdapter(adapter);
 
             edt.setText(sp.getInt("Calendar_Time", 1)+"");
@@ -384,20 +384,20 @@ public class Settings extends AppCompatActivity {
         public void showEditTextInput(String key, CharSequence title, CharSequence defaultValue, final Listener<String> listener) {
             if(key.equalsIgnoreCase("report_layout")){
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(Settings.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(SettingsActivity.this);
 
                 alert.setTitle(getString(R.string.report_layout_settings));
                 alert.setMessage(getString(R.string.report_layout_msg));
 
-                final LinearLayout layout = new LinearLayout(Settings.this);
+                final LinearLayout layout = new LinearLayout(SettingsActivity.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
                 View child = getLayoutInflater().inflate(R.layout.list_bericht, null);
                 layout.addView(child); // Notice this is an add method
 
-                final Spinner dropdown = new Spinner(Settings.this);
+                final Spinner dropdown = new Spinner(SettingsActivity.this);
                 String[] items = new String[]{getString(R.string.report_layout_1), getString(R.string.report_layout_2)};
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(Settings.this, android.R.layout.simple_spinner_dropdown_item, items);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingsActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
                 dropdown.setAdapter(adapter);
                 layout.addView(dropdown); // Another add method
                 alert.setView(layout);
@@ -431,9 +431,9 @@ public class Settings extends AppCompatActivity {
                     editor.putInt("report_layout", i);
                     editor.apply();
                     if(i == 0) {
-                        listener.onInput(Settings.this.getString(R.string.report_layout_1));
+                        listener.onInput(SettingsActivity.this.getString(R.string.report_layout_1));
                     }else{
-                        listener.onInput(Settings.this.getString(R.string.report_layout_2));
+                        listener.onInput(SettingsActivity.this.getString(R.string.report_layout_2));
                     }
                 });
 
@@ -496,9 +496,9 @@ public class Settings extends AppCompatActivity {
         public String getString(String key, String defaultVal) {
             if(key.equalsIgnoreCase("report_layout")){
                 if(sp.getInt("report_layout", 0) == 0) {
-                    return Settings.this.getString(R.string.report_layout_1);
+                    return SettingsActivity.this.getString(R.string.report_layout_1);
                 }else{
-                    return Settings.this.getString(R.string.report_layout_2);
+                    return SettingsActivity.this.getString(R.string.report_layout_2);
                 }
             }
             return null;

@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 
 import tk.phili.dienst.dienst.utils.Utils;
 
-public class EmpfehlungenAsyncFetcher extends AsyncTask<Void, Void, Void> {
+public class SamplePresentationsAsyncFetcher extends AsyncTask<Void, Void, Void> {
 
     public String language;
     public JSONObject response;

@@ -28,7 +28,7 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
 
-public class Tagestext extends AppCompatActivity implements MyWebChromeClient.ProgressListener {
+public class DailytextActivity extends AppCompatActivity implements MyWebChromeClient.ProgressListener {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -132,7 +132,7 @@ public class Tagestext extends AppCompatActivity implements MyWebChromeClient.Pr
                 webSettings.setJavaScriptEnabled(true);
 
                 // add progress bar
-                mWebView.setWebChromeClient(new MyWebChromeClient(Tagestext.this));
+                mWebView.setWebChromeClient(new MyWebChromeClient(DailytextActivity.this));
                 mWebView.setWebViewClient(new WebViewClient() {
 
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {

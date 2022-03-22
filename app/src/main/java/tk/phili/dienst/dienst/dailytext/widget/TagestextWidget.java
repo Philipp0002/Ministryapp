@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.dailytext.Tagestext;
+import tk.phili.dienst.dienst.dailytext.DailytextActivity;
 import tk.phili.dienst.dienst.dailytext.TagestextJSONAsyncFetcher;
 
 /**
@@ -45,7 +45,7 @@ public class TagestextWidget extends AppWidgetProvider {
         //views.setImageViewBitmap(R.id.ttw_day, getFontBitmap(context, day, Color.parseColor("#000000"), 24));
         //views.setImageViewBitmap(R.id.ttw_text, getFontBitmap(context, text, Color.parseColor("#000000"), 18));
 
-        Intent intent = new Intent(context, Tagestext.class);
+        Intent intent = new Intent(context, DailytextActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
 
         views.setOnClickPendingIntent(R.id.tt_widget, pendingIntent);

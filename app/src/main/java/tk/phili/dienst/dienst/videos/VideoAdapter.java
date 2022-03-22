@@ -48,11 +48,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     public List<String> url;
     public List<Boolean> isDownloaded;
     public HashMap<Integer, Drawable> drawables = new HashMap<Integer, Drawable>();
-    private VideoNew context;
+    private VideoActivity context;
 
     public HashMap<Long, Integer> pendingDownload = new HashMap<Long, Integer>();
 
-    public VideoAdapter(VideoNew context, List<Integer> id, List<String> title, List<String> length, List<String> mb, List<String> url, List<Boolean> isDownloaded) {
+    public VideoAdapter(VideoActivity context, List<Integer> id, List<String> title, List<String> length, List<String> mb, List<String> url, List<Boolean> isDownloaded) {
         this.id = id;
         this.title = title;
         this.length = length;

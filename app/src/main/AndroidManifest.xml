@@ -59,11 +59,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings.Settings"
+            android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".samplepresentations.Empfehlungen"
+            android:name=".samplepresentations.SamplePresentationsActivity"
             android:label="@string/title_activity_empfehlungen"
             android:screenOrientation="portrait" />
         <activity
@@ -71,7 +71,7 @@
             android:label="@string/title_activity_main_activity3"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".videos.VideoNew"
+            android:name=".videos.VideoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".report.ReportAddFrame"
@@ -172,7 +172,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".dailytext.Tagestext"
+            android:name=".dailytext.DailytextActivity"
             android:label="@string/title_tt"
             android:theme="@style/AppTheme" />
 

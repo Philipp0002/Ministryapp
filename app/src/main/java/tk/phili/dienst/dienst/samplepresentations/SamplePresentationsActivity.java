@@ -26,7 +26,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -44,19 +43,15 @@ import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
 
 
-public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient.ProgressListener {
+public class SamplePresentationsActivity extends AppCompatActivity implements MyWebChromeClient.ProgressListener {
 
 
     private Toolbar toolbar;
-    MenuItem bericht;
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
     boolean pageSuccess = true;
 
-    private ActionBarDrawerToggle actionbartoggle;
-
-    public ArrayList<String> dates = new ArrayList<String>();
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -117,10 +112,10 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
 
         String urlend = sp.getString("sample_presentations_locale", Locale.getDefault().getLanguage());
 
-        final Empfehlungen em = this;
+        final SamplePresentationsActivity em = this;
 
 
-        final EmpfehlungenAsyncFetcher asyncFetcher = new EmpfehlungenAsyncFetcher();
+        final SamplePresentationsAsyncFetcher asyncFetcher = new SamplePresentationsAsyncFetcher();
         asyncFetcher.language = urlend;
         asyncFetcher.futurerun = new Runnable() {
             @Override
@@ -129,12 +124,7 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
 
                 if(obj != null) {
                     final Spinner spinner = (Spinner) findViewById(R.id.spinner_nav_empf);
-                    Empfehlungen.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            spinner.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    SamplePresentationsActivity.this.runOnUiThread(() -> spinner.setVisibility(View.VISIBLE));
 
                     ArrayList<String> listItems = new ArrayList<String>();
                     final ArrayList<String> listUrls = new ArrayList<String>();
@@ -163,14 +153,14 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
 
 
 
-                    Empfehlungen.this.runOnUiThread(new Runnable() {
+                    SamplePresentationsActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             spinner.setAdapter(adapter);
                             if(listItems.size() > getMonth()){
                                 spinner.setSelection(getMonth());
                             }else{
-                                Toast.makeText(Empfehlungen.this, getString(R.string.empf_not_available), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SamplePresentationsActivity.this, getString(R.string.empf_not_available), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -185,7 +175,7 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
                             webSettings.setJavaScriptEnabled(true);
 
                             // add progress bar
-                            mWebView.setWebChromeClient(new MyWebChromeClient(Empfehlungen.this));
+                            mWebView.setWebChromeClient(new MyWebChromeClient(SamplePresentationsActivity.this));
                             mWebView.setWebViewClient(new WebViewClient() {
 
                                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -292,23 +282,11 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
         nonet.setVisibility(View.VISIBLE);
         ImageView pic = (ImageView) findViewById(R.id.imageView3);
         pic.setVisibility(View.VISIBLE);
-        //Button retry = (Button) findViewById(R.id.retry_empf);
-        //retry.setVisibility(View.VISIBLE);
         WebView myWebView = (WebView) findViewById(R.id.webView);
         myWebView.setVisibility(View.INVISIBLE);
 
 
 
-        /*retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isConnectedtoNet()) {
-                    setSpinnerText();
-                }else{
-                    setErrorSpinner();
-                }
-            }
-        });*/
     }
 
 
@@ -335,14 +313,6 @@ public class Empfehlungen extends AppCompatActivity implements MyWebChromeClient
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }*/
-
-        if (actionbartoggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

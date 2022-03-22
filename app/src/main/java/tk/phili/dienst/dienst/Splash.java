@@ -20,13 +20,13 @@ import java.util.concurrent.TimeUnit;
 
 import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
-import tk.phili.dienst.dienst.dailytext.Tagestext;
+import tk.phili.dienst.dienst.dailytext.DailytextActivity;
 import tk.phili.dienst.dienst.notes.Notizen;
 import tk.phili.dienst.dienst.report.ReportActivity;
-import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
 import tk.phili.dienst.dienst.utils.Shortcuts;
-import tk.phili.dienst.dienst.videos.VideoNew;
+import tk.phili.dienst.dienst.videos.VideoActivity;
 
 
 public class Splash extends Activity {
@@ -87,11 +87,11 @@ public class Splash extends Activity {
                 }else if(s.equals("Notizen")) {
                     mainIntent = new Intent(Splash.this, Notizen.class);
                 }else if(s.equals("Empfehlungen")) {
-                    mainIntent = new Intent(Splash.this, Empfehlungen.class);
+                    mainIntent = new Intent(Splash.this, SamplePresentationsActivity.class);
                 }else if(s.equals("Videos")) {
-                    mainIntent = new Intent(Splash.this, VideoNew.class);
+                    mainIntent = new Intent(Splash.this, VideoActivity.class);
                 }else if(s.equals("Tagestext")) {
-                    mainIntent = new Intent(Splash.this, Tagestext.class);
+                    mainIntent = new Intent(Splash.this, DailytextActivity.class);
                 }else if(s.equals("Kalender")) {
                     mainIntent = new Intent(Splash.this, Kalender.class);
                 }

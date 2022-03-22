@@ -25,12 +25,12 @@ import java.util.ArrayList;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.calendar.Kalender;
-import tk.phili.dienst.dienst.dailytext.Tagestext;
+import tk.phili.dienst.dienst.dailytext.DailytextActivity;
 import tk.phili.dienst.dienst.notes.Notizen;
 import tk.phili.dienst.dienst.report.ReportActivity;
-import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
-import tk.phili.dienst.dienst.settings.Settings;
-import tk.phili.dienst.dienst.videos.VideoNew;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
+import tk.phili.dienst.dienst.settings.SettingsActivity;
+import tk.phili.dienst.dienst.videos.VideoActivity;
 
 /**
  * Created by fipsi on 24.07.2017.
@@ -147,15 +147,15 @@ public class Drawer {
                     }
                     if(drawerItem.equals(i4)){
                         if(item == 4)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), Empfehlungen.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), SamplePresentationsActivity.class));
                     }
                     if(drawerItem.equals(i5)){
                         if(item == 5)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), Tagestext.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), DailytextActivity.class));
                     }
                     if(drawerItem.equals(i6)){
                         if(item == 6)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), VideoNew.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), VideoActivity.class));
                     }
                     if(drawerItem.equals(i7)){
                         if(item == 7)return false;
@@ -163,7 +163,7 @@ public class Drawer {
                     }
                     if(drawerItem.equals(i8)){
                         if(item == 8)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), Settings.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), SettingsActivity.class));
                     }
                     hideKeyboard(c);
                     c.finish();
