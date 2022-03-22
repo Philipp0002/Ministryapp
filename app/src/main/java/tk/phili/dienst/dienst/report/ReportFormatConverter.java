@@ -1,4 +1,4 @@
-package tk.phili.dienst.dienst.newreport;
+package tk.phili.dienst.dienst.report;
 
 import android.content.SharedPreferences;
 

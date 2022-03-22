@@ -1,4 +1,4 @@
-package tk.phili.dienst.dienst.newreport;
+package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +45,7 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class ReportActivity extends AppCompatActivity {
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_new);
+        setContentView(R.layout.activity_report);
 
         sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         findViewById(R.id.addBerichtButton).setOnClickListener(v -> {
-            Intent mainIntent = new Intent(MainActivity.this, ReportAddFrame.class);
+            Intent mainIntent = new Intent(ReportActivity.this, ReportAddFrame.class);
             float x = v.getX() + v.getWidth() / 2;
             float y = v.getY() + v.getHeight() / 2;
             mainIntent.putExtra("xReveal", x);
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             mainIntent.putExtra("id", Integer.MAX_VALUE);
 
             ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(MainActivity.this, v, "bericht_add_frame");
+                    makeSceneTransitionAnimation(ReportActivity.this, v, "bericht_add_frame");
             startActivity(mainIntent, options.toBundle());
         });
 
@@ -150,12 +150,12 @@ public class MainActivity extends AppCompatActivity {
                 ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(ReportActivity.this);
 
                 alert.setTitle(getString(R.string.title_section6));
                 alert.setMessage(getString(R.string.bericht_type_name));
 
-                View input_view = LayoutInflater.from(MainActivity.this)
+                View input_view = LayoutInflater.from(ReportActivity.this)
                         .inflate(R.layout.bericht_send_input, null, false);
                 final EditText input = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
                 alert.setView(input_view);
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.swipe_up_carryover).setOnClickListener(v -> {
             if (findViewById(R.id.swipe_up_carryover).getAlpha() != 0F) {
                 ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(ReportActivity.this);
 
                 alert.setTitle(getString(R.string.carryover));
                 alert.setMessage(getString(R.string.carryover_msg));
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                 if (report.getType() != Report.Type.NORMAL) {
                     return;
                 }
-                Intent mainIntent = new Intent(MainActivity.this, ReportAddFrame.class);
+                Intent mainIntent = new Intent(ReportActivity.this, ReportAddFrame.class);
                 float x = view.getX() + view.getWidth() / 2;
                 float y = view.getY() + view.getHeight() / 2;
                 mainIntent.putExtra("xReveal", x);
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                 mainIntent.putExtra("id", report.getId());
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(MainActivity.this, view, "bericht_add_frame");
+                        makeSceneTransitionAnimation(ReportActivity.this, view, "bericht_add_frame");
                 startActivity(mainIntent, options.toBundle());
             }
         };
@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_goal) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-            View input_view = LayoutInflater.from(MainActivity.this)
+            View input_view = LayoutInflater.from(ReportActivity.this)
                     .inflate(R.layout.goal_set_input, null, false);
             final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
             dialogBuilder.setView(input_view);
@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Integer.parseInt(edt.getText().toString());
                 } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReportActivity.this, getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
                     return;
                 }
                 editor.putString("goal", edt.getText().toString());

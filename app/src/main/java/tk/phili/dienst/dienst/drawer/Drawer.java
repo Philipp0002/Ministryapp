@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
 import tk.phili.dienst.dienst.calendar.Kalender;
-import tk.phili.dienst.dienst.newreport.MainActivity;
+import tk.phili.dienst.dienst.report.ReportActivity;
 import tk.phili.dienst.dienst.notes.Notizen;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.settings.Settings;
@@ -140,7 +140,7 @@ public class Drawer {
 
                     if(drawerItem.equals(i1)){
                         if(item == 1)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), MainActivity.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), ReportActivity.class));
                     }
                     if(drawerItem.equals(i3)){
                         if(item == 3)return false;

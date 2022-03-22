@@ -23,7 +23,7 @@ import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
 import tk.phili.dienst.dienst.dailytext.Tagestext;
 import tk.phili.dienst.dienst.notes.Notizen;
-import tk.phili.dienst.dienst.newreport.MainActivity;
+import tk.phili.dienst.dienst.report.ReportActivity;
 import tk.phili.dienst.dienst.samplepresentations.Empfehlungen;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
 import tk.phili.dienst.dienst.utils.Shortcuts;
@@ -34,7 +34,6 @@ public class Splash extends Activity {
 
     boolean isUp = true;
     public SharedPreferences sp;
-    private SharedPreferences.Editor editor;
     static String s;
 
     @Override
@@ -49,7 +48,6 @@ public class Splash extends Activity {
         isUp = true;
 
         sp = getPreferences(Context.MODE_PRIVATE);
-        editor = sp.edit();
 
         createNotificationChannel();
 
@@ -86,7 +84,7 @@ public class Splash extends Activity {
                 Intent mainIntent = null;
 
                 if(s == null || s.equals("MainActivity")) {
-                    mainIntent = new Intent(Splash.this, MainActivity.class);
+                    mainIntent = new Intent(Splash.this, ReportActivity.class);
                 }else if(s.equals("Notizen")) {
                     mainIntent = new Intent(Splash.this, Notizen.class);
                 }else if(s.equals("Empfehlungen")) {

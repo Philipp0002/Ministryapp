@@ -1,4 +1,4 @@
-package tk.phili.dienst.dienst.newreport;
+package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,10 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
