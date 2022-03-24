@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class ReportFormatConverter {
 
     public static void convertToNewFormat(SharedPreferences sharedPreferences) {
         ArrayList<Report> newReports = new ArrayList<>();
-        Set<String> oldReports = sharedPreferences.getStringSet("BERICHTE", null);
+        Set<String> oldReports = sharedPreferences.getStringSet("BERICHTE", new HashSet<String>());
         for (String report : oldReports) {
             String[] oldReportData = report.split(";");
             String oldReportId = oldReportData[0];
@@ -54,7 +55,12 @@ public class ReportFormatConverter {
                 newReportDate = LocalDate.parse(oldReportDate.replace("32.", "01."), DATE_TIME_FORMATTER);
             }else if(oldReportDate.startsWith("0.")) {
                 newReportType = Report.Type.CARRY_ADD;
-                newReportDate = LocalDate.parse(oldReportDate.replace("0.", "01."), DATE_TIME_FORMATTER);
+                try {
+                    newReportDate = LocalDate.parse(oldReportDate.replace("0.", "01."), DATE_TIME_FORMATTER);
+                }catch(Exception e){
+                    //TODO FIX
+                    newReportDate = LocalDate.parse("01.01.1999", DATE_TIME_FORMATTER);
+                }
             }else{
                 newReportDate = LocalDate.parse(oldReportDate, DATE_TIME_FORMATTER);
             }
