@@ -6,3 +6,7 @@ Android application for managing the ministry of Jehovas Witnesses
 
 
 Google Play and the Google Play logo are trademarks of Google LLC.
+
+## Translating
+If you want to help translate the app follow this link: https://translate.ministryapp.de/
+
