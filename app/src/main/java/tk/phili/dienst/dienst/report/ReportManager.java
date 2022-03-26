@@ -132,15 +132,11 @@ public class ReportManager {
         Report summarizedReport = new Report();
         summarizedReport.setType(Report.Type.SUMMARY);
         for(Report report : allReportsMonth){
-            if(report.getDate().getMonth() == Month.of(month) && report.getDate().getYear() == year){
-
-                summarizedReport.setMinutes(summarizedReport.getMinutes() + report.getMinutes());
-                summarizedReport.setBibleStudies(summarizedReport.getBibleStudies() + report.getBibleStudies());
-                summarizedReport.setVideos(summarizedReport.getVideos() + report.getVideos());
-                summarizedReport.setReturnVisits(summarizedReport.getReturnVisits() + report.getReturnVisits());
-                summarizedReport.setPlacements(summarizedReport.getPlacements() + report.getPlacements());
-
-            }
+            summarizedReport.setMinutes(summarizedReport.getMinutes() + report.getMinutes());
+            summarizedReport.setBibleStudies(summarizedReport.getBibleStudies() + report.getBibleStudies());
+            summarizedReport.setVideos(summarizedReport.getVideos() + report.getVideos());
+            summarizedReport.setReturnVisits(summarizedReport.getReturnVisits() + report.getReturnVisits());
+            summarizedReport.setPlacements(summarizedReport.getPlacements() + report.getPlacements());
         }
         return summarizedReport;
     }
