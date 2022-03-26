@@ -71,5 +71,13 @@ public class Utils {
         }
     }
 
+    public static Optional<Long> parseLong(String toParse) {
+        try {
+            return Optional.of(Long.parseLong(toParse));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+    }
+
 }
 

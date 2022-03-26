@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import tk.phili.dienst.dienst.utils.LocalDateAdapter;
+import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFormatConverter {
 
@@ -40,12 +41,12 @@ public class ReportFormatConverter {
             }
 
             long newReportId = Long.parseLong(oldReportId);
-            long newReportMinutes = Long.parseLong(oldReportMinutes);
-            newReportMinutes += Long.parseLong(oldReportHours) * 60;
-            int newReportPlacements = Integer.parseInt(oldReportPlacements);
-            int newReportReturnVisits = Integer.parseInt(oldReportReturnVisits);
-            int newReportVideos = Integer.parseInt(oldReportVideos);
-            int newReportBibleStudies = Integer.parseInt(oldReportBibleStudies);
+            long newReportMinutes = Utils.parseLong(oldReportMinutes).orElse(0L);
+            newReportMinutes += Utils.parseLong(oldReportHours).orElse(0L) * 60;
+            int newReportPlacements = Utils.parseInt(oldReportPlacements).orElse(0);
+            int newReportReturnVisits = Utils.parseInt(oldReportReturnVisits).orElse(0);
+            int newReportVideos = Utils.parseInt(oldReportVideos).orElse(0);
+            int newReportBibleStudies = Utils.parseInt(oldReportBibleStudies).orElse(0);
             String newReportAnnotation = oldReportAnnotation;
             Report.Type newReportType = Report.Type.NORMAL;
             LocalDate newReportDate;
