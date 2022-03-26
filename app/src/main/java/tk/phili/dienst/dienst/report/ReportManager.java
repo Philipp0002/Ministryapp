@@ -2,6 +2,7 @@ package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -94,7 +95,7 @@ public class ReportManager {
      */
     public List<Report> getReports(){
         String allReportsJson = sharedPreferences.getString(SP_REPORTS_KEY, null);
-
+        Log.d("REPORRRRR", allReportsJson);
         Type listType = new TypeToken<List<Report>>() {}.getType();
         List<Report> reports = getGson().fromJson(allReportsJson, listType);
         Collections.sort(reports, getReportComparator());
@@ -178,16 +179,13 @@ public class ReportManager {
 
     private Gson getGson(){
         return new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter().nullSafe())
                 .create();
     }
 
     private void saveReports(List<Report> reports){
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .create();
         Type listType = new TypeToken<List<Report>>() {}.getType();
-        String json = gson.toJson(reports, listType);
+        String json = getGson().toJson(reports, listType);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("reports", json);

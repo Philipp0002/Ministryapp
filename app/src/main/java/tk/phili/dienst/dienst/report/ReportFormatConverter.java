@@ -77,14 +77,14 @@ public class ReportFormatConverter {
         }
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter().nullSafe())
                 .create();
         Type listType = new TypeToken<List<Report>>() {}.getType();
         String json = gson.toJson(newReports, listType);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("reports", json);
-        editor.apply();
+        editor.commit();
     }
 
 }
