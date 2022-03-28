@@ -144,6 +144,9 @@ public class ReportManager {
 
     private Comparator<Report> getReportComparator(){
         return (o1, o2) -> {
+            if(o1.equals(o2)){
+                return 0;
+            }
             if(o1.getType() == Report.Type.CARRY_ADD){
                 return -1;
             }
