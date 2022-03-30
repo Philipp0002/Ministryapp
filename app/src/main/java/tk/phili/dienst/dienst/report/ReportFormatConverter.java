@@ -57,9 +57,8 @@ public class ReportFormatConverter {
             }else if(oldReportDate.startsWith("0.")) {
                 newReportType = Report.Type.CARRY_ADD;
                 try {
-                    newReportDate = LocalDate.parse(oldReportDate.replace("0.", "01."), DATE_TIME_FORMATTER);
+                    newReportDate = LocalDate.parse(oldReportDate.replaceFirst("0.", "01."), DATE_TIME_FORMATTER);
                 }catch(Exception e){
-                    //TODO FIX
                     newReportDate = LocalDate.parse("01.01.1999", DATE_TIME_FORMATTER);
                 }
             }else{
