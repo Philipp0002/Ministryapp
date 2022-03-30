@@ -71,7 +71,7 @@ public class ReportActivity extends AppCompatActivity {
         sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        if(!sp.contains("reports")) {
+        if(!sp.contains("reports") && sp.contains("BERICHTE")) {
             ReportFormatConverter.convertToNewFormat(sp);
         }
         reportManager = new ReportManager(this);
