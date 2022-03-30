@@ -95,10 +95,13 @@ public class ReportManager {
      */
     public List<Report> getReports(){
         String allReportsJson = sharedPreferences.getString(SP_REPORTS_KEY, null);
-        Log.d("REPORRRRR", allReportsJson);
         Type listType = new TypeToken<List<Report>>() {}.getType();
         List<Report> reports = getGson().fromJson(allReportsJson, listType);
-        Collections.sort(reports, getReportComparator());
+        try {
+            Collections.sort(reports, getReportComparator());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return reports;
     }
 
@@ -117,7 +120,11 @@ public class ReportManager {
             }
         }
 
-        Collections.sort(reports, getReportComparator());
+        try {
+            Collections.sort(reports, getReportComparator());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return reports;
     }
 
