@@ -1,5 +1,7 @@
 package tk.phili.dienst.dienst.utils;
 
+import android.util.Log;
+
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;

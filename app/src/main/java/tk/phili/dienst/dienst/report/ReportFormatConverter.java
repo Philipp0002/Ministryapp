@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import tk.phili.dienst.dienst.utils.LocalDateAdapter;
+import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFormatConverter {
 
@@ -40,12 +41,12 @@ public class ReportFormatConverter {
             }
 
             long newReportId = Long.parseLong(oldReportId);
-            long newReportMinutes = Long.parseLong(oldReportMinutes);
-            newReportMinutes += Long.parseLong(oldReportHours) * 60;
-            int newReportPlacements = Integer.parseInt(oldReportPlacements);
-            int newReportReturnVisits = Integer.parseInt(oldReportReturnVisits);
-            int newReportVideos = Integer.parseInt(oldReportVideos);
-            int newReportBibleStudies = Integer.parseInt(oldReportBibleStudies);
+            long newReportMinutes = Utils.parseLong(oldReportMinutes).orElse(0L);
+            newReportMinutes += Utils.parseLong(oldReportHours).orElse(0L) * 60;
+            int newReportPlacements = Utils.parseInt(oldReportPlacements).orElse(0);
+            int newReportReturnVisits = Utils.parseInt(oldReportReturnVisits).orElse(0);
+            int newReportVideos = Utils.parseInt(oldReportVideos).orElse(0);
+            int newReportBibleStudies = Utils.parseInt(oldReportBibleStudies).orElse(0);
             String newReportAnnotation = oldReportAnnotation;
             Report.Type newReportType = Report.Type.NORMAL;
             LocalDate newReportDate;
@@ -56,9 +57,8 @@ public class ReportFormatConverter {
             }else if(oldReportDate.startsWith("0.")) {
                 newReportType = Report.Type.CARRY_ADD;
                 try {
-                    newReportDate = LocalDate.parse(oldReportDate.replace("0.", "01."), DATE_TIME_FORMATTER);
+                    newReportDate = LocalDate.parse(oldReportDate.replaceFirst("0.", "01."), DATE_TIME_FORMATTER);
                 }catch(Exception e){
-                    //TODO FIX
                     newReportDate = LocalDate.parse("01.01.1999", DATE_TIME_FORMATTER);
                 }
             }else{
@@ -76,14 +76,14 @@ public class ReportFormatConverter {
         }
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter().nullSafe())
                 .create();
         Type listType = new TypeToken<List<Report>>() {}.getType();
         String json = gson.toJson(newReports, listType);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("reports", json);
-        editor.apply();
+        editor.commit();
     }
 
 }

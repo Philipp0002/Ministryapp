@@ -2,6 +2,7 @@ package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -94,10 +95,13 @@ public class ReportManager {
      */
     public List<Report> getReports(){
         String allReportsJson = sharedPreferences.getString(SP_REPORTS_KEY, null);
-
         Type listType = new TypeToken<List<Report>>() {}.getType();
         List<Report> reports = getGson().fromJson(allReportsJson, listType);
-        Collections.sort(reports, getReportComparator());
+        try {
+            Collections.sort(reports, getReportComparator());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return reports;
     }
 
@@ -116,7 +120,11 @@ public class ReportManager {
             }
         }
 
-        Collections.sort(reports, getReportComparator());
+        try {
+            Collections.sort(reports, getReportComparator());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return reports;
     }
 
@@ -132,21 +140,20 @@ public class ReportManager {
         Report summarizedReport = new Report();
         summarizedReport.setType(Report.Type.SUMMARY);
         for(Report report : allReportsMonth){
-            if(report.getDate().getMonth() == Month.of(month) && report.getDate().getYear() == year){
-
-                summarizedReport.setMinutes(summarizedReport.getMinutes() + report.getMinutes());
-                summarizedReport.setBibleStudies(summarizedReport.getBibleStudies() + report.getBibleStudies());
-                summarizedReport.setVideos(summarizedReport.getVideos() + report.getVideos());
-                summarizedReport.setReturnVisits(summarizedReport.getReturnVisits() + report.getReturnVisits());
-                summarizedReport.setPlacements(summarizedReport.getPlacements() + report.getPlacements());
-
-            }
+            summarizedReport.setMinutes(summarizedReport.getMinutes() + report.getMinutes());
+            summarizedReport.setBibleStudies(summarizedReport.getBibleStudies() + report.getBibleStudies());
+            summarizedReport.setVideos(summarizedReport.getVideos() + report.getVideos());
+            summarizedReport.setReturnVisits(summarizedReport.getReturnVisits() + report.getReturnVisits());
+            summarizedReport.setPlacements(summarizedReport.getPlacements() + report.getPlacements());
         }
         return summarizedReport;
     }
 
     private Comparator<Report> getReportComparator(){
         return (o1, o2) -> {
+            if(o1.equals(o2)){
+                return 0;
+            }
             if(o1.getType() == Report.Type.CARRY_ADD){
                 return -1;
             }
@@ -182,16 +189,13 @@ public class ReportManager {
 
     private Gson getGson(){
         return new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter().nullSafe())
                 .create();
     }
 
     private void saveReports(List<Report> reports){
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .create();
         Type listType = new TypeToken<List<Report>>() {}.getType();
-        String json = gson.toJson(reports, listType);
+        String json = getGson().toJson(reports, listType);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("reports", json);

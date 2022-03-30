@@ -45,6 +45,7 @@ import java.util.TreeSet;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.widget.TagestextWidget;
 import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.report.ReportFormatConverter;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -183,6 +184,21 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         });
+
+        if(!sp.contains("BERICHTE")){
+            findViewById(R.id.reformat).setVisibility(View.GONE);
+        }
+        findViewById(R.id.reformat).setOnClickListener(view -> builder
+                .setTitle(getResources().getString(R.string.report_reformat_title))
+                .setMessage(getResources().getString(R.string.report_reformat_message))
+                .setInverseBackgroundForced(true)
+                .setIcon(null)
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                    ReportFormatConverter.convertToNewFormat(sp);
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show());
+
 
         findViewById(R.id.reset).setOnClickListener(view -> builder
                 .setTitle(getResources().getString(R.string.resetdialog_title))
