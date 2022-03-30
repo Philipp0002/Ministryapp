@@ -158,4 +158,7 @@ perso. : /"</string>
     <string name="bericht_type_name_hint">Il tuo nome</string>
     <string name="goal">Obiettivo</string>
     <string name="goal_text_minutes">%a per raggiungere l\'obiettivo</string>
+    <string name="report_reformat">Converti da vecchi a nuovi dati di servizio</string>
+    <string name="report_reformat_title">"Riconvertire i rapporti? "</string>
+    <string name="report_reformat_message">"La riformattazione sovrascriverà i dati del rapporto esistente con i vecchi dati. Fallo solo se l'app non ha convertito i tuoi dati correttamente! "</string>
 </resources>

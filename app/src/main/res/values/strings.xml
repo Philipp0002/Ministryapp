@@ -150,6 +150,8 @@
     <string name="report_private_show">Show</string>
     <string name="report_private_mode">Private mode</string>
 
+    <string name="report_reformat">Reconvert old to new report</string>
+
     <string name="export">Export</string>
     <string name="import_deletes_data">Importing an .minapp File, will remove all the app\'s already existing data. Continue?</string>
     <string name="import_error_fnf">An error occured: File not found!</string>
@@ -185,5 +187,7 @@
     <string name="calendar_gcal_remove_msg">This will unlink Ministryapp from Google Calendar. Continue?</string>
     <string name="calendar_event_title">Ministry with %a</string>
     <string name="calendar_activate_not_found">Calendar can\'t be found!</string>
+    <string name="report_reformat_title">Reconvert reports?</string>
+    <string name="report_reformat_message">Reformatting will overwrite your existing report data by the old data. Only do this if the app didn\'t convert your data properly!</string>
 
 </resources>

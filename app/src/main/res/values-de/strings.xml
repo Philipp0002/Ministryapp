@@ -181,4 +181,7 @@
     <string name="bericht_type_name_hint">Dein Name</string>
     <string name="goal">Ziel</string>
     <string name="goal_text_minutes">%a um Ziel zu erreichen</string>
+    <string name="report_reformat">Von alten zu neuen Dienstdaten konvertieren</string>
+    <string name="report_reformat_title">Dienstdaten neu konvertieren?</string>
+    <string name="report_reformat_message">Dieser Vorgang überschreibt vorhandene Berichtsdaten. Tu dies nur, wenn die letzte Konvertierung fehlerhaft ist!</string>
 </resources>
