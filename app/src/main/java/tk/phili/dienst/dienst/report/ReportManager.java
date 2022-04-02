@@ -97,6 +97,11 @@ public class ReportManager {
         String allReportsJson = sharedPreferences.getString(SP_REPORTS_KEY, null);
         Type listType = new TypeToken<List<Report>>() {}.getType();
         List<Report> reports = getGson().fromJson(allReportsJson, listType);
+
+        if(reports == null){
+            reports = new ArrayList<Report>();
+        }
+
         try {
             Collections.sort(reports, getReportComparator());
         }catch (Exception e){

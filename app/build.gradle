@@ -8,8 +8,8 @@ android {
         applicationId "tk.phili.dienst.dienst"
         minSdkVersion 16
         targetSdkVersion 31
-        versionCode 68
-        versionName "1.68"
+        versionCode 69
+        versionName "1.69"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
