@@ -125,9 +125,9 @@ public class Report {
                 minutesString = minutes + "";
                 timeFormatString = context.getString(R.string.minutes);
             }else{
-                minutesString = LocalTime.MIN.plus(
-                        Duration.ofMinutes( getMinutes() )
-                ).toString();
+                long HH = minutes / 60;
+                long MM = (minutes % 60);
+                minutesString = String.format("%02d:%02d", HH, MM);
             }
         }
 
