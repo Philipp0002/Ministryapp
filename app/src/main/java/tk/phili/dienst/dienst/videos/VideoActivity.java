@@ -128,15 +128,14 @@ public class VideoActivity extends AppCompatActivity {
     }
 
 
-    DividerItemDecoration idivider = null;
     public void refreshList(){
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        /*if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat
-                    .requestPermissions(VideoActivity.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+                    .requestPermissions(VideoActivity.this, new String[]{android.Manifest.permission.READ_MEDIA_VIDEO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
             return;
-        }
+        }*/
 
         File a = new File(this.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath());
         for(File f : a.listFiles()){
@@ -264,7 +263,7 @@ public class VideoActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 1001:
@@ -278,7 +277,7 @@ public class VideoActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+    }*/
 
 
 
