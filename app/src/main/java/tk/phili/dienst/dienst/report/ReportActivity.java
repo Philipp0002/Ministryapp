@@ -3,6 +3,7 @@ package tk.phili.dienst.dienst.report;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigationrail.NavigationRailView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -43,7 +48,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.drawer.DrawerNew;
+import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
 public class ReportActivity extends AppCompatActivity {
@@ -63,15 +69,45 @@ public class ReportActivity extends AppCompatActivity {
 
     ReportManager reportManager;
 
+
+    //ADAPTIVE
+    private DrawerLayout drawerLayout;
+    private NavigationView modalNavDrawer;
+    private FloatingActionButton fab;
+    private NavigationRailView navRail;
+    private NavigationView navDrawer;
+    private Configuration configuration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
+        drawerLayout = findViewById(R.id.drawer_layout);
+        modalNavDrawer = findViewById(R.id.modal_nav_drawer);
+        fab = findViewById(R.id.fab);
+        navRail = findViewById(R.id.nav_rail);
+        navDrawer = findViewById(R.id.nav_drawer);
+        configuration = getResources().getConfiguration();
+
+        /////////////////DRAWER/////////////////////////////////////////
+        // Initializing Toolbar and setting it as the actionbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.bringToFront();
+
+        int screenWidth = configuration.screenWidthDp;
+        AdaptiveUtils.updateNavigationViewLayout(
+                screenWidth, drawerLayout, modalNavDrawer, fab, navRail, navDrawer,
+                toolbar, this);
+
+        DrawerNew.manageDrawers(this, modalNavDrawer, navRail, navDrawer);
+
         sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        if(!sp.contains("reports") && sp.contains("BERICHTE")) {
+        if (!sp.contains("reports") && sp.contains("BERICHTE")) {
             ReportFormatConverter.convertToNewFormat(sp);
         }
         reportManager = new ReportManager(this);
@@ -115,13 +151,6 @@ public class ReportActivity extends AppCompatActivity {
         });
 
 
-        /////////////////DRAWER/////////////////////////////////////////
-        // Initializing Toolbar and setting it as the actionbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.bringToFront();
-
         ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setParallaxOffset(100);
 
 
@@ -143,8 +172,6 @@ public class ReportActivity extends AppCompatActivity {
         Animation anim = android.view.animation.AnimationUtils.loadAnimation(findViewById(R.id.addBerichtButton).getContext(), R.anim.slide_in_bottom);
         anim.setDuration(1000L);
         findViewById(R.id.upswipy).startAnimation(anim);
-
-        Drawer.addDrawer(this, toolbar, 1);
 
         findViewById(R.id.swipe_up_share).setOnClickListener(v -> {
             if (findViewById(R.id.swipe_up_share).getAlpha() != 0F) {
@@ -260,7 +287,7 @@ public class ReportActivity extends AppCompatActivity {
             public void onClicked(Report report, View view) {
 
                 SlidingUpPanelLayout slidingUpPanelLayout = ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout));
-                if(slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+                if (slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     return;
                 }

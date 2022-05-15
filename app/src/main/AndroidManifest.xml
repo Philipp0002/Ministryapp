@@ -31,7 +31,6 @@
         <activity
             android:name=".report.ReportActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:exported="true"
             >
             <intent-filter>

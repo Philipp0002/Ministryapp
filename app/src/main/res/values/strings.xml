@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="openDrawer">Navigation</string>
+    <string name="closeDrawer">Close Navigation</string>
+
     <string name="app_name">Ministry</string>
     <string name="splash_app_name">Ministryapp</string>
     <string name="title_section1">Report</string>
