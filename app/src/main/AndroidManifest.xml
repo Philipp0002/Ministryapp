@@ -41,7 +41,6 @@
         </activity>
         <activity
             android:name=".Splash"
-            android:screenOrientation="portrait"
             android:theme="@style/Splash"
             android:exported="true"
             >
@@ -53,20 +52,16 @@
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".samplepresentations.SamplePresentationsActivity"
-            android:label="@string/title_activity_empfehlungen"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_activity_empfehlungen" />
         <activity
             android:name=".notes.Notes"
-            android:label="@string/title_section3"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_section3" />
         <activity
             android:name=".videos.VideoActivity"
-            android:label="@string/title_section7"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_section7" />
         <activity
             android:name=".report.ReportAddFrame"
             android:label="@string/add_bericht"
@@ -74,7 +69,6 @@
         <activity
             android:name=".calendar.Kalender"
             android:label="@string/title_activity_kalender"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".calendar.KalenderAddFrame"

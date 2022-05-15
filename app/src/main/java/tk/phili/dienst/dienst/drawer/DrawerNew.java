@@ -38,11 +38,16 @@ public class DrawerNew {
                                      @NonNull NavigationRailView navRail,
                                      @NonNull NavigationView navDrawer){
 
+        View titleHeaderNav = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
+        View titleHeaderNavModal = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
+        modalNavDrawer.addHeaderView(titleHeaderNavModal);
+        navDrawer.addHeaderView(titleHeaderNav);
+
         for(Object[] mapping : positionMapping){
             if(((Class)mapping[0]).isInstance(activity)){
-                modalNavDrawer.getMenu().getItem((int)mapping[1]).setChecked(true);
+                modalNavDrawer.setCheckedItem(modalNavDrawer.getMenu().getItem((int)mapping[1]));
                 navRail.getMenu().getItem((int)mapping[1]).setChecked(true);
-                navDrawer.getMenu().getItem((int)mapping[1]).setChecked(true);
+                navDrawer.setCheckedItem(navDrawer.getMenu().getItem((int)mapping[1]));
                 break;
             }
         }
