@@ -8,8 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/background"
-        android:fitsSystemWindows="false"
-        tools:context=".report.ReportActivity">
+        android:fitsSystemWindows="false">
 
         <com.sothree.slidinguppanel.SlidingUpPanelLayout
             android:id="@+id/sliding_layout"

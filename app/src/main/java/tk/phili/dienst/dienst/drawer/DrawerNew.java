@@ -1,31 +1,32 @@
 package tk.phili.dienst.dienst.drawer;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigationrail.NavigationRailView;
 
 import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.dailytext.DailytextActivity;
-import tk.phili.dienst.dienst.notes.Notes;
-import tk.phili.dienst.dienst.report.ReportActivity;
+import tk.phili.dienst.dienst.notes.NotesFragment;
+import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
 import tk.phili.dienst.dienst.settings.SettingsActivity;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.videos.VideoActivity;
 import tk.phili.dienst.dienst.R;
 
 public class DrawerNew {
 
+    private static boolean initialized = false;
+
     public static Object[][] positionMapping = new Object[][] {
-            { ReportActivity.class, 0, R.id.drawer_report },
-            { Notes.class, 1, R.id.drawer_notes },
+            { ReportFragment.class, 0, R.id.drawer_report },
+            { NotesFragment.class, 1, R.id.drawer_notes },
             { SamplePresentationsActivity.class, 2, R.id.drawer_samplepresentations },
             { DailytextActivity.class, 3, R.id.drawer_dailytext },
             { VideoActivity.class, 4, R.id.drawer_videos },
@@ -33,15 +34,19 @@ public class DrawerNew {
             { SettingsActivity.class, 6, R.id.drawer_settings }
     };
 
-    public static void manageDrawers(Activity activity,
+    public static void manageDrawers(WrapperActivity activity,
+                                     @NonNull DrawerLayout drawerLayout,
                                      @NonNull NavigationView modalNavDrawer,
                                      @NonNull NavigationRailView navRail,
                                      @NonNull NavigationView navDrawer){
 
-        View titleHeaderNav = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
-        View titleHeaderNavModal = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
-        modalNavDrawer.addHeaderView(titleHeaderNavModal);
-        navDrawer.addHeaderView(titleHeaderNav);
+        if(!initialized) {
+            View titleHeaderNav = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
+            View titleHeaderNavModal = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
+            modalNavDrawer.addHeaderView(titleHeaderNavModal);
+            navDrawer.addHeaderView(titleHeaderNav);
+            initialized = true;
+        }
 
         for(Object[] mapping : positionMapping){
             if(((Class)mapping[0]).isInstance(activity)){
@@ -55,6 +60,7 @@ public class DrawerNew {
         modalNavDrawer.setNavigationItemSelectedListener(item -> {
             for(Object[] mapping : positionMapping){
                 if((int)mapping[2] == item.getItemId()){
+                    drawerLayout.closeDrawers();
                     onItemClicked(activity, (Class)mapping[0]);
                     break;
                 }
@@ -84,11 +90,12 @@ public class DrawerNew {
 
     }
 
-    private static void onItemClicked(Activity activity, Class toOpen){
-        activity.startActivity(new Intent(activity, toOpen));
+    private static void onItemClicked(WrapperActivity activity, Class toOpen){
+        activity.getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, toOpen, null)
+                .commit();
         hideKeyboard(activity);
-        activity.finish();
-        activity.overridePendingTransition(0, 0);
     }
 
     public static void hideKeyboard(Activity activity) {

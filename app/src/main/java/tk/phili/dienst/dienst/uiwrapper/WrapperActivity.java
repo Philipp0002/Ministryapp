@@ -67,7 +67,9 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
                     screenWidth, drawerLayout, modalNavDrawer, fab, navRail, navDrawer,
                     toolbar, this);
 
-            DrawerNew.manageDrawers(this, modalNavDrawer, navRail, navDrawer);
+
+            DrawerNew.manageDrawers(this, drawerLayout, modalNavDrawer, navRail, navDrawer);
+
         }
     }
 }

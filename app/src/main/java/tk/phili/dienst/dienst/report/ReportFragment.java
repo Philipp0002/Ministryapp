@@ -255,11 +255,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
 
-    /*@Override
-    protected void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         updateList();
-    }*/
+    }
 
     public boolean carry() {
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
