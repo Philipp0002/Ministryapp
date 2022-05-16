@@ -24,12 +24,12 @@ import com.prof.rssparser.Parser;
 import java.util.ArrayList;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.calendar.Kalender;
+import tk.phili.dienst.dienst.calendar.CalendarFragment;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.notes.NotesFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsActivity;
-import tk.phili.dienst.dienst.videos.VideoActivity;
+import tk.phili.dienst.dienst.videos.VideoFragment;
 
 /**
  * Created by fipsi on 24.07.2017.
@@ -154,11 +154,11 @@ public class Drawer {
                     }
                     if(drawerItem.equals(i6)){
                         if(item == 6)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), VideoActivity.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), VideoFragment.class));
                     }
                     if(drawerItem.equals(i7)){
                         if(item == 7)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), Kalender.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), CalendarFragment.class));
                     }
                     if(drawerItem.equals(i8)){
                         if(item == 8)return false;

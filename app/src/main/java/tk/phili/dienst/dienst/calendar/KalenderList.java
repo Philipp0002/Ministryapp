@@ -34,12 +34,14 @@ public class KalenderList extends ArrayAdapter<String>{
 
     //DECLARATIONS
     List<Event> events;
-    Kalender c;
+    Context c;
+    CalendarFragment calendarFragment;
     LayoutInflater inflater;
 
-    public KalenderList(Kalender context, List<Event> events) {
+    public KalenderList(Context context, CalendarFragment calendarFragment, List<Event> events) {
         super(context, R.layout.kalender_item, (List)events);
         this.c = context;
+        this.calendarFragment = calendarFragment;
         this.events = events;
     }
 
@@ -185,7 +187,7 @@ public class KalenderList extends ArrayAdapter<String>{
                                                 }
                                             }
 
-                                            c.refreshAll();
+                                            calendarFragment.refreshAll();
                                         }
                                     })
                                     .setNegativeButton(c.getString(R.string.delete_cancel), new DialogInterface.OnClickListener() {

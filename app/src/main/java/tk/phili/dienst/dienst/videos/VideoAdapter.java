@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.videos;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.Context;
@@ -48,11 +49,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     public List<String> url;
     public List<Boolean> isDownloaded;
     public HashMap<Integer, Drawable> drawables = new HashMap<Integer, Drawable>();
-    private VideoActivity context;
+    private Activity context;
+    private VideoFragment videoFragment;
 
     public HashMap<Long, Integer> pendingDownload = new HashMap<Long, Integer>();
 
-    public VideoAdapter(VideoActivity context, List<Integer> id, List<String> title, List<String> length, List<String> mb, List<String> url, List<Boolean> isDownloaded) {
+    public VideoAdapter(Activity context, VideoFragment videoFragment, List<Integer> id, List<String> title, List<String> length, List<String> mb, List<String> url, List<Boolean> isDownloaded) {
         this.id = id;
         this.title = title;
         this.length = length;
@@ -60,6 +62,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         this.url = url;
         this.isDownloaded = isDownloaded;
         this.context = context;
+        this.videoFragment = videoFragment;
     }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -246,12 +249,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         }catch(Exception e){
             new AlertDialog.Builder(context)
                     .setTitle(R.string.error)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                    .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
                     .setCancelable(false)
                     .setMessage(R.string.video_open_error)
                     .show();
@@ -265,13 +263,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         String positiveText = context.getString(R.string.delete_ok);
         builder.setPositiveButton(positiveText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath()+"/"+"MINISTRY" +"/"+ vidname.replace("?", "")+".mp4");
-                        file.delete();
-                        context.refreshList();
-                    }
+                (dialog, which) -> {
+                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath()+"/"+"MINISTRY" +"/"+ vidname.replace("?", "")+".mp4");
+                    file.delete();
+                    videoFragment.refreshList();
                 });
 
         String negativeText = context.getString(R.string.delete_cancel);

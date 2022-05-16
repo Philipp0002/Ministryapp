@@ -10,14 +10,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigationrail.NavigationRailView;
 
-import tk.phili.dienst.dienst.calendar.Kalender;
+import tk.phili.dienst.dienst.calendar.CalendarFragment;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.notes.NotesFragment;
 import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsActivity;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
-import tk.phili.dienst.dienst.videos.VideoActivity;
+import tk.phili.dienst.dienst.videos.VideoFragment;
 import tk.phili.dienst.dienst.R;
 
 public class DrawerNew {
@@ -29,8 +29,8 @@ public class DrawerNew {
             { NotesFragment.class, 1, R.id.drawer_notes },
             { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations },
             { DailytextFragment.class, 3, R.id.drawer_dailytext },
-            { VideoActivity.class, 4, R.id.drawer_videos },
-            { Kalender.class, 5, R.id.drawer_calendar },
+            { VideoFragment.class, 4, R.id.drawer_videos },
+            { CalendarFragment.class, 5, R.id.drawer_calendar },
             { SettingsActivity.class, 6, R.id.drawer_settings }
     };
 

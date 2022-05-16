@@ -46,14 +46,11 @@
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".videos.VideoActivity"
-            android:label="@string/title_section7" />
-        <activity
             android:name=".report.ReportAddFrame"
             android:label="@string/add_bericht"
             android:theme="@style/BerichtAddFrameThemeTranslucent" />
         <activity
-            android:name=".calendar.Kalender"
+            android:name=".calendar.CalendarFragment"
             android:label="@string/title_activity_kalender"
             android:theme="@style/AppTheme" />
         <activity

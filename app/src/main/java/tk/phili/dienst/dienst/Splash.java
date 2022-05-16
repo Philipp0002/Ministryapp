@@ -18,7 +18,7 @@ import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
 
-import tk.phili.dienst.dienst.calendar.Kalender;
+import tk.phili.dienst.dienst.calendar.CalendarFragment;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.notes.NotesFragment;
@@ -26,7 +26,7 @@ import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.Shortcuts;
-import tk.phili.dienst.dienst.videos.VideoActivity;
+import tk.phili.dienst.dienst.videos.VideoFragment;
 
 
 public class Splash extends Activity {
@@ -89,11 +89,11 @@ public class Splash extends Activity {
                 }else if(s.equals("Empfehlungen")) {
                     mainIntent = new Intent(Splash.this, SamplePresentationsFragment.class);
                 }else if(s.equals("Videos")) {
-                    mainIntent = new Intent(Splash.this, VideoActivity.class);
+                    mainIntent = new Intent(Splash.this, VideoFragment.class);
                 }else if(s.equals("Tagestext")) {
                     mainIntent = new Intent(Splash.this, DailytextFragment.class);
                 }else if(s.equals("Kalender")) {
-                    mainIntent = new Intent(Splash.this, Kalender.class);
+                    mainIntent = new Intent(Splash.this, CalendarFragment.class);
                 }
 
                 if(!sp.getBoolean("dsgvo_accept", false)){

@@ -2,8 +2,10 @@ package tk.phili.dienst.dienst.calendar;
 
 import android.Manifest;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,19 +16,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
-import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -45,32 +48,49 @@ import java.util.List;
 import java.util.Set;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 
-public class Kalender extends AppCompatActivity {
+public class CalendarFragment extends Fragment {
 
     CompactCalendarView compactCalendarView;
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
     GregorianCalendar cal;
-    boolean initialized = false;
     TextView tbv;
+    TextView noCal;
+    ListView eventList;
+    TextView calendarDayText;
 
     //FORMAT
     //IDʷDAYʷMONTHʷYEARʷHOURʷMINUTEʷDIENSTPARTNERʷBESCHREIBUNG
 
+    FragmentCommunicationPass fragmentCommunicationPass;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kalender);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.bringToFront();
-        setTitle("");
-        Drawer.addDrawer(this, toolbar, 7);
-        compactCalendarView = findViewById(R.id.compactcalendar_view);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCommunicationPass = (FragmentCommunicationPass) context;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.activity_kalender, null);
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        noCal = view.findViewById(R.id.no_kal);
+        eventList = view.findViewById(R.id.event_liste);
+        calendarDayText = view.findViewById(R.id.calendar_day_text);
+
+        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+
+        compactCalendarView = view.findViewById(R.id.compactcalendar_view);
         cal = new GregorianCalendar();
-        tbv = findViewById(R.id.toolbar_title);
+        tbv = view.findViewById(R.id.toolbar_title);
         refreshAll();
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -90,9 +110,9 @@ public class Kalender extends AppCompatActivity {
         });
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        findViewById(R.id.imageButton).setOnClickListener(view -> {
-            Intent mainIntent = new Intent(Kalender.this, KalenderAddFrame.class);
-            FloatingActionButton imageButton = findViewById(R.id.imageButton);
+        view.findViewById(R.id.imageButton).setOnClickListener(__ -> {
+            Intent mainIntent = new Intent(getActivity(), KalenderAddFrame.class);
+            FloatingActionButton imageButton = view.findViewById(R.id.imageButton);
             float x = imageButton.getX() + imageButton.getWidth()/2;
             float y = imageButton.getY() + imageButton.getHeight()/2;
             mainIntent.putExtra("xReveal",x);
@@ -125,29 +145,26 @@ public class Kalender extends AppCompatActivity {
 
             MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), getString(R.string.select_month_year));
 
-            dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(int year, int monthOfYear) {
+            dialogFragment.setOnDateSetListener((year, monthOfYear) -> {
 
-                    cal.set(Calendar.MONTH, monthOfYear);
-                    cal.set(Calendar.YEAR, year);
-                    tbv.setText(dateFormat.format(cal.getTime()));
-                    compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
-                    refreshDay();
-                }
+                cal.set(Calendar.MONTH, monthOfYear);
+                cal.set(Calendar.YEAR, year);
+                tbv.setText(dateFormat.format(cal.getTime()));
+                compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
+                refreshDay();
             });
 
-            dialogFragment.show(getSupportFragmentManager(), null);
+            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
         });
 
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    if (ContextCompat.checkSelfPermission(Kalender.this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
-                            || ContextCompat.checkSelfPermission(Kalender.this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+                            || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat
-                                .requestPermissions(Kalender.this, new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
+                                .requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
                         return;
                     }else{
                         try {
@@ -155,7 +172,7 @@ public class Kalender extends AppCompatActivity {
                                     new String[] { GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE }, false, null, null, null, null);
                             startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST );  //GET_ACCOUNT_NAME_REQUEST是一個自訂的int, 用作分辨所返回的結果
                         } catch (ActivityNotFoundException e) {
-                            Toast.makeText(Kalender.this, R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
                             editor.putBoolean("CalendarSyncActive", false);
                             editor.commit();
                         }
@@ -173,15 +190,15 @@ public class Kalender extends AppCompatActivity {
         };
 
         if(!sp.contains("CalendarSyncActive")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Kalender.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle(R.string.calendar_activate_gcal_title).setMessage(R.string.calendar_activate_gcal_msg).setPositiveButton(R.string.yes, dialogClickListener)
                     .setNegativeButton(R.string.no, dialogClickListener).show();
         }else{
             if(sp.getBoolean("CalendarSyncActive", false)){
-                if (ContextCompat.checkSelfPermission(Kalender.this, android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(Kalender.this, android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat
-                            .requestPermissions(Kalender.this, new String[]{android.Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
+                            .requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
                     return;
                 }
             }
@@ -206,14 +223,14 @@ public class Kalender extends AppCompatActivity {
                         startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST );  //GET_ACCOUNT_NAME_REQUEST是一個自訂的int, 用作分辨所返回的結果
                     } catch (ActivityNotFoundException e) {
                         // TODO
-                        Toast.makeText(Kalender.this, R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
                         editor.putBoolean("CalendarSyncActive", false);
                         editor.commit();
                     }
 
 
                 } else { // Permission Denied
-                     Toast.makeText(Kalender.this, getString(R.string.calendar_activate_gcal_not_working), Toast.LENGTH_LONG).show();
+                     Toast.makeText(getContext(), getString(R.string.calendar_activate_gcal_not_working), Toast.LENGTH_LONG).show();
                      editor.putBoolean("CalendarSyncActive", false);
                     editor.commit();
                 }
@@ -224,17 +241,16 @@ public class Kalender extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GET_ACCOUNT_NAME_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == GET_ACCOUNT_NAME_REQUEST && resultCode == Activity.RESULT_OK) {
             String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            //Toast.makeText(Kalender.this, accountName, Toast.LENGTH_LONG).show();
             GOOGLE_ACCOUNT_NAME = accountName;
             editor.putString("CalendarSyncGacc", GOOGLE_ACCOUNT_NAME);
             editor.commit();
             query_calendar();
-        }else if (requestCode == GET_ACCOUNT_NAME_REQUEST && resultCode == RESULT_CANCELED) {
-            Toast.makeText(Kalender.this, R.string.calendar_activate_gcal_not_working, Toast.LENGTH_LONG).show();
+        }else if (requestCode == GET_ACCOUNT_NAME_REQUEST && resultCode == Activity.RESULT_CANCELED) {
+            Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_working, Toast.LENGTH_LONG).show();
             editor.putBoolean("CalendarSyncActive", false);
             editor.commit();
         }
@@ -260,7 +276,7 @@ public class Kalender extends AppCompatActivity {
         String targetAccount = GOOGLE_ACCOUNT_NAME;
         // 查詢日歷
         Cursor cur;
-        ContentResolver cr = getContentResolver();
+        ContentResolver cr = getContext().getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
         // 定義查詢條件，找出屬於上面Google帳戶及可以完全控制的日歷
         String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
@@ -270,7 +286,7 @@ public class Kalender extends AppCompatActivity {
                 "com.google",
                 Integer.toString(CalendarContract.Calendars.CAL_ACCESS_OWNER)};
         // 因為targetSDK=25，所以要在Apps運行時檢查權限
-        int permissionCheck = ContextCompat.checkSelfPermission(Kalender.this,
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.READ_CALENDAR);
         // 建立List來暫存查詢的結果
         final List<String> accountNameList = new ArrayList<>();
@@ -304,7 +320,7 @@ public class Kalender extends AppCompatActivity {
             }
             if (calendarIdList.size() != 0) {
                 // 建立一個Dialog讓使用者選擇日歷
-                AlertDialog.Builder adb = new AlertDialog.Builder(this);
+                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
                 adb.setTitle("Kalender wählen"); //TODO MULTI LANG
                 CharSequence items[] = accountNameList.toArray(new CharSequence[accountNameList.size()]);
                 adb.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -320,14 +336,14 @@ public class Kalender extends AppCompatActivity {
                 adb.show();
             }
             else {
-                Toast toast = Toast.makeText(this, R.string.calendar_activate_not_found, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getContext(), R.string.calendar_activate_not_found, Toast.LENGTH_LONG);
                 toast.show();
                 editor.putBoolean("CalendarSyncActive", false);
                 editor.commit();
             }
         }
         else {
-            Toast.makeText(Kalender.this, R.string.calendar_activate_gcal_not_working, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_working, Toast.LENGTH_LONG).show();
             editor.putBoolean("CalendarSyncActive", false);
             editor.commit();
         }
@@ -342,22 +358,22 @@ public class Kalender extends AppCompatActivity {
 
         List<Event> events = compactCalendarView.getEvents(cal.getTimeInMillis());
         if(events.isEmpty()){
-            findViewById(R.id.no_kal).setVisibility(View.VISIBLE);
+            noCal.setVisibility(View.VISIBLE);
         }else {
-            findViewById(R.id.no_kal).setVisibility(View.INVISIBLE);
+            noCal.setVisibility(View.INVISIBLE);
         }
-        final KalenderList adapterlist = new KalenderList(Kalender.this, events);
-        ((ListView)findViewById(R.id.event_liste)).setAdapter(adapterlist);
+        final KalenderList adapterlist = new KalenderList(getContext(), CalendarFragment.this, events);
+        eventList.setAdapter(adapterlist);
 
         String s = java.text.DateFormat.getDateInstance(DateFormat.SHORT).format(cal.getTime());
         s = android.text.format.DateFormat.format("EEEE", cal.getTime()) + ", " + s;
-        ((TextView)findViewById(R.id.calendar_day_text)).setText(s);
+        calendarDayText.setText(s);
 
     }
 
 
     public void refreshAll(){
-        sp = getSharedPreferences("MainActivity", MODE_PRIVATE);
+        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
         compactCalendarView.removeAllEvents();
@@ -383,7 +399,7 @@ public class Kalender extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         refreshAll();
     }

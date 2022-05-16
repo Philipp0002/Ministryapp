@@ -8,22 +8,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,10 +32,12 @@ import java.util.List;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.HttpUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class VideoActivity extends AppCompatActivity {
+public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickListener{
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -52,7 +51,7 @@ public class VideoActivity extends AppCompatActivity {
             if(adapter!=null){
                 adapter.pendingDownload.remove(dwnId);
             }
-            final Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_55), getString(R.string.title_videos_success), Snackbar.LENGTH_LONG);
+            final Snackbar snackbar = Snackbar.make(getView(), getString(R.string.title_videos_success), Snackbar.LENGTH_LONG);
             snackbar.setAction("OK", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -64,80 +63,68 @@ public class VideoActivity extends AppCompatActivity {
         }
     };
 
+    FragmentCommunicationPass fragmentCommunicationPass;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCommunicationPass = (FragmentCommunicationPass) context;
+    }
 
-        setTitle(getResources().getString(R.string.title_section7));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.activity_video, null);
+        return root;
+    }
 
-        sp = getSharedPreferences("MainActivity", MODE_PRIVATE);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+
+        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+
+        toolbar.inflateMenu(R.menu.videos);
+        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
+        toolbar.setOnMenuItemClickListener(this);
+
+        toolbar.setTitle(getResources().getString(R.string.title_section7));
+
+        sp = getActivity().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        // Initializing Toolbar and setting it as the actionbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_55);
-        setSupportActionBar(toolbar);
-        toolbar.bringToFront();
-        Drawer.addDrawer(this, toolbar, 6);
 
         if(!sp.contains("Videos")){
             refreshListData();
         }else{
             refreshList();
         }
-        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         try {
-            unregisterReceiver(onComplete);
+            getActivity().unregisterReceiver(onComplete);
         }catch (Exception e){}
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         try {
-            unregisterReceiver(onComplete);
+            getActivity().unregisterReceiver(onComplete);
         }catch (Exception e){}
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.videos, menu);
-        MenuTintUtils.tintAllIcons(menu, Color.WHITE);
-        return true;
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_refresh_vid) {
-            refreshListData();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     public void refreshList(){
-
-        /*if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat
-                    .requestPermissions(VideoActivity.this, new String[]{android.Manifest.permission.READ_MEDIA_VIDEO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
-            return;
-        }*/
-
-        File a = new File(this.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath());
+        File a = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath());
         for(File f : a.listFiles()){
             for(File f1 : f.listFiles()){
             }
@@ -170,7 +157,7 @@ public class VideoActivity extends AppCompatActivity {
                     length.add(s.split(";")[3].replace("-", ":"));
                     mb.add(s.split(";")[4] + "MB");
                     url.add(s.split(";")[5]);
-                    File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + s.split(";")[2].replace("?", "")+".mp4");
+                    File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + s.split(";")[2].replace("?", "")+".mp4");
                     if (file.exists()) {
                         isDownloaded.add(true);
                     }else{
@@ -180,11 +167,11 @@ public class VideoActivity extends AppCompatActivity {
             }
 
             if(adapter == null){
-               adapter = new VideoAdapter(this, id, title, length, mb, url, isDownloaded);
+               adapter = new VideoAdapter(getActivity(), this, id, title, length, mb, url, isDownloaded);
 
-                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }else{
                 adapter.id.clear();
                 adapter.id.addAll(id);
@@ -201,21 +188,11 @@ public class VideoActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
 
-
-
-            /*if(idivider != null){
-                recyclerView.removeItemDecoration(idivider);
-            }*/
-
-            /*recyclerView.addItemDecoration(idivider = new DividerItemDecoration(VideoNew.this,
-                    DividerItemDecoration.VERTICAL));
-            idivider.setDrawable(ContextCompat.getDrawable(VideoNew.this, R.drawable.divider));*/
-
         }
     }
 
     public void refreshListData(){
-        final ProgressDialog dialog = ProgressDialog.show(VideoActivity.this, "",
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
                 getString(R.string.vid_wait), true);
         dialog.setCancelable(false);
 
@@ -230,7 +207,7 @@ public class VideoActivity extends AppCompatActivity {
                     refreshList();
                 }else{
                     dialog.cancel();
-                    new AlertDialog.Builder(VideoActivity.this)
+                    new AlertDialog.Builder(getContext())
                             .setTitle(R.string.video_refresh_error_title)
                             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
@@ -247,14 +224,22 @@ public class VideoActivity extends AppCompatActivity {
         wsg.execute("https://ministryapp.de/Videos.php");
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if(item.getItemId() == R.id.action_refresh_vid) {
+            refreshListData();
+            return true;
+        }
+        return false;
+    }
+
     static class WebStringGetter extends AsyncTask<String, Void, String> {
 
-        //private FutureCallback<String> fc;
         private Runnable fc;
         public String response;
 
         protected String doInBackground(String... urls) {
-            return HttpUtils.getUrlAsString(urls[0]);//getContents(urls[0]);
+            return HttpUtils.getUrlAsString(urls[0]);
         }
 
         protected void onPostExecute(String feed) {
@@ -262,23 +247,5 @@ public class VideoActivity extends AppCompatActivity {
             fc.run();
         }
     }
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 1001:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[1] == PackageManager.PERMISSION_GRANTED) { // Permission Granted
-                    refreshList();
-                } else { // Permission Denied
-                    Toast.makeText(VideoActivity.this, getString(R.string.not_accepted_videonew), Toast.LENGTH_LONG).show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }*/
-
-
 
 }
