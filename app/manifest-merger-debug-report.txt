@@ -53,7 +53,7 @@ ADDED from AndroidManifest.xml:23:9
 		ADDED from AndroidManifest.xml:25:13
 	android:name
 		ADDED from AndroidManifest.xml:24:13
-activity#tk.phili.dienst.dienst.settings.SettingsActivity
+activity#tk.phili.dienst.dienst.settings.SettingsFragment
 ADDED from AndroidManifest.xml:27:9
 	android:label
 		ADDED from AndroidManifest.xml:29:13

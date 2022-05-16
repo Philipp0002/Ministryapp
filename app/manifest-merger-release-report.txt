@@ -49,7 +49,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:19:17
 	android:name
 		ADDED from AndroidManifest.xml:19:27
-activity#tk.phili.dienst.dienst.settings.SettingsActivity
+activity#tk.phili.dienst.dienst.settings.SettingsFragment
 ADDED from AndroidManifest.xml:22:9
 	android:label
 		ADDED from AndroidManifest.xml:24:13

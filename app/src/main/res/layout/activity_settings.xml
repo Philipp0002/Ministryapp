@@ -1,20 +1,18 @@
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_10"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".settings.SettingsActivity">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="tk.phili.dienst.dienst.settings.SettingsActivity"
+        tools:context="tk.phili.dienst.dienst.settings.SettingsFragment"
         tools:ignore="MergeRootFrame">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_5"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -25,7 +23,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_5">
+            android:layout_below="@+id/toolbar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -164,10 +162,5 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer" />
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

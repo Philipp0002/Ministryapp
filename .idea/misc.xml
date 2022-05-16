@@ -25,6 +25,7 @@
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/content_kalender_add_frame.xml" value="0.29257246376811596" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/content_tagestext.xml" value="0.20625" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/drawerheaderlayout.xml" value="0.33106884057971014" />
+        <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/drawertickerlayout.xml" value="0.18958333333333333" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/fragment_report.xml" value="0.254981884057971" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/list_bericht.xml" value="0.33106884057971014" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/list_bericht_tiny.xml" value="0.33106884057971014" />
@@ -36,6 +37,7 @@
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/menu/main.xml" value="0.18958333333333333" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/menu/menu_empfehlungen.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/menu/menu_main_activity3.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/menu/menu_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/menu/videos.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22239583333333332" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1555" />
