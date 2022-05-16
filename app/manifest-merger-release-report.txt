@@ -73,7 +73,7 @@ ADDED from AndroidManifest.xml:34:9
 		ADDED from AndroidManifest.xml:36:13
 	android:name
 		ADDED from AndroidManifest.xml:35:13
-activity#tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity
+activity#tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment
 ADDED from AndroidManifest.xml:38:9
 	android:label
 		ADDED from AndroidManifest.xml:40:13

@@ -27,7 +27,7 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.dailytext.DailytextActivity;
 import tk.phili.dienst.dienst.notes.NotesFragment;
-import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsActivity;
 import tk.phili.dienst.dienst.videos.VideoActivity;
 
@@ -146,7 +146,7 @@ public class Drawer {
                     }
                     if(drawerItem.equals(i4)){
                         if(item == 4)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), SamplePresentationsActivity.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), SamplePresentationsFragment.class));
                     }
                     if(drawerItem.equals(i5)){
                         if(item == 5)return false;

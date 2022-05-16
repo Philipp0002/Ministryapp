@@ -22,7 +22,7 @@ import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
 import tk.phili.dienst.dienst.dailytext.DailytextActivity;
 import tk.phili.dienst.dienst.notes.NotesFragment;
-import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.Shortcuts;
@@ -87,7 +87,7 @@ public class Splash extends Activity {
                 }else if(s.equals("Notizen")) {
                     mainIntent = new Intent(Splash.this, NotesFragment.class);
                 }else if(s.equals("Empfehlungen")) {
-                    mainIntent = new Intent(Splash.this, SamplePresentationsActivity.class);
+                    mainIntent = new Intent(Splash.this, SamplePresentationsFragment.class);
                 }else if(s.equals("Videos")) {
                     mainIntent = new Intent(Splash.this, VideoActivity.class);
                 }else if(s.equals("Tagestext")) {

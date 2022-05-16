@@ -14,7 +14,7 @@ import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.dailytext.DailytextActivity;
 import tk.phili.dienst.dienst.notes.NotesFragment;
 import tk.phili.dienst.dienst.report.ReportFragment;
-import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsActivity;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.videos.VideoActivity;
@@ -27,7 +27,7 @@ public class DrawerNew {
     public static Object[][] positionMapping = new Object[][] {
             { ReportFragment.class, 0, R.id.drawer_report },
             { NotesFragment.class, 1, R.id.drawer_notes },
-            { SamplePresentationsActivity.class, 2, R.id.drawer_samplepresentations },
+            { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations },
             { DailytextActivity.class, 3, R.id.drawer_dailytext },
             { VideoActivity.class, 4, R.id.drawer_videos },
             { Kalender.class, 5, R.id.drawer_calendar },
