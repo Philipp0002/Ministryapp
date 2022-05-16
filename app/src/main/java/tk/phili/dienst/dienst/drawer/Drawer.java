@@ -87,8 +87,9 @@ public class Drawer {
             tickerTextNav.setText(tickerDisplayText);
             tickerTextNavModal.setText(tickerDisplayText);
 
-            modalNavDrawer.addHeaderView(tickerHeaderNavModal);
-            navDrawer.addHeaderView(tickerHeaderNav);
+            modalNavDrawer.addView(tickerHeaderNavModal);
+            navDrawer.addView(tickerHeaderNav);
+
 
 
 

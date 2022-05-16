@@ -3,52 +3,51 @@
 
     <item
         android:id="@+id/drawer_report"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_class_black_24dp"
         android:title="@string/title_section1" />
 
     <item
         android:id="@+id/drawer_notes"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_description_black_24dp"
         android:title="@string/title_section3" />
 
     <item
         android:id="@+id/drawer_samplepresentations"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_thumb_up_black_24dp"
         android:title="@string/title_section4" />
 
     <item
         android:id="@+id/drawer_dailytext"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_baseline_event_available_24px"
         android:title="@string/title_tt" />
 
     <item
         android:id="@+id/drawer_videos"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_video_library_black_24dp"
         android:title="@string/title_section7" />
 
     <item
         android:id="@+id/drawer_calendar"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_today_black_24dp"
         android:title="@string/title_section9" />
 
     <item
         android:id="@+id/drawer_settings"
-        android:checked="false"
         android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_section5" />
-
 
 </menu>

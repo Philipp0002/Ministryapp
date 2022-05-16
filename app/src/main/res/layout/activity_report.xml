@@ -26,7 +26,7 @@
                 android:visibility="gone"
                 android:layout_width="360dp"
                 android:layout_height="match_parent"
-                app:menu="@menu/drawer"/>
+                app:menu="@menu/drawer_nav"/>
 
             <!-- Navigation rail to be used for medium screens. -->
             <com.google.android.material.navigationrail.NavigationRailView
@@ -34,7 +34,7 @@
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:menu="@menu/drawer"
+                app:menu="@menu/drawer_nav"
                 app:menuGravity="center" />
         </FrameLayout>
 
@@ -385,6 +385,6 @@
         android:layout_width="360dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/drawer" />
+        app:menu="@menu/drawer_nav" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

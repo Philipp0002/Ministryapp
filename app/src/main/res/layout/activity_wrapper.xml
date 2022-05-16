@@ -27,7 +27,7 @@
                 android:layout_width="360dp"
                 android:layout_height="match_parent"
                 android:theme="@style/Theme.Material3.Dark"
-                app:menu="@menu/drawer"/>
+                app:menu="@menu/drawer_nav"/>
 
             <!-- Navigation rail to be used for medium screens. -->
             <com.google.android.material.navigationrail.NavigationRailView
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:theme="@style/Theme.Material3.Dark"
-                app:menu="@menu/drawer"
+                app:menu="@menu/rail_nav"
                 app:menuGravity="center" />
         </FrameLayout>
 
@@ -58,10 +58,10 @@
     <!-- Modal nav drawer to be shown on medium screens on menu button click. -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/modal_nav_drawer"
-        android:layout_width="360dp"
+        android:layout_width="310dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:theme="@style/Theme.Material3.Dark"
-        app:menu="@menu/drawer" />
+        app:menu="@menu/drawer_nav" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
