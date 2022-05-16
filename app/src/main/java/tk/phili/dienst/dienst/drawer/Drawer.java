@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigationrail.NavigationRailView;
@@ -30,7 +31,7 @@ import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.videos.VideoFragment;
 import tk.phili.dienst.dienst.R;
 
-public class DrawerNew {
+public class Drawer {
 
     private static boolean initialized = false;
 
@@ -50,6 +51,7 @@ public class DrawerNew {
     };
 
     public static void manageDrawers(WrapperActivity activity,
+                                     @NonNull Fragment fragment,
                                      @NonNull DrawerLayout drawerLayout,
                                      @NonNull NavigationView modalNavDrawer,
                                      @NonNull NavigationRailView navRail,
@@ -144,7 +146,7 @@ public class DrawerNew {
         }
 
         for(Object[] mapping : positionMapping){
-            if(((Class)mapping[0]).isInstance(activity)){
+            if(((Class)mapping[0]).isInstance(fragment)){
                 modalNavDrawer.setCheckedItem(modalNavDrawer.getMenu().getItem((int)mapping[1]));
                 navRail.getMenu().getItem((int)mapping[1]).setChecked(true);
                 navDrawer.setCheckedItem(navDrawer.getMenu().getItem((int)mapping[1]));

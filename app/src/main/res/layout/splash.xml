@@ -26,14 +26,6 @@
             android:layout_height="match_parent" >
 
 
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/splash_app_name"
-                android:id="@+id/dienst_text"
-                android:textSize="50dp"
-                android:textColor="#047069" />-->
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"

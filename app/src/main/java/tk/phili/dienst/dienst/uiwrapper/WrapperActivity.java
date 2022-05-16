@@ -11,9 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 
-import tk.phili.dienst.dienst.drawer.DrawerNew;
+import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.report.ReportFragment;
 
 import tk.phili.dienst.dienst.R;
@@ -55,7 +56,7 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     }
 
     @Override
-    public void onDataPass(String tag, Object object) {
+    public void onDataPass(Fragment fragment, String tag, Object object) {
         if(tag == FRAGMENTPASS_TOOLBAR){
             Toolbar toolbar = (Toolbar) object;
             //setSupportActionBar(toolbar);
@@ -68,7 +69,7 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
                     toolbar, this);
 
 
-            DrawerNew.manageDrawers(this, drawerLayout, modalNavDrawer, navRail, navDrawer);
+            Drawer.manageDrawers(this, fragment, drawerLayout, modalNavDrawer, navRail, navDrawer);
 
         }
     }

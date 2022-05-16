@@ -86,7 +86,7 @@ public class CalendarFragment extends Fragment {
         eventList = view.findViewById(R.id.event_liste);
         calendarDayText = view.findViewById(R.id.calendar_day_text);
 
-        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         compactCalendarView = view.findViewById(R.id.compactcalendar_view);
         cal = new GregorianCalendar();

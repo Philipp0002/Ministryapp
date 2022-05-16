@@ -80,7 +80,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
         progressBar = view.findViewById(R.id.tt_progress);
         errorLayout = view.findViewById(R.id.tt_error);
 
-        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.setTitle(R.string.title_tt);
 

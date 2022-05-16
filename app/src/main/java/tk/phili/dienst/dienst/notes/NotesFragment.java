@@ -49,7 +49,7 @@ public class NotesFragment extends Fragment {
         notesEditText = view.findViewById(R.id.notes);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.setTitle(R.string.title_section3);
 

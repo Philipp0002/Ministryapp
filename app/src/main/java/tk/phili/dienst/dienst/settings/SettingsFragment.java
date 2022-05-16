@@ -77,7 +77,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.setTitle(getResources().getString(R.string.title_section5));
 

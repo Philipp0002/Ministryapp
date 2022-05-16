@@ -90,7 +90,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         webView = view.findViewById(R.id.webView);
         progressBar = view.findViewById(R.id.progressBar_empf);
 
-        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.setTitle(getResources().getString(R.string.title_section4));
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);

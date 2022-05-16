@@ -3,12 +3,9 @@ package tk.phili.dienst.dienst.report;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +18,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,9 +30,6 @@ import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.navigationrail.NavigationRailView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -53,10 +44,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.DrawerNew;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
-import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener{
@@ -106,7 +95,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         swipeUpCarryOver = view.findViewById(R.id.swipe_up_carryover);
         goalText = view.findViewById(R.id.goaltext);
 
-        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.inflateMenu(R.menu.main);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
