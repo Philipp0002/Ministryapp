@@ -25,6 +25,7 @@ import tk.phili.dienst.dienst.notes.Notes;
 import tk.phili.dienst.dienst.report.ReportActivity;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.Shortcuts;
 import tk.phili.dienst.dienst.videos.VideoActivity;
 
@@ -83,7 +84,7 @@ public class Splash extends Activity {
                 Intent mainIntent = null;
 
                 if(s == null || s.equals("MainActivity")) {
-                    mainIntent = new Intent(Splash.this, ReportActivity.class);
+                    mainIntent = new Intent(Splash.this, WrapperActivity.class);
                 }else if(s.equals("Notizen")) {
                     mainIntent = new Intent(Splash.this, Notes.class);
                 }else if(s.equals("Empfehlungen")) {

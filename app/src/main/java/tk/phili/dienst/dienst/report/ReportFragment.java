@@ -11,25 +11,30 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -49,10 +54,12 @@ import java.util.List;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.DrawerNew;
+import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class ReportActivity extends AppCompatActivity {
+public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener{
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
@@ -68,61 +75,63 @@ public class ReportActivity extends AppCompatActivity {
     ConstraintLayout goalView;
 
     ReportManager reportManager;
-
-
-    //ADAPTIVE
-    private DrawerLayout drawerLayout;
-    private NavigationView modalNavDrawer;
-    private FloatingActionButton fab;
-    private NavigationRailView navRail;
-    private NavigationView navDrawer;
-    private Configuration configuration;
+    Toolbar toolbar;
+    ExtendedFloatingActionButton addBerichtButton;
+    RelativeLayout upswipy;
+    MaterialButton swipeUpShare;
+    SlidingUpPanelLayout slidingLayout;
+    MaterialButton swipeUpCarryOver;
+    TextView goalText;
+    FragmentCommunicationPass fragmentCommunicationPass;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCommunicationPass = (FragmentCommunicationPass) context;
+    }
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        modalNavDrawer = findViewById(R.id.modal_nav_drawer);
-        fab = findViewById(R.id.fab);
-        navRail = findViewById(R.id.nav_rail);
-        navDrawer = findViewById(R.id.nav_drawer);
-        configuration = getResources().getConfiguration();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_report, null);
+        return root;
+    }
 
-        /////////////////DRAWER/////////////////////////////////////////
-        // Initializing Toolbar and setting it as the actionbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.bringToFront();
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        toolbar = view.findViewById(R.id.toolbar);
+        addBerichtButton = view.findViewById(R.id.addBerichtButton);
+        upswipy = view.findViewById(R.id.upswipy);
+        swipeUpShare = view.findViewById(R.id.swipe_up_share);
+        slidingLayout = view.findViewById(R.id.sliding_layout);
+        swipeUpCarryOver = view.findViewById(R.id.swipe_up_carryover);
+        goalText = view.findViewById(R.id.goaltext);
 
-        int screenWidth = configuration.screenWidthDp;
-        AdaptiveUtils.updateNavigationViewLayout(
-                screenWidth, drawerLayout, modalNavDrawer, fab, navRail, navDrawer,
-                toolbar, this);
+        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        DrawerNew.manageDrawers(this, modalNavDrawer, navRail, navDrawer);
+        toolbar.inflateMenu(R.menu.main);
+        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
+        toolbar.setOnMenuItemClickListener(this);
 
-        sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+
+        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
         if (!sp.contains("reports") && sp.contains("BERICHTE")) {
             ReportFormatConverter.convertToNewFormat(sp);
         }
-        reportManager = new ReportManager(this);
+        reportManager = new ReportManager(getContext());
 
 
-        rpb = findViewById(R.id.progress_goal);
+        rpb = view.findViewById(R.id.progress_goal);
 
-        reportsRecycler = findViewById(R.id.bericht_liste);
-        summarizedRecycler = findViewById(R.id.swipe_up_bericht);
-        goalView = findViewById(R.id.goalview);
+        reportsRecycler = view.findViewById(R.id.bericht_liste);
+        summarizedRecycler = view.findViewById(R.id.swipe_up_bericht);
+        goalView = view.findViewById(R.id.goalview);
         initList();
 
         if (sp.getBoolean("private_mode", false)) {
-            findViewById(R.id.private_block).setVisibility(View.VISIBLE);
-            findViewById(R.id.private_disable).setOnClickListener(view -> findViewById(R.id.private_block).setVisibility(View.GONE));
+            view.findViewById(R.id.private_block).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.private_disable).setOnClickListener(__ -> view.findViewById(R.id.private_block).setVisibility(View.GONE));
         }
 
 
@@ -130,7 +139,7 @@ public class ReportActivity extends AppCompatActivity {
 
         calendarShow = Calendar.getInstance();
 
-        final TextView tbv = findViewById(R.id.toolbar_title);
+        final TextView tbv = view.findViewById(R.id.toolbar_title);
         tbv.setText(dateFormat.format(calendarShow.getTime()));
 
 
@@ -146,16 +155,16 @@ public class ReportActivity extends AppCompatActivity {
                 updateList();
             });
 
-            dialogFragment.show(getSupportFragmentManager(), null);
+            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
         });
 
 
-        ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setParallaxOffset(100);
+        ((SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout)).setParallaxOffset(100);
 
 
-        findViewById(R.id.addBerichtButton).setOnClickListener(v -> {
-            Intent mainIntent = new Intent(ReportActivity.this, ReportAddFrame.class);
+        addBerichtButton.setOnClickListener(v -> {
+            Intent mainIntent = new Intent(getContext(), ReportAddFrame.class);
             float x = v.getX() + v.getWidth() / 2;
             float y = v.getY() + v.getHeight() / 2;
             mainIntent.putExtra("xReveal", x);
@@ -164,26 +173,26 @@ public class ReportActivity extends AppCompatActivity {
             mainIntent.putExtra("id", Integer.MAX_VALUE);
 
             ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(ReportActivity.this, v, "bericht_add_frame");
+                    makeSceneTransitionAnimation(getActivity(), v, "bericht_add_frame");
             startActivity(mainIntent, options.toBundle());
         });
 
 
-        Animation anim = android.view.animation.AnimationUtils.loadAnimation(findViewById(R.id.addBerichtButton).getContext(), R.anim.slide_in_bottom);
+        Animation anim = android.view.animation.AnimationUtils.loadAnimation(addBerichtButton.getContext(), R.anim.slide_in_bottom);
         anim.setDuration(1000L);
-        findViewById(R.id.upswipy).startAnimation(anim);
+        upswipy.startAnimation(anim);
 
-        findViewById(R.id.swipe_up_share).setOnClickListener(v -> {
-            if (findViewById(R.id.swipe_up_share).getAlpha() != 0F) {
-                ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        swipeUpShare.setOnClickListener(v -> {
+            if (swipeUpShare.getAlpha() != 0F) {
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(ReportActivity.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 
                 alert.setTitle(getString(R.string.title_section6));
                 alert.setMessage(getString(R.string.bericht_type_name));
 
-                View input_view = LayoutInflater.from(ReportActivity.this)
+                View input_view = LayoutInflater.from(getContext())
                         .inflate(R.layout.bericht_send_input, null, false);
                 final EditText input = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
                 alert.setView(input_view);
@@ -204,10 +213,10 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.swipe_up_carryover).setOnClickListener(v -> {
-            if (findViewById(R.id.swipe_up_carryover).getAlpha() != 0F) {
-                ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                AlertDialog.Builder alert = new AlertDialog.Builder(ReportActivity.this);
+        swipeUpCarryOver.setOnClickListener(v -> {
+            if (swipeUpCarryOver.getAlpha() != 0F) {
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 
                 alert.setTitle(getString(R.string.carryover));
                 alert.setMessage(getString(R.string.carryover_msg));
@@ -225,14 +234,14 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
 
-        ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+        slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
-                findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset * 180);
-                findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
-                findViewById(R.id.swipe_up_share).setAlpha(slideOffset);
-                findViewById(R.id.swipe_up_carryover).setAlpha(slideOffset);
+                view.findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
+                view.findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset * 180);
+                view.findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
+                swipeUpShare.setAlpha(slideOffset);
+                swipeUpCarryOver.setAlpha(slideOffset);
 
             }
 
@@ -245,11 +254,12 @@ public class ReportActivity extends AppCompatActivity {
         updateList();
     }
 
-    @Override
+
+    /*@Override
     protected void onResume() {
         super.onResume();
         updateList();
-    }
+    }*/
 
     public boolean carry() {
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
@@ -282,20 +292,19 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     public void initList() {
-        reportRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList()) {
+        reportRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Arrays.asList()) {
             @Override
             public void onClicked(Report report, View view) {
 
-                SlidingUpPanelLayout slidingUpPanelLayout = ((SlidingUpPanelLayout) findViewById(R.id.sliding_layout));
-                if (slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     return;
                 }
 
                 if (report.getType() != Report.Type.NORMAL) {
                     return;
                 }
-                Intent mainIntent = new Intent(ReportActivity.this, ReportAddFrame.class);
+                Intent mainIntent = new Intent(getActivity(), ReportAddFrame.class);
                 float x = view.getX() + view.getWidth() / 2;
                 float y = view.getY() + view.getHeight() / 2;
                 mainIntent.putExtra("xReveal", x);
@@ -304,13 +313,13 @@ public class ReportActivity extends AppCompatActivity {
                 mainIntent.putExtra("id", report.getId());
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(ReportActivity.this, view, "bericht_add_frame");
+                        makeSceneTransitionAnimation(getActivity(), view, "bericht_add_frame");
                 startActivity(mainIntent, options.toBundle());
             }
         };
         reportRecyclerAdapter.setHasStableIds(true);
         reportsRecycler.setAdapter(reportRecyclerAdapter);
-        reportsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        reportsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -334,13 +343,12 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                ExtendedFloatingActionButton fab = findViewById(R.id.addBerichtButton);
                 if (dy > 0) {
-                    if (fab.isExtended())
-                        fab.shrink();
+                    if (addBerichtButton.isExtended())
+                        addBerichtButton.shrink();
                 } else {
-                    if (!fab.isExtended())
-                        fab.extend();
+                    if (!addBerichtButton.isExtended())
+                        addBerichtButton.extend();
                 }
             }
 
@@ -366,7 +374,7 @@ public class ReportActivity extends AppCompatActivity {
     public boolean deleteReport(Report report) {
         boolean deleted = reportManager.deleteReport(report);
         if (deleted) {
-            Snackbar.make(findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG)
+            Snackbar.make(getView().findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG)
                     .setAction(R.string.bericht_undo_2, v -> {
                         reportManager.createReport(report);
                         updateList();
@@ -375,73 +383,12 @@ public class ReportActivity extends AppCompatActivity {
         return deleted;
     }
 
-    public static class ReverseInterpolator implements Interpolator {
-        @Override
-        public float getInterpolation(float paramFloat) {
-            return Math.abs(paramFloat - 1f);
-        }
-    }
-
-    public void updateSummary() {
-        Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
-
-        summarizedRecyclerAdapter = new ReportRecyclerAdapter(this, Arrays.asList(summarizedReport));
-        summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
-        summarizedRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-        if (summarizedReport.getMinutes() % 60 == 0) {
-            findViewById(R.id.swipe_up_carryover).setVisibility(View.GONE);
-        } else {
-            findViewById(R.id.swipe_up_carryover).setVisibility(View.VISIBLE);
-        }
-
-        if (sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))) {
-            goalView.setVisibility(View.VISIBLE);
-            int goal = Integer.parseInt(sp.getString("goal", "0"));
-            float percent = (float) summarizedReport.getMinutes() / ((float) goal * (float) 60) * 100;
-            rpb.setProgress(percent);
-            Log.d("PERCENNNT", percent + "");
-            TextView tv = findViewById(R.id.goaltext);
-            if ((int) percent == 100) {
-                tv.setText(getString(R.string.goal_text_reached));
-            }
-            if ((goal * 60) - summarizedReport.getMinutes() > 0) {
-                if (summarizedReport.getMinutes() % 60 == 0) {
-                    if ((goal) - (summarizedReport.getMinutes() / 60) == 1) {
-                        tv.setText(getString(R.string.goal_text_1).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
-                    } else {
-                        tv.setText(getString(R.string.goal_text_mult).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
-                    }
-                } else {
-                    Report report = new Report();
-                    report.setMinutes((goal * 60) - summarizedReport.getMinutes());
-                    report.setType(Report.Type.NORMAL);
-                    tv.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(this)[0]));
-                }
-            } else if ((goal * 60) - summarizedReport.getMinutes() < 0) {
-                tv.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
-                        Duration.ofMinutes(summarizedReport.getMinutes())
-                ).toString()));
-            }
-        } else {
-            goalView.setVisibility(View.GONE);
-        }
-
-    }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        MenuTintUtils.tintAllIcons(menu, Color.WHITE);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.action_goal) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
-            View input_view = LayoutInflater.from(ReportActivity.this)
+            View input_view = LayoutInflater.from(getContext())
                     .inflate(R.layout.goal_set_input, null, false);
             final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
             dialogBuilder.setView(input_view);
@@ -456,7 +403,7 @@ public class ReportActivity extends AppCompatActivity {
                 try {
                     Integer.parseInt(edt.getText().toString());
                 } catch (Exception e) {
-                    Toast.makeText(ReportActivity.this, getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
                     return;
                 }
                 editor.putString("goal", edt.getText().toString());
@@ -472,7 +419,59 @@ public class ReportActivity extends AppCompatActivity {
             b.show();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
+    }
+
+    public static class ReverseInterpolator implements Interpolator {
+        @Override
+        public float getInterpolation(float paramFloat) {
+            return Math.abs(paramFloat - 1f);
+        }
+    }
+
+    public void updateSummary() {
+        Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
+
+        summarizedRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Arrays.asList(summarizedReport));
+        summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
+        summarizedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        if (summarizedReport.getMinutes() % 60 == 0) {
+            swipeUpCarryOver.setVisibility(View.GONE);
+        } else {
+            swipeUpCarryOver.setVisibility(View.VISIBLE);
+        }
+
+        if (sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))) {
+            goalView.setVisibility(View.VISIBLE);
+            int goal = Integer.parseInt(sp.getString("goal", "0"));
+            float percent = (float) summarizedReport.getMinutes() / ((float) goal * (float) 60) * 100;
+            rpb.setProgress(percent);
+            if ((int) percent == 100) {
+                goalText.setText(getString(R.string.goal_text_reached));
+            }
+            if ((goal * 60) - summarizedReport.getMinutes() > 0) {
+                if (summarizedReport.getMinutes() % 60 == 0) {
+                    if ((goal) - (summarizedReport.getMinutes() / 60) == 1) {
+                        goalText.setText(getString(R.string.goal_text_1).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
+                    } else {
+                        goalText.setText(getString(R.string.goal_text_mult).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
+                    }
+                } else {
+                    Report report = new Report();
+                    report.setMinutes((goal * 60) - summarizedReport.getMinutes());
+                    report.setType(Report.Type.NORMAL);
+                    goalText.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(getContext())[0]));
+                }
+            } else if ((goal * 60) - summarizedReport.getMinutes() < 0) {
+                goalText.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
+                        Duration.ofMinutes(summarizedReport.getMinutes())
+                ).toString()));
+            }
+        } else {
+            goalView.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -483,7 +482,7 @@ public class ReportActivity extends AppCompatActivity {
             Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
             String text = getResources().getString(R.string.reportfor) + name + "\n" + getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
 
-            String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(this);
+            String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(getContext());
             text = text + formattedTime[1] + ": " + formattedTime[0] + "\n";
 
             text = text + getResources().getString(R.string.reportplace) + summarizedReport.getPlacements() + "\n";
