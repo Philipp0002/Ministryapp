@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import tk.phili.dienst.dienst.calendar.Kalender;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
-import tk.phili.dienst.dienst.dailytext.DailytextActivity;
+import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.notes.NotesFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
@@ -91,7 +91,7 @@ public class Splash extends Activity {
                 }else if(s.equals("Videos")) {
                     mainIntent = new Intent(Splash.this, VideoActivity.class);
                 }else if(s.equals("Tagestext")) {
-                    mainIntent = new Intent(Splash.this, DailytextActivity.class);
+                    mainIntent = new Intent(Splash.this, DailytextFragment.class);
                 }else if(s.equals("Kalender")) {
                     mainIntent = new Intent(Splash.this, Kalender.class);
                 }

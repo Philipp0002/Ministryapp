@@ -172,10 +172,6 @@
                     android:scheme="content" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".dailytext.DailytextActivity"
-            android:label="@string/title_tt"
-            android:theme="@style/AppTheme" />
 
         <receiver
             android:name=".dailytext.widget.TagestextWidget"

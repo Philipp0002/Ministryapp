@@ -10,25 +10,31 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
 import java.util.Locale;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
 
-public class DailytextActivity extends AppCompatActivity implements MyWebChromeClient.ProgressListener {
+public class DailytextFragment extends Fragment implements MyWebChromeClient.ProgressListener {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -49,17 +55,36 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
         }
     };
 
+    FragmentCommunicationPass fragmentCommunicationPass;
+    Toolbar toolbar;
+    WebView webView;
+    ProgressBar progressBar;
+    RelativeLayout errorLayout;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tagestext);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.bringToFront();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCommunicationPass = (FragmentCommunicationPass) context;
+    }
 
-        Drawer.addDrawer(this, toolbar, 5);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.activity_tagestext, null);
+        return root;
+    }
 
-        sp = getSharedPreferences("MainActivity", MODE_PRIVATE);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        toolbar = view.findViewById(R.id.toolbar);
+        webView = view.findViewById(R.id.tt_webview);
+        progressBar = view.findViewById(R.id.tt_progress);
+        errorLayout = view.findViewById(R.id.tt_error);
+
+        fragmentCommunicationPass.onDataPass(WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+
+        toolbar.setTitle(R.string.title_tt);
+
+        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
         init();
@@ -76,37 +101,37 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
             String locale = sp.getString("tt_locale", Locale.getDefault().getLanguage());
             showLink("https://ministryapp.de/dailytext_fwd.php?d=" + d + "&m=" + m + "&y=" + y + "&l=" + locale);
         }else{
-            findViewById(R.id.tt_webview).setVisibility(View.GONE);
-            findViewById(R.id.tt_error).setVisibility(View.VISIBLE);
-            registerReceiver(mBroadcastReceiver, new IntentFilter(
+            getView().findViewById(R.id.tt_webview).setVisibility(View.GONE);
+            getView().findViewById(R.id.tt_error).setVisibility(View.VISIBLE);
+            getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(
                     "android.net.conn.CONNECTIVITY_CHANGE"));
         }
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         init();
         super.onResume();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         try {
-            unregisterReceiver(mBroadcastReceiver);
+            getActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         try {
-            unregisterReceiver(mBroadcastReceiver);
+            getActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
     }
 
     public boolean isConnectedtoNet(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null && connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
@@ -120,20 +145,19 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
 
     public void showLink(final String url){
         try {
-            unregisterReceiver(mBroadcastReceiver);
+            getActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
 
-        final WebView mWebView = (WebView) findViewById(R.id.tt_webview);
-        mWebView.post(new Runnable() {
+        webView.post(new Runnable() {
             @Override
             public void run() {
-                findViewById(R.id.tt_webview).setVisibility(View.VISIBLE);
-                WebSettings webSettings = mWebView.getSettings();
+                webView.setVisibility(View.VISIBLE);
+                WebSettings webSettings = webView.getSettings();
                 webSettings.setJavaScriptEnabled(true);
 
                 // add progress bar
-                mWebView.setWebChromeClient(new MyWebChromeClient(DailytextActivity.this));
-                mWebView.setWebViewClient(new WebViewClient() {
+                webView.setWebChromeClient(new MyWebChromeClient(DailytextFragment.this));
+                webView.setWebViewClient(new WebViewClient() {
 
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         if (url.contains("dt") || url.contains("dienstapp")) {
@@ -146,8 +170,8 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
-                        ((ProgressBar) findViewById(R.id.tt_progress)).setIndeterminate(false);
-                        ((ProgressBar) findViewById(R.id.tt_progress)).setVisibility(View.VISIBLE);
+                        progressBar.setIndeterminate(false);
+                        progressBar.setVisibility(View.VISIBLE);
 
                         view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
                         view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
@@ -157,13 +181,13 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
                             view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
                         }
 
-                        findViewById(R.id.tt_error).setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
-                        ((ProgressBar) findViewById(R.id.tt_progress)).setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
 
                         view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
                         view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
@@ -173,19 +197,19 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
                             view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
                         }
                         loaded = true;
-                        findViewById(R.id.tt_error).setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                         super.onReceivedError(view, request, error);
 
-                        findViewById(R.id.tt_webview).setVisibility(View.GONE);
-                        findViewById(R.id.tt_error).setVisibility(View.VISIBLE);
+                        webView.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
                         loaded = false;
                     }
                 });
-                mWebView.loadUrl(url);
+                webView.loadUrl(url);
             }
         });
 
@@ -193,9 +217,9 @@ public class DailytextActivity extends AppCompatActivity implements MyWebChromeC
 
     @Override
     public void onUpdateProgress(int progressValue) {
-        ((ProgressBar)findViewById(R.id.tt_progress)).setProgress(progressValue);
+        progressBar.setProgress(progressValue);
         if (progressValue == 100) {
-            ((ProgressBar)findViewById(R.id.tt_progress)).setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 

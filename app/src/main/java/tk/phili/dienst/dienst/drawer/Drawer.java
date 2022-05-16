@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.calendar.Kalender;
-import tk.phili.dienst.dienst.dailytext.DailytextActivity;
+import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.notes.NotesFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsActivity;
@@ -150,7 +150,7 @@ public class Drawer {
                     }
                     if(drawerItem.equals(i5)){
                         if(item == 5)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), DailytextActivity.class));
+                        c.startActivity(new Intent(c.getApplicationContext(), DailytextFragment.class));
                     }
                     if(drawerItem.equals(i6)){
                         if(item == 6)return false;
