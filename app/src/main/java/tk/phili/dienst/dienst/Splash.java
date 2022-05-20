@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -34,6 +35,8 @@ public class Splash extends Activity {
     boolean isUp = true;
     public SharedPreferences sp;
     static String s;
+
+    public Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +81,11 @@ public class Splash extends Activity {
     }
 
     public void runDelayedHandler(){
-        new Handler().postDelayed(() -> {
+        if(handler != null){
+            return;
+        }
+        handler = new Handler();
+        handler.postDelayed(() -> {
             if(isUp) {
                 Intent mainIntent = null;
 
@@ -103,6 +110,8 @@ public class Splash extends Activity {
                 Splash.this.startActivity(mainIntent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 Splash.this.finish();
+            }else{
+                handler = null;
             }
         }, 500);
     }
