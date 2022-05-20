@@ -4,7 +4,7 @@
     <!--color name="ColorPrimary">#00897B</color>
     <color name="ColorPrimaryDark">#00695C</color-->
     <color name="ColorPrimary">#1B1B1B</color>
-    <color name="ColorPrimaryDark">#171717</color>
+    <color name="ColorPrimaryDark">@color/toolbarTop</color>
     <color name="ColorSecondary">@color/green_accent</color>
     <color name="ColorOnSecondary">#21005D</color>
     <color name="buttonColor">#b71c1c</color>
@@ -14,6 +14,8 @@
     <color name="list_bericht_date">#fff</color>
     <color name="background">#1B1B1B</color>
     <color name="green_accent">#EADDFF</color>
+    <color name="toolbar">#1B1B1B</color>
+    <color name="toolbarTop">#171717</color>
 
     <color name="hours_progress_bar">#EF5350</color>
 
@@ -31,5 +33,6 @@
 
     <color name="drawer_background">@color/material_drawer_background</color>
 
+    <color name="drawer_news_outline">#70777C</color>
 
 </resources>

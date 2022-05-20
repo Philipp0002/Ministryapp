@@ -33,7 +33,7 @@ import tk.phili.dienst.dienst.R;
 
 public class Drawer {
 
-    private static boolean initialized = false;
+    public static boolean initialized = false;
 
     private static ArrayList<Article> articles = null;
     private static Parser parser = null;

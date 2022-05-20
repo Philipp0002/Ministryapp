@@ -5,6 +5,7 @@
         <!-- Customize your theme here.-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryContainer">@color/ColorSecondary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>

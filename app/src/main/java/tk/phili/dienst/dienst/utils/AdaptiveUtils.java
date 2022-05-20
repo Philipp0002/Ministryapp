@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -60,20 +62,8 @@ public class AdaptiveUtils {
             @NonNull Toolbar toolbar,
             @NonNull Activity activity) {
 
-        ActionBarDrawerToggle actionBarDrawerToggle =
-                new ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-                        super.onDrawerClosed(drawerView);
-                    }
-
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-                        super.onDrawerOpened(drawerView);
-                    }
-                };
-
+        setNavRailButtonOnClickListener(
+                drawerLayout, navRail.getHeaderView().findViewById(R.id.nav_button), modalNavDrawer);
 
         modalNavDrawer.setNavigationItemSelectedListener(
                 item -> {
@@ -89,9 +79,24 @@ public class AdaptiveUtils {
             }
             navRail.setVisibility(View.GONE);
             navDrawer.setVisibility(View.GONE);
+
+            ActionBarDrawerToggle actionBarDrawerToggle =
+                    new ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+
+                        @Override
+                        public void onDrawerClosed(View drawerView) {
+                            super.onDrawerClosed(drawerView);
+                        }
+
+                        @Override
+                        public void onDrawerOpened(View drawerView) {
+                            super.onDrawerOpened(drawerView);
+                        }
+                    };
             drawerLayout.addDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            Toast.makeText(drawerLayout.getContext(), "SML", Toast.LENGTH_SHORT).show();
         } else if (screenWidth < AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE) {
             // Medium screen
             if (fab != null) {

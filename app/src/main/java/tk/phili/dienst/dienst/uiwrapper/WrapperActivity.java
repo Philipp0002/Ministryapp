@@ -54,11 +54,14 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
 
         fragmentContainerView = findViewById(R.id.fragment_container_view);
 
-        if(savedInstanceState == null)
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_view, ReportFragment.class, null)
-                .commit();
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fragment_container_view, ReportFragment.class, null)
+                    .commit();
+        }else{
+            Drawer.initialized = false;
+        }
     }
 
     @Override

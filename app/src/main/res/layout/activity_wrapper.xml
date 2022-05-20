@@ -6,9 +6,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
-    android:fitsSystemWindows="false"
     android:id="@+id/drawer_layout"
-    tools:context=".uiwrapper.WrapperActivity">
+    tools:context=".uiwrapper.WrapperActivity"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_container"
@@ -26,7 +26,7 @@
                 android:visibility="gone"
                 android:layout_width="360dp"
                 android:layout_height="match_parent"
-                android:theme="@style/Theme.Material3.Dark"
+                android:theme="@style/NavigationTheme"
                 app:menu="@menu/drawer_nav"/>
 
             <!-- Navigation rail to be used for medium screens. -->
@@ -35,7 +35,8 @@
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:theme="@style/Theme.Material3.Dark"
+                android:theme="@style/NavigationTheme"
+                app:headerLayout="@layout/nav_rail_header"
                 app:menu="@menu/rail_nav"
                 app:menuGravity="center" />
         </FrameLayout>
@@ -61,7 +62,7 @@
         android:layout_width="310dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:theme="@style/Theme.Material3.Dark"
+        android:theme="@style/NavigationTheme"
         app:menu="@menu/drawer_nav" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

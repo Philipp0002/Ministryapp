@@ -6,9 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
-    android:fitsSystemWindows="false"
-    android:id="@+id/drawer_layout"
-    tools:context=".report.ReportActivity">
+    android:id="@+id/drawer_layout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_container"
@@ -332,7 +330,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
                 app:theme="@style/DrawerTheme">
 
