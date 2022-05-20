@@ -48,11 +48,13 @@ import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener{
+public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     public static AlertDialog.Builder builder;
+
+    final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
     Calendar calendarShow;
 
@@ -72,6 +74,12 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     MaterialButton swipeUpCarryOver;
     TextView goalText;
     FragmentCommunicationPass fragmentCommunicationPass;
+    View privateBlock;
+    View privateDisable;
+    TextView toolbarTitle;
+    View swipeUpText;
+    View swipeUpLeftIcon;
+    View swipeUpRightIcon;
 
     @Override
     public void onAttach(Context context) {
@@ -94,13 +102,18 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         slidingLayout = view.findViewById(R.id.sliding_layout);
         swipeUpCarryOver = view.findViewById(R.id.swipe_up_carryover);
         goalText = view.findViewById(R.id.goaltext);
+        privateBlock = view.findViewById(R.id.private_block);
+        privateDisable = view.findViewById(R.id.private_disable);
+        toolbarTitle = view.findViewById(R.id.toolbar_title);
+        swipeUpText = view.findViewById(R.id.swipe_up_text);
+        swipeUpLeftIcon = view.findViewById(R.id.swipe_up_lefticon);
+        swipeUpRightIcon = view.findViewById(R.id.swipe_up_righticon);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.inflateMenu(R.menu.main);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
-
 
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -116,23 +129,35 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         reportsRecycler = view.findViewById(R.id.bericht_liste);
         summarizedRecycler = view.findViewById(R.id.swipe_up_bericht);
         goalView = view.findViewById(R.id.goalview);
-        initList();
 
-        if (sp.getBoolean("private_mode", false)) {
-            view.findViewById(R.id.private_block).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.private_disable).setOnClickListener(__ -> view.findViewById(R.id.private_block).setVisibility(View.GONE));
+        //Restore configuration
+        if (savedInstanceState != null) {
+            calendarShow = (Calendar) savedInstanceState.getSerializable("calendarShow");
+
+            if (sp.getBoolean("private_mode", false) && !savedInstanceState.getBoolean("private_mode_clicked")) {
+                privateBlock.setVisibility(View.VISIBLE);
+                privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(View.GONE));
+            }
+        } else {
+            calendarShow = Calendar.getInstance();
+
+            if (sp.getBoolean("private_mode", false)) {
+                privateBlock.setVisibility(View.VISIBLE);
+                privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(View.GONE));
+            }
+
+            Animation anim = android.view.animation.AnimationUtils.loadAnimation(addBerichtButton.getContext(), R.anim.slide_in_bottom);
+            anim.setDuration(1000L);
+            upswipy.startAnimation(anim);
         }
 
-
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
-
-        calendarShow = Calendar.getInstance();
-
-        final TextView tbv = view.findViewById(R.id.toolbar_title);
-        tbv.setText(dateFormat.format(calendarShow.getTime()));
+        initList();
 
 
-        tbv.setOnClickListener(v -> {
+        toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
+
+
+        toolbarTitle.setOnClickListener(v -> {
 
             MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(calendarShow.get(Calendar.MONTH), calendarShow.get(Calendar.YEAR), getString(R.string.select_month_year));
 
@@ -140,7 +165,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
                 calendarShow.set(Calendar.MONTH, monthOfYear);
                 calendarShow.set(Calendar.YEAR, year);
-                tbv.setText(dateFormat.format(calendarShow.getTime()));
+                toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
                 updateList();
             });
 
@@ -149,7 +174,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         });
 
 
-        ((SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout)).setParallaxOffset(100);
+        slidingLayout.setParallaxOffset(100);
 
 
         addBerichtButton.setOnClickListener(v -> {
@@ -165,11 +190,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     makeSceneTransitionAnimation(getActivity(), v, "bericht_add_frame");
             startActivity(mainIntent, options.toBundle());
         });
-
-
-        Animation anim = android.view.animation.AnimationUtils.loadAnimation(addBerichtButton.getContext(), R.anim.slide_in_bottom);
-        anim.setDuration(1000L);
-        upswipy.startAnimation(anim);
 
         swipeUpShare.setOnClickListener(v -> {
             if (swipeUpShare.getAlpha() != 0F) {
@@ -226,23 +246,30 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                view.findViewById(R.id.swipe_up_text).setAlpha(1 - slideOffset);
-                view.findViewById(R.id.swipe_up_lefticon).setRotation(slideOffset * 180);
-                view.findViewById(R.id.swipe_up_righticon).setAlpha(1 - slideOffset);
+                swipeUpText.setAlpha(1 - slideOffset);
+                swipeUpLeftIcon.setRotation(slideOffset * 180);
+                swipeUpRightIcon.setAlpha(1 - slideOffset);
                 swipeUpShare.setAlpha(slideOffset);
                 swipeUpCarryOver.setAlpha(slideOffset);
-
             }
 
-
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-
+            public void onPanelStateChanged(View panel,
+                                            SlidingUpPanelLayout.PanelState previousState,
+                                            SlidingUpPanelLayout.PanelState newState) {
             }
         });
 
         updateList();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("calendarShow", calendarShow);
+        if(privateBlock.getVisibility() != View.VISIBLE){
+            outState.putBoolean("private_mode_clicked", true);
+        }
+    }
 
     @Override
     public void onResume() {

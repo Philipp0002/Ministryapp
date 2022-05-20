@@ -76,13 +76,10 @@ public class AdaptiveUtils {
 
 
         modalNavDrawer.setNavigationItemSelectedListener(
-                new OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        modalNavDrawer.setCheckedItem(item);
-                        drawerLayout.closeDrawer(modalNavDrawer);
-                        return true;
-                    }
+                item -> {
+                    modalNavDrawer.setCheckedItem(item);
+                    drawerLayout.closeDrawer(modalNavDrawer);
+                    return true;
                 });
 
         if (screenWidth < AdaptiveUtils.MEDIUM_SCREEN_WIDTH_SIZE) {
@@ -94,6 +91,7 @@ public class AdaptiveUtils {
             navDrawer.setVisibility(View.GONE);
             drawerLayout.addDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         } else if (screenWidth < AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE) {
             // Medium screen
             if (fab != null) {

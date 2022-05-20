@@ -2,6 +2,7 @@ package tk.phili.dienst.dienst.uiwrapper;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -33,9 +34,14 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     private Configuration configuration;
     private FragmentContainerView fragmentContainerView;
 
+    String a = "initial";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("Wrasppp", a);
+        a = "changed";
 
         setContentView(R.layout.activity_wrapper);
 
@@ -48,11 +54,11 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
 
         fragmentContainerView = findViewById(R.id.fragment_container_view);
 
+        if(savedInstanceState == null)
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_view, ReportFragment.class, null)
                 .commit();
-
     }
 
     @Override
