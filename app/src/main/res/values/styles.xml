@@ -7,6 +7,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryContainer">@color/ColorSecondary</item>
+        <item name="colorOnPrimaryContainer">@color/ColorOnPrimaryContainer</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorOnPrimary">@color/ColorOnPrimary</item>
         <item name="colorAccent">@color/accent_color</item>

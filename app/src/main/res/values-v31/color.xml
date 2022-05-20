@@ -7,6 +7,7 @@
     <color name="ColorOnPrimary">@color/m3_sys_color_dynamic_dark_on_primary</color>
     <color name="ColorSecondary">@color/m3_sys_color_dynamic_dark_secondary</color>
     <color name="ColorOnSecondary">@color/m3_sys_color_dynamic_dark_on_secondary</color>
+    <color name="ColorOnPrimaryContainer">@color/m3_sys_color_dynamic_dark_on_primary</color>
 
     <color name="hours_progress_bar">@android:color/system_accent3_300</color>
 

@@ -5,29 +5,16 @@
         <!-- Customize your theme here.-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryContainer">@color/ColorSecondary</item>
+        <item name="colorOnPrimaryContainer">@color/ColorOnPrimaryContainer</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorAccent">@color/accent_color</item>
 
         <item name="colorSecondary">@color/ColorSecondary</item>
         <item name="colorOnSecondary">@color/ColorOnSecondary</item>
 
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentTransitions">true</item>
-
-        <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@color/drawer_background</item>
-        <item name="material_drawer_primary_text">@color/material_drawer_primary_text</item>
-        <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
-        <item name="material_drawer_secondary_text">@color/material_drawer_secondary_text</item>
-        <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
-        <item name="material_drawer_divider">@color/material_drawer_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/background</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_header_selection_text
-        </item>
-        <!--item name="shapeAppearanceOverlay">@style/FabShapeStyle1</item-->
     </style>
 </resources>

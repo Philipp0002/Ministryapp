@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -94,6 +95,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         toolbar = view.findViewById(R.id.toolbar);
         addBerichtButton = view.findViewById(R.id.addBerichtButton);
@@ -108,8 +114,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         swipeUpText = view.findViewById(R.id.swipe_up_text);
         swipeUpLeftIcon = view.findViewById(R.id.swipe_up_lefticon);
         swipeUpRightIcon = view.findViewById(R.id.swipe_up_righticon);
-
-        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.inflateMenu(R.menu.main);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
@@ -175,7 +179,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
 
         slidingLayout.setParallaxOffset(100);
-
 
         addBerichtButton.setOnClickListener(v -> {
             Intent mainIntent = new Intent(getContext(), ReportAddFrame.class);
@@ -274,6 +277,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     @Override
     public void onResume() {
         super.onResume();
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
         updateList();
     }
 

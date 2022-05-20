@@ -3,6 +3,7 @@ package tk.phili.dienst.dienst.uiwrapper;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -28,29 +29,16 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     //ADAPTIVE
     private DrawerLayout drawerLayout;
     private NavigationView modalNavDrawer;
-    private FloatingActionButton fab;
     private NavigationRailView navRail;
     private NavigationView navDrawer;
     private Configuration configuration;
     private FragmentContainerView fragmentContainerView;
 
-    String a = "initial";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("Wrasppp", a);
-        a = "changed";
-
         setContentView(R.layout.activity_wrapper);
-
-        drawerLayout = findViewById(R.id.drawer_layout);
-        modalNavDrawer = findViewById(R.id.modal_nav_drawer);
-        fab = findViewById(R.id.fab);
-        navRail = findViewById(R.id.nav_rail);
-        navDrawer = findViewById(R.id.nav_drawer);
-        configuration = getResources().getConfiguration();
 
         fragmentContainerView = findViewById(R.id.fragment_container_view);
 
@@ -72,9 +60,15 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
             //getSupportActionBar().setDisplayShowTitleEnabled(false);
             toolbar.bringToFront();
 
+            drawerLayout = findViewById(R.id.drawer_layout);
+            modalNavDrawer = findViewById(R.id.modal_nav_drawer);
+            navRail = findViewById(R.id.nav_rail);
+            navDrawer = findViewById(R.id.nav_drawer);
+            configuration = getResources().getConfiguration();
+
             int screenWidth = configuration.screenWidthDp;
             AdaptiveUtils.updateNavigationViewLayout(
-                    screenWidth, drawerLayout, modalNavDrawer, fab, navRail, navDrawer,
+                    screenWidth, drawerLayout, modalNavDrawer, navRail, navDrawer,
                     toolbar, this);
 
 

@@ -105,6 +105,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
     }
 
     @Override

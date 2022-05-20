@@ -14,6 +14,7 @@
     <color name="list_bericht_date">#fff</color>
     <color name="background">#1B1B1B</color>
     <color name="green_accent">#EADDFF</color>
+    <color name="ColorOnPrimaryContainer">#21005D</color>
     <color name="toolbar">#1B1B1B</color>
     <color name="toolbarTop">#171717</color>
 

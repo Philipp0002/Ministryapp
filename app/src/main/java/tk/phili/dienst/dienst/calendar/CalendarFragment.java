@@ -61,6 +61,7 @@ public class CalendarFragment extends Fragment {
     TextView noCal;
     ListView eventList;
     TextView calendarDayText;
+    Toolbar toolbar;
 
     //FORMAT
     //IDʷDAYʷMONTHʷYEARʷHOURʷMINUTEʷDIENSTPARTNERʷBESCHREIBUNG
@@ -81,7 +82,7 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         noCal = view.findViewById(R.id.no_kal);
         eventList = view.findViewById(R.id.event_liste);
         calendarDayText = view.findViewById(R.id.calendar_day_text);
@@ -402,6 +403,8 @@ public class CalendarFragment extends Fragment {
     public void onResume() {
         super.onResume();
         refreshAll();
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
     }
+
 
 }

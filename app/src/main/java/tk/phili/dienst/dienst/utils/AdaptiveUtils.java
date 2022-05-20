@@ -19,6 +19,8 @@ package tk.phili.dienst.dienst.utils;
 import tk.phili.dienst.dienst.R;
 
 import android.app.Activity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -43,6 +46,8 @@ public class AdaptiveUtils {
     static final int MEDIUM_SCREEN_WIDTH_SIZE = 600;
     static final int LARGE_SCREEN_WIDTH_SIZE = 1240;
 
+    private static DrawerLayout.DrawerListener drawerListener;
+
     private AdaptiveUtils() {}
 
     /**
@@ -56,11 +61,11 @@ public class AdaptiveUtils {
             int screenWidth,
             @NonNull DrawerLayout drawerLayout,
             @NonNull NavigationView modalNavDrawer,
-            @Nullable FloatingActionButton fab,
             @NonNull NavigationRailView navRail,
             @NonNull NavigationView navDrawer,
             @NonNull Toolbar toolbar,
             @NonNull Activity activity) {
+
 
         setNavRailButtonOnClickListener(
                 drawerLayout, navRail.getHeaderView().findViewById(R.id.nav_button), modalNavDrawer);
@@ -74,9 +79,6 @@ public class AdaptiveUtils {
 
         if (screenWidth < AdaptiveUtils.MEDIUM_SCREEN_WIDTH_SIZE) {
             // Small screen
-            if (fab != null) {
-                fab.setVisibility(View.VISIBLE);
-            }
             navRail.setVisibility(View.GONE);
             navDrawer.setVisibility(View.GONE);
 
@@ -95,28 +97,23 @@ public class AdaptiveUtils {
                     };
             drawerLayout.addDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            Toast.makeText(drawerLayout.getContext(), "SML", Toast.LENGTH_SHORT).show();
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, modalNavDrawer);
+            if(drawerListener != null)
+                drawerLayout.removeDrawerListener(drawerListener);
         } else if (screenWidth < AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE) {
             // Medium screen
-            if (fab != null) {
-                fab.setVisibility(View.GONE);
-            }
             navRail.setVisibility(View.VISIBLE);
             navDrawer.setVisibility(View.GONE);
 
             // Set navigation menu button to show a modal navigation drawer in medium screens.
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, modalNavDrawer);
         } else {
             // Large screen
-            if (fab != null) {
-                fab.setVisibility(View.GONE);
-            }
             navRail.setVisibility(View.GONE);
             navDrawer.setVisibility(View.VISIBLE);
 
             // Set navigation menu button to show a modal navigation drawer in medium screens.
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, modalNavDrawer);
         }
     }
 
@@ -126,25 +123,25 @@ public class AdaptiveUtils {
             @NonNull View navButton,
             @NonNull NavigationView modalDrawer) {
         navButton.setOnClickListener(
-                new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        drawerLayout.openDrawer(modalDrawer);
-                    }
+                v -> {
+                    drawerLayout.openDrawer(modalDrawer);
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
+                    drawerLayout.addDrawerListener(drawerListener = new DrawerLayout.DrawerListener() {
+                        @Override
+                        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) { }
+
+                        @Override
+                        public void onDrawerOpened(@NonNull View drawerView) { }
+
+                        @Override
+                        public void onDrawerClosed(@NonNull View drawerView) {
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+                        }
+
+                        @Override
+                        public void onDrawerStateChanged(int newState) { }
+                    });
                 });
     }
 
-    /* Sets modal navigation drawer's header button to close the drawer. */
-    private static void setModalDrawerButtonOnClickListener(
-            @NonNull DrawerLayout drawerLayout,
-            @NonNull View button,
-            @NonNull NavigationView modalDrawer) {
-        button.setOnClickListener(
-                new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        drawerLayout.closeDrawer(modalDrawer);
-                    }
-                });
-    }
 }

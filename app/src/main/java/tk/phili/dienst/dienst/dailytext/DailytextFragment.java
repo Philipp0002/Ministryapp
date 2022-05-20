@@ -111,6 +111,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
     @Override
     public void onResume() {
         init();
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
         super.onResume();
     }
 

@@ -30,6 +30,7 @@ public class NotesFragment extends Fragment {
 
     private EditText notesEditText;
 
+    Toolbar toolbar;
     FragmentCommunicationPass fragmentCommunicationPass;
 
     @Override
@@ -47,7 +48,7 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         notesEditText = view.findViewById(R.id.notes);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
@@ -92,6 +93,9 @@ public class NotesFragment extends Fragment {
     public void onResume() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
         super.onResume();
     }
+
+
 }

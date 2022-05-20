@@ -81,6 +81,12 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.activity_sample_presentations, null);
         return root;
