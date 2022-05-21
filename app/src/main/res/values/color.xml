@@ -36,4 +36,6 @@
 
     <color name="drawer_news_outline">#70777C</color>
 
+    <color name="settings_title">@color/green_accent</color>
+
 </resources>

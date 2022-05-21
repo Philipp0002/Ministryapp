@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mpc_title="@string/pref_general"
-                    app:mpc_title_color="@color/ColorPrimary">
+                    app:mpc_title_color="@color/settings_title">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/export"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_general"
                     app:mpc_title="@string/title_section1"
-                    app:mpc_title_color="@color/ColorPrimary">
+                    app:mpc_title_color="@color/settings_title">
 
                     <com.yarolegovich.mp.MaterialEditTextPreference
                         android:id="@+id/report_layout_settings"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_report"
                     app:mpc_title="@string/language"
-                    app:mpc_title_color="@color/ColorPrimary">
+                    app:mpc_title_color="@color/settings_title">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/language_empf"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_sample"
                     app:mpc_title="@string/title_section9"
-                    app:mpc_title_color="@color/ColorPrimary">
+                    app:mpc_title_color="@color/settings_title">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/calendar_gcal_reset"
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_calendar"
                     app:mpc_title="@string/pref_legal"
-                    app:mpc_title_color="@color/ColorPrimary">
+                    app:mpc_title_color="@color/settings_title">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/impressum"

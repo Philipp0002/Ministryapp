@@ -21,5 +21,7 @@
     <!--color name="drawer_background" tools:ignore="PrivateResource">@android:color/bright_foreground_light</color-->
 
     <color name="drawer_news_outline">@color/m3_sys_color_dynamic_light_outline</color>
+
+    <color name="settings_title">@color/ColorPrimary</color>
     
 </resources>

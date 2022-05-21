@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".uiwrapper.WrapperActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
