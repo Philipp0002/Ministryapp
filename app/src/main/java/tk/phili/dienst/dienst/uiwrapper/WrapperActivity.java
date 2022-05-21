@@ -76,4 +76,10 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Drawer.initialized = false;
+    }
 }
