@@ -84,7 +84,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_sample_presentations, null);
+        View root = inflater.inflate(R.layout.fragment_sample_presentations, null);
         return root;
     }
 

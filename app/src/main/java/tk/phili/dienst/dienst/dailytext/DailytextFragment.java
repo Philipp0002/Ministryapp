@@ -67,7 +67,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_tagestext, null);
+        View root = inflater.inflate(R.layout.fragment_dailytext, null);
         return root;
     }
 

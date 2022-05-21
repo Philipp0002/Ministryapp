@@ -39,7 +39,7 @@ public class NotesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_notes, null);
+        View root = inflater.inflate(R.layout.fragment_notes, null);
         return root;
     }
 

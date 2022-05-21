@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".dailytext.DailytextFragment"
     android:background="@color/background"
-    tools:showIn="@layout/activity_tagestext">
+    tools:showIn="@layout/fragment_dailytext">
 
     <WebView
         android:id="@+id/tt_webview"

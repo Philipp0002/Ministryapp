@@ -71,7 +71,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_video, null);
+        View root = inflater.inflate(R.layout.fragment_video, null);
         return root;
     }
 
