@@ -2,24 +2,19 @@ package tk.phili.dienst.dienst.uiwrapper;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.navigationrail.NavigationRailView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 
-import tk.phili.dienst.dienst.drawer.Drawer;
-import tk.phili.dienst.dienst.report.ReportFragment;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigationrail.NavigationRailView;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 
 public class WrapperActivity extends AppCompatActivity implements FragmentCommunicationPass {

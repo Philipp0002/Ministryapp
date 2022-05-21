@@ -2,9 +2,7 @@ package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;

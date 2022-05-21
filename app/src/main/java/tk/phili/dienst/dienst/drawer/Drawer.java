@@ -21,6 +21,7 @@ import com.prof.rssparser.Parser;
 
 import java.util.ArrayList;
 
+import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.calendar.CalendarFragment;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.notes.NotesFragment;
@@ -29,7 +30,6 @@ import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsFragment;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.videos.VideoFragment;
-import tk.phili.dienst.dienst.R;
 
 public class Drawer {
 
