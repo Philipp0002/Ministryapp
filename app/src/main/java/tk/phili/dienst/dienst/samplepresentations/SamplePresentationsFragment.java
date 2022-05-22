@@ -203,6 +203,9 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     public void resolveResponse(JSONObject serverResponse) {
         this.serverResponse = serverResponse;
         if (serverResponse != null) {
+            if(getActivity() == null)
+                return;
+
             getActivity().runOnUiThread(() -> spinner.setVisibility(View.VISIBLE));
 
             ArrayList<String> listItems = new ArrayList<String>();
