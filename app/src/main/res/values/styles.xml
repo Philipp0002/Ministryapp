@@ -16,22 +16,23 @@
         <item name="colorOnSecondary">@color/ColorOnSecondary</item>
     </style>
 
-    <style name="NavigationTheme" parent="Theme.Material3.Dark"/>
+    <style name="NavigationTheme" parent="Theme.Material3.Dark" />
 
     <style name="ToolbarWithCloseButton" parent="DrawerTheme">
         <!--item name="navigationContentDescription">@string/toolbar_navigation_close_description</item-->
         <item name="navigationIcon">@drawable/ic_baseline_close_24</item>
     </style>
 
-    <style name="DialogStyle" parent="Theme.Material3.Dark.Dialog">
-        <item name="android:windowMinWidthMajor">65%</item>
-        <item name="android:windowMinWidthMinor">65%</item>
+    <style name="DialogStyleBasic" parent="Theme.Material3.Dark.Dialog">
         <item name="android:windowBackground">@drawable/bg_tablet_dialog</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
-
+    <style name="DialogStyle" parent="DialogStyleBasic">
+        <item name="android:windowMinWidthMajor">65%</item>
+        <item name="android:windowMinWidthMinor">65%</item>
+    </style>
 
     <style name="AppThemeDark" parent="Theme.Material3.Dark">
         <!-- Customize your theme here.-->
@@ -44,14 +45,20 @@
 
     <!-- MaterialDesign Alert Dialog Center Icon and Title -->
     <style name="MaterialAlertDialogCenterStyle">
-        <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.Material3.Title.Panel.CenterStacked</item>
-        <item name="materialAlertDialogTitleIconStyle">@style/MaterialAlertDialogCenterTitleIconStyle</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked</item>
+        <item name="materialAlertDialogTitlePanelStyle">
+            @style/MaterialAlertDialog.Material3.Title.Panel.CenterStacked
+        </item>
+        <item name="materialAlertDialogTitleIconStyle">
+            @style/MaterialAlertDialogCenterTitleIconStyle
+        </item>
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/MaterialAlertDialog.Material3.Title.Text.CenterStacked
+        </item>
     </style>
+
     <style name="MaterialAlertDialogCenterTitleIconStyle" parent="MaterialAlertDialog.Material3.Title.Icon.CenterStacked">
         <item name="tint">@color/ColorSecondary</item>
     </style>
-
 
 
     <style name="Splash" parent="AppTheme">

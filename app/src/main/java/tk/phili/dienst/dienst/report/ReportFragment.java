@@ -1,6 +1,7 @@
 package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -21,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,7 +33,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
+import com.github.dewinjm.monthyearpicker.MonthFormat;
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -38,6 +42,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -166,17 +172,44 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         toolbarTitle.setOnClickListener(v -> {
 
-            MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(calendarShow.get(Calendar.MONTH), calendarShow.get(Calendar.YEAR), getString(R.string.select_month_year));
+            MonthYearPickerDialog simpleDatePickerDialog;
 
-            dialogFragment.setOnDateSetListener((year, monthOfYear) -> {
+            try {
+                ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
+                Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
+                        int.class,
+                        int.class,
+                        int.class,
+                        MonthFormat.class,
+                        MonthYearPickerDialog.OnDateSetListener.class);
 
-                calendarShow.set(Calendar.MONTH, monthOfYear);
-                calendarShow.set(Calendar.YEAR, year);
-                toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
-                updateList();
-            });
+                constructor.setAccessible(true);
+                simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
+                        contextThemeWrapper,
+                        R.style.DialogStyleBasic,
+                        calendarShow.get(Calendar.YEAR),
+                        calendarShow.get(Calendar.MONTH),
+                        MonthFormat.SHORT,
+                        (MonthYearPickerDialog.OnDateSetListener) (year, monthOfYear) -> {
+                            calendarShow.set(Calendar.MONTH, monthOfYear);
+                            calendarShow.set(Calendar.YEAR, year);
+                            toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
+                            updateList();
+                        });
+                Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
+                method.setAccessible(true);
+                method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
+                simpleDatePickerDialog.show();
+                simpleDatePickerDialog
+                        .getButton(DialogInterface.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.ColorPrimary));
 
-            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                simpleDatePickerDialog
+                        .getButton(DialogInterface.BUTTON_NEGATIVE)
+                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.ColorPrimary));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         });
 
