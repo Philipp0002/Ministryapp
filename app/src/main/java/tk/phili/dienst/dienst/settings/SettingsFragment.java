@@ -454,7 +454,6 @@ public class SettingsFragment extends Fragment {
                             } else {
                                 listener.onInput(SettingsFragment.this.getString(R.string.report_layout_2));
                             }
-                            Toast.makeText(getContext(), selectedItem.get() + "", Toast.LENGTH_SHORT).show();
                         })
                         .show();
 
