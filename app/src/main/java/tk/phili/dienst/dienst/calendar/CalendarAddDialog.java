@@ -80,6 +80,12 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
         return newInstance(id, day, month, year, 0, 0, null, null);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
