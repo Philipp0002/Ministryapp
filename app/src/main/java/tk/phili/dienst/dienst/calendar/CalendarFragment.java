@@ -32,6 +32,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.github.dewinjm.monthyearpicker.MonthFormat;
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -39,6 +41,8 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -137,23 +141,50 @@ public class CalendarFragment extends Fragment {
 
         tbv.setText(dateFormat.format(cal.getTime()));
 
-
         tbv.setOnClickListener(v -> {
 
-            MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment.getInstance(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), getString(R.string.select_month_year));
+            MonthYearPickerDialog simpleDatePickerDialog;
 
-            dialogFragment.setOnDateSetListener((year, monthOfYear) -> {
+            try {
+                ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
+                Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
+                        int.class,
+                        int.class,
+                        int.class,
+                        MonthFormat.class,
+                        MonthYearPickerDialog.OnDateSetListener.class);
 
-                cal.set(Calendar.MONTH, monthOfYear);
-                cal.set(Calendar.YEAR, year);
-                tbv.setText(dateFormat.format(cal.getTime()));
-                compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
-                refreshDay();
-            });
+                constructor.setAccessible(true);
+                simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
+                        contextThemeWrapper,
+                        R.style.DialogStyleBasic,
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        MonthFormat.SHORT,
+                        (MonthYearPickerDialog.OnDateSetListener) (year, monthOfYear) -> {
+                            cal.set(Calendar.MONTH, monthOfYear);
+                            cal.set(Calendar.YEAR, year);
+                            tbv.setText(dateFormat.format(cal.getTime()));
+                            compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
+                            refreshDay();
+                        });
+                Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
+                method.setAccessible(true);
+                method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
+                simpleDatePickerDialog.show();
+                simpleDatePickerDialog
+                        .getButton(DialogInterface.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
 
-            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                simpleDatePickerDialog
+                        .getButton(DialogInterface.BUTTON_NEGATIVE)
+                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         });
+
 
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which) {
