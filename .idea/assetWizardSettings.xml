@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -18,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../ProgramData/AndroidSDK/icons/material/materialicons/menu/baseline_menu_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../ProgramData/AndroidSDK/icons/material/materialicons/redo/baseline_redo_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_drawer_menu_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_baseline_redo_24" />
                             <entry key="sourceFile" value="C:\Users\fipsi\Downloads\baseline-event_available-24px.svg" />
                           </map>
                         </option>

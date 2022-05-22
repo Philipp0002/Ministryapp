@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -35,6 +35,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
@@ -98,14 +99,14 @@ public class CalendarFragment extends Fragment {
             public void onDayClick(Date dateClicked) {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
                 cal.setTimeInMillis(dateClicked.getTime());
-                Log.d("lololololol1", ""+dateClicked.getTime());
+                Log.d("lololololol1", "" + dateClicked.getTime());
                 refreshDay();
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 cal.setTimeInMillis(firstDayOfNewMonth.getTime());
-                Log.d("lololololol2", ""+firstDayOfNewMonth.getTime());
+                Log.d("lololololol2", "" + firstDayOfNewMonth.getTime());
                 refreshDay();
             }
         });
@@ -114,20 +115,20 @@ public class CalendarFragment extends Fragment {
         view.findViewById(R.id.imageButton).setOnClickListener(__ -> {
             Intent mainIntent = new Intent(getActivity(), KalenderAddFrame.class);
             FloatingActionButton imageButton = view.findViewById(R.id.imageButton);
-            float x = imageButton.getX() + imageButton.getWidth()/2;
-            float y = imageButton.getY() + imageButton.getHeight()/2;
-            mainIntent.putExtra("xReveal",x);
-            mainIntent.putExtra("yReveal",y);
+            float x = imageButton.getX() + imageButton.getWidth() / 2;
+            float y = imageButton.getY() + imageButton.getHeight() / 2;
+            mainIntent.putExtra("xReveal", x);
+            mainIntent.putExtra("yReveal", y);
 
-            mainIntent.putExtra("day",cal.get(Calendar.DAY_OF_MONTH));
-            mainIntent.putExtra("month",cal.get(Calendar.MONTH));
-            mainIntent.putExtra("year",cal.get(Calendar.YEAR));
+            mainIntent.putExtra("day", cal.get(Calendar.DAY_OF_MONTH));
+            mainIntent.putExtra("month", cal.get(Calendar.MONTH));
+            mainIntent.putExtra("year", cal.get(Calendar.YEAR));
 
             int idmax = 0;
             Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
-            for(String s : set){
+            for (String s : set) {
                 int id = Integer.parseInt(s.split("ʷ")[0]);
-                if(id > idmax){
+                if (id > idmax) {
                     idmax = id;
                 }
             }
@@ -160,18 +161,18 @@ public class CalendarFragment extends Fragment {
         });
 
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-            switch (which){
+            switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
                             || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat
                                 .requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, 1001);
                         return;
-                    }else{
+                    } else {
                         try {
                             Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                                    new String[] { GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE }, false, null, null, null, null);
-                            startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST );  //GET_ACCOUNT_NAME_REQUEST是一個自訂的int, 用作分辨所返回的結果
+                                    new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
+                            startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST);
                         } catch (ActivityNotFoundException e) {
                             Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
                             editor.putBoolean("CalendarSyncActive", false);
@@ -190,12 +191,16 @@ public class CalendarFragment extends Fragment {
             }
         };
 
-        if(!sp.contains("CalendarSyncActive")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(R.string.calendar_activate_gcal_title).setMessage(R.string.calendar_activate_gcal_msg).setPositiveButton(R.string.yes, dialogClickListener)
-                    .setNegativeButton(R.string.no, dialogClickListener).show();
-        }else{
-            if(sp.getBoolean("CalendarSyncActive", false)){
+        if (!sp.contains("CalendarSyncActive")) {
+            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                    .setTitle(R.string.calendar_activate_gcal_title)
+                    .setMessage(R.string.calendar_activate_gcal_msg)
+                    .setIcon(R.drawable.ic_baseline_sync_24)
+                    .setPositiveButton(R.string.yes, dialogClickListener)
+                    .setNegativeButton(R.string.no, dialogClickListener)
+                    .show();
+        } else {
+            if (sp.getBoolean("CalendarSyncActive", false)) {
                 if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
                         || ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat
@@ -211,17 +216,18 @@ public class CalendarFragment extends Fragment {
     static final int GET_ACCOUNT_NAME_REQUEST = 1;
     static String GOOGLE_ACCOUNT_NAME = "";
     static int targetCalendarId = -1;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 1001:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[1] == PackageManager.PERMISSION_GRANTED) { // Permission Granted
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     //refreshList();
                     try {
                         Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                                new String[] { GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE }, false, null, null, null, null);
-                        startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST );  //GET_ACCOUNT_NAME_REQUEST是一個自訂的int, 用作分辨所返回的結果
+                                new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
+                        startActivityForResult(intent, GET_ACCOUNT_NAME_REQUEST);
                     } catch (ActivityNotFoundException e) {
                         // TODO
                         Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_available, Toast.LENGTH_LONG).show();
@@ -231,8 +237,8 @@ public class CalendarFragment extends Fragment {
 
 
                 } else { // Permission Denied
-                     Toast.makeText(getContext(), getString(R.string.calendar_activate_gcal_not_working), Toast.LENGTH_LONG).show();
-                     editor.putBoolean("CalendarSyncActive", false);
+                    Toast.makeText(getContext(), getString(R.string.calendar_activate_gcal_not_working), Toast.LENGTH_LONG).show();
+                    editor.putBoolean("CalendarSyncActive", false);
                     editor.commit();
                 }
                 break;
@@ -250,7 +256,7 @@ public class CalendarFragment extends Fragment {
             editor.putString("CalendarSyncGacc", GOOGLE_ACCOUNT_NAME);
             editor.commit();
             query_calendar();
-        }else if (requestCode == GET_ACCOUNT_NAME_REQUEST && resultCode == Activity.RESULT_CANCELED) {
+        } else if (requestCode == GET_ACCOUNT_NAME_REQUEST && resultCode == Activity.RESULT_CANCELED) {
             Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_working, Toast.LENGTH_LONG).show();
             editor.putBoolean("CalendarSyncActive", false);
             editor.commit();
@@ -259,40 +265,32 @@ public class CalendarFragment extends Fragment {
 
 
     public void query_calendar() {
-        // 設定要返回的資料
         String[] EVENT_PROJECTION = new String[]{
-                CalendarContract.Calendars._ID,                             // 0 日歷ID
-                CalendarContract.Calendars.ACCOUNT_NAME,                // 1 日歷所屬的帳戶名稱
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,       // 2 日歷名稱
-                CalendarContract.Calendars.OWNER_ACCOUNT,                  // 3 日歷擁有者
-                CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,       // 4 對此日歷所擁有的權限
+                CalendarContract.Calendars._ID,
+                CalendarContract.Calendars.ACCOUNT_NAME,
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                CalendarContract.Calendars.OWNER_ACCOUNT,
+                CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
         };
-        // 根據上面的設定，定義各資料的索引，提高代碼的可讀性
         int PROJECTION_ID_INDEX = 0;
         int PROJECTION_ACCOUNT_NAME_INDEX = 1;
         int PROJECTION_DISPLAY_NAME_INDEX = 2;
         int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
         int PROJECTION_CALENDAR_ACCESS_LEVEL = 4;
-        // 取得在EditText的帳戶名稱
         String targetAccount = GOOGLE_ACCOUNT_NAME;
-        // 查詢日歷
         Cursor cur;
         ContentResolver cr = getContext().getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        // 定義查詢條件，找出屬於上面Google帳戶及可以完全控制的日歷
         String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
                 + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
                 + CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + " = ?))";
         String[] selectionArgs = new String[]{targetAccount,
                 "com.google",
                 Integer.toString(CalendarContract.Calendars.CAL_ACCESS_OWNER)};
-        // 因為targetSDK=25，所以要在Apps運行時檢查權限
         int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.READ_CALENDAR);
-        // 建立List來暫存查詢的結果
         final List<String> accountNameList = new ArrayList<>();
         final List<Integer> calendarIdList = new ArrayList<>();
-        // 如果使用者給了權限便開始查詢日歷
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
             if (cur != null) {
@@ -302,7 +300,6 @@ public class CalendarFragment extends Fragment {
                     String displayName = null;
                     String ownerAccount = null;
                     int accessLevel = 0;
-                    // 取得所需的資料
                     calendarId = cur.getLong(PROJECTION_ID_INDEX);
                     accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
                     displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
@@ -313,15 +310,13 @@ public class CalendarFragment extends Fragment {
                     Log.i("query_calendar", String.format("displayName=%s", displayName));
                     Log.i("query_calendar", String.format("ownerAccount=%s", ownerAccount));
                     Log.i("query_calendar", String.format("accessLevel=%s", accessLevel));
-                    // 暫存資料讓使用者選擇
                     accountNameList.add(displayName);
                     calendarIdList.add((int) calendarId);
                 }
                 cur.close();
             }
             if (calendarIdList.size() != 0) {
-                // 建立一個Dialog讓使用者選擇日歷
-                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+                MaterialAlertDialogBuilder adb = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark));
                 adb.setTitle("Kalender wählen"); //TODO MULTI LANG
                 CharSequence items[] = accountNameList.toArray(new CharSequence[accountNameList.size()]);
                 adb.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -335,15 +330,13 @@ public class CalendarFragment extends Fragment {
                 });
                 adb.setNegativeButton("CANCEL", null);
                 adb.show();
-            }
-            else {
+            } else {
                 Toast toast = Toast.makeText(getContext(), R.string.calendar_activate_not_found, Toast.LENGTH_LONG);
                 toast.show();
                 editor.putBoolean("CalendarSyncActive", false);
                 editor.commit();
             }
-        }
-        else {
+        } else {
             Toast.makeText(getContext(), R.string.calendar_activate_gcal_not_working, Toast.LENGTH_LONG).show();
             editor.putBoolean("CalendarSyncActive", false);
             editor.commit();
@@ -351,16 +344,15 @@ public class CalendarFragment extends Fragment {
     }
 
 
-
-    public void refreshDay(){
+    public void refreshDay() {
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
         tbv.setText(dateFormat.format(cal.getTime()));
 
         List<Event> events = compactCalendarView.getEvents(cal.getTimeInMillis());
-        if(events.isEmpty()){
+        if (events.isEmpty()) {
             noCal.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             noCal.setVisibility(View.INVISIBLE);
         }
         final KalenderList adapterlist = new KalenderList(getContext(), CalendarFragment.this, events);
@@ -373,14 +365,14 @@ public class CalendarFragment extends Fragment {
     }
 
 
-    public void refreshAll(){
+    public void refreshAll() {
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
         compactCalendarView.removeAllEvents();
 
         Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
-        for(String s : set){
+        for (String s : set) {
             int id = Integer.parseInt(s.split("ʷ")[0]);
             int day = Integer.parseInt(s.split("ʷ")[1]);
             int month = Integer.parseInt(s.split("ʷ")[2]);

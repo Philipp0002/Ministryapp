@@ -25,10 +25,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akexorcist.roundcornerprogressbar.indeterminate.IndeterminateCenteredRoundCornerProgressBar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 import java.util.HashMap;
@@ -65,12 +67,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         this.videoFragment = videoFragment;
     }
 
-    @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_single, parent, false);
         return new ViewHolder(v);
     }
 
-    @Override public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setIsRecyclable(false);
         final SharedPreferences sp = context.getSharedPreferences("MainActivity", context.MODE_PRIVATE);
 
@@ -87,15 +91,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.mb.setText(vidMb);
 
         holder.imageGradient.setVisibility(View.INVISIBLE);
-        if(vidDownloaded){
+        if (vidDownloaded) {
             holder.downloadedImg.setVisibility(View.VISIBLE);
             holder.notDownloadedImg.setVisibility(View.INVISIBLE);
             holder.mb.setVisibility(View.INVISIBLE);
-            if(!drawables.containsKey(position)) {
+            if (!drawables.containsKey(position)) {
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
-                        Bitmap bMap = ThumbnailUtils.createVideoThumbnail(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath()+"/MINISTRY/" + vidTitle.replace("?", "") + ".mp4", MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                        Bitmap bMap = ThumbnailUtils.createVideoThumbnail(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath() + "/MINISTRY/" + vidTitle.replace("?", "") + ".mp4", MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
                         final Drawable d = new BitmapDrawable(context.getResources(), bMap);
                         drawables.put(position, d);
                         context.runOnUiThread(new Runnable() {
@@ -108,7 +112,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                         return null;
                     }
                 }.execute();
-            }else{
+            } else {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -117,54 +121,45 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     }
                 });
             }
-        }else{
+        } else {
             holder.downloadedImg.setVisibility(View.INVISIBLE);
             holder.notDownloadedImg.setVisibility(View.VISIBLE);
             holder.mb.setVisibility(View.VISIBLE);
             holder.image.setImageDrawable(null);
 
-            if(pendingDownload.containsValue(vidId)){
+            if (pendingDownload.containsValue(vidId)) {
                 holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holder.downloadProgressBarIndeterminate.setVisibility(View.INVISIBLE);
             }
         }
 
 
-
-
         holder.mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(vidDownloaded){
-                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath() , "MINISTRY" + "/" + vidTitle.replace("?", "") + ".mp4");
+                if (vidDownloaded) {
+                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + vidTitle.replace("?", "") + ".mp4");
                     Uri contentUri = FileProvider.getUriForFile(context, "tk.phili.dienst.dienst.fileprovider", file);
-                    if(file.exists()) {
+                    if (file.exists()) {
                         openFile(context, contentUri);
-                    }else{
+                    } else {
                         Toast.makeText(context, context.getString(R.string.videonew_lostfile), Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.download_sure));
-                    builder.setMessage(context.getString(R.string.download_text).replace("%a", vidTitle));
+                } else {
+                    new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                            .setTitle(context.getString(R.string.download_sure))
+                            .setMessage(context.getString(R.string.download_text).replace("%a", vidTitle))
+                            .setIcon(R.drawable.ic_baseline_cloud_download_24)
+                            .setPositiveButton(R.string.download_ok, (dialog, which) -> {
+                                long a = doDownload(vidTitle, vidURL);
+                                holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
+                                pendingDownload.put(a, vidId);
+                            })
+                            .setNegativeButton(R.string.download_cancel, null)
+                            .create()
+                            .show();
 
-                    String positiveText = context.getString(R.string.download_ok);
-                    builder.setPositiveButton(positiveText, (dialog, which) -> {
-                        long a = doDownload(vidTitle, vidURL);
-                        holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
-                        pendingDownload.put(a, vidId);
-                    });
-
-                    String negativeText = context.getString(R.string.download_cancel);
-                    builder.setNegativeButton(negativeText, null);
-
-                    try {
-                        AlertDialog dialog = builder.create();
-                        // display dialog
-                        dialog.show();
-                    } catch (Exception e) {
-                    }
                 }
             }
         });
@@ -175,14 +170,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         });
 
 
-
-
-
-
-
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return id.size();
     }
 
@@ -216,7 +207,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
 
-    public long doDownload(String videoname, String url){
+    public long doDownload(String videoname, String url) {
         try {
             //DOWNLOAD
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -224,12 +215,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             request.setTitle(videoname);
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-            request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_MOVIES, "MINISTRY/"+ videoname.replace("?", "") + ".mp4");
+            request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_MOVIES, "MINISTRY/" + videoname.replace("?", "") + ".mp4");
             request.setVisibleInDownloadsUi(true);
             final DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             return manager.enqueue(request);
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             Toast.makeText(context, context.getString(R.string.video_exception), Toast.LENGTH_LONG).show();
             ex.printStackTrace();
         }
@@ -237,7 +228,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     public static void openFile(Context context, Uri contentUri) {
-        Log.d("VideoAdapter", contentUri.toString());
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, contentUri);
             intent.setDataAndType(contentUri, "video/mp4");
@@ -246,9 +236,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             context.startActivity(intent);
-        }catch(Exception e){
-            new AlertDialog.Builder(context)
+        } catch (Exception e) {
+            new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
                     .setTitle(R.string.error)
+                    .setIcon(R.drawable.ic_baseline_error_outline_24)
                     .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
                     .setCancelable(false)
                     .setMessage(R.string.video_open_error)
@@ -257,30 +248,27 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     public void showDeleteDialog(final String vidname) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(context.getString(R.string.delete_sure));
-        builder.setMessage(context.getString(R.string.delete_text).replace("%a", vidname));
+        final File file = new File(context
+                .getExternalFilesDir(Environment.DIRECTORY_MOVIES)
+                .getAbsolutePath()
+                + "/" + "MINISTRY" + "/" + vidname.replace("?", "") + ".mp4");
 
-        String positiveText = context.getString(R.string.delete_ok);
-        builder.setPositiveButton(positiveText,
-                (dialog, which) -> {
-                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath()+"/"+"MINISTRY" +"/"+ vidname.replace("?", "")+".mp4");
-                    file.delete();
-                    videoFragment.refreshList();
-                });
-
-        String negativeText = context.getString(R.string.delete_cancel);
-        builder.setNegativeButton(negativeText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // negative button logic
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        // display dialog
-        dialog.show();
+        if (file.exists()) {
+            new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                    .setTitle(context.getString(R.string.delete_sure))
+                    .setMessage(context.getString(R.string.delete_text).replace("%a", vidname))
+                    .setIcon(R.drawable.ic_baseline_delete_24)
+                    .setPositiveButton(R.string.delete_ok,
+                            (dialog, which) -> {
+                                file.delete();
+                                videoFragment.refreshList();
+                            })
+                    .setNegativeButton(R.string.delete_cancel,
+                            (__, ___) -> {
+                            })
+                    .create()
+                    .show();
+        }
 
     }
 

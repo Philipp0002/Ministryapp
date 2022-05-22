@@ -33,8 +33,8 @@ import tk.phili.dienst.dienst.R;
 /** Utility class for the Adaptive package. */
 public class AdaptiveUtils {
 
-    static final int MEDIUM_SCREEN_WIDTH_SIZE = 600;
-    static final int LARGE_SCREEN_WIDTH_SIZE = 1240;
+    public static final int MEDIUM_SCREEN_WIDTH_SIZE = 600;
+    public static final int LARGE_SCREEN_WIDTH_SIZE = 1240;
 
     private static DrawerLayout.DrawerListener drawerListener;
 

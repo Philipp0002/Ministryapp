@@ -207,6 +207,10 @@ public class ReportManager {
     }
 
     public int getReportLayoutSetting(){
+        if(sharedPreferences.getInt("report_layout", 0) < 0
+                || sharedPreferences.getInt("report_layout", 0) > 1 ){
+            return 0;
+        }
         return sharedPreferences.getInt("report_layout", 0);
     }
 

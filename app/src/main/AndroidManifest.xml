@@ -44,10 +44,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".report.ReportAddFrame"
-            android:label="@string/add_bericht"
-            android:theme="@style/BerichtAddFrameThemeTranslucent" />
-        <activity
             android:name=".calendar.KalenderAddFrame"
             android:label="@string/title_activity_kalender_add_frame"
             android:theme="@style/BerichtAddFrameThemeTranslucent" />

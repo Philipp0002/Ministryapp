@@ -18,11 +18,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -45,15 +48,16 @@ import java.util.Calendar;
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
-    public static AlertDialog.Builder builder;
 
     final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
@@ -157,7 +161,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         initList();
 
-
         toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
 
 
@@ -181,17 +184,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         slidingLayout.setParallaxOffset(100);
 
         addBerichtButton.setOnClickListener(v -> {
-            Intent mainIntent = new Intent(getContext(), ReportAddFrame.class);
-            float x = v.getX() + v.getWidth() / 2;
-            float y = v.getY() + v.getHeight() / 2;
-            mainIntent.putExtra("xReveal", x);
-            mainIntent.putExtra("yReveal", y);
-
-            mainIntent.putExtra("id", Integer.MAX_VALUE);
-
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(getActivity(), v, "bericht_add_frame");
-            startActivity(mainIntent, options.toBundle());
+            showEditDialog(null);
         });
 
         swipeUpShare.setOnClickListener(v -> {
@@ -199,50 +192,43 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-
-                alert.setTitle(getString(R.string.title_section6));
-                alert.setMessage(getString(R.string.bericht_type_name));
-
                 View input_view = LayoutInflater.from(getContext())
-                        .inflate(R.layout.bericht_send_input, null, false);
+                        .inflate(R.layout.report_send_input, null, false);
                 final EditText input = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
-                alert.setView(input_view);
+
                 input.setText(sp.getString("lastSendName", ""));
 
-                alert.setPositiveButton(getString(R.string.title_activity_senden), (dialog, whichButton) -> {
-                    String value = input.getText().toString();
-                    if (!value.isEmpty()) {
-                        sendReport(value);
-                    }
-
-                });
-
-                alert.setNegativeButton(getString(R.string.gebiet_add_cancel), (dialog, whichButton) -> {
-                });
-
-                alert.show();
+                new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+                        .setTitle(getString(R.string.title_section6))
+                        .setMessage(getString(R.string.bericht_type_name))
+                        .setView(input_view)
+                        .setPositiveButton(getString(R.string.title_activity_senden), (dialog, whichButton) -> {
+                            String value = input.getText().toString();
+                            if (!value.isEmpty()) {
+                                sendReport(value);
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.gebiet_add_cancel), (dialog, whichButton) -> {
+                        })
+                        .show();
             }
         });
 
         swipeUpCarryOver.setOnClickListener(v -> {
             if (swipeUpCarryOver.getAlpha() != 0F) {
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-
-                alert.setTitle(getString(R.string.carryover));
-                alert.setMessage(getString(R.string.carryover_msg));
-
-                alert.setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> {
-                    if (carry()) {
-                        updateList();
-                    }
-                });
-
-                alert.setNegativeButton(getString(R.string.delete_cancel), (dialog, whichButton) -> {
-                });
-
-                alert.show();
+                new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                        .setIcon(R.drawable.ic_baseline_redo_24)
+                        .setTitle(getString(R.string.carryover))
+                        .setMessage(getString(R.string.carryover_msg))
+                        .setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> {
+                            if (carry()) {
+                                updateList();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.delete_cancel), (dialog, whichButton) -> {
+                        })
+                        .show();
             }
         });
 
@@ -269,7 +255,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("calendarShow", calendarShow);
-        if(privateBlock.getVisibility() != View.VISIBLE){
+        if (privateBlock.getVisibility() != View.VISIBLE) {
             outState.putBoolean("private_mode_clicked", true);
         }
     }
@@ -324,22 +310,17 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 if (report.getType() != Report.Type.NORMAL) {
                     return;
                 }
-                Intent mainIntent = new Intent(getActivity(), ReportAddFrame.class);
-                float x = view.getX() + view.getWidth() / 2;
-                float y = view.getY() + view.getHeight() / 2;
-                mainIntent.putExtra("xReveal", x);
-                mainIntent.putExtra("yReveal", y);
-
-                mainIntent.putExtra("id", report.getId());
-
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(getActivity(), view, "bericht_add_frame");
-                startActivity(mainIntent, options.toBundle());
+                showEditDialog(report.getId());
             }
         };
         reportRecyclerAdapter.setHasStableIds(true);
         reportsRecycler.setAdapter(reportRecyclerAdapter);
-        reportsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        int screenWidth = getResources().getConfiguration().screenWidthDp;
+        if (AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE <= screenWidth) {
+            reportsRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        } else {
+            reportsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -406,37 +387,37 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.action_goal) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
             View input_view = LayoutInflater.from(getContext())
                     .inflate(R.layout.goal_set_input, null, false);
             final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
-            dialogBuilder.setView(input_view);
+
 
             if (sp.contains("goal") && !sp.getString("goal", "0").equals("0")) {
                 edt.setText(sp.getString("goal", "0"));
             }
-
-            dialogBuilder.setTitle(getString(R.string.goal_set));
-            dialogBuilder.setMessage(getString(R.string.goal_msg));
-            dialogBuilder.setPositiveButton(getString(R.string.OK), (dialog, whichButton) -> {
-                try {
-                    Integer.parseInt(edt.getText().toString());
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                editor.putString("goal", edt.getText().toString());
-                editor.commit();
-                updateSummary();
-            });
-            dialogBuilder.setNegativeButton(getString(R.string.goal_no), (dialog, whichButton) -> {
-                editor.putString("goal", "0");
-                editor.commit();
-                updateSummary();
-            });
-            AlertDialog b = dialogBuilder.create();
-            b.show();
+            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+                    .setView(input_view)
+                    .setTitle(getString(R.string.goal_set))
+                    .setMessage(getString(R.string.goal_msg))
+                    .setPositiveButton(getString(R.string.OK), (dialog, whichButton) -> {
+                        try {
+                            Integer.parseInt(edt.getText().toString());
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        editor.putString("goal", edt.getText().toString());
+                        editor.commit();
+                        updateSummary();
+                    })
+                    .setNegativeButton(getString(R.string.goal_no), (dialog, whichButton) -> {
+                        editor.putString("goal", "0");
+                        editor.commit();
+                        updateSummary();
+                    })
+                    .create()
+                    .show();
             return true;
         }
         return false;
@@ -526,6 +507,34 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public int getYear() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.YEAR);
+    }
+
+    public void showEditDialog(Long id) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        ReportAddDialog newFragment;
+
+        if (id != null) {
+            newFragment = ReportAddDialog.newInstance(id);
+        } else {
+            newFragment = ReportAddDialog.newInstance();
+        }
+
+        int screenWidth = getResources().getConfiguration().screenWidthDp;
+        if (AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE <= screenWidth) {
+            // The device is using a large layout, so show the fragment as a dialog
+            newFragment.show(fragmentManager, "dialog");
+        } else {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.add(android.R.id.content, newFragment)
+                    .addToBackStack(null).commit();
+        }
+
+        newFragment.dismissCallback = () -> {
+            updateList();
+            Drawer.hideKeyboard(getActivity());
+        };
+
     }
 
 
