@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
 public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {
@@ -97,7 +98,10 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
         toolbar.inflateMenu(R.menu.save);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
-        toolbar.setNavigationOnClickListener(view1 -> dismiss());
+        toolbar.setNavigationOnClickListener(view1 -> {
+            dismiss();
+            Drawer.hideKeyboard(getActivity());
+        });
 
         sp = getContext().getSharedPreferences("MainActivity", MODE_PRIVATE);
         editor = sp.edit();

@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 import tk.phili.dienst.dienst.utils.Utils;
 
@@ -110,7 +111,10 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         toolbar.inflateMenu(R.menu.save);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
-        toolbar.setNavigationOnClickListener(view1 -> dismiss());
+        toolbar.setNavigationOnClickListener(view1 -> {
+            dismiss();
+            Drawer.hideKeyboard(getActivity());
+        });
 
         reportManager = new ReportManager(getContext());
 
@@ -193,7 +197,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
                         if (i > 59) {
                             minutesView.setTextColor(Color.RED);
                         } else {
-                            minutesView.setTextColor(Color.BLACK);
+                            minutesView.setTextColor(Color.WHITE);
                         }
                     } catch (Exception e) {
                         minutesView.setTextColor(Color.RED);
@@ -222,7 +226,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
                         if (i > 24) {
                             hourView.setTextColor(Color.RED);
                         } else {
-                            hourView.setTextColor(Color.BLACK);
+                            hourView.setTextColor(Color.WHITE);
                         }
                     } catch (Exception e) {
                         hourView.setTextColor(Color.RED);

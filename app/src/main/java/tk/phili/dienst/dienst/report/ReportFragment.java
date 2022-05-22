@@ -91,6 +91,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     View swipeUpText;
     View swipeUpLeftIcon;
     View swipeUpRightIcon;
+    View noReportView;
 
     @Override
     public void onAttach(Context context) {
@@ -124,6 +125,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         swipeUpText = view.findViewById(R.id.swipe_up_text);
         swipeUpLeftIcon = view.findViewById(R.id.swipe_up_lefticon);
         swipeUpRightIcon = view.findViewById(R.id.swipe_up_righticon);
+        noReportView = view.findViewById(R.id.no_report);
 
         toolbar.inflateMenu(R.menu.main);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
@@ -400,6 +402,12 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         List<Report> reports = reportManager.getReports(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
         reportRecyclerAdapter.reports = reports;
         reportRecyclerAdapter.notifyDataSetChanged();
+
+        if (reports.isEmpty()) {
+            noReportView.setVisibility(View.VISIBLE);
+        } else {
+            noReportView.setVisibility(View.GONE);
+        }
 
 
         updateSummary();
