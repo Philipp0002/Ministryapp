@@ -35,19 +35,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mpc_title="@string/pref_general"
-                    app:mpc_title_color="@color/settings_title">
+                    app:mpc_title_color="@color/settings_title"
+                    app:cardBackgroundColor="@color/background">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/export"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/export" />
+                        app:mp_title="@string/export"
+                        app:mp_icon="@drawable/ic_baseline_backup_24"/>
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/reset"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/reset" />
+                        app:mp_title="@string/reset"
+                        app:mp_icon="@drawable/ic_baseline_delete_forever_24"/>
 
                 </com.yarolegovich.mp.MaterialPreferenceCategory>
 
@@ -58,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_general"
                     app:mpc_title="@string/title_section1"
-                    app:mpc_title_color="@color/settings_title">
+                    app:mpc_title_color="@color/settings_title"
+                    app:cardBackgroundColor="@color/background">
 
                     <com.yarolegovich.mp.MaterialEditTextPreference
                         android:id="@+id/report_layout_settings"
@@ -66,14 +70,16 @@
                         android:layout_height="wrap_content"
                         app:mp_key="report_layout"
                         app:mp_show_value="onRight"
-                        app:mp_title="@string/report_layout_settings" />
+                        app:mp_title="@string/report_layout_settings"
+                        app:mp_icon="@drawable/ic_baseline_style_24"/>
 
                     <com.yarolegovich.mp.MaterialSwitchPreference
                         android:id="@+id/report_private_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:mp_key="private_mode"
-                        app:mp_title="@string/report_private_mode" />
+                        app:mp_title="@string/report_private_mode"
+                        app:mp_icon="@drawable/ic_baseline_privacy_tip_24"/>
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/reformat"
@@ -89,19 +95,22 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_report"
                     app:mpc_title="@string/language"
-                    app:mpc_title_color="@color/settings_title">
+                    app:mpc_title_color="@color/settings_title"
+                    app:cardBackgroundColor="@color/background">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/language_empf"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/title_section4" />
+                        app:mp_title="@string/title_section4"
+                        app:mp_icon="@drawable/ic_thumb_up_black_24dp"/>
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/language_tt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/title_tt" />
+                        app:mp_title="@string/title_tt"
+                        app:mp_icon="@drawable/ic_baseline_event_available_24px"/>
 
                 </com.yarolegovich.mp.MaterialPreferenceCategory>
 
@@ -112,25 +121,29 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_sample"
                     app:mpc_title="@string/title_section9"
-                    app:mpc_title_color="@color/settings_title">
+                    app:mpc_title_color="@color/settings_title"
+                    app:cardBackgroundColor="@color/background">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/calendar_gcal_reset"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/calendar_gcal_setting" />
+                        app:mp_title="@string/calendar_gcal_setting"
+                        app:mp_icon="@drawable/ic_baseline_sync_disabled_24"/>
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/calendar_time_of_notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/calendar_time_of_notification" />
+                        app:mp_title="@string/calendar_time_of_notification"
+                        app:mp_icon="@drawable/ic_timer_black_24dp" />
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/calendar_notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/calendar_notification" />
+                        app:mp_title="@string/calendar_notification"
+                        app:mp_icon="@drawable/ic_baseline_notifications_24" />
 
 
                 </com.yarolegovich.mp.MaterialPreferenceCategory>
@@ -140,25 +153,29 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/prefs_calendar"
                     app:mpc_title="@string/pref_legal"
-                    app:mpc_title_color="@color/settings_title">
+                    app:mpc_title_color="@color/settings_title"
+                    app:cardBackgroundColor="@color/background">
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/impressum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/impressum" />
+                        app:mp_title="@string/impressum"
+                        app:mp_icon="@drawable/ic_baseline_info_24" />
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/licenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/licenses" />
+                        app:mp_title="@string/licenses"
+                        app:mp_icon="@drawable/ic_baseline_library_books_24"/>
 
                     <com.yarolegovich.mp.MaterialStandardPreference
                         android:id="@+id/dsgvo_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mp_title="@string/dsgvo_title" />
+                        app:mp_title="@string/dsgvo_title"
+                        app:mp_icon="@drawable/ic_baseline_safety_check_24" />
 
 
                 </com.yarolegovich.mp.MaterialPreferenceCategory>

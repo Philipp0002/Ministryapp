@@ -49,6 +49,7 @@ import tk.phili.dienst.dienst.report.ReportFormatConverter;
 import tk.phili.dienst.dienst.report.ReportManager;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.Utils;
 
 
 public class SettingsFragment extends Fragment {
@@ -405,6 +406,7 @@ public class SettingsFragment extends Fragment {
 
                 final LinearLayout layout = new LinearLayout(new ContextThemeWrapper(getContext(), R.style.AppThemeDark));
                 layout.setOrientation(LinearLayout.VERTICAL);
+                layout.setPadding(Utils.dpToPx(16), 0, Utils.dpToPx(16), 0);
 
                 int layoutId = 0;
                 if (reportManager.getReportLayoutSetting() == 0) {
