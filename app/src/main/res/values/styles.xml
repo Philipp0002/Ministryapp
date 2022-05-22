@@ -38,7 +38,7 @@
         <!-- Customize your theme here.-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimary">@color/settings_title</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="spinnerDropDownItemStyle">@style/AppThemeDark</item>
     </style>

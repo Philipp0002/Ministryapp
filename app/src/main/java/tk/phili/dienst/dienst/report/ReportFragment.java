@@ -202,11 +202,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 simpleDatePickerDialog.show();
                 simpleDatePickerDialog
                         .getButton(DialogInterface.BUTTON_POSITIVE)
-                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.ColorPrimary));
+                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
 
                 simpleDatePickerDialog
                         .getButton(DialogInterface.BUTTON_NEGATIVE)
-                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.ColorPrimary));
+                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -559,7 +559,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         } else {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.add(android.R.id.content, newFragment)
+            transaction.add(R.id.drawer_layout, newFragment)
                     .addToBackStack(null).commit();
         }
 
