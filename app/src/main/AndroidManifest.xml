@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".calendar.KalenderAddFrame"
+            android:name=".calendar.CalendarAddDialog"
             android:label="@string/title_activity_kalender_add_frame"
             android:theme="@style/BerichtAddFrameThemeTranslucent" />
         <activity android:name=".settings.DSGVOInfo" />

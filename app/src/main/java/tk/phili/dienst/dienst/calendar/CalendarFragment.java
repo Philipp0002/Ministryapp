@@ -29,6 +29,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -36,7 +38,6 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,8 +50,10 @@ import java.util.List;
 import java.util.Set;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 
 public class CalendarFragment extends Fragment {
 
@@ -113,17 +116,6 @@ public class CalendarFragment extends Fragment {
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
         view.findViewById(R.id.imageButton).setOnClickListener(__ -> {
-            Intent mainIntent = new Intent(getActivity(), KalenderAddFrame.class);
-            FloatingActionButton imageButton = view.findViewById(R.id.imageButton);
-            float x = imageButton.getX() + imageButton.getWidth() / 2;
-            float y = imageButton.getY() + imageButton.getHeight() / 2;
-            mainIntent.putExtra("xReveal", x);
-            mainIntent.putExtra("yReveal", y);
-
-            mainIntent.putExtra("day", cal.get(Calendar.DAY_OF_MONTH));
-            mainIntent.putExtra("month", cal.get(Calendar.MONTH));
-            mainIntent.putExtra("year", cal.get(Calendar.YEAR));
-
             int idmax = 0;
             Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
             for (String s : set) {
@@ -133,9 +125,12 @@ public class CalendarFragment extends Fragment {
                 }
             }
             idmax++;
-            mainIntent.putExtra("id", idmax);
 
-            startActivity(mainIntent);
+            showEditDialog(idmax,
+                    cal.get(Calendar.DAY_OF_MONTH),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.YEAR),
+                    null, null, null, null);
         });
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
@@ -355,7 +350,7 @@ public class CalendarFragment extends Fragment {
         } else {
             noCal.setVisibility(View.INVISIBLE);
         }
-        final KalenderList adapterlist = new KalenderList(getContext(), CalendarFragment.this, events);
+        final CalendarList adapterlist = new CalendarList(getContext(), CalendarFragment.this, events);
         eventList.setAdapter(adapterlist);
 
         String s = java.text.DateFormat.getDateInstance(DateFormat.SHORT).format(cal.getTime());
@@ -396,6 +391,34 @@ public class CalendarFragment extends Fragment {
         super.onResume();
         refreshAll();
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+    }
+
+    public void showEditDialog(long id, int day, int month, int year, Integer hour, Integer minute, String partner, String notes) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        CalendarAddDialog newFragment;
+
+        if (hour != null) {
+            newFragment = CalendarAddDialog.newInstance(id, day, month, year, hour, minute, partner, notes);
+        } else {
+            newFragment = CalendarAddDialog.newInstance(id, day, month, year);
+        }
+
+        int screenWidth = getResources().getConfiguration().screenWidthDp;
+        if (AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE <= screenWidth) {
+            // The device is using a large layout, so show the fragment as a dialog
+            newFragment.show(fragmentManager, "dialog");
+        } else {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.add(R.id.drawer_layout, newFragment)
+                    .addToBackStack(null).commit();
+        }
+
+        newFragment.dismissCallback = () -> {
+            refreshAll();
+            Drawer.hideKeyboard(getActivity());
+        };
+
     }
 
 

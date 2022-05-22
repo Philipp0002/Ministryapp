@@ -1,7 +1,8 @@
 package tk.phili.dienst.dienst.calendar;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
-import android.animation.Animator;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -15,21 +16,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.format.DateFormat;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
-
-import com.google.android.material.appbar.AppBarLayout;
+import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -38,57 +38,95 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TimeZone;
 
-import io.codetail.animation.ViewAnimationUtils;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class KalenderAddFrame extends AppCompatActivity {
+public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {
 
     Calendar myCalendar = null;
-    int id;
+    long id;
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
     boolean collapsed = false;
 
+    Toolbar toolbar;
+    EditText dateView;
+    EditText partnerView;
+    EditText notesView;
+
+    Runnable dismissCallback;
+
     //FORMAT
     //IDʷDAYʷMONTHʷYEARʷHOURʷMINUTEʷDIENSTPARTNERʷBESCHREIBUNG
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kalender_add_frame);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    static CalendarAddDialog newInstance(long id, int day, int month, int year, int hour, int minute, String partner, String notes) {
+        CalendarAddDialog f = new CalendarAddDialog();
 
-        sp = getSharedPreferences("MainActivity", MODE_PRIVATE);
+        Bundle args = new Bundle();
+        args.putLong("id", id);
+        args.putInt("day", day);
+        args.putInt("month", month);
+        args.putInt("year", year);
+        if (partner != null) args.putString("partner", partner);
+        if (notes != null) args.putString("notes", notes);
+        f.setArguments(args);
+
+        return f;
+    }
+
+    static CalendarAddDialog newInstance(long id, int day, int month, int year) {
+        return newInstance(id, day, month, year, 0, 0, null, null);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.dialog_calendar_add, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar = view.findViewById(R.id.toolbar);
+        dateView = view.findViewById(R.id.add_calendar_date);
+        partnerView = view.findViewById(R.id.add_calendar_partner);
+        notesView = view.findViewById(R.id.add_calendar_notes);
+
+        toolbar.inflateMenu(R.menu.save);
+        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
+        toolbar.setOnMenuItemClickListener(this);
+        toolbar.setNavigationOnClickListener(view1 -> dismiss());
+
+        sp = getContext().getSharedPreferences("MainActivity", MODE_PRIVATE);
         editor = sp.edit();
 
-        int day = getIntent().getIntExtra("day", 1);
-        int month = getIntent().getIntExtra("month", 1);
-        int year = getIntent().getIntExtra("year", 1);
-        final int hour = getIntent().getIntExtra("hour", 0);
-        int minute = getIntent().getIntExtra("minute", 0);
-        id = getIntent().getIntExtra("id", 0);
+        int day = getArguments().getInt("day", 1);
+        int month = getArguments().getInt("month", 1);
+        int year = getArguments().getInt("year", 1);
+        final int hour = getArguments().getInt("hour", 0);
+        int minute = getArguments().getInt("minute", 0);
+        id = getArguments().getLong("id", 0);
 
-        String partner = getIntent().getStringExtra("partner");
-        String notes = getIntent().getStringExtra("notes");
+        String partner = getArguments().getString("partner");
+        String notes = getArguments().getString("notes");
 
-        if(partner!=null){
-            if(!partner.trim().isEmpty()){
-                ((EditText)findViewById(R.id.add_calendar_partner)).setText(partner);
+        if (partner != null) {
+            if (!partner.trim().isEmpty()) {
+                partnerView.setText(partner);
             }
         }
-        if(notes!=null){
-            if(!notes.trim().isEmpty()){
-                ((EditText)findViewById(R.id.add_calendar_notes)).setText(notes);
+        if (notes != null) {
+            if (!notes.trim().isEmpty()) {
+                notesView.setText(notes);
             }
         }
 
         myCalendar = new GregorianCalendar(year, month, day, hour, minute);
         Date newDate = new Date(myCalendar.getTimeInMillis());
         String s = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(newDate);
-        ((EditText)findViewById(R.id.add_calendar_date)).setText(s);
+        dateView.setText(s);
 
         final TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -97,9 +135,9 @@ public class KalenderAddFrame extends AppCompatActivity {
                 myCalendar.set(Calendar.MINUTE, min);
                 Date newDate = new Date(myCalendar.getTimeInMillis());
                 String s = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(newDate);
-                ((TextView)findViewById(R.id.add_calendar_date)).setText(s);
+                dateView.setText(s);
 
-                findViewById(R.id.add_calendar_partner).requestFocus();
+                partnerView.requestFocus();
             }
         };
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -110,34 +148,31 @@ public class KalenderAddFrame extends AppCompatActivity {
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                /*MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
-                        .setTimeFormat(DateFormat.is24HourFormat(KalenderAddFrame.this) ? TimeFormat.CLOCK_24H : TimeFormat.CLOCK_12H)
-                        .setHour(myCalendar.get(Calendar.HOUR_OF_DAY))
-                        .setMinute(myCalendar.get(Calendar.MINUTE))
-                        .build();
 
-                materialTimePicker.show(getSupportFragmentManager(), "time_picker");*/
+                new TimePickerDialog(getContext(),
+                        time,
+                        myCalendar.get(Calendar.HOUR_OF_DAY),
+                        myCalendar.get(Calendar.MINUTE),
+                        DateFormat.is24HourFormat(getContext()))
+                        .show();
 
-                new TimePickerDialog(KalenderAddFrame.this, time, myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(KalenderAddFrame.this))
-                    .show();
-
-                findViewById(R.id.add_calendar_partner).requestFocus();
+                partnerView.requestFocus();
             }
         };
 
 
-        findViewById(R.id.add_calendar_date).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        dateView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, boolean hasFocus) {
-                if(ViewCompat.isAttachedToWindow(v)) {
+                if (ViewCompat.isAttachedToWindow(v)) {
                     if (hasFocus) {
-                        DatePickerDialog dpd = new DatePickerDialog(KalenderAddFrame.this, date, myCalendar
+                        DatePickerDialog dpd = new DatePickerDialog(getContext(), date, myCalendar
                                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                                 myCalendar.get(Calendar.DAY_OF_MONTH));
                         dpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                findViewById(R.id.add_calendar_partner).requestFocus();
+                                partnerView.requestFocus();
                             }
                         });
                         dpd.show();
@@ -146,78 +181,30 @@ public class KalenderAddFrame extends AppCompatActivity {
             }
         });
 
-
-        final View view = findViewById(R.id.revealLayoutKal);
-        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                v.removeOnLayoutChangeListener(this);
-                if(getIntent().hasExtra("xReveal") && getIntent().hasExtra("yReveal")){
-                    View myView = findViewById(R.id.revealLayoutKal);
-
-                    // get the center for the clipping circle
-                    int cx = (int)getIntent().getFloatExtra("xReveal", 0);
-                    int cy = (int)getIntent().getFloatExtra("yReveal", 0);
-
-                    // get the final radius for the clipping circle
-                    int dx = myView.getWidth();
-                    int dy = myView.getHeight();
-                    float finalRadius = (float) Math.hypot(dx, dy);
-
-                    // Android native animator
-                    Animator animator = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-                    animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                    animator.setDuration(500);
-                    animator.start();
-                }
-            }
-        });
-
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save();
-            }
-        });
-
-        ((AppBarLayout)findViewById(R.id.app_bar)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
-                if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0) {
-                    collapsed = true;
-                    supportInvalidateOptionsMenu();
-                }
-                else {
-                    collapsed = false;
-                    supportInvalidateOptionsMenu();
-                }
-            }
-        });
     }
 
-    public void save(){
+    public void save() {
         Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
         int day = myCalendar.get(Calendar.DAY_OF_MONTH);
         int month = myCalendar.get(Calendar.MONTH);
         int year = myCalendar.get(Calendar.YEAR);
         int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = myCalendar.get(Calendar.MINUTE);
-        String dienstpartner = ((EditText)findViewById(R.id.add_calendar_partner)).getText().toString().isEmpty() ? " " : ((EditText)findViewById(R.id.add_calendar_partner)).getText().toString();
-        String beschreibung = ((EditText)findViewById(R.id.add_calendar_notes)).getText().toString().isEmpty() ? " " : ((EditText)findViewById(R.id.add_calendar_notes)).getText().toString();
+        String dienstpartner = partnerView.getText().toString().isEmpty() ? " " : partnerView.getText().toString();
+        String beschreibung = notesView.getText().toString().isEmpty() ? " " : notesView.getText().toString();
 
         Set<String> newSet = new HashSet<String>();
-        for(String s : set){
-            if(Integer.parseInt(s.split("ʷ")[0]) != id){
+        for (String s : set) {
+            if (Integer.parseInt(s.split("ʷ")[0]) != id) {
                 newSet.add(s);
             }
         }
-        newSet.add(id+"ʷ"+day+"ʷ"+month+"ʷ"+year+"ʷ"+hour+"ʷ"+minute+"ʷ"+dienstpartner+"ʷ"+beschreibung);
+        newSet.add(id + "ʷ" + day + "ʷ" + month + "ʷ" + year + "ʷ" + hour + "ʷ" + minute + "ʷ" + dienstpartner + "ʷ" + beschreibung);
 
         editor.putStringSet("Calendar", newSet);
         editor.commit();
 
-        if(sp.getBoolean("CalendarSyncActive", false)) {
+        if (sp.getBoolean("CalendarSyncActive", false)) {
             String gAcc = sp.getString("CalendarSyncGacc", "");
             Long calendarId = sp.getLong("CalendarSyncTCID", -1);
 
@@ -245,7 +232,7 @@ public class KalenderAddFrame extends AppCompatActivity {
                 // 設定活動結束時間為15分鐘後
                 long endTimeMillis = currentTimeMillis + 900000;
                 // 新增活動
-                ContentResolver cr = getContentResolver();
+                ContentResolver cr = getContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 values.put(CalendarContract.Events.DTSTART, currentTimeMillis);
                 values.put(CalendarContract.Events.DTEND, endTimeMillis);
@@ -254,7 +241,7 @@ public class KalenderAddFrame extends AppCompatActivity {
                 values.put(CalendarContract.Events.CALENDAR_ID, calendarId);
                 values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getDisplayName());
                 // 因為targetSDK=25，所以要在Apps運行時檢查權限
-                int permissionCheck = ContextCompat.checkSelfPermission(KalenderAddFrame.this,
+                int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.WRITE_CALENDAR);
                 // 如果使用者給了權限便開始新增日歷
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
@@ -277,14 +264,14 @@ public class KalenderAddFrame extends AppCompatActivity {
                 long eventId = eventIdEvent;
                 // 取得在EditText的標題
                 // 更新活動
-                ContentResolver cr = getContentResolver();
+                ContentResolver cr = getContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 values.put(CalendarContract.Events.DTSTART, currentTimeMillis);
                 values.put(CalendarContract.Events.DTEND, endTimeMillis);
                 values.put(CalendarContract.Events.TITLE, getString(R.string.calendar_event_title).replace("%a", dienstpartner));
                 values.put(CalendarContract.Events.DESCRIPTION, beschreibung + "");
                 // 因為targetSDK=25，所以要在Apps運行時檢查權限
-                int permissionCheck = ContextCompat.checkSelfPermission(KalenderAddFrame.this,
+                int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.WRITE_CALENDAR);
                 // 如果使用者給了權限便開始更新日歷
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
@@ -294,26 +281,18 @@ public class KalenderAddFrame extends AppCompatActivity {
             }
         }
 
-        finish();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(collapsed)
-            getMenuInflater().inflate(R.menu.bericht_add_frame, menu);
-        MenuTintUtils.tintAllIcons(menu, Color.WHITE);
-        return true;
+        dismiss();
+        if (dismissCallback != null)
+            dismissCallback.run();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
             save();
-
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
 }
