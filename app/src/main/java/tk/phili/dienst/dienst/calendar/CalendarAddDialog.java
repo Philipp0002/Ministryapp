@@ -27,6 +27,7 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
@@ -239,9 +240,7 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
 
             if (!gCalExistsEvent) {
                 long currentTimeMillis = cal.getTimeInMillis();
-                // 設定活動結束時間為15分鐘後
                 long endTimeMillis = currentTimeMillis + 900000;
-                // 新增活動
                 ContentResolver cr = getContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 values.put(CalendarContract.Events.DTSTART, currentTimeMillis);
@@ -250,13 +249,10 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
                 values.put(CalendarContract.Events.DESCRIPTION, beschreibung + "");
                 values.put(CalendarContract.Events.CALENDAR_ID, calendarId);
                 values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getDisplayName());
-                // 因為targetSDK=25，所以要在Apps運行時檢查權限
                 int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.WRITE_CALENDAR);
-                // 如果使用者給了權限便開始新增日歷
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-                    // 返回新建活動的ID
                     if (uri != null) {
                         eventID = Long.parseLong(uri.getLastPathSegment());
                     }
@@ -269,26 +265,27 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
             } else {
 
                 long currentTimeMillis = cal.getTimeInMillis();
-                // 設定活動結束時間為15分鐘後
                 long endTimeMillis = currentTimeMillis + 900000;
                 long eventId = eventIdEvent;
-                // 取得在EditText的標題
-                // 更新活動
                 ContentResolver cr = getContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 values.put(CalendarContract.Events.DTSTART, currentTimeMillis);
                 values.put(CalendarContract.Events.DTEND, endTimeMillis);
                 values.put(CalendarContract.Events.TITLE, getString(R.string.calendar_event_title).replace("%a", dienstpartner));
                 values.put(CalendarContract.Events.DESCRIPTION, beschreibung + "");
-                // 因為targetSDK=25，所以要在Apps運行時檢查權限
                 int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.WRITE_CALENDAR);
-                // 如果使用者給了權限便開始更新日歷
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
                     cr.update(uri, values, null, null);
                 }
             }
+        }
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat
+                    .requestPermissions(getActivity(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100001);
+            return;
         }
 
         dismiss();
