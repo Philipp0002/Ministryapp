@@ -79,6 +79,7 @@
                         android:layout_height="wrap_content"
                         app:mp_key="private_mode"
                         app:mp_title="@string/report_private_mode"
+                        android:theme="@style/AppThemeDark"
                         app:mp_icon="@drawable/ic_baseline_privacy_tip_24"/>
 
                     <com.yarolegovich.mp.MaterialStandardPreference

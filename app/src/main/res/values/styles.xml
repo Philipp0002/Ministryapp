@@ -40,6 +40,8 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/settings_title</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorPrimaryContainer">@color/ColorSecondary</item>
+        <item name="colorOnPrimary">@color/ColorOnPrimary</item>
         <item name="spinnerDropDownItemStyle">@style/AppThemeDark</item>
     </style>
 
