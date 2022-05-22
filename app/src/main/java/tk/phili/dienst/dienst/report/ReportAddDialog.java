@@ -18,9 +18,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.DateFormat;
 import java.time.LocalDate;
@@ -268,24 +271,12 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
     }
 
     public void showError(final String messagebox) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(getString(R.string.error));
-        builder.setMessage(messagebox);
-
-        String positiveText = "OK";
-        builder.setPositiveButton(positiveText,
-                (dialog, which) -> {
-
-                });
-
-        String negativeText = "";
-        builder.setNegativeButton(negativeText,
-                (dialog, which) -> {
-                    // negative button logic
-                });
-
-        AlertDialog dialog = builder.create();
-        // display dialog
+        AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+                .setTitle(getString(R.string.error))
+                .setMessage(messagebox)
+                .setPositiveButton(R.string.ok, null)
+                .setNegativeButton("", null)
+                .create();
         dialog.show();
 
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);
