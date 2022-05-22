@@ -42,7 +42,6 @@
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorPrimaryContainer">@color/ColorSecondary</item>
         <item name="colorOnPrimary">@color/ColorOnPrimary</item>
-        <item name="spinnerDropDownItemStyle">@style/AppThemeDark</item>
     </style>
 
     <!-- MaterialDesign Alert Dialog Center Icon and Title -->

@@ -34,7 +34,7 @@
     <string name="title_activity_annotation">Anmerkungen</string>
     <string name="notes_text">Schreibe hier Notizen!</string>
     <string name="sendreport_text">Bericht senden zu</string>
-    <string name="error">FEHLER</string>
+    <string name="error">Fehler</string>
     <string name="no">Nein</string>
     <string name="yes">Ja</string>
     <string name="video_exception">Es ist ein Problem beim Download aufgetreten!</string>

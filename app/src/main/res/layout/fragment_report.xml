@@ -174,16 +174,26 @@
                         CircleProgressView:layout_constraintStart_toStartOf="parent"
                         CircleProgressView:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/private_disable"
+                        style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:theme="@style/AppThemeDark"
+                        android:clickable="true"
+                        android:insetBottom="0dp"
+                        android:minHeight="48dp"
                         android:text="@string/report_private_show"
+                        android:textColor="#fff"
+                        app:backgroundTint="@color/bericht_action_color"
+                        app:cornerRadius="16dp"
+                        app:elevation="0dp"
+                        android:layout_marginTop="8dp"
                         CircleProgressView:layout_constraintEnd_toEndOf="parent"
                         CircleProgressView:layout_constraintStart_toStartOf="parent"
-                        CircleProgressView:layout_constraintTop_toBottomOf="@+id/textView3" />
+                        CircleProgressView:layout_constraintTop_toBottomOf="@+id/textView3"
+                        CircleProgressView:icon="@drawable/ic_baseline_remove_red_eye_24"
+                        CircleProgressView:iconTint="#ffffff"/>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </RelativeLayout>
         </FrameLayout>

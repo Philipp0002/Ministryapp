@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../ProgramData/AndroidSDK/icons/material/materialicons/safety_check/baseline_safety_check_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../ProgramData/AndroidSDK/icons/material/materialicons/remove_red_eye/baseline_remove_red_eye_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -34,7 +34,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_baseline_safety_check_24" />
+                            <entry key="outputName" value="ic_baseline_remove_red_eye_24" />
                             <entry key="sourceFile" value="C:\Users\fipsi\Downloads\baseline-event_available-24px.svg" />
                           </map>
                         </option>
