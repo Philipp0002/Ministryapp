@@ -31,7 +31,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -92,6 +95,32 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dialog_calendar_add, container, false);
+    }
+
+    @Override
+    public void dismiss() {
+        if (getShowsDialog()) {
+            getDialog().dismiss();
+        } else {
+            int mBackStackId = -1;
+            try {
+                Field field = DialogFragment.class.getDeclaredField("mBackStackId");
+                field.setAccessible(true);
+                field.get(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (mBackStackId >= 0) {
+                getParentFragmentManager().popBackStack(mBackStackId,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else {
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                ft.remove(this);
+                ft.commit();
+            }
+        }
     }
 
     @Override

@@ -22,9 +22,12 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -95,6 +98,32 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
+    }
+
+    @Override
+    public void dismiss() {
+        if (getShowsDialog()) {
+            getDialog().dismiss();
+        } else {
+            int mBackStackId = -1;
+            try {
+                Field field = DialogFragment.class.getDeclaredField("mBackStackId");
+                field.setAccessible(true);
+                field.get(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (mBackStackId >= 0) {
+                getParentFragmentManager().popBackStack(mBackStackId,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else {
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                ft.remove(this);
+                ft.commit();
+            }
+        }
     }
 
     @Override
