@@ -1,11 +1,15 @@
 package tk.phili.dienst.dienst.settings;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,10 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.AppCompatImageHelper;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -28,6 +37,7 @@ import com.marcoscg.licenser.Library;
 import com.marcoscg.licenser.License;
 import com.marcoscg.licenser.LicenserDialog;
 import com.yarolegovich.mp.MaterialEditTextPreference;
+import com.yarolegovich.mp.MaterialStandardPreference;
 import com.yarolegovich.mp.MaterialSwitchPreference;
 import com.yarolegovich.mp.io.StorageModule;
 import com.yarolegovich.mp.io.UserInputModule;
@@ -36,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
@@ -70,6 +81,11 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, null);
         return root;
@@ -92,13 +108,39 @@ public class SettingsFragment extends Fragment {
         SettingsInputModule sim = new SettingsInputModule();
 
         MaterialEditTextPreference berichtLayoutEdit = view.findViewById(R.id.report_layout_settings);
+        MaterialStandardPreference exportSetting = view.findViewById(R.id.export);
+        MaterialStandardPreference resetSetting = view.findViewById(R.id.reset);
+        MaterialEditTextPreference reportLayoutSetting = view.findViewById(R.id.report_layout_settings);
+        MaterialSwitchPreference privateModeSwitch = view.findViewById(R.id.report_private_mode);
+        MaterialStandardPreference reformatSetting = view.findViewById(R.id.reformat);
+        MaterialStandardPreference languageSamplPresSetting = view.findViewById(R.id.language_empf);
+        MaterialStandardPreference languageDailyTextSetting = view.findViewById(R.id.language_tt);
+        MaterialStandardPreference gcalResetSetting = view.findViewById(R.id.calendar_gcal_reset);
+        MaterialStandardPreference calTimeOfNotifySetting = view.findViewById(R.id.calendar_time_of_notification);
+        MaterialStandardPreference notificationSetting = view.findViewById(R.id.calendar_notification);
+        MaterialStandardPreference imprintSetting = view.findViewById(R.id.impressum);
+        MaterialStandardPreference licensesSetting = view.findViewById(R.id.licenses);
+        MaterialStandardPreference gdprSetting = view.findViewById(R.id.dsgvo_title);
+
         berichtLayoutEdit.setUserInputModule(sim);
         berichtLayoutEdit.setStorageModule(ssm);
-
-        MaterialSwitchPreference privateModeSwitch = view.findViewById(R.id.report_private_mode);
         privateModeSwitch.setStorageModule(ssm);
 
-        view.findViewById(R.id.language_empf).setOnClickListener(__ -> {
+
+        setIcon(exportSetting, R.drawable.ic_baseline_backup_24);
+        setIcon(resetSetting, R.drawable.ic_baseline_delete_forever_24);
+        setIcon(reportLayoutSetting, R.drawable.ic_baseline_style_24);
+        setIcon(privateModeSwitch, R.drawable.ic_baseline_privacy_tip_24);
+        setIcon(languageSamplPresSetting, R.drawable.ic_thumb_up_black_24dp);
+        setIcon(languageDailyTextSetting, R.drawable.ic_baseline_event_available_24px);
+        setIcon(gcalResetSetting, R.drawable.ic_baseline_sync_disabled_24);
+        setIcon(calTimeOfNotifySetting, R.drawable.ic_timer_black_24dp);
+        setIcon(notificationSetting, R.drawable.ic_baseline_notifications_24);
+        setIcon(imprintSetting, R.drawable.ic_baseline_info_24);
+        setIcon(licensesSetting, R.drawable.ic_baseline_library_books_24);
+        setIcon(gdprSetting, R.drawable.ic_baseline_safety_check_24);
+
+        languageSamplPresSetting.setOnClickListener(__ -> {
             final CharSequence[] items = {getString(R.string.language_default), "English", "German", "Italian", "French", "Polish", "Turkish", "Thai", "Greek"};
             final String[] langcodes = {"0", "en", "de", "it", "fr", "pl", "tr", "th", "el"};
 
@@ -123,7 +165,7 @@ public class SettingsFragment extends Fragment {
                     .show();
         });
 
-        view.findViewById(R.id.language_tt).setOnClickListener(__ -> {
+        languageDailyTextSetting.setOnClickListener(__ -> {
             final HashMap<String, String> langCode = new HashMap<>();
 
 
@@ -182,9 +224,9 @@ public class SettingsFragment extends Fragment {
         });
 
         if (!sp.contains("BERICHTE")) {
-            view.findViewById(R.id.reformat).setVisibility(View.GONE);
+            reformatSetting.setVisibility(GONE);
         }
-        view.findViewById(R.id.reformat).setOnClickListener(__ ->
+        reformatSetting.setOnClickListener(__ ->
                 new MaterialAlertDialogBuilder(contextThemeWrapper)
                         .setTitle(getResources().getString(R.string.report_reformat_title))
                         .setMessage(getResources().getString(R.string.report_reformat_message))
@@ -196,7 +238,7 @@ public class SettingsFragment extends Fragment {
                         .show());
 
 
-        view.findViewById(R.id.reset).setOnClickListener(__ ->
+        resetSetting.setOnClickListener(__ ->
                 new MaterialAlertDialogBuilder(contextThemeWrapper, R.style.MaterialAlertDialogCenterStyle)
                         .setTitle(getResources().getString(R.string.resetdialog_title))
                         .setMessage(getResources().getString(R.string.resetdialog_message))
@@ -225,14 +267,14 @@ public class SettingsFragment extends Fragment {
                         .setNegativeButton(getString(R.string.no), null)
                         .show());
 
-        view.findViewById(R.id.impressum).setOnClickListener(__ -> {
+        imprintSetting.setOnClickListener(__ -> {
             String url = "https://dienstapp.raffaelhahn.de/impressum.html#impr";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
         });
 
-        view.findViewById(R.id.licenses).setOnClickListener(__ ->
+        licensesSetting.setOnClickListener(__ ->
                 new LicenserDialog(getContext(), R.style.MaterialBaseTheme_Dialog)
                         .setTitle(getString(R.string.licenses))
                         .setLibrary(new Library("AndroidX Support Libraries",
@@ -285,19 +327,19 @@ public class SettingsFragment extends Fragment {
                         })
                         .show());
 
-        view.findViewById(R.id.dsgvo_title).setOnClickListener(__ -> {
+        gdprSetting.setOnClickListener(__ -> {
             Intent i = new Intent(getContext(), DSGVOInfo.class);
             i.putExtra("hastoaccept", false);
             startActivity(i);
         });
 
-        view.findViewById(R.id.export).setOnClickListener(__ -> Export.exportGlobal(getContext(), Export.Format.DIENSTAPP_GLOBAL));
+        exportSetting.setOnClickListener(__ -> Export.exportGlobal(getContext(), Export.Format.DIENSTAPP_GLOBAL));
 
         if (!sp.contains("CalendarSyncActive")) {
-            view.findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE);
+            gcalResetSetting.setVisibility(GONE);
         }
 
-        view.findViewById(R.id.calendar_gcal_reset).setOnClickListener(v -> {
+        gcalResetSetting.setOnClickListener(v -> {
             if (sp.contains("CalendarSyncActive")) {
 
                 if (sp.getBoolean("CalendarSyncActive", false)) {
@@ -311,7 +353,7 @@ public class SettingsFragment extends Fragment {
                                 editor.remove("CalendarSync");
                                 editor.apply();
                                 Toast.makeText(getContext(), R.string.calendar_gcal_reset_to_default, Toast.LENGTH_LONG).show();
-                                getActivity().runOnUiThread(() -> view.findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE));
+                                getActivity().runOnUiThread(() -> gcalResetSetting.setVisibility(GONE));
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -333,16 +375,16 @@ public class SettingsFragment extends Fragment {
                     editor.remove("CalendarSyncTCID");
                     editor.remove("CalendarSync");
                     editor.apply();
-                    getActivity().runOnUiThread(() -> view.findViewById(R.id.calendar_gcal_reset).setVisibility(View.GONE));
+                    getActivity().runOnUiThread(() -> gcalResetSetting.setVisibility(GONE));
                 }
             }
         });
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            view.findViewById(R.id.calendar_notification).setVisibility(View.GONE);
+            notificationSetting.setVisibility(GONE);
         }
 
-        view.findViewById(R.id.calendar_notification).setOnClickListener(__ -> {
+        notificationSetting.setOnClickListener(__ -> {
             Intent intent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 intent = new Intent(android.provider.Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
@@ -359,7 +401,7 @@ public class SettingsFragment extends Fragment {
             startActivity(intent);
         });
 
-        view.findViewById(R.id.calendar_time_of_notification).setOnClickListener(__ -> {
+        calTimeOfNotifySetting.setOnClickListener(__ -> {
             LayoutInflater inflater = SettingsFragment.this.getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.notification_time_popup, null);
 
@@ -547,6 +589,20 @@ public class SettingsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
+    }
+
+    public void setIcon(Object preference, int drawableId) {
+        try {
+            Class<?> c = Class.forName("com.yarolegovich.mp.AbsMaterialPreference");
+            Field f = c.getDeclaredField("icon");
+            f.setAccessible(true);
+            AppCompatImageView imageView = (AppCompatImageView) f.get(preference);
+            imageView.setVisibility(VISIBLE);
+            imageView.setImageResource(drawableId);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 

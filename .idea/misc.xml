@@ -7,6 +7,7 @@
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.19" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_baseline_event_available_24px.xml" value="0.269" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_baseline_next_plan_24.xml" value="0.3828125" />
+        <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_baseline_privacy_tip_24.xml" value="0.19" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_drawer_menu_24.xml" value="0.1965" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_thumb_up_black_24dp.xml" value="0.269" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/drawable/ic_timer_black_24dp.xml" value="0.242" />
@@ -44,7 +45,7 @@
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/list_bericht_tiny.xml" value="0.33106884057971014" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/list_single.xml" value="0.20520833333333333" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/modified_material_switch_preference.xml" value="0.18958333333333333" />
-        <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/nav_rail_header.xml" value="0.18854166666666666" />
+        <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/nav_rail_header.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/notification_time_popup.xml" value="0.18854166666666666" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/report_layout_spinner.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Dienst5/app/src/main/res/layout/spinner_main.xml" value="0.18854166666666666" />
