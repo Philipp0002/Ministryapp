@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="openDrawer">Navigation</string>
+    <string name="closeDrawer">Close Navigation</string>
+
     <string name="app_name">Ministry</string>
     <string name="splash_app_name">Ministryapp</string>
     <string name="title_section1">Report</string>
@@ -35,7 +38,7 @@
     <string name="title_activity_annotation">Annotations</string>
     <string name="notes_text">Write down your notes!</string>
     <string name="sendreport_text">Send ministry report to</string>
-    <string name="error">ERROR</string>
+    <string name="error">Error</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="video_exception">There was an error while downloading a video.</string>

@@ -7,33 +7,60 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryContainer">@color/ColorSecondary</item>
+        <item name="colorOnPrimaryContainer">@color/ColorOnPrimaryContainer</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/ColorOnPrimary</item>
         <item name="colorAccent">@color/accent_color</item>
 
         <item name="colorSecondary">@color/ColorSecondary</item>
         <item name="colorOnSecondary">@color/ColorOnSecondary</item>
-
-        <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@color/drawer_background</item>
-        <item name="material_drawer_primary_text">@color/material_drawer_primary_text</item>
-        <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
-        <item name="material_drawer_secondary_text">@color/material_drawer_secondary_text</item>
-        <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
-        <item name="material_drawer_divider">@color/material_drawer_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/background</item>
-        <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
     </style>
 
+    <style name="NavigationTheme" parent="Theme.Material3.Dark" />
 
+    <style name="ToolbarWithCloseButton" parent="DrawerTheme">
+        <!--item name="navigationContentDescription">@string/toolbar_navigation_close_description</item-->
+        <item name="navigationIcon">@drawable/ic_baseline_close_24</item>
+    </style>
 
-    <style name="AppThemeDark" parent="Theme.Material3.Light">
-        <!-- Customize your theme here.-->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="DialogStyleBasic" parent="Theme.Material3.Dark.Dialog">
+        <item name="android:windowBackground">@drawable/bg_tablet_dialog</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
+
+    <style name="DialogStyle" parent="DialogStyleBasic">
+        <item name="android:windowMinWidthMajor">65%</item>
+        <item name="android:windowMinWidthMinor">65%</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.Material3.Dark">
+        <!-- Customize your theme here.-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/settings_title</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorPrimaryContainer">@color/ColorSecondary</item>
+        <item name="colorOnPrimary">@color/ColorOnPrimary</item>
+    </style>
+
+    <!-- MaterialDesign Alert Dialog Center Icon and Title -->
+    <style name="MaterialAlertDialogCenterStyle">
+        <item name="materialAlertDialogTitlePanelStyle">
+            @style/MaterialAlertDialog.Material3.Title.Panel.CenterStacked
+        </item>
+        <item name="materialAlertDialogTitleIconStyle">
+            @style/MaterialAlertDialogCenterTitleIconStyle
+        </item>
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/MaterialAlertDialog.Material3.Title.Text.CenterStacked
+        </item>
+    </style>
+
+    <style name="MaterialAlertDialogCenterTitleIconStyle" parent="MaterialAlertDialog.Material3.Title.Icon.CenterStacked">
+        <item name="tint">@color/ColorSecondary</item>
+    </style>
+
 
     <style name="Splash" parent="AppTheme">
         <item name="windowActionBar">false</item>
@@ -56,8 +83,8 @@
 
     <style name="DrawerTheme" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimary</item>
+        <item name="colorPrimary">@color/toolbar</item>
+        <item name="colorPrimaryDark">@color/toolbarTop</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>

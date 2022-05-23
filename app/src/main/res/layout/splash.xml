@@ -5,7 +5,7 @@
     style="@style/AppThemeDark"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#1E1E23"
+    android:background="@color/background"
     tools:context=".Splash">
 
     <!-- As the main content view, the view below consumes the entire
@@ -25,14 +25,6 @@
         android:layout_width="fill_parent"
             android:layout_height="match_parent" >
 
-
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/splash_app_name"
-                android:id="@+id/dienst_text"
-                android:textSize="50dp"
-                android:textColor="#047069" />-->
 
         <TextView
             android:id="@+id/textView2"

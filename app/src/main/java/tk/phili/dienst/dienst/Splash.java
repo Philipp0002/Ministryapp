@@ -18,15 +18,15 @@ import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
 
-import tk.phili.dienst.dienst.calendar.Kalender;
+import tk.phili.dienst.dienst.calendar.CalendarFragment;
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
-import tk.phili.dienst.dienst.dailytext.DailytextActivity;
-import tk.phili.dienst.dienst.notes.Notes;
-import tk.phili.dienst.dienst.report.ReportActivity;
-import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
+import tk.phili.dienst.dienst.dailytext.DailytextFragment;
+import tk.phili.dienst.dienst.notes.NotesFragment;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.DSGVOInfo;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.Shortcuts;
-import tk.phili.dienst.dienst.videos.VideoActivity;
+import tk.phili.dienst.dienst.videos.VideoFragment;
 
 
 public class Splash extends Activity {
@@ -34,6 +34,8 @@ public class Splash extends Activity {
     boolean isUp = true;
     public SharedPreferences sp;
     static String s;
+
+    public Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,22 +80,26 @@ public class Splash extends Activity {
     }
 
     public void runDelayedHandler(){
-        new Handler().postDelayed(() -> {
+        if(handler != null){
+            return;
+        }
+        handler = new Handler();
+        handler.postDelayed(() -> {
             if(isUp) {
                 Intent mainIntent = null;
 
                 if(s == null || s.equals("MainActivity")) {
-                    mainIntent = new Intent(Splash.this, ReportActivity.class);
+                    mainIntent = new Intent(Splash.this, WrapperActivity.class);
                 }else if(s.equals("Notizen")) {
-                    mainIntent = new Intent(Splash.this, Notes.class);
+                    mainIntent = new Intent(Splash.this, NotesFragment.class);
                 }else if(s.equals("Empfehlungen")) {
-                    mainIntent = new Intent(Splash.this, SamplePresentationsActivity.class);
+                    mainIntent = new Intent(Splash.this, SamplePresentationsFragment.class);
                 }else if(s.equals("Videos")) {
-                    mainIntent = new Intent(Splash.this, VideoActivity.class);
+                    mainIntent = new Intent(Splash.this, VideoFragment.class);
                 }else if(s.equals("Tagestext")) {
-                    mainIntent = new Intent(Splash.this, DailytextActivity.class);
+                    mainIntent = new Intent(Splash.this, DailytextFragment.class);
                 }else if(s.equals("Kalender")) {
-                    mainIntent = new Intent(Splash.this, Kalender.class);
+                    mainIntent = new Intent(Splash.this, CalendarFragment.class);
                 }
 
                 if(!sp.getBoolean("dsgvo_accept", false)){
@@ -103,6 +109,8 @@ public class Splash extends Activity {
                 Splash.this.startActivity(mainIntent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 Splash.this.finish();
+            }else{
+                handler = null;
             }
         }, 500);
     }

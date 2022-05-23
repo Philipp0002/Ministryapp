@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:theme="@style/AppThemeDark">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/date"
+        app:startIconDrawable="@drawable/ic_date_range_black_24dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_calendar_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/kalender_partner"
+        app:startIconDrawable="@drawable/ic_people_black_24dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_calendar_partner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName">
+
+            <requestFocus/>
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/kalender_notes"
+        app:startIconDrawable="@drawable/ic_chrome_reader_mode_black_24dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_calendar_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

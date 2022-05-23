@@ -2,7 +2,6 @@ package tk.phili.dienst.dienst.report;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -208,6 +207,10 @@ public class ReportManager {
     }
 
     public int getReportLayoutSetting(){
+        if(sharedPreferences.getInt("report_layout", 0) < 0
+                || sharedPreferences.getInt("report_layout", 0) > 1 ){
+            return 0;
+        }
         return sharedPreferences.getInt("report_layout", 0);
     }
 

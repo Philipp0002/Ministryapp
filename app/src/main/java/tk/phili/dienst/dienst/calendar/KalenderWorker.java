@@ -1,5 +1,7 @@
 package tk.phili.dienst.dienst.calendar;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -93,7 +95,7 @@ public class KalenderWorker extends Worker {
 
     public static void sendNotification(Context c, int id, int day, int month, int year, int hour, int minute, String dienstpartner, String beschreibung){
         Intent i = new Intent(c, Calendar.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, i, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, i, FLAG_IMMUTABLE);
 
         String time = android.text.format.DateFormat.getTimeFormat(c).format(new GregorianCalendar(year, month, day, hour, minute).getTime());
         String date = android.text.format.DateFormat.getDateFormat(c).format(new GregorianCalendar(year, month, day, hour, minute).getTime());

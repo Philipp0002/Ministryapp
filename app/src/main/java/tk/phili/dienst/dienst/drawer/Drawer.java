@@ -4,78 +4,112 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigationrail.NavigationRailView;
 import com.prof.rssparser.Article;
 import com.prof.rssparser.Parser;
 
 import java.util.ArrayList;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.calendar.Kalender;
-import tk.phili.dienst.dienst.dailytext.DailytextActivity;
-import tk.phili.dienst.dienst.notes.Notes;
-import tk.phili.dienst.dienst.report.ReportActivity;
-import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsActivity;
-import tk.phili.dienst.dienst.settings.SettingsActivity;
-import tk.phili.dienst.dienst.videos.VideoActivity;
-
-/**
- * Created by fipsi on 24.07.2017.
- */
+import tk.phili.dienst.dienst.calendar.CalendarFragment;
+import tk.phili.dienst.dienst.dailytext.DailytextFragment;
+import tk.phili.dienst.dienst.notes.NotesFragment;
+import tk.phili.dienst.dienst.report.ReportFragment;
+import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
+import tk.phili.dienst.dienst.settings.SettingsFragment;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.videos.VideoFragment;
 
 public class Drawer {
 
-    public static DrawerTicker ticker;
-    public static DrawerHeader header;
-    public static PrimaryDrawerItem i1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.title_section1).withIcon(R.drawable.ic_class_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
-    public static PrimaryDrawerItem i3 = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.title_section3).withIcon(R.drawable.ic_description_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
-    public static PrimaryDrawerItem i4 = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.title_section4).withIcon(R.drawable.ic_thumb_up_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
-    public static PrimaryDrawerItem i5 = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.title_tt).withIcon(R.drawable.ic_baseline_event_available_24px).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
-    public static PrimaryDrawerItem i6 = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.title_section7).withIcon(R.drawable.ic_video_library_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
-    public static PrimaryDrawerItem i7 = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.title_section9).withIcon(R.drawable.ic_today_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
-    public static SecondaryDrawerItem i8 = new SecondaryDrawerItem().withIdentifier(8).withName(R.string.title_section5).withIcon(R.drawable.ic_settings_black_24dp).withIconTintingEnabled(true).withSelectedColor(Color.parseColor("#e7e7e7"));
+    public static boolean initialized = false;
 
-    public static ArrayList<Article> articles = null;
-    public static AccountHeader headerResult = null;
+    private static ArrayList<Article> articles = null;
+    private static Parser parser = null;
+    private static String urlString = null;
+    private static String tickerURL = null;
 
-    public static com.mikepenz.materialdrawer.Drawer result;
+    public static Object[][] positionMapping = new Object[][] {
+            { ReportFragment.class, 0, R.id.drawer_report },
+            { NotesFragment.class, 1, R.id.drawer_notes },
+            { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations },
+            { DailytextFragment.class, 3, R.id.drawer_dailytext },
+            { VideoFragment.class, 4, R.id.drawer_videos },
+            { CalendarFragment.class, 5, R.id.drawer_calendar },
+            { SettingsFragment.class, 6, R.id.drawer_settings }
+    };
 
-    public static void addDrawer(final Activity c, Toolbar tb, final int item){
-        final SharedPreferences sp = c.getSharedPreferences("MainActivity", c.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sp.edit();
+    public static void manageDrawers(WrapperActivity activity,
+                                     @NonNull Fragment fragment,
+                                     @NonNull DrawerLayout drawerLayout,
+                                     @NonNull NavigationView modalNavDrawer,
+                                     @NonNull NavigationRailView navRail,
+                                     @NonNull NavigationView navDrawer){
 
-        ticker = new DrawerTicker(c);
-        header = new DrawerHeader(c);
+        if(!initialized) {
+            final SharedPreferences sp = activity.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = sp.edit();
 
-        ticker.setVisible(true);
-        ticker.setText(sp.getString("LATEST_NEWS", c.getString(R.string.drawer_ticker_no_news)));
+            Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "HammersmithOne-Regular.ttf");
+            View titleHeaderNav = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
+            View titleHeaderNavModal = activity.getLayoutInflater().inflate(R.layout.drawerheaderlayout, null);
 
-        Parser parser = null;
-        String urlString = null;
-        if(c.getString(R.string.URL_end).equalsIgnoreCase("de")){
-            urlString = "https://www.jw.org/de/nachrichten/jw/rss/NewsSubsectionRSSFeed/feed.xml";
-            ticker.setURL("https://www.jw.org/de/nachrichten/jw/");
-        }else if(c.getString(R.string.URL_end).equalsIgnoreCase("it")){
-            urlString = "https://www.jw.org/it/news/jw-news/rss/NewsSubsectionRSSFeed/feed.xml";
-            ticker.setURL("https://www.jw.org/it/news/jw-news/");
-        }else{
-            urlString = "https://www.jw.org/en/news/jw/rss/NewsSubsectionRSSFeed/feed.xml";
-            ticker.setURL("https://www.jw.org/en/news/jw/");
-        }
-        if(articles == null){
+            TextView titleTextHeaderNav = titleHeaderNav.findViewById(R.id.app_text_header);
+            TextView titleTextHeaderNavModal = titleHeaderNavModal.findViewById(R.id.app_text_header);
+
+            titleTextHeaderNav.setTypeface(typeface);
+            titleTextHeaderNavModal.setTypeface(typeface);
+
+            modalNavDrawer.addHeaderView(titleHeaderNavModal);
+            navDrawer.addHeaderView(titleHeaderNav);
+
+
+
+            View tickerHeaderNav = activity.getLayoutInflater().inflate(R.layout.drawertickerlayout, null);
+            View tickerHeaderNavModal = activity.getLayoutInflater().inflate(R.layout.drawertickerlayout, null);
+
+            TextView tickerTextNav = tickerHeaderNav.findViewById(R.id.tickerview);
+            TextView tickerTextNavModal = tickerHeaderNavModal.findViewById(R.id.tickerview);
+
+            String tickerDisplayText = sp.getString("LATEST_NEWS", activity.getString(R.string.drawer_ticker_no_news));
+
+            tickerTextNav.setText(tickerDisplayText);
+            tickerTextNavModal.setText(tickerDisplayText);
+
+            modalNavDrawer.addView(tickerHeaderNavModal);
+            navDrawer.addView(tickerHeaderNav);
+
+
+
+
+            if(activity.getString(R.string.URL_end).equalsIgnoreCase("de")){
+                urlString = "https://www.jw.org/de/nachrichten/jw/rss/NewsSubsectionRSSFeed/feed.xml";
+                tickerURL = "https://www.jw.org/de/nachrichten/jw/";
+            }else if(activity.getString(R.string.URL_end).equalsIgnoreCase("it")){
+                urlString = "https://www.jw.org/it/news/jw-news/rss/NewsSubsectionRSSFeed/feed.xml";
+                tickerURL = "https://www.jw.org/it/news/jw-news/";
+            }else{
+                urlString = "https://www.jw.org/en/news/jw/rss/NewsSubsectionRSSFeed/feed.xml";
+                tickerURL = "https://www.jw.org/en/news/jw/";
+            }
+            View.OnClickListener urlClickListener = view -> {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(tickerURL));
+                activity.startActivity(i);
+            };
+            tickerTextNav.setOnClickListener(urlClickListener);
+            tickerTextNavModal.setOnClickListener(urlClickListener);
 
             parser = new Parser();
             parser.execute(urlString);
@@ -84,97 +118,82 @@ public class Drawer {
                 @Override
                 public void onTaskCompleted(ArrayList<Article> list) {
                     articles = list;
-                    setRSSFeed(c, editor);
+                    String toset = "++"+activity.getString(R.string.drawer_ticker_news)+"++ ";
+
+                    int i = 0;
+                    for(Article a : articles){
+                        i++;
+                        if(i == 3)
+                            break;
+
+                        toset += a.getTitle().replace("NEWS RELEASES | " , "").replace("PRESSEMITTEILUNGEN | ", "") + " ++ ";
+                    }
+
+                    toset = toset.substring(0, toset.length()-3) + " ++"+activity.getString(R.string.drawer_ticker_news)+"++";
+
+                    editor.putString("LATEST_NEWS", toset);
+                    editor.commit();
+
+                    tickerTextNav.setText(toset);
+                    tickerTextNavModal.setText(toset);
                 }
 
                 @Override
-                public void onError() {
-                    ticker.setVisible(true);
-                    ticker.setText(sp.getString("LATEST_NEWS", c.getString(R.string.drawer_ticker_no_news)));
-                }
+                public void onError() { }
             });
-        }else{
-            setRSSFeed(c, editor);
+
+
+            initialized = true;
         }
 
+        for(Object[] mapping : positionMapping){
+            if(((Class)mapping[0]).isInstance(fragment)){
+                modalNavDrawer.setCheckedItem(modalNavDrawer.getMenu().getItem((int)mapping[1]));
+                navRail.getMenu().getItem((int)mapping[1]).setChecked(true);
+                navDrawer.setCheckedItem(navDrawer.getMenu().getItem((int)mapping[1]));
+                break;
+            }
+        }
 
+        modalNavDrawer.setNavigationItemSelectedListener(item -> {
+            for(Object[] mapping : positionMapping){
+                if((int)mapping[2] == item.getItemId()){
+                    drawerLayout.closeDrawers();
+                    onItemClicked(activity, (Class)mapping[0]);
+                    break;
+                }
+            }
+            return true;
+        });
 
-    if(headerResult == null) {
-        headerResult = new AccountHeaderBuilder()
-                .withActivity(c)
-                .withSelectionListEnabledForSingleProfile(false)
-                .withCompactStyle(true)
-                .withOnAccountHeaderListener((view, profile, current) -> false)
-                .build();
+        navDrawer.setNavigationItemSelectedListener(item -> {
+            for(Object[] mapping : positionMapping){
+                if((int)mapping[2] == item.getItemId()){
+                    onItemClicked(activity, (Class)mapping[0]);
+                    break;
+                }
+            }
+            return true;
+        });
+
+        navRail.setOnItemSelectedListener(item -> {
+            for(Object[] mapping : positionMapping){
+                if((int)mapping[2] == item.getItemId()){
+                    onItemClicked(activity, (Class)mapping[0]);
+                    break;
+                }
+            }
+            return true;
+        });
 
     }
 
-    IDrawerItem[] items = new IDrawerItem[]{header,ticker,
-                    new DividerDrawerItem(),
-                    i1,
-                    i3,
-                    i4,
-                    i5,
-                    i6,
-                    i7,
-                    new DividerDrawerItem(),
-                    i8};
-
-        final Parser parsercopy = parser;
-//create the drawer and remember the `Drawer` result object
-        result = new DrawerBuilder()
-                .withActivity((AppCompatActivity)c)
-                .withToolbar(tb)
-                .addDrawerItems(
-                        items
-                )
-                .withSelectedItem(item)
-                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                    result.closeDrawer();
-                    if(parsercopy != null){
-                        parsercopy.cancel(true);
-                    }
-                    if(drawerItem.equals(header) || drawerItem.equals(ticker))
-                        return false;
-
-                    if(drawerItem.equals(i1)){
-                        if(item == 1)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), ReportActivity.class));
-                    }
-                    if(drawerItem.equals(i3)){
-                        if(item == 3)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), Notes.class));
-                    }
-                    if(drawerItem.equals(i4)){
-                        if(item == 4)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), SamplePresentationsActivity.class));
-                    }
-                    if(drawerItem.equals(i5)){
-                        if(item == 5)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), DailytextActivity.class));
-                    }
-                    if(drawerItem.equals(i6)){
-                        if(item == 6)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), VideoActivity.class));
-                    }
-                    if(drawerItem.equals(i7)){
-                        if(item == 7)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), Kalender.class));
-                    }
-                    if(drawerItem.equals(i8)){
-                        if(item == 8)return false;
-                        c.startActivity(new Intent(c.getApplicationContext(), SettingsActivity.class));
-                    }
-                    hideKeyboard(c);
-                    c.finish();
-                    c.overridePendingTransition(0, 0);
-                    return true;
-                })
-                .withDisplayBelowStatusBar(false)
-                .withActionBarDrawerToggleAnimated(true)
-                .build();
-
-                result.getDrawerLayout().setStatusBarBackgroundColor(Color.parseColor("#1e1518"));
+    private static void onItemClicked(WrapperActivity activity, Class toOpen){
+        activity.getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, toOpen, null)
+                .commit();
+        hideKeyboard(activity);
     }
 
     public static void hideKeyboard(Activity activity) {
@@ -187,27 +206,4 @@ public class Drawer {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
-    public static void setRSSFeed(Context c, SharedPreferences.Editor editor){
-        ticker.setVisible(true);
-        String toset = "++"+c.getString(R.string.drawer_ticker_news)+"++ ";
-
-        int i = 0;
-        for(Article a : articles){
-            i++;
-            if(i == 3)
-                break;
-
-            toset += a.getTitle().replace("NEWS RELEASES | " , "").replace("PRESSEMITTEILUNGEN | ", "") + " ++ ";
-        }
-
-        toset = toset.substring(0, toset.length()-3) + " ++"+c.getString(R.string.drawer_ticker_news)+"++";
-
-        editor.putString("LATEST_NEWS", toset);
-        editor.commit();
-
-        ticker.setText(toset);
-    }
-
-
 }

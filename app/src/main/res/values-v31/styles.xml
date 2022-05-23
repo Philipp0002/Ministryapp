@@ -11,5 +11,20 @@
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
     </style>
 
+    <style name="NavigationTheme" parent="Theme.Material3.Dark">
+        <item name="colorSurfaceVariant">@color/m3_sys_color_dynamic_dark_surface_variant</item>
+        <item name="colorSurface">@color/m3_sys_color_dynamic_dark_surface</item>
+        <item name="colorOnSurfaceVariant">@color/m3_sys_color_dynamic_dark_on_surface_variant</item>
+        <item name="colorOnSurface">@color/m3_sys_color_dynamic_dark_on_surface</item>
+        <item name="colorTertiaryContainer">@color/m3_sys_color_dynamic_dark_tertiary</item>
+        <item name="colorOnTertiaryContainer">@color/m3_sys_color_dynamic_dark_on_tertiary</item>
+        <item name="colorSecondaryContainer">@color/m3_sys_color_dynamic_dark_secondary</item>
+        <item name="colorOnSecondaryContainer">@color/m3_sys_color_dynamic_dark_on_secondary</item>
+
+        <item name="itemIconTint">@color/m3_navigation_item_icon_tint</item>
+        <item name="itemTextColor">@color/m3_navigation_item_text_color</item>
+        <item name="itemShapeFillColor">@color/m3_navigation_item_background_color</item>
+    </style>
+
 
 </resources>

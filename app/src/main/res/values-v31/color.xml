@@ -3,6 +3,12 @@
     <color name="green_accent">@android:color/system_accent1_100</color>
     <color name="accent_color">@android:color/system_accent1_300</color>
 
+    <color name="ColorPrimary">@color/m3_sys_color_dynamic_dark_primary</color>
+    <color name="ColorOnPrimary">@color/m3_sys_color_dynamic_dark_on_primary</color>
+    <color name="ColorSecondary">@color/m3_sys_color_dynamic_dark_secondary</color>
+    <color name="ColorOnSecondary">@color/m3_sys_color_dynamic_dark_on_secondary</color>
+    <color name="ColorOnPrimaryContainer">@color/m3_sys_color_dynamic_dark_on_primary</color>
+
     <color name="hours_progress_bar">@android:color/system_accent3_300</color>
 
     <color name="bericht_card_color">@android:color/system_accent2_500</color>
@@ -10,9 +16,12 @@
     <color name="bericht_swipe_up_background">@android:color/system_accent2_10</color>
 
     <color name="widget_icon_color">@android:color/system_accent3_300</color>
-    <color name="ColorSecondary">@android:color/system_accent2_200</color>
-    <color name="ColorOnSecondary">@android:color/system_accent2_800</color>
 
+    <color name="background">@color/m3_sys_color_dynamic_dark_background</color>
     <!--color name="drawer_background" tools:ignore="PrivateResource">@android:color/bright_foreground_light</color-->
+
+    <color name="drawer_news_outline">@color/m3_sys_color_dynamic_light_outline</color>
+
+    <color name="settings_title">@color/ColorPrimary</color>
     
 </resources>
