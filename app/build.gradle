@@ -2,13 +2,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkPreview 'Tiramisu'
+    compileSdkVersion "android-Tiramisu"
     defaultConfig {
         applicationId "tk.phili.dienst.dienst"
         minSdkVersion 16
         targetSdkVersion 33
-        versionCode 71
-        versionName "1.71"
+        versionCode 72
+        versionName "1.72"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
