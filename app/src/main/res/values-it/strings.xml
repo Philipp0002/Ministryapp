@@ -161,4 +161,6 @@ perso. : /"</string>
     <string name="report_reformat">Converti da vecchi a nuovi dati di servizio</string>
     <string name="report_reformat_title">"Riconvertire i rapporti? "</string>
     <string name="report_reformat_message">"La riformattazione sovrascriverà i dati del rapporto esistente con i vecchi dati. Fallo solo se l'app non ha convertito i tuoi dati correttamente! "</string>
+
+    <string name="error_sdk_version_too_old">Sfortunatamente, questa funzione non è disponibile perché la tua versione di Android è troppo vecchia.</string>
 </resources>

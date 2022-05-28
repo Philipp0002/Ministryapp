@@ -76,7 +76,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setIsRecyclable(false);
-        final SharedPreferences sp = context.getSharedPreferences("MainActivity", context.MODE_PRIVATE);
 
         final int vidId = id.get(position);
         final String vidTitle = title.get(position);

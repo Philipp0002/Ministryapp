@@ -193,4 +193,5 @@
     <string name="report_reformat_title">Reconvert reports?</string>
     <string name="report_reformat_message">Reformatting will overwrite your existing report data by the old data. Only do this if the app didn\'t convert your data properly!</string>
 
+    <string name="error_sdk_version_too_old">We\'re sorry but this feature is unavailable because your Android version is too outdated.</string>
 </resources>

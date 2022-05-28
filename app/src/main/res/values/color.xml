@@ -18,7 +18,7 @@
     <color name="toolbar">#1B1B1B</color>
     <color name="toolbarTop">#171717</color>
 
-    <color name="hours_progress_bar">#EF5350</color>
+    <color name="hours_progress_bar">@color/green_accent</color>
 
     <color name="accent_color">#1B1B1B</color>
 

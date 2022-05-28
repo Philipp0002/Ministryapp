@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import tk.phili.dienst.dienst.calendar.KalenderWorker;
+import tk.phili.dienst.dienst.drawer.Drawer;
 
 public class MinistryApplication extends MultiDexApplication {
 
@@ -14,6 +15,8 @@ public class MinistryApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Drawer.initialized = false;
 
         runTimer();
     }

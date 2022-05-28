@@ -43,14 +43,14 @@ public class GlobalImport extends AppCompatActivity {
         filePath = getIntent().getData();
 
         findViewById(R.id.import_do).setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(GlobalImport.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            /*if (ContextCompat.checkSelfPermission(GlobalImport.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
                 ActivityCompat
                         .requestPermissions(GlobalImport.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }else{
+            }else{*/
                 process(filePath);
                 startActivity(new Intent(GlobalImport.this, Splash.class));
                 finish();
-            }
+            //}
         });
 
         findViewById(R.id.import_cancel).setOnClickListener(view -> finish());

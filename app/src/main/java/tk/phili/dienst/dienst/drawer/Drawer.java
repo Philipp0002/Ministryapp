@@ -6,14 +6,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigationrail.NavigationRailView;
 import com.prof.rssparser.Article;
@@ -41,13 +44,13 @@ public class Drawer {
     private static String tickerURL = null;
 
     public static Object[][] positionMapping = new Object[][] {
-            { ReportFragment.class, 0, R.id.drawer_report },
-            { NotesFragment.class, 1, R.id.drawer_notes },
-            { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations },
-            { DailytextFragment.class, 3, R.id.drawer_dailytext },
-            { VideoFragment.class, 4, R.id.drawer_videos },
-            { CalendarFragment.class, 5, R.id.drawer_calendar },
-            { SettingsFragment.class, 6, R.id.drawer_settings }
+            { ReportFragment.class, 0, R.id.drawer_report, Build.VERSION_CODES.BASE },
+            { NotesFragment.class, 1, R.id.drawer_notes, 0, Build.VERSION_CODES.BASE },
+            { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations, Build.VERSION_CODES.LOLLIPOP },
+            { DailytextFragment.class, 3, R.id.drawer_dailytext, Build.VERSION_CODES.LOLLIPOP },
+            { VideoFragment.class, 4, R.id.drawer_videos, Build.VERSION_CODES.LOLLIPOP },
+            { CalendarFragment.class, 5, R.id.drawer_calendar, Build.VERSION_CODES.BASE },
+            { SettingsFragment.class, 6, R.id.drawer_settings, Build.VERSION_CODES.BASE }
     };
 
     public static void manageDrawers(WrapperActivity activity,
@@ -189,6 +192,23 @@ public class Drawer {
     }
 
     private static void onItemClicked(WrapperActivity activity, Class toOpen){
+
+        for(Object[] mapping : positionMapping){
+            if(mapping[0] == toOpen){
+                if((int)mapping[3] > Build.VERSION.SDK_INT){
+                    new MaterialAlertDialogBuilder(new ContextThemeWrapper(activity, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                            .setTitle(R.string.error)
+                            .setIcon(R.drawable.ic_baseline_error_outline_24)
+                            .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
+                            .setCancelable(false)
+                            .setMessage(R.string.error_sdk_version_too_old)
+                            .show();
+                    return;
+                }
+                break;
+            }
+        }
+
         activity.getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_view, toOpen, null)

@@ -184,4 +184,6 @@
     <string name="report_reformat">Von alten zu neuen Dienstdaten konvertieren</string>
     <string name="report_reformat_title">Dienstdaten neu konvertieren?</string>
     <string name="report_reformat_message">Dieser Vorgang überschreibt vorhandene Berichtsdaten. Tu dies nur, wenn die letzte Konvertierung fehlerhaft ist!</string>
+
+    <string name="error_sdk_version_too_old">Diese Funktion ist leider nicht verfügbar, da deine Android Version zu alt ist.</string>
 </resources>
