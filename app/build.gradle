@@ -2,7 +2,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion "android-Tiramisu"
+    compileSdkVersion 33
     defaultConfig {
         applicationId "tk.phili.dienst.dienst"
         minSdkVersion 16
