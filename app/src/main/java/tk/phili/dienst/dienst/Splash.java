@@ -86,21 +86,9 @@ public class Splash extends Activity {
         handler = new Handler();
         handler.postDelayed(() -> {
             if(isUp) {
-                Intent mainIntent = null;
+                Intent mainIntent = new Intent(Splash.this, WrapperActivity.class);
 
-                if(s == null || s.equals("MainActivity")) {
-                    mainIntent = new Intent(Splash.this, WrapperActivity.class);
-                }else if(s.equals("Notizen")) {
-                    mainIntent = new Intent(Splash.this, NotesFragment.class);
-                }else if(s.equals("Empfehlungen")) {
-                    mainIntent = new Intent(Splash.this, SamplePresentationsFragment.class);
-                }else if(s.equals("Videos")) {
-                    mainIntent = new Intent(Splash.this, VideoFragment.class);
-                }else if(s.equals("Tagestext")) {
-                    mainIntent = new Intent(Splash.this, DailytextFragment.class);
-                }else if(s.equals("Kalender")) {
-                    mainIntent = new Intent(Splash.this, CalendarFragment.class);
-                }
+                mainIntent.putExtra("shortcut_started", s);
 
                 if(!sp.getBoolean("dsgvo_accept", false)){
                     mainIntent = new Intent(Splash.this, DSGVOInfo.class);

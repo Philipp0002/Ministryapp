@@ -43,41 +43,14 @@ public class GlobalImport extends AppCompatActivity {
         filePath = getIntent().getData();
 
         findViewById(R.id.import_do).setOnClickListener(view -> {
-            /*if (ContextCompat.checkSelfPermission(GlobalImport.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
-                ActivityCompat
-                        .requestPermissions(GlobalImport.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
-            }else{*/
                 process(filePath);
                 startActivity(new Intent(GlobalImport.this, Splash.class));
                 finish();
-            //}
         });
 
         findViewById(R.id.import_cancel).setOnClickListener(view -> finish());
 
 
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted
-                    process(filePath);
-                    startActivity(new Intent(GlobalImport.this, Splash.class));
-                    finish();
-                } else {
-                    // Permission Denied
-                    Toast.makeText(GlobalImport.this, getString(R.string.not_accepted_import), Toast.LENGTH_LONG)
-                            .show();
-                    finish();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
     }
 
 

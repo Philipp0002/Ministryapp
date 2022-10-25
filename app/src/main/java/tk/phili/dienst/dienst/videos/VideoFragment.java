@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
@@ -44,7 +45,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     VideoAdapter adapter;
 
-    BroadcastReceiver onComplete = new BroadcastReceiver() {
+    private final BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context ctxt, Intent intent) {
             Long dwnId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
             if(adapter!=null){

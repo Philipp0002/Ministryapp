@@ -525,11 +525,12 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             String text = getResources().getString(R.string.reportfor) + name + "\n" + getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
 
             String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(getContext());
-            text = text + formattedTime[1] + ": " + formattedTime[0] + "\n";
+
 
             text = text + getResources().getString(R.string.reportplace) + summarizedReport.getPlacements() + "\n";
-            text = text + getResources().getString(R.string.reportvisits) + summarizedReport.getReturnVisits() + "\n";
             text = text + getResources().getString(R.string.reportvideo) + summarizedReport.getVideos() + "\n";
+            text = text + formattedTime[1] + ": " + formattedTime[0] + "\n";
+            text = text + getResources().getString(R.string.reportvisits) + summarizedReport.getReturnVisits() + "\n";
             text = text + getResources().getString(R.string.reportstudy) + summarizedReport.getBibleStudies() + "\n";
             text = text + "==============\n" + getResources().getString(R.string.reportsentvia);
             Intent sendIntent = new Intent();

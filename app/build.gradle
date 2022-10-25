@@ -37,7 +37,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.8.0-alpha02'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
