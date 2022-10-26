@@ -21,7 +21,7 @@ android {
     lintOptions {
         abortOnError false
     }
-    buildToolsVersion '33.0.0 rc4'
+    buildToolsVersion '31.0.0'
     compileOptions {
         coreLibraryDesugaringEnabled = true
 
