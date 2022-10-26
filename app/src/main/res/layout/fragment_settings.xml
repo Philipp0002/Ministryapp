@@ -70,7 +70,7 @@
                         app:mp_show_value="onRight"
                         app:mp_title="@string/report_layout_settings"/>
 
-                    <com.yarolegovich.mp.MaterialSwitchPreference
+                    <tk.phili.dienst.dienst.utils.MaterialYouSwitchPreference
                         android:id="@+id/report_private_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

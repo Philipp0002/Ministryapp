@@ -21,7 +21,6 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_below="@id/toolbar_3"
         android:layout_x="6dp"
         android:layout_y="1dp"
         android:progressTint="@color/green_accent" />
