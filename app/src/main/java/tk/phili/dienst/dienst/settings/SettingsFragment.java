@@ -290,9 +290,6 @@ public class SettingsFragment extends Fragment {
                                 "https://github.com/material-components/material-components-android",
                                 License.Companion.getAPACHE2()))
                         .setLibrary(new Library("AutoFitTextView",
-                                "https://github.com/grantland/android-autofittextview",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("AutoFitTextView",
                                 "https://github.com/AndroidDeveloperLB/AutoFitTextView",
                                 License.Companion.getAPACHE2()))
                         .setLibrary(new Library("Android Sliding Up Panel",
@@ -304,14 +301,8 @@ public class SettingsFragment extends Fragment {
                         .setLibrary(new Library("MaterialDrawer",
                                 "https://github.com/mikepenz/MaterialDrawer",
                                 License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("CircularReveal",
-                                "https://github.com/ozodrukh/CircularReveal",
-                                License.Companion.getMIT()))
                         .setLibrary(new Library("RSS Parser",
                                 "https://github.com/prof18/RSS-Parser",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("Jackson Core",
-                                "https://github.com/FasterXML/jackson-core",
                                 License.Companion.getAPACHE2()))
                         .setLibrary(new Library("MaterialPreferences",
                                 "https://github.com/yarolegovich/MaterialPreferences",
