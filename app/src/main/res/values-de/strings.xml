@@ -4,7 +4,6 @@
     <string name="app_name">Dienst</string>
     <string name="splash_app_name">Dienstapp</string>
     <string name="title_section1">Bericht</string>
-    <string name="title_section2">Rückbesuche</string>
     <string name="title_section3">Notizen</string>
     <string name="title_section4">Empfehlungen</string>
     <string name="title_section5">Einstellungen</string>
@@ -17,11 +16,8 @@
     <string name="resetdialog_message">ALLE Daten werden gelöscht! Fortfahren?</string>
     <string name="resetdialog_title">Wirklich zurücksetzen?</string>
     <string name="action_save">Speichern</string>
-    <string name="title_activity_main_activity3">MainActivity3</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="action_ziel">Ziel</string>
     <string name="title_activity_senden">Senden</string>
-    <string name="title_activity_empfehlungen">Empfehlungen</string>
 
     <string name="noconnect">Keine&#160;Verbindung!</string>
     <string name="URL_end">de</string>
@@ -41,16 +37,13 @@
 
     <string name="reportfor">Bericht von:&#160;</string>
     <string name="reportmonth">Monat:&#160;</string>
-    <string name="reporthours">Stunden:&#160;</string>
     <string name="reportplace">Abgaben:&#160;</string>
     <string name="reportvisits">Rückbesuche:&#160;</string>
     <string name="reportvideo">Videovorführungen:&#160;</string>
     <string name="reportstudy">Heimbibelstudien:&#160;</string>
-    <string name="reportminutes">Minuten:&#160;</string>
     <string name="reportsentvia">Gesendet über Dienstapp</string>
 
     <string name="title_videos_success">1 Video heruntergeladen</string>
-    <string name="title_activity_bericht_add_frame">abc</string>
     <string name="ok">OK</string>
 
     <string name="download_sure">Bist du dir sicher?</string>
@@ -76,8 +69,6 @@
     <string name="no_bericht">Keine Berichtsdaten für diesen Monat! Füge Daten mit \"+\" hinzu!</string>
 
 
-    <string name="bericht_error">Upps.. Es gab einen Fehler beim Laden des Berichts. Wenn der Bericht nicht richtig angezeigt wird, starte die App neu.</string>
-
     <string name="bericht_undo_1">Eintrag entfernt</string>
     <string name="bericht_undo_2">Rückgängig</string>
 
@@ -95,8 +86,6 @@
     <string name="impressum">Impressum</string>
     <string name="licenses">Lizenzen</string>
 
-    <string name="weusethat">Wir bedanken uns bei den Erstellern der Projekte, die wir nutzen! Die APIs, die wir nutzen sind:</string>
-
     <string name="gebiet_add_cancel">Abbrechen</string>
 
     <string name="bericht_type_name">Bitte gib hier deinen Namen ein, damit der Bericht vollständig ist.</string>
@@ -112,7 +101,6 @@
     <string name="empf_not_available">Empfehlungen nicht für Systemzeit verfügbar.</string>
 
     <string name="vid_wait">Bitte warten... Infos werden abgerufen</string>
-    <string name="title_activity_kalender">Kalender</string>
 
     <string name="kalender_no_events">Kein Dienst für diesen Tag geplant!</string>
     <string name="title_activity_kalender_add_frame">Dienst hinzufügen</string>
@@ -133,12 +121,10 @@
 
     <string name="carryover">Übertrag</string>
     <string name="carryover_msg">Die übrigen Minuten werden diesem Monat abgezogen und dem nächsten hinzugefügt.</string>
-    <string name="carryover_null">Keine Berichtsdaten!</string>
 
     <string name="action_refresh_vid">Liste neuladen</string>
     <string name="video_refresh_error_title">Keine Verbindung</string>
     <string name="video_refresh_error_msg">Bitte überprüfe deine Internetverbindung und versuche es noch einmal.</string>
-    <string name="not_accepted_videonew">Um Videos zu downloaden muss der Zugriff auf den Speicher gewährt werden.</string>
     <string name="videonew_lostfile">Hmm.. Irgendwie ist das Video verloren gegangen. :/</string>
 
     <string name="report_private">Privater Modus an - Dein Bericht ist versteckt.</string>

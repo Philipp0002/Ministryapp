@@ -135,7 +135,7 @@ public class Drawer {
                     toset = toset.substring(0, toset.length()-3) + " ++"+activity.getString(R.string.drawer_ticker_news)+"++";
 
                     editor.putString("LATEST_NEWS", toset);
-                    editor.commit();
+                    editor.apply();
 
                     tickerTextNav.setText(toset);
                     tickerTextNavModal.setText(toset);

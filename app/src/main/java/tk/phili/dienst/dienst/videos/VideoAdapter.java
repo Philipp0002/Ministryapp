@@ -83,7 +83,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         final String vidMb = mb.get(position);
         final String vidURL = url.get(position);
         final boolean vidDownloaded = isDownloaded.get(position);
-        Log.d("Dienstapp-URL", vidURL);
 
         holder.title.setText(vidTitle);
         holder.time.setText(vidLength);
@@ -112,12 +111,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     }
                 }.execute();
             } else {
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        holder.imageGradient.setVisibility(View.VISIBLE);
-                        holder.image.setImageDrawable(drawables.get(position));
-                    }
+                context.runOnUiThread(() -> {
+                    holder.imageGradient.setVisibility(View.VISIBLE);
+                    holder.image.setImageDrawable(drawables.get(position));
                 });
             }
         } else {
@@ -134,32 +130,29 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         }
 
 
-        holder.mainView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (vidDownloaded) {
-                    File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + vidTitle.replace("?", "") + ".mp4");
-                    Uri contentUri = FileProvider.getUriForFile(context, "tk.phili.dienst.dienst.fileprovider", file);
-                    if (file.exists()) {
-                        openFile(context, contentUri);
-                    } else {
-                        Toast.makeText(context, context.getString(R.string.videonew_lostfile), Toast.LENGTH_SHORT).show();
-                    }
+        holder.mainView.setOnClickListener(view -> {
+            if (vidDownloaded) {
+                File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + vidTitle.replace("?", "") + ".mp4");
+                Uri contentUri = FileProvider.getUriForFile(context, "tk.phili.dienst.dienst.fileprovider", file);
+                if (file.exists()) {
+                    openFile(context, contentUri);
                 } else {
-                    new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
-                            .setTitle(context.getString(R.string.download_sure))
-                            .setMessage(context.getString(R.string.download_text).replace("%a", vidTitle))
-                            .setIcon(R.drawable.ic_baseline_cloud_download_24)
-                            .setPositiveButton(R.string.download_ok, (dialog, which) -> {
-                                long a = doDownload(vidTitle, vidURL);
-                                holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
-                                pendingDownload.put(a, vidId);
-                            })
-                            .setNegativeButton(R.string.download_cancel, null)
-                            .create()
-                            .show();
-
+                    Toast.makeText(context, context.getString(R.string.videonew_lostfile), Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                        .setTitle(context.getString(R.string.download_sure))
+                        .setMessage(context.getString(R.string.download_text).replace("%a", vidTitle))
+                        .setIcon(R.drawable.ic_baseline_cloud_download_24)
+                        .setPositiveButton(R.string.download_ok, (dialog, which) -> {
+                            long a = doDownload(vidTitle, vidURL);
+                            holder.downloadProgressBarIndeterminate.setVisibility(View.VISIBLE);
+                            pendingDownload.put(a, vidId);
+                        })
+                        .setNegativeButton(R.string.download_cancel, null)
+                        .create()
+                        .show();
+
             }
         });
 

@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.report;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.time.LocalDate;
@@ -112,6 +113,7 @@ public class Report {
      * @param context Application context for language support
      * @return String array -> [0] = time -> [1] = time unit
      */
+    @SuppressLint("DefaultLocale")
     public String[] getFormattedHoursAndMinutes(Context context){
         String minutesString = "";
         String timeFormatString = context.getString(R.string.title_activity_stunden);

@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.report;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
@@ -21,9 +22,10 @@ public class ReportFormatConverter {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy");
 
+    @SuppressLint("ApplySharedPref")
     public static void convertToNewFormat(SharedPreferences sharedPreferences) {
         ArrayList<Report> newReports = new ArrayList<>();
-        Set<String> oldReports = sharedPreferences.getStringSet("BERICHTE", new HashSet<String>());
+        Set<String> oldReports = sharedPreferences.getStringSet("BERICHTE", new HashSet<>());
         for (String report : oldReports) {
             String[] oldReportData = report.split(";");
             String oldReportId = oldReportData[0];

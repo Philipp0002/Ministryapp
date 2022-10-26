@@ -3,7 +3,6 @@
     <string name="app_name">"Ministry"</string>
     <string name="splash_app_name">"Ministryapp"</string>
     <string name="title_section1">"Rapporto di Servizio"</string>
-    <string name="title_section2">"Visite Ulteriori"</string>
     <string name="title_section3">"Note"</string>
     <string name="title_section4">"Presentazioni"</string>
     <string name="title_section5">"Impostazioni "</string>
@@ -16,11 +15,8 @@
     <string name="resetdialog_message">"TUTTI i dati andranno persi! Continua?"</string>
     <string name="resetdialog_title">"Veramente"</string>
     <string name="action_save">"Salvare"</string>
-    <string name="title_activity_main_activity3">"Mia Attività 3"</string>
-    <string name="title_activity_settings">"Impostazioni "</string>
     <string name="action_ziel">"Obiettivo Mese"</string>
     <string name="title_activity_senden">"Spedisci"</string>
-    <string name="title_activity_empfehlungen">"Presentazione "</string>
     <string name="noconnect">"Nessuna Rete Disponibile "</string>
     <string name="URL_end">it</string>
     <string name="title_activity_stunden">"Ore"</string>
@@ -38,12 +34,10 @@
 
     <string name="reportfor">"Segnala:&#160;"</string>
     <string name="reportmonth">"Mese:&#160;"</string>
-    <string name="reporthours">"Ore:&#160;"</string>
     <string name="reportplace">"Pubblicazioni:&#160;"</string>
     <string name="reportvisits">"Visite Ulteriori:&#160;"</string>
     <string name="reportvideo">"Video:&#160;"</string>
     <string name="reportstudy">"Studi Biblici:&#160;"</string>
-    <string name="reportminutes">"Minuti:&#160;"</string>
     <string name="reportsentvia">"Invia tramite Ministyapp"</string>
     <string name="title_videos_success">"Download 1 Video"</string>
     <string name="download_sure">"Sicuro? "</string>
@@ -56,7 +50,6 @@
     <string name="delete_cancel">"Annullare"</string>
     <string name="video_open_error">"Si è verificato un errore durante l'avvio del video. Si prega di attendere fino al download."</string>
     <string name="data_cleared">"Dati cancellati!"</string>
-    <string name="title_activity_bericht_add_frame">"abc"</string>
     <string name="ok">"Ok"</string>
     <string name="add_bericht">"Aggiungi rapporto"</string>
     <string name="change_bericht">"Cambia Rapporto "</string>
@@ -67,7 +60,6 @@
     <string name="insgesamt">"Totali"</string>
     <string name="swipe_up_for_more">"Scorri verso l'alto per le statistiche totali"</string>
     <string name="no_bericht">"Nessun report per questo mese! Per aggiungere dati, fai clic sul pulsante +!"</string>
-    <string name="bericht_error">"Spiacenti. Si è verificato un errore durante il caricamento del rapporto. Se il tuo rapporto non viene visualizzato correttamente, riavvia l'app."</string>
     <string name="bericht_undo_1">"Voce rimossa"</string>
     <string name="bericht_undo_2">"Eliminare"</string>
     <string name="goal_set">"Imposta il tuo obiettivo mensile"</string>
@@ -81,7 +73,6 @@
     <string name="goal_invalid">"Obiettivo non valido"</string>
     <string name="impressum">"Info sul creatore App"</string>
     <string name="licenses">"Licenza"</string>
-    <string name="weusethat">"Ringraziamo tutti i creatori delle librerie, che usiamo, per il loro ottimo lavoro! Le librerie che stiamo usando sono:"</string>
     <string name="gebiet_add_cancel">"Cancellare"</string>
 
 
@@ -94,7 +85,6 @@
     <string name="drawer_ticker_no_news">"++ NOTIZIE ++ Nessuna notizia disponibile ++ NOTIZIE ++"</string>
     <string name="empf_not_available">"Presentazioni di esempio non disponibili per la data di sistema."</string>
     <string name="vid_wait">"Si prega di attendere ... Recupero delle informazioni"</string>
-    <string name="title_activity_kalender">"Calendario"</string>
     <string name="kalender_no_events">"Nessun Appuntamento per questo giorno!"</string>
     <string name="title_activity_kalender_add_frame">"Aggiungi voce"</string>
     <string name="kalender_partner">"Compagno/a"</string>
@@ -110,11 +100,9 @@
     <string name="not_accepted_import">"È necessario consentire l'accesso alla memoria per l'importazione di dati."</string>
     <string name="carryover">"Trasferire"</string>
     <string name="carryover_msg">"I minuti saranno riportati il mese successivo."</string>
-    <string name="carryover_null">"Non hai rapporto!"</string>
     <string name="action_refresh_vid">"Aggiorna la lista"</string>
     <string name="video_refresh_error_title">"Non c'è connessione "</string>
     <string name="video_refresh_error_msg">"Controlla la connessione di rete e riprova ad aggiornare."</string>
-    <string name="not_accepted_videonew">"Devi consentire l'accesso al tuo spazio di archiviazione per scaricare video."</string>
     <string name="videonew_lostfile">"Hmm .. In qualche modo il video è andato
 perso. : /"</string>
     <string name="report_private">"Modalità privata attiva: i tuoi rapporti sono nascosti"</string>

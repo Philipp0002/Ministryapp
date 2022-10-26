@@ -107,10 +107,9 @@ public class SettingsFragment extends Fragment {
         SettingsStorageModule ssm = new SettingsStorageModule();
         SettingsInputModule sim = new SettingsInputModule();
 
-        MaterialEditTextPreference berichtLayoutEdit = view.findViewById(R.id.report_layout_settings);
+        MaterialEditTextPreference reportLayoutEdit = view.findViewById(R.id.report_layout_settings);
         MaterialStandardPreference exportSetting = view.findViewById(R.id.export);
         MaterialStandardPreference resetSetting = view.findViewById(R.id.reset);
-        MaterialEditTextPreference reportLayoutSetting = view.findViewById(R.id.report_layout_settings);
         MaterialSwitchPreference privateModeSwitch = view.findViewById(R.id.report_private_mode);
         MaterialStandardPreference reformatSetting = view.findViewById(R.id.reformat);
         MaterialStandardPreference languageSamplPresSetting = view.findViewById(R.id.language_empf);
@@ -122,14 +121,14 @@ public class SettingsFragment extends Fragment {
         MaterialStandardPreference licensesSetting = view.findViewById(R.id.licenses);
         MaterialStandardPreference gdprSetting = view.findViewById(R.id.dsgvo_title);
 
-        berichtLayoutEdit.setUserInputModule(sim);
-        berichtLayoutEdit.setStorageModule(ssm);
+        reportLayoutEdit.setUserInputModule(sim);
+        reportLayoutEdit.setStorageModule(ssm);
         privateModeSwitch.setStorageModule(ssm);
 
 
         setIcon(exportSetting, R.drawable.ic_baseline_backup_24);
         setIcon(resetSetting, R.drawable.ic_baseline_delete_forever_24);
-        setIcon(reportLayoutSetting, R.drawable.ic_baseline_style_24);
+        setIcon(reportLayoutEdit, R.drawable.ic_baseline_style_24);
         setIcon(privateModeSwitch, R.drawable.ic_baseline_privacy_tip_24);
         setIcon(languageSamplPresSetting, R.drawable.ic_thumb_up_black_24dp);
         setIcon(languageDailyTextSetting, R.drawable.ic_baseline_event_available_24px);
