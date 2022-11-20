@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +27,7 @@ import com.downloader.request.DownloadRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -145,24 +147,21 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         dialog.setCancelable(false);
 
         final WebStringGetter wsg = new WebStringGetter();
-        wsg.fc = new Runnable() {
-            @Override
-            public void run() {
-                if (!wsg.response.equalsIgnoreCase("ERROR")) {
-                    editor.putString("Videos", wsg.response);
-                    editor.commit();
-                    dialog.cancel();
-                    refreshList(null);
-                } else {
-                    dialog.cancel();
-                    new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
-                            .setTitle(R.string.video_refresh_error_title)
-                            .setIcon(R.drawable.ic_baseline_signal_cellular_connected_no_internet_4_bar_24)
-                            .setPositiveButton(R.string.ok, (dialog1, which) -> dialog1.dismiss())
-                            .setCancelable(false)
-                            .setMessage(R.string.video_refresh_error_msg)
-                            .show();
-                }
+        wsg.fc = () -> {
+            if (!wsg.response.equalsIgnoreCase("ERROR")) {
+                editor.putString("Videos", wsg.response);
+                editor.commit();
+                dialog.cancel();
+                refreshList(null);
+            } else {
+                dialog.cancel();
+                new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                        .setTitle(R.string.video_refresh_error_title)
+                        .setIcon(R.drawable.ic_baseline_signal_cellular_connected_no_internet_4_bar_24)
+                        .setPositiveButton(R.string.ok, (dialog1, which) -> dialog1.dismiss())
+                        .setCancelable(false)
+                        .setMessage(R.string.video_refresh_error_msg)
+                        .show();
             }
         };
         wsg.execute("https://ministryapp.de/Videos.php");
@@ -200,7 +199,12 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
                     @Override
                     public void onError(Error error) {
-
+                        videoDownloadProgress
+                                .get(video.getId())
+                                .destroy();
+                        videoDownloadProgress.remove(video.getId());
+                        refreshList(null);
+                        Toast.makeText(getContext(), R.string.video_exception, Toast.LENGTH_SHORT).show();
                     }
                 });
 
