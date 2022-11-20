@@ -180,10 +180,8 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
 
 
     public void setSpinnerText() {
-        TextView nonet = getView().findViewById(R.id.no_net);
-        ImageView pic = getView().findViewById(R.id.imageView3);
+        View nonet = getView().findViewById(R.id.no_network_sample_presentations);
         nonet.setVisibility(View.INVISIBLE);
-        pic.setVisibility(View.INVISIBLE);
         webView.setVisibility(View.VISIBLE);
         try {
             getActivity().unregisterReceiver(mBroadcastReceiver);
@@ -203,7 +201,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     public void resolveResponse(JSONObject serverResponse) {
         this.serverResponse = serverResponse;
         if (serverResponse != null) {
-            if(getActivity() == null)
+            if (getActivity() == null)
                 return;
 
             getActivity().runOnUiThread(() -> spinner.setVisibility(View.VISIBLE));

@@ -5,20 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
-    tools:context=".samplepresentations.SamplePresentationsFragment"
-    >
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fitsSystemWindows="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-    </WebView>
+    tools:context=".samplepresentations.SamplePresentationsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,7 +13,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,19 +25,19 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-        <ProgressBar
-            android:id="@+id/progressBar_empf"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@id/toolbar"
-            android:layout_x="6dp"
-            android:layout_y="1dp"
-            android:progressTint="@color/green_accent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+    <ProgressBar
+        android:id="@+id/progressBar_empf"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/toolbar"
+        android:layout_x="6dp"
+        android:layout_y="1dp"
+        android:progressTint="@color/green_accent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout2"
+        android:id="@+id/no_network_sample_presentations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,8 +51,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:tint="#fff"
-            android:visibility="visible"
+            android:tint="@color/ColorSecondary"
             app:srcCompat="@drawable/ic_signal_wifi_off_black_24dp" />
 
         <TextView
@@ -79,10 +64,19 @@
             android:layout_marginRight="50dp"
             android:gravity="center_horizontal"
             android:text="@string/noconnect"
-            android:textColor="#fff"
-            android:visibility="visible" />
+            android:textColor="#fff" />
 
     </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
