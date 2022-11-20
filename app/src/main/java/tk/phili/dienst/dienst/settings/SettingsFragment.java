@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -312,6 +313,9 @@ public class SettingsFragment extends Fragment {
                         .setLibrary(new Library("Kotlin",
                                 "https://github.com/JetBrains/kotlin",
                                 License.Companion.getAPACHE2()))
+                        .setLibrary(new Library("PRDownloader",
+                                "https://github.com/amitshekhariitbhu/PRDownloader",
+                                License.Companion.getAPACHE2()))
 
                         .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                         })
@@ -588,6 +592,7 @@ public class SettingsFragment extends Fragment {
             f.setAccessible(true);
             AppCompatImageView imageView = (AppCompatImageView) f.get(preference);
             imageView.setVisibility(VISIBLE);
+            imageView.setColorFilter(Color.argb(255, 255, 255, 255));
             imageView.setImageResource(drawableId);
         }catch(Exception e){
             e.printStackTrace();

@@ -6,6 +6,7 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.BlendMode;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 
@@ -31,8 +32,7 @@ public class Shortcuts {
                     .setShortLabel(context.getString(R.string.title_section1))
                     .setLongLabel(context.getString(R.string.title_section1))
                     .setIcon(
-                            Icon.createWithResource(context, R.drawable.ic_class_black_24dp)
-                                    .setTint(context.getColor(R.color.green_accent)))
+                            Icon.createWithResource(context, R.drawable.ic_class_black_24dp))
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
@@ -41,8 +41,7 @@ public class Shortcuts {
                     .setShortLabel(context.getString(R.string.title_section3))
                     .setLongLabel(context.getString(R.string.title_section3))
                     .setIcon(
-                            Icon.createWithResource(context, R.drawable.ic_description_black_24dp)
-                                    .setTint(context.getColor(R.color.green_accent)))
+                            Icon.createWithResource(context, R.drawable.ic_description_black_24dp))
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
@@ -51,8 +50,7 @@ public class Shortcuts {
                     .setShortLabel(context.getString(R.string.title_section4))
                     .setLongLabel(context.getString(R.string.title_section4))
                     .setIcon(
-                            Icon.createWithResource(context, R.drawable.ic_thumb_up_black_24dp)
-                                    .setTint(context.getColor(R.color.green_accent)))
+                            Icon.createWithResource(context, R.drawable.ic_thumb_up_black_24dp))
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
@@ -61,9 +59,7 @@ public class Shortcuts {
                     .setShortLabel(context.getString(R.string.title_section7))
                     .setLongLabel(context.getString(R.string.title_section7))
                     .setIcon(
-                            Icon.createWithResource(context, R.drawable.ic_video_library_black_24dp)
-                                    .setTint(context.getColor(R.color.green_accent))
-                                    .setTintMode(PorterDuff.Mode.OVERLAY))
+                            Icon.createWithResource(context, R.drawable.ic_video_library_black_24dp))
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
@@ -72,8 +68,7 @@ public class Shortcuts {
                     .setShortLabel(context.getString(R.string.title_tt))
                     .setLongLabel(context.getString(R.string.title_tt))
                     .setIcon(
-                            Icon.createWithResource(context, R.drawable.ic_baseline_event_available_24px)
-                                    .setTint(context.getColor(R.color.green_accent)))
+                            Icon.createWithResource(context, R.drawable.ic_baseline_event_available_24px))
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
@@ -82,8 +77,7 @@ public class Shortcuts {
                     .setShortLabel(context.getString(R.string.title_section9))
                     .setLongLabel(context.getString(R.string.title_section9))
                     .setIcon(
-                            Icon.createWithResource(context, R.drawable.ic_today_black_24dp)
-                                    .setTint(context.getColor(R.color.green_accent)))
+                            Icon.createWithResource(context, R.drawable.ic_today_black_24dp))
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
