@@ -142,7 +142,7 @@
     <string name="report_reformat">Reconvert old to new report</string>
 
     <string name="export">Export</string>
-    <string name="import_deletes_data">Importing an .minapp File, will remove all the app\'s already existing data. Continue?</string>
+    <string name="import_deletes_data">You are about to import a Ministryapp-Backup. This will overwrite all existing data. Continue?</string>
     <string name="import_error_fnf">An error occured: File not found!</string>
     <string name="import_error">An error occured!</string>
     <string name="import_title">Import</string>

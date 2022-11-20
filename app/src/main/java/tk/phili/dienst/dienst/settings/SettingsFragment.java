@@ -267,7 +267,7 @@ public class SettingsFragment extends Fragment {
                         .show());
 
         imprintSetting.setOnClickListener(__ -> {
-            String url = "https://dienstapp.raffaelhahn.de/impressum.html#impr";
+            String url = "https://ministryapp.de/impressum.html#impr";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
