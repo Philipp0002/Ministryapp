@@ -2,6 +2,8 @@ package tk.phili.dienst.dienst;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.downloader.PRDownloader;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +19,8 @@ public class MinistryApplication extends MultiDexApplication {
         super.onCreate();
 
         runTimer();
+
+        PRDownloader.initialize(getApplicationContext());
     }
 
     public void runTimer(){

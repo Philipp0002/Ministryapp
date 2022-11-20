@@ -163,7 +163,7 @@
                 app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
 
-            <com.akexorcist.roundcornerprogressbar.indeterminate.IndeterminateCenteredRoundCornerProgressBar
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
                 android:id="@+id/progress_download_indeterminate"
                 android:layout_width="0dp"
                 android:layout_height="20dp"

@@ -1,22 +1,17 @@
 package tk.phili.dienst.dienst.videos;
 
-import android.app.DownloadManager;
+import static android.os.Environment.DIRECTORY_MOVIES;
+
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
@@ -24,44 +19,33 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.downloader.Error;
+import com.downloader.OnDownloadListener;
+import com.downloader.PRDownloader;
+import com.downloader.request.DownloadRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.BehaviorSubject;
 import tk.phili.dienst.dienst.utils.HttpUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 
-public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickListener{
+public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
     private Toolbar toolbar;
 
     VideoAdapter adapter;
+    ArrayList<Video> videos;
+    HashMap<Integer, BehaviorSubject<Float>> videoDownloadProgress;
 
-    private final BroadcastReceiver onComplete = new BroadcastReceiver() {
-        public void onReceive(Context ctxt, Intent intent) {
-            Long dwnId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-            if(adapter!=null){
-                adapter.pendingDownload.remove(dwnId);
-            }
-            final Snackbar snackbar = Snackbar.make(getView(), getString(R.string.title_videos_success), Snackbar.LENGTH_LONG);
-            snackbar.setAction("OK", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    snackbar.dismiss();
-                }
-            });
-            snackbar.show();
-            refreshList();
-        }
-    };
 
     FragmentCommunicationPass fragmentCommunicationPass;
 
@@ -79,7 +63,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
@@ -92,107 +76,70 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         sp = getActivity().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-
-        if(!sp.contains("Videos")){
+        videos = new ArrayList<>();
+        videoDownloadProgress = new HashMap<>();
+        if (!sp.contains("Videos")) {
             refreshListData();
-        }else{
-            refreshList();
+        } else {
+            refreshList(null);
         }
-        getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        try {
-            getActivity().unregisterReceiver(onComplete);
-        }catch (Exception e){}
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            getActivity().unregisterReceiver(onComplete);
-        }catch (Exception e){}
-    }
-
-    public void refreshList(){
-        File a = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath());
-        for(File f : a.listFiles()){
-            for(File f1 : f.listFiles()){
-            }
-        }
-
+    public void refreshList(String searchTerm) {
         String fullListString = sp.getString("Videos", "");
 
-        if(!fullListString.isEmpty()){
+        if (!fullListString.isEmpty()) {
             ArrayList<String> all = new ArrayList<String>();
 
-            if(fullListString.contains("___")){
-                for(String s : fullListString.split("___")){
+            if (fullListString.contains("___")) {
+                for (String s : fullListString.split("___")) {
                     all.add(s);
                 }
-            }else{
+            } else {
                 all.add(fullListString);
             }
 
 
-            List<Integer> id = new ArrayList<Integer>();
-            List<String> title = new ArrayList<String>();
-            List<String> length = new ArrayList<String>();
-            List<String> mb = new ArrayList<String>();
-            List<String> url = new ArrayList<String>();
-            List<Boolean> isDownloaded = new ArrayList<Boolean>();
-            for(String s : all){
-                if(s.split(";")[0].equalsIgnoreCase(getString(R.string.URL_end))) {
-                    id.add(Integer.parseInt(s.split(";")[1]));
-                    title.add(s.split(";")[2]);
-                    length.add(s.split(";")[3].replace("-", ":"));
-                    mb.add(s.split(";")[4] + "MB");
-                    url.add(s.split(";")[5]);
-                    File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + s.split(";")[2].replace("?", "")+".mp4");
-                    if (file.exists()) {
-                        isDownloaded.add(true);
-                    }else{
-                        isDownloaded.add(false);
-                    }
-                }
+            videos.clear();
+            for (String s : all) {
+                videos.add(
+                        new Video(
+                                s.split(";")[0],
+                                Integer.parseInt(s.split(";")[1]),
+                                s.split(";")[2],
+                                s.split(";")[3].replace("-", ":"),
+                                Integer.parseInt(s.split(";")[4]),
+                                s.split(";")[5]
+                        )
+                );
             }
+            ArrayList<Video> videosFiltered = videos.stream()
+                    .filter(video -> video.getLang().equalsIgnoreCase(getString(R.string.URL_end))
+                            && (searchTerm == null || video.getName().toLowerCase().contains(searchTerm.toLowerCase())))
+                    .collect(Collectors.toCollection(ArrayList::new));
+            if (adapter == null) {
+                adapter = new VideoAdapter(getActivity(), this, videosFiltered);
 
-            if(adapter == null){
-               adapter = new VideoAdapter(getActivity(), this, id, title, length, mb, url, isDownloaded);
-
-                RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recyclerView);
+                RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            }else{
-                adapter.id.clear();
-                adapter.id.addAll(id);
-                adapter.title.clear();
-                adapter.title.addAll(title);
-                adapter.length.clear();
-                adapter.length.addAll(length);
-                adapter.mb.clear();
-                adapter.mb.addAll(mb);
-                adapter.url.clear();
-                adapter.url.addAll(url);
-                adapter.isDownloaded.clear();
-                adapter.isDownloaded.addAll(isDownloaded);
+            } else {
+                adapter.videos.clear();
+                adapter.videos.addAll(videosFiltered);
                 adapter.notifyDataSetChanged();
             }
 
         }
     }
 
-    public void refreshListData(){
+    public void refreshListData() {
         final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
                 getString(R.string.vid_wait), true);
         dialog.setCancelable(false);
@@ -201,22 +148,17 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         wsg.fc = new Runnable() {
             @Override
             public void run() {
-                if(!wsg.response.equalsIgnoreCase("ERROR")) {
+                if (!wsg.response.equalsIgnoreCase("ERROR")) {
                     editor.putString("Videos", wsg.response);
                     editor.commit();
                     dialog.cancel();
-                    refreshList();
-                }else{
+                    refreshList(null);
+                } else {
                     dialog.cancel();
                     new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
                             .setTitle(R.string.video_refresh_error_title)
                             .setIcon(R.drawable.ic_baseline_signal_cellular_connected_no_internet_4_bar_24)
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
+                            .setPositiveButton(R.string.ok, (dialog1, which) -> dialog1.dismiss())
                             .setCancelable(false)
                             .setMessage(R.string.video_refresh_error_msg)
                             .show();
@@ -228,11 +170,45 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if(item.getItemId() == R.id.action_refresh_vid) {
+        if (item.getItemId() == R.id.action_refresh_vid) {
             refreshListData();
             return true;
         }
         return false;
+    }
+
+    public int downloadVideo(Video video) {
+        DownloadRequest request = PRDownloader
+                .download(video.getDownloadURL(), getContext().getExternalFilesDir(DIRECTORY_MOVIES).getPath(), "MINISTRY/" + video.getName().replace("?", "") + ".mp4")
+                .build();
+
+        int downloadId = request
+                .setOnProgressListener(progress -> {
+                    videoDownloadProgress
+                            .get(video.getId())
+                            .next((float) progress.totalBytes / (float) progress.currentBytes);
+                })
+                .start(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        videoDownloadProgress
+                                .get(video.getId())
+                                .destroy();
+                        videoDownloadProgress.remove(video.getId());
+                        refreshList(null);
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+
+                    }
+                });
+
+        videoDownloadProgress.put(video.getId(), new BehaviorSubject<>(0F));
+        refreshList(null);
+
+        return downloadId;
+
     }
 
     static class WebStringGetter extends AsyncTask<String, Void, String> {
