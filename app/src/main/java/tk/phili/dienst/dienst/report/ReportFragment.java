@@ -59,6 +59,7 @@ import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
+import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -574,7 +575,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         newFragment.dismissCallback = () -> {
             updateList();
-            Drawer.hideKeyboard(getActivity());
+            Utils.hideKeyboard(getActivity());
         };
 
     }

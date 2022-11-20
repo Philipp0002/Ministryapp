@@ -58,6 +58,7 @@ import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
+import tk.phili.dienst.dienst.utils.Utils;
 
 public class CalendarFragment extends Fragment {
 
@@ -447,7 +448,7 @@ public class CalendarFragment extends Fragment {
 
         newFragment.dismissCallback = () -> {
             refreshAll();
-            Drawer.hideKeyboard(getActivity());
+            Utils.hideKeyboard(getActivity());
         };
 
     }

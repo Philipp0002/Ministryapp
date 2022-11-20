@@ -16,8 +16,6 @@ public class MinistryApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        Drawer.initialized = false;
-
         runTimer();
     }
 

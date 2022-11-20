@@ -32,18 +32,19 @@ import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsFragment;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.Utils;
 import tk.phili.dienst.dienst.videos.VideoFragment;
 
 public class Drawer {
 
-    public static boolean initialized = false;
+    public boolean initialized = false;
 
-    private static ArrayList<Article> articles = null;
-    private static Parser parser = null;
-    private static String urlString = null;
-    private static String tickerURL = null;
+    private ArrayList<Article> articles = null;
+    private Parser parser = null;
+    private String urlString = null;
+    private String tickerURL = null;
 
-    public static Object[][] positionMapping = new Object[][] {
+    private Object[][] positionMapping = new Object[][] {
             { ReportFragment.class, 0, R.id.drawer_report, Build.VERSION_CODES.BASE },
             { NotesFragment.class, 1, R.id.drawer_notes, 0, Build.VERSION_CODES.BASE },
             { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations, Build.VERSION_CODES.LOLLIPOP },
@@ -53,7 +54,7 @@ public class Drawer {
             { SettingsFragment.class, 6, R.id.drawer_settings, Build.VERSION_CODES.BASE }
     };
 
-    public static void manageDrawers(WrapperActivity activity,
+    public void manageDrawers(WrapperActivity activity,
                                      @NonNull Fragment fragment,
                                      @NonNull DrawerLayout drawerLayout,
                                      @NonNull NavigationView modalNavDrawer,
@@ -191,7 +192,7 @@ public class Drawer {
 
     }
 
-    private static void onItemClicked(WrapperActivity activity, Class toOpen){
+    private void onItemClicked(WrapperActivity activity, Class toOpen){
 
         for(Object[] mapping : positionMapping){
             if(mapping[0] == toOpen){
@@ -213,17 +214,7 @@ public class Drawer {
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_view, toOpen, null)
                 .commit();
-        hideKeyboard(activity);
+        Utils.hideKeyboard(activity);
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
 }

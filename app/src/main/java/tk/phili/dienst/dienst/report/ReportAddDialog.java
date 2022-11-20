@@ -145,7 +145,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationOnClickListener(view1 -> {
             dismiss();
-            Drawer.hideKeyboard(getActivity());
+            Utils.hideKeyboard(getActivity());
         });
 
         reportManager = new ReportManager(getContext());

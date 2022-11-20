@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentContainerView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigationrail.NavigationRailView;
 
+import tk.phili.dienst.dienst.MinistryApplication;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.Splash;
 import tk.phili.dienst.dienst.calendar.CalendarFragment;
@@ -37,6 +38,8 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     private Configuration configuration;
     private FragmentContainerView fragmentContainerView;
 
+    public Drawer drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +48,9 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
 
         fragmentContainerView = findViewById(R.id.fragment_container_view);
 
-        if(savedInstanceState == null) {
+        drawer = new Drawer();
 
+        if(savedInstanceState == null) {
             String s = getIntent().getStringExtra("shortcut_started");
 
             Class clazz = null;
@@ -70,7 +74,7 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
                     .replace(R.id.fragment_container_view, clazz, null)
                     .commit();
         }else{
-            Drawer.initialized = false;
+            drawer.initialized = false;
         }
     }
 
@@ -94,7 +98,7 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
                     toolbar, this);
 
 
-            Drawer.manageDrawers(this, fragment, drawerLayout, modalNavDrawer, navRail, navDrawer);
+            drawer.manageDrawers(this, fragment, drawerLayout, modalNavDrawer, navRail, navDrawer);
 
         }
     }
@@ -102,6 +106,6 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Drawer.initialized = false;
+        drawer.initialized = false;
     }
 }
