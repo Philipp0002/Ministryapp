@@ -3,6 +3,7 @@ package tk.phili.dienst.dienst.report;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -99,9 +102,13 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
     }
+    private OnBackInvokedCallback backInvokedCallback = () -> dismiss();
 
     @Override
     public void dismiss() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && backInvokedCallback != null) {
+            getActivity().getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(backInvokedCallback);
+        }
         if (getShowsDialog()) {
             getDialog().dismiss();
         } else {
@@ -297,6 +304,12 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
             }
         });
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getActivity().getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                    OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                    backInvokedCallback
+            );
+        }
     }
 
     public void showError(final String messagebox) {

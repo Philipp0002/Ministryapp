@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.format.DateFormat;
@@ -23,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.window.OnBackInvokedCallback;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +66,8 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
 
     Runnable dismissCallback;
 
+    private OnBackInvokedCallback backInvokedCallback = () -> dismiss();
+
     //FORMAT
     //IDʷDAYʷMONTHʷYEARʷHOURʷMINUTEʷDIENSTPARTNERʷBESCHREIBUNG
 
@@ -100,6 +105,9 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
 
     @Override
     public void dismiss() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && backInvokedCallback != null) {
+            getActivity().getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(backInvokedCallback);
+        }
         if (getShowsDialog()) {
             getDialog().dismiss();
         } else {
@@ -221,6 +229,13 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
                 }
             }
         });
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getActivity().getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                    OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                    backInvokedCallback
+            );
+        }
 
     }
 
