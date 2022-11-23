@@ -66,7 +66,7 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
 
     Runnable dismissCallback;
 
-    private OnBackInvokedCallback backInvokedCallback = () -> dismiss();
+    private OnBackInvokedCallback backInvokedCallback;
 
     //FORMAT
     //IDʷDAYʷMONTHʷYEARʷHOURʷMINUTEʷDIENSTPARTNERʷBESCHREIBUNG
@@ -231,6 +231,7 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
         });
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            backInvokedCallback = () -> dismiss();
             getActivity().getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
                     OnBackInvokedDispatcher.PRIORITY_DEFAULT,
                     backInvokedCallback

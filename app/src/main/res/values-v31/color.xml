@@ -22,5 +22,7 @@
     <color name="drawer_news_outline">@color/m3_sys_color_dynamic_light_outline</color>
 
     <color name="settings_title">@color/ColorPrimary</color>
+
+    <color name="switchThumbColor">@color/mtrl_switch_thumb_tint</color>
     
 </resources>

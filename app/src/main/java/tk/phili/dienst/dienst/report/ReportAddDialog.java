@@ -20,6 +20,7 @@ import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
@@ -64,6 +65,8 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
 
     public Runnable dismissCallback;
 
+    private OnBackInvokedCallback backInvokedCallback;
+
     /**
      * Create a new instance of MyDialogFragment, providing "num"
      * as an argument.
@@ -102,7 +105,6 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
     }
-    private OnBackInvokedCallback backInvokedCallback = () -> dismiss();
 
     @Override
     public void dismiss() {
@@ -305,6 +307,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         });
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            backInvokedCallback = () -> dismiss();
             getActivity().getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
                     OnBackInvokedDispatcher.PRIORITY_DEFAULT,
                     backInvokedCallback

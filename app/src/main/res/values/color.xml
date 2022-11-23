@@ -36,4 +36,6 @@
 
     <color name="settings_title">@color/green_accent</color>
 
+    <color name="switchThumbColor">@color/bericht_card_color</color>
+
 </resources>

@@ -39,6 +39,7 @@
         android:id="@id/mp_checkable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:thumbTint="@color/switchThumbColor"
         android:clickable="false"/>
 
 </merge>
