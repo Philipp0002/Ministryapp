@@ -32,22 +32,21 @@ android {
 
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
-    implementation 'com.google.android.material:material:1.8.0-alpha02'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
-    implementation 'com.github.AndroidDeveloperLB:AutoFitTextView:9'
+    implementation 'com.github.AndroidDeveloperLB:AutoFitTextView:10'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
-    implementation "com.mikepenz:materialdrawer:6.1.2"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.prof18.rssparser:rssparser:1.3.1'
     implementation 'com.yarolegovich:mp:1.1.6'
-    implementation 'androidx.work:work-runtime:2.8.0-beta01'
+    implementation 'androidx.work:work-runtime:2.8.0'
     implementation 'com.github.dewinjm:monthyear-picker:1.0.2'
     implementation 'com.github.marcoscgdev:Licenser:2.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"

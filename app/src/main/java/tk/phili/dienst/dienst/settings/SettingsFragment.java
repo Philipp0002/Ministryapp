@@ -275,7 +275,7 @@ public class SettingsFragment extends Fragment {
         });
 
         licensesSetting.setOnClickListener(__ ->
-                new LicenserDialog(getContext(), R.style.MaterialBaseTheme_Dialog)
+                new LicenserDialog(getContext(), R.style.Theme_Material3_Dark_Dialog)
                         .setTitle(getString(R.string.licenses))
                         .setLibrary(new Library("AndroidX Support Libraries",
                                 "https://developer.android.com/jetpack/androidx",
