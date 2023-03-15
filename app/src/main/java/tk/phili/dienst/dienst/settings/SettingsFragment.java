@@ -298,9 +298,6 @@ public class SettingsFragment extends Fragment {
                         .setLibrary(new Library("RoundCornerProgressBar",
                                 "https://github.com/akexorcist/RoundCornerProgressBar",
                                 License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("MaterialDrawer",
-                                "https://github.com/mikepenz/MaterialDrawer",
-                                License.Companion.getAPACHE2()))
                         .setLibrary(new Library("RSS Parser",
                                 "https://github.com/prof18/RSS-Parser",
                                 License.Companion.getAPACHE2()))
