@@ -504,7 +504,8 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     Report report = new Report();
                     report.setMinutes((goal * 60) - summarizedReport.getMinutes());
                     report.setType(Report.Type.NORMAL);
-                    goalText.setText(getString(R.string.goal_text_minutes).replace("%a", report.getFormattedHoursAndMinutes(getContext())[0]));
+                    String[] formatted = report.getFormattedHoursAndMinutes(getContext());
+                    goalText.setText(getString(R.string.goal_text_minutes).replace("%a", formatted[0] + " " + formatted[1]));
                 }
             } else if ((goal * 60) - summarizedReport.getMinutes() < 0) {
                 goalText.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
