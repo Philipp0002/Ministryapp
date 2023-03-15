@@ -94,7 +94,13 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
     }
 
+    protected boolean isSafe() {
+        return !(this.isRemoving() || this.getActivity() == null || this.isDetached() || !this.isAdded() || this.getView() == null);
+    }
+
     public void refreshList(String searchTerm) {
+        if(!isSafe())
+            return;
         String fullListString = sp.getString("Videos", "");
 
         if (!fullListString.isEmpty()) {
@@ -183,26 +189,33 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
         int downloadId = request
                 .setOnProgressListener(progress -> {
-                    videoDownloadProgress
-                            .get(video.getId())
-                            .next((float) progress.totalBytes / (float) progress.currentBytes);
+                    BehaviorSubject<Float> videoDownloadProgressbar = videoDownloadProgress
+                            .get(video.getId());
+
+                    if (videoDownloadProgressbar != null && progress != null) {
+                        videoDownloadProgressbar.next((float) progress.totalBytes / (float) progress.currentBytes);
+                    }
                 })
                 .start(new OnDownloadListener() {
                     @Override
                     public void onDownloadComplete() {
-                        videoDownloadProgress
-                                .get(video.getId())
-                                .destroy();
-                        videoDownloadProgress.remove(video.getId());
+                        BehaviorSubject<Float> videoDownloadProgressbar = videoDownloadProgress
+                                .get(video.getId());
+                        if (videoDownloadProgressbar != null) {
+                            videoDownloadProgressbar.destroy();
+                            videoDownloadProgress.remove(video.getId());
+                        }
                         refreshList(null);
                     }
 
                     @Override
                     public void onError(Error error) {
-                        videoDownloadProgress
-                                .get(video.getId())
-                                .destroy();
-                        videoDownloadProgress.remove(video.getId());
+                        BehaviorSubject<Float> videoDownloadProgressbar = videoDownloadProgress
+                                .get(video.getId());
+                        if (videoDownloadProgressbar != null) {
+                            videoDownloadProgressbar.destroy();
+                            videoDownloadProgress.remove(video.getId());
+                        }
                         refreshList(null);
                         Toast.makeText(getContext(), R.string.video_exception, Toast.LENGTH_SHORT).show();
                     }
