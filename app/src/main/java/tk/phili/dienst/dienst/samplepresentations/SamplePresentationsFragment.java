@@ -42,6 +42,7 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
+import tk.phili.dienst.dienst.utils.Utils;
 
 
 public class SamplePresentationsFragment extends Fragment implements MyWebChromeClient.ProgressListener {
@@ -57,7 +58,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (isConnectedtoNet()) {
+            if (Utils.isConnectedtoNet(getContext())) {
                 setSpinnerText();
             }
         }
@@ -150,7 +151,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 pageSuccess = false;
-                if (isConnectedtoNet()) {
+                if (Utils.isConnectedtoNet(getContext())) {
                     setSpinnerText();
                 } else {
                     setErrorSpinner();
@@ -159,25 +160,12 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
             }
         });
 
-        if (isConnectedtoNet()) {
+        if (Utils.isConnectedtoNet(getContext())) {
             setSpinnerText();
         } else {
             setErrorSpinner();
         }
     }
-
-    public boolean isConnectedtoNet() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if ((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null && connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
 
     public void setSpinnerText() {
         View nonet = getView().findViewById(R.id.no_network_sample_presentations);

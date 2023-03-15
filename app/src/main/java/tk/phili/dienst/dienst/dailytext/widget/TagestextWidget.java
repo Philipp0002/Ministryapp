@@ -26,6 +26,7 @@ import java.util.Locale;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.dailytext.DailytextJSONAsyncFetcher;
+import tk.phili.dienst.dienst.utils.Utils;
 
 /**
  * Implementation of App Widget functionality.
@@ -116,34 +117,9 @@ public class TagestextWidget extends AppWidgetProvider {
         return value;
     }
 
-    public boolean isConnectedtoNet(Context c){
-        ConnectivityManager connectivityManager = (ConnectivityManager)c.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null && connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            return true;
-        }else {
-            return false;
-        }
-
-    }
-
-    public static String convertStringToUTF8(String s) {
-        String out = null;
-        try {
-            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException e) {
-            return null;
-        }
-        return out;
-    }
-
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
-
-
-
-        if(isConnectedtoNet(context)) {
+        if(Utils.isConnectedtoNet(context)) {
             int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
             int y = Calendar.getInstance().get(Calendar.YEAR);

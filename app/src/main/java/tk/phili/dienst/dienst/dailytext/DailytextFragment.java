@@ -31,6 +31,7 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
+import tk.phili.dienst.dienst.utils.Utils;
 
 public class DailytextFragment extends Fragment implements MyWebChromeClient.ProgressListener {
 
@@ -41,7 +42,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(isConnectedtoNet()) {
+            if(Utils.isConnectedtoNet(getContext())) {
                 int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                 int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
                 int y = Calendar.getInstance().get(Calendar.YEAR);
@@ -91,7 +92,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
     public void init(){
         if(loaded)return;
-        if(isConnectedtoNet()) {
+        if(Utils.isConnectedtoNet(getContext())) {
             int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
             int y = Calendar.getInstance().get(Calendar.YEAR);
@@ -128,19 +129,6 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
             getActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
     }
-
-    public boolean isConnectedtoNet(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null && connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            return true;
-        }else {
-            return false;
-        }
-
-    }
-
 
     public void showLink(final String url){
         try {
