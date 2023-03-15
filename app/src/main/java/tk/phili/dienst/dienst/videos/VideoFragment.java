@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,7 @@ import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.downloader.request.DownloadRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,6 +40,7 @@ import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.BehaviorSubject;
 import tk.phili.dienst.dienst.utils.HttpUtils;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
+import tk.phili.dienst.dienst.utils.Utils;
 
 public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
@@ -148,9 +152,22 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     }
 
     public void refreshListData() {
-        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                getString(R.string.vid_wait), true);
-        dialog.setCancelable(false);
+        LinearLayout layout = new LinearLayout(getContext());
+        LinearProgressIndicator progressIndicator = new LinearProgressIndicator(getContext());
+        progressIndicator.setIndeterminate(true);
+        int marginHoriz = Utils.dpToPx(16);
+        int marginVert = Utils.dpToPx(8);
+        layout.addView(progressIndicator);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)progressIndicator.getLayoutParams();
+        params.setMargins(marginHoriz, marginVert, marginHoriz, marginVert);
+
+        AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                .setTitle(getString(R.string.vid_wait))
+                .setView(layout)
+                .setCancelable(false)
+                .create();
+        dialog.show();
 
         final WebStringGetter wsg = new WebStringGetter();
         wsg.fc = () -> {
