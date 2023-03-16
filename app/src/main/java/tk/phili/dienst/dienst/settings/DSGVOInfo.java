@@ -33,11 +33,7 @@ public class DSGVOInfo extends AppCompatActivity {
         }
 
         WebView web = findViewById(R.id.webView);
-        if(Locale.getDefault().getLanguage().equalsIgnoreCase("de")) {
-            web.loadUrl("https://ministryapp.de/de/gdpr.html");
-        }else{
-            web.loadUrl("https://ministryapp.de/en/gdpr.html");
-        }
+        web.loadUrl("https://ministryapp.de/privacy");
 
         findViewById(R.id.accept_dsgvo).setOnClickListener(view -> {
             editor.putBoolean("dsgvo_accept", true);
