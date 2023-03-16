@@ -56,7 +56,12 @@ public class Splash extends Activity {
                 new PeriodicWorkRequest.Builder(KalenderWorker.class, 15,
                         TimeUnit.MINUTES);
         PeriodicWorkRequest periodicWorkRequest = builder.build();
-        WorkManager.getInstance().enqueueUniquePeriodicWork("Calendar",  ExistingPeriodicWorkPolicy.KEEP,periodicWorkRequest);
+        WorkManager.getInstance(getApplicationContext())
+                .enqueueUniquePeriodicWork(
+                        "Calendar",
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        periodicWorkRequest
+                );
 
         ((TextView)findViewById(R.id.textView2)).setTypeface(Typeface.createFromAsset(getAssets(), "HammersmithOne-Regular.ttf"));
 

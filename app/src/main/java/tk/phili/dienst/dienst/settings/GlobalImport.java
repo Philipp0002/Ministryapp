@@ -60,17 +60,14 @@ public class GlobalImport extends AppCompatActivity {
             InputStream inputStream = getContentResolver().openInputStream(filePath);
             String s = convertStreamToString(inputStream);
             JSONObject obj = new JSONObject(s);
-            //Log.d("aasdasfasdasd", "c");
             Iterator<String> keys = obj.keys();
 
             SharedPreferences sp = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = sp.edit();
             SharedPreferences sp2 = getSharedPreferences("MainActivity3", Context.MODE_PRIVATE);
             SharedPreferences.Editor edit2 = sp2.edit();
-            //Log.d("aasdasfasdasd", "d");
             while(keys.hasNext()) {
                 String key = keys.next();
-                //Log.d("aasdasfasdasd", key);
                 Object val = obj.get(key);
 
                 if(key.equalsIgnoreCase("NOTES")){

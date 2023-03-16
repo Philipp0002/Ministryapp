@@ -91,6 +91,9 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+        editor = sp.edit();
+
         toolbar = view.findViewById(R.id.toolbar);
         noCal = view.findViewById(R.id.no_kal);
         eventList = view.findViewById(R.id.event_liste);
@@ -107,14 +110,12 @@ public class CalendarFragment extends Fragment {
             public void onDayClick(Date dateClicked) {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
                 cal.setTimeInMillis(dateClicked.getTime());
-                Log.d("lololololol1", "" + dateClicked.getTime());
                 refreshDay();
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 cal.setTimeInMillis(firstDayOfNewMonth.getTime());
-                Log.d("lololololol2", "" + firstDayOfNewMonth.getTime());
                 refreshDay();
             }
         });
@@ -122,7 +123,7 @@ public class CalendarFragment extends Fragment {
 
         view.findViewById(R.id.imageButton).setOnClickListener(__ -> {
             int idmax = 0;
-            Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
+            Set<String> set = sp.getStringSet("Calendar", new HashSet<>());
             for (String s : set) {
                 int id = Integer.parseInt(s.split("ʷ")[0]);
                 if (id > idmax) {
@@ -393,27 +394,19 @@ public class CalendarFragment extends Fragment {
 
 
     public void refreshAll() {
-        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
-        editor = sp.edit();
 
         compactCalendarView.removeAllEvents();
 
         Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
         for (String s : set) {
-            int id = Integer.parseInt(s.split("ʷ")[0]);
             int day = Integer.parseInt(s.split("ʷ")[1]);
             int month = Integer.parseInt(s.split("ʷ")[2]);
             int year = Integer.parseInt(s.split("ʷ")[3]);
-            int hour = Integer.parseInt(s.split("ʷ")[4]);
-            int minute = Integer.parseInt(s.split("ʷ")[5]);
-            String dienstpartner = s.split("ʷ")[6];
-            String beschreibung = s.split("ʷ")[7];
 
             GregorianCalendar cal = new GregorianCalendar(year, month, day);
-            Event ev1 = new Event(Color.GREEN, cal.getTimeInMillis(), s);
-            compactCalendarView.addEvent(ev1);
+            Event event = new Event(Color.GREEN, cal.getTimeInMillis(), s);
+            compactCalendarView.addEvent(event);
         }
-
 
         refreshDay();
     }

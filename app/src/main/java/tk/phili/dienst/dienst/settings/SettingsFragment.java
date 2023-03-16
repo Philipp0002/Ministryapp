@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -380,8 +381,10 @@ public class SettingsFragment extends Fragment {
 
             String[] units = {getResources().getString(R.string.calendar_notification_hour), getResources().getString(R.string.calendar_notification_day)};
             spinnerView.setSimpleItems(units);
-            spinnerView.setListSelection(sp.getInt("Calendar_Unit", 0));
-            spinnerView.setText(units[sp.getInt("Calendar_Unit", 0)]);
+            try {
+                spinnerView.setListSelection(sp.getInt("Calendar_Unit", 0));
+                spinnerView.setText(units[sp.getInt("Calendar_Unit", 0)]);
+            }catch(Exception e){}
             ((ArrayAdapter) spinnerView.getAdapter()).getFilter().filter(null);
             AtomicInteger selectedItem = new AtomicInteger(sp.getInt("Calendar_Time", 1));
             spinnerView.setOnItemClickListener((___, ____, i, _____) -> {
