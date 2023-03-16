@@ -135,11 +135,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        if (!sp.contains("reports") && sp.contains("BERICHTE")) {
-            ReportFormatConverter.convertToNewFormat(sp);
-        }
         reportManager = new ReportManager(getContext());
-
 
         rpb = view.findViewById(R.id.progress_goal);
 

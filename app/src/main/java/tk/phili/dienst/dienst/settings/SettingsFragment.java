@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,14 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.appcompat.widget.AppCompatImageHelper;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -57,7 +53,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.widget.TagestextWidget;
-import tk.phili.dienst.dienst.report.ReportFormatConverter;
 import tk.phili.dienst.dienst.report.ReportManager;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
@@ -112,7 +107,6 @@ public class SettingsFragment extends Fragment {
         MaterialStandardPreference exportSetting = view.findViewById(R.id.export);
         MaterialStandardPreference resetSetting = view.findViewById(R.id.reset);
         MaterialSwitchPreference privateModeSwitch = view.findViewById(R.id.report_private_mode);
-        MaterialStandardPreference reformatSetting = view.findViewById(R.id.reformat);
         MaterialStandardPreference languageSamplPresSetting = view.findViewById(R.id.language_empf);
         MaterialStandardPreference languageDailyTextSetting = view.findViewById(R.id.language_tt);
         MaterialStandardPreference gcalResetSetting = view.findViewById(R.id.calendar_gcal_reset);
@@ -222,21 +216,6 @@ public class SettingsFragment extends Fragment {
 
 
         });
-
-        if (!sp.contains("BERICHTE")) {
-            reformatSetting.setVisibility(GONE);
-        }
-        reformatSetting.setOnClickListener(__ ->
-                new MaterialAlertDialogBuilder(contextThemeWrapper)
-                        .setTitle(getResources().getString(R.string.report_reformat_title))
-                        .setMessage(getResources().getString(R.string.report_reformat_message))
-                        .setIcon(null)
-                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                            ReportFormatConverter.convertToNewFormat(sp);
-                        })
-                        .setNegativeButton(getString(R.string.no), null)
-                        .show());
-
 
         resetSetting.setOnClickListener(__ ->
                 new MaterialAlertDialogBuilder(contextThemeWrapper, R.style.MaterialAlertDialogCenterStyle)

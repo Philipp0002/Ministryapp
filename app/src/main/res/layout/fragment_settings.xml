@@ -78,12 +78,6 @@
                         app:mp_title="@string/report_private_mode"
                         android:theme="@style/AppThemeDark"/>
 
-                    <com.yarolegovich.mp.MaterialStandardPreference
-                        android:id="@+id/reformat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:mp_title="@string/report_reformat" />
-
                 </com.yarolegovich.mp.MaterialPreferenceCategory>
 
                 <com.yarolegovich.mp.MaterialPreferenceCategory
