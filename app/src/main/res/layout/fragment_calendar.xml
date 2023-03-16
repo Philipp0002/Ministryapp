@@ -132,7 +132,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:text="@string/kalender_no_events"
+                android:text="@string/calender_no_events"
                 android:textColor="#fff"
                 android:textSize="20sp" />
 

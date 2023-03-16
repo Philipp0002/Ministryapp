@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="4dp"
-            android:hint="@string/title_activity_stunden"
+            android:hint="@string/title_activity_hours"
             app:startIconDrawable="@drawable/ic_timer_black_24dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/title_activity_abgaben"
+        android:hint="@string/title_activity_placements"
         app:startIconDrawable="@drawable/ic_content_copy_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/title_activity_rückbesuche"
+        android:hint="@string/title_activity_return_visits"
         app:startIconDrawable="@drawable/ic_people_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -123,7 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/title_activity_heimb"
+        android:hint="@string/title_activity_studies"
         app:startIconDrawable="@drawable/ic_chrome_reader_mode_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -139,7 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/title_activity_annotation"
+        android:hint="@string/title_activity_annotations"
         app:startIconDrawable="@drawable/ic_comment_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText

@@ -33,9 +33,9 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = 0;
         if(reportManager.getReportLayoutSetting() == 0) {
-            layoutId = R.layout.list_bericht;
+            layoutId = R.layout.report_item;
         }else if(reportManager.getReportLayoutSetting() == 1) {
-            layoutId = R.layout.list_bericht_tiny;
+            layoutId = R.layout.report_item_tiny;
         }
         View v = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
 

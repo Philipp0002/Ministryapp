@@ -20,18 +20,18 @@
     <string name="resetdialog_title">Really?</string>
     <string name="action_save">Save</string>
     <string name="action_ziel">Goal</string>
-    <string name="title_activity_senden">Send</string>
+    <string name="title_activity_send">Send</string>
 
 
     <string name="noconnect">No&#160;network available!</string>
     <string name="URL_end">en</string>
 
-    <string name="title_activity_stunden">Hours</string>
-    <string name="title_activity_abgaben">Placements</string>
-    <string name="title_activity_rückbesuche">Return Visits</string>
+    <string name="title_activity_hours">Hours</string>
+    <string name="title_activity_placements">Placements</string>
+    <string name="title_activity_return_visits">Return Visits</string>
     <string name="title_activity_videos">Videos</string>
-    <string name="title_activity_heimb">Bible Studies</string>
-    <string name="title_activity_annotation">Annotations</string>
+    <string name="title_activity_studies">Bible Studies</string>
+    <string name="title_activity_annotations">Annotations</string>
     <string name="notes_text">Write down your notes!</string>
     <string name="sendreport_text">Send ministry report to</string>
     <string name="error">Error</string>
@@ -50,33 +50,31 @@
 
     <string name="title_videos_success">Downloaded 1 video</string>
 
-    <string name="download_sure">Sure?</string>
     <string name="download_text">The video \"%a\" will be downloaded.</string>
     <string name="download_ok">START</string>
-    <string name="download_cancel">CANCEL</string>
 
-    <string name="delete_sure">Sure?</string>
     <string name="delete_text">The video \"%a\" will be deleted.</string>
     <string name="delete_ok">DELETE</string>
-    <string name="delete_cancel">CANCEL</string>
     <string name="video_open_error">There was an error while starting the video. Please wait until it\'s downloaded.</string>
+
+    <string name="ask_sure">Sure?</string>
+    <string name="cancel">Cancel</string>
 
     <string name="data_cleared">Cleared data!</string>
     <string name="ok">OK</string>
 
-    <string name="add_bericht">Add report</string>
-    <string name="change_bericht">Change report</string>
+    <string name="add_report">Add report</string>
+    <string name="change_report">Change report</string>
     <string name="date">Date</string>
     <string name="minutes">Minutes</string>
-    <string name="onehour">Maximum minute input is 59!</string>
-    <string name="twentyfourhours">There are only 24 hours a day!</string>
-    <string name="insgesamt">TOTAL</string>
+    <string name="hour_max_59min">Maximum minute input is 59!</string>
+    <string name="day_max_24h">There are only 24 hours a day!</string>
+    <string name="total">TOTAL</string>
     <string name="swipe_up_for_more">Swipe up for the total statistics</string>
-    <string name="no_bericht">No reportdata for this month! To add data click the "+" button!</string>
+    <string name="no_report">No reportdata for this month! To add data click the "+" button!</string>
 
-
-    <string name="bericht_undo_1">Removed entry</string>
-    <string name="bericht_undo_2">UNDO</string>
+    <string name="report_undo_1">Removed entry</string>
+    <string name="report_undo_2">UNDO</string>
 
     <string name="goal">Goal</string>
     <string name="goal_set">Set your monthly goal</string>
@@ -90,13 +88,11 @@
     <string name="goal_text_reached_more">You reached your goal! +%a more</string>
 
     <string name="goal_invalid">Invalid goal</string>
-    <string name="impressum">Imprint</string>
+    <string name="imprint">Imprint</string>
     <string name="licenses">Licenses</string>
 
-    <string name="gebiet_add_cancel">Cancel</string>
-
-    <string name="bericht_type_name">Please enter your name to complete your report.</string>
-    <string name="bericht_type_name_hint">Your name</string>
+    <string name="report_input_name">Please enter your name to complete your report.</string>
+    <string name="report_input_name_hint">Your name</string>
 
     <string name="report_layout_settings">Reports layout</string>
     <string name="report_layout_msg">Here you can change the layout of the reports page.\nPreview:</string>
@@ -106,23 +102,22 @@
     <string name="drawer_ticker_news">NEWS</string>
     <string name="drawer_ticker_no_news">++NEWS++ No news available ++NEWS++</string>
 
-    <string name="empf_not_available">Sample Presentations not availible for system date.</string>
+    <string name="sample_presentations_not_available">Sample Presentations not available for system date.</string>
 
-    <string name="vid_wait">Please wait... Retrieving information</string>
+    <string name="video_fetching_infos">Please wait... Retrieving information</string>
 
-    <string name="kalender_no_events">Nothing planned for this day!</string>
-    <string name="title_activity_kalender_add_frame">Add entry</string>
-    <string name="kalender_partner">Partner</string>
-    <string name="kalender_notes">Notes</string>
+    <string name="calender_no_events">Nothing planned for this day!</string>
+    <string name="calendar_partner">Partner</string>
+    <string name="calendar_notes">Notes</string>
 
-    <string name="kalender_menu_title">Change entry</string>
-    <string name="kalender_menu_edit">Edit</string>
-    <string name="kalender_menu_delete">Delete</string>
-    <string name="kalender_menu_delete_title">Delete entry?</string>
-    <string name="kalender_menu_delete_msg">Do you really want to delete this entry?</string>
+    <string name="calendar_menu_title">Change entry</string>
+    <string name="calendar_menu_edit">Edit</string>
+    <string name="calendar_menu_delete">Delete</string>
+    <string name="calendar_menu_delete_title">Delete entry?</string>
+    <string name="calendar_menu_delete_msg">Do you really want to delete this entry?</string>
 
-    <string name="dsgvo_accept">Accept</string>
-    <string name="dsgvo_title">Privacy Policy</string>
+    <string name="gdpr_accept">Accept</string>
+    <string name="gdpr_title">Privacy Policy</string>
 
     <string name="title_activity_global_import">Import to Ministryapp (.minapp)</string>
     <string name="not_accepted_import">You need to allow access to your storage for importing data.</string>
@@ -139,8 +134,6 @@
     <string name="report_private_show">Show</string>
     <string name="report_private_mode">Private mode</string>
 
-    <string name="report_reformat">Reconvert old to new report</string>
-
     <string name="export">Export</string>
     <string name="import_deletes_data">You are about to import a Ministryapp-Backup. This will overwrite all existing data. Continue?</string>
     <string name="import_error_fnf">An error occured: File not found!</string>
@@ -149,7 +142,6 @@
 
     <string name="pref_legal">Legal</string>
     <string name="pref_general">General</string>
-
 
     <string name="calendar_time_of_notification">Time of notification</string>
     <string name="calendar_notification">Notification settings</string>
@@ -176,8 +168,6 @@
     <string name="calendar_gcal_remove_msg">This will unlink Ministryapp from Google Calendar. Continue?</string>
     <string name="calendar_event_title">Ministry with %a</string>
     <string name="calendar_activate_not_found">Calendar can\'t be found!</string>
-    <string name="report_reformat_title">Reconvert reports?</string>
-    <string name="report_reformat_message">Reformatting will overwrite your existing report data by the old data. Only do this if the app didn\'t convert your data properly!</string>
 
     <string name="error_sdk_version_too_old">We\'re sorry but this feature is unavailable because your Android version is too outdated.</string>
 </resources>

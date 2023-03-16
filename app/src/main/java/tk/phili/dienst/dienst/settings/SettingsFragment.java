@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -299,7 +298,7 @@ public class SettingsFragment extends Fragment {
                         .show());
 
         gdprSetting.setOnClickListener(__ -> {
-            Intent i = new Intent(getContext(), DSGVOInfo.class);
+            Intent i = new Intent(getContext(), GDPRInfo.class);
             i.putExtra("hastoaccept", false);
             startActivity(i);
         });
@@ -425,9 +424,9 @@ public class SettingsFragment extends Fragment {
 
                 int layoutId = 0;
                 if (reportManager.getReportLayoutSetting() == 0) {
-                    layoutId = R.layout.list_bericht;
+                    layoutId = R.layout.report_item;
                 } else if (reportManager.getReportLayoutSetting() == 1) {
-                    layoutId = R.layout.list_bericht_tiny;
+                    layoutId = R.layout.report_item_tiny;
                 }
 
                 View reportLayout = getLayoutInflater().inflate(layoutId, null);
@@ -447,11 +446,11 @@ public class SettingsFragment extends Fragment {
                 spinnerView.setOnItemClickListener((__, ___, i, ____) -> {
                     if (i == 0) {
                         layout.removeViewAt(0);
-                        View reportLayout1 = getLayoutInflater().inflate(R.layout.list_bericht, null);
+                        View reportLayout1 = getLayoutInflater().inflate(R.layout.report_item, null);
                         layout.addView(reportLayout1, 0);
                     } else if (i == 1) {
                         layout.removeViewAt(0);
-                        View reportLayout1 = getLayoutInflater().inflate(R.layout.list_bericht_tiny, null);
+                        View reportLayout1 = getLayoutInflater().inflate(R.layout.report_item_tiny, null);
                         layout.addView(reportLayout1, 0);
                     }
                     selectedItem.set(i);

@@ -18,15 +18,10 @@ import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
 
-import tk.phili.dienst.dienst.calendar.CalendarFragment;
-import tk.phili.dienst.dienst.calendar.KalenderWorker;
-import tk.phili.dienst.dienst.dailytext.DailytextFragment;
-import tk.phili.dienst.dienst.notes.NotesFragment;
-import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
-import tk.phili.dienst.dienst.settings.DSGVOInfo;
+import tk.phili.dienst.dienst.calendar.CalendarWorker;
+import tk.phili.dienst.dienst.settings.GDPRInfo;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.Shortcuts;
-import tk.phili.dienst.dienst.videos.VideoFragment;
 
 
 public class Splash extends Activity {
@@ -53,7 +48,7 @@ public class Splash extends Activity {
         createNotificationChannel();
 
         PeriodicWorkRequest.Builder builder =
-                new PeriodicWorkRequest.Builder(KalenderWorker.class, 15,
+                new PeriodicWorkRequest.Builder(CalendarWorker.class, 15,
                         TimeUnit.MINUTES);
         PeriodicWorkRequest periodicWorkRequest = builder.build();
         WorkManager.getInstance(getApplicationContext())
@@ -96,7 +91,7 @@ public class Splash extends Activity {
                 mainIntent.putExtra("shortcut_started", s);
 
                 if(!sp.getBoolean("dsgvo_accept", false)){
-                    mainIntent = new Intent(Splash.this, DSGVOInfo.class);
+                    mainIntent = new Intent(Splash.this, GDPRInfo.class);
                 }
 
                 Splash.this.startActivity(mainIntent);

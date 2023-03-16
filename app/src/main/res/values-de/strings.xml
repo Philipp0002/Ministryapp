@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Dienst</string>
     <string name="splash_app_name">Dienstapp</string>
     <string name="title_section1">Bericht</string>
@@ -17,17 +16,17 @@
     <string name="resetdialog_title">Wirklich zurücksetzen?</string>
     <string name="action_save">Speichern</string>
     <string name="action_ziel">Ziel</string>
-    <string name="title_activity_senden">Senden</string>
+    <string name="title_activity_send">Senden</string>
 
     <string name="noconnect">Keine&#160;Verbindung!</string>
     <string name="URL_end">de</string>
 
-    <string name="title_activity_stunden">Stunden</string>
-    <string name="title_activity_abgaben">Abgaben</string>
-    <string name="title_activity_rückbesuche">Rückbesuche</string>
+    <string name="title_activity_hours">Stunden</string>
+    <string name="title_activity_placements">Abgaben</string>
+    <string name="title_activity_return_visits">Rückbesuche</string>
     <string name="title_activity_videos">Videos</string>
-    <string name="title_activity_heimb">Bibelstudien</string>
-    <string name="title_activity_annotation">Anmerkungen</string>
+    <string name="title_activity_studies">Bibelstudien</string>
+    <string name="title_activity_annotations">Anmerkungen</string>
     <string name="notes_text">Schreibe hier Notizen!</string>
     <string name="sendreport_text">Bericht senden zu</string>
     <string name="error">Fehler</string>
@@ -46,32 +45,30 @@
     <string name="title_videos_success">1 Video heruntergeladen</string>
     <string name="ok">OK</string>
 
-    <string name="download_sure">Bist du dir sicher?</string>
     <string name="download_text">Das Video \"%a\" wird heruntergeladen.</string>
     <string name="download_ok">BEGINNEN</string>
-    <string name="download_cancel">ABBRECHEN</string>
 
-    <string name="delete_sure">Bist du dir sicher?</string>
+    <string name="ask_sure">Bist du dir sicher?</string>
     <string name="delete_text">Das Video \"%a\" wird gelöscht.</string>
     <string name="delete_ok">LÖSCHEN</string>
-    <string name="delete_cancel">ABBRECHEN</string>
     <string name="video_open_error">Es gab einen Fehler beim Öffnen des Videos. Bitte warte bis es heruntergeladen ist.</string>
 
+    <string name="cancel">Abbrechen</string>
+
     <string name="data_cleared">Berichtsdaten gelöscht!</string>
-    <string name="add_bericht">Eintrag hinzufügen</string>
-    <string name="change_bericht">Bericht ändern</string>
+    <string name="add_report">Eintrag hinzufügen</string>
+    <string name="change_report">Bericht ändern</string>
     <string name="date">Datum</string>
     <string name="minutes">Minuten</string>
-    <string name="onehour">Maximale Minutenanzahl ist 59!</string>
-    <string name="twentyfourhours">Es gibt nur 24 Stunden am Tag!</string>
-    <string name="insgesamt">INSGESAMT</string>
+    <string name="hour_max_59min">Maximale Minutenanzahl ist 59!</string>
+    <string name="day_max_24h">Es gibt nur 24 Stunden am Tag!</string>
+    <string name="total">INSGESAMT</string>
     <string name="swipe_up_for_more">Wische hoch für Zusammenfassung</string>
-    <string name="no_bericht">Keine Berichtsdaten für diesen Monat! Füge Daten mit \"+\" hinzu!</string>
+    <string name="no_report">Keine Berichtsdaten für diesen Monat! Füge Daten mit \"+\" hinzu!</string>
 
 
-    <string name="bericht_undo_1">Eintrag entfernt</string>
-    <string name="bericht_undo_2">Rückgängig</string>
-
+    <string name="report_undo_1">Eintrag entfernt</string>
+    <string name="report_undo_2">Rückgängig</string>
 
     <string name="goal_set">Setze dein monatliches Ziel</string>
     <string name="goal_msg">Gib hier dein monatliches Stundenziel ein:</string>
@@ -83,12 +80,10 @@
     <string name="goal_text_reached_more">Du hast dein Ziel erreicht! +%a mehr</string>
 
     <string name="goal_invalid">Ungültiges Ziel</string>
-    <string name="impressum">Impressum</string>
+    <string name="imprint">Impressum</string>
     <string name="licenses">Lizenzen</string>
 
-    <string name="gebiet_add_cancel">Abbrechen</string>
-
-    <string name="bericht_type_name">Bitte gib hier deinen Namen ein, damit der Bericht vollständig ist.</string>
+    <string name="report_input_name">Bitte gib hier deinen Namen ein, damit der Bericht vollständig ist.</string>
 
     <string name="report_layout_settings">Berichtslayout</string>
     <string name="report_layout_msg">Hier kannst du das Layout der Berichtsseite ändern.\nVorschau:</string>
@@ -98,23 +93,22 @@
     <string name="drawer_ticker_news">NEUES</string>
     <string name="drawer_ticker_no_news">++NEUES++ Zurzeit keine Neuigkeiten verfügbar ++NEUES++</string>
 
-    <string name="empf_not_available">Empfehlungen nicht für Systemzeit verfügbar.</string>
+    <string name="sample_presentations_not_available">Empfehlungen nicht für Systemzeit verfügbar.</string>
 
-    <string name="vid_wait">Bitte warten... Infos werden abgerufen</string>
+    <string name="video_fetching_infos">Bitte warten... Infos werden abgerufen</string>
 
-    <string name="kalender_no_events">Kein Dienst für diesen Tag geplant!</string>
-    <string name="title_activity_kalender_add_frame">Dienst hinzufügen</string>
-    <string name="kalender_partner">Partner</string>
-    <string name="kalender_notes">Notizen</string>
+    <string name="calender_no_events">Kein Dienst für diesen Tag geplant!</string>
+    <string name="calendar_partner">Partner</string>
+    <string name="calendar_notes">Notizen</string>
 
-    <string name="kalender_menu_title">Diensteintrag</string>
-    <string name="kalender_menu_edit">Bearbeiten</string>
-    <string name="kalender_menu_delete">Löschen</string>
-    <string name="kalender_menu_delete_title">Eintrag löschen?</string>
-    <string name="kalender_menu_delete_msg">Möchtest du wirklich diesen Eintrag löschen?</string>
+    <string name="calendar_menu_title">Diensteintrag</string>
+    <string name="calendar_menu_edit">Bearbeiten</string>
+    <string name="calendar_menu_delete">Löschen</string>
+    <string name="calendar_menu_delete_title">Eintrag löschen?</string>
+    <string name="calendar_menu_delete_msg">Möchtest du wirklich diesen Eintrag löschen?</string>
 
-    <string name="dsgvo_accept">Akzeptieren</string>
-    <string name="dsgvo_title">Datenschutzerklärung</string>
+    <string name="gdpr_accept">Akzeptieren</string>
+    <string name="gdpr_title">Datenschutzerklärung</string>
 
     <string name="title_activity_global_import">In Dienstapp importieren (.minapp)</string>
     <string name="not_accepted_import">Um zu importieren muss der Zugriff auf den Speicher gewährt werden.</string>
@@ -164,12 +158,9 @@
     <string name="calendar_gcal_remove_msg">Die Verknüpfung zwischen der Dienstapp und Google Kalender wird aufgehoben. Fortfahren?</string>
     <string name="calendar_event_title">Dienst mit %a</string>
     <string name="calendar_activate_not_found">Kalender kann nicht gefunden werden!</string>
-    <string name="bericht_type_name_hint">Dein Name</string>
+    <string name="report_input_name_hint">Dein Name</string>
     <string name="goal">Ziel</string>
     <string name="goal_text_minutes">%a um Ziel zu erreichen</string>
-    <string name="report_reformat">Von alten zu neuen Dienstdaten konvertieren</string>
-    <string name="report_reformat_title">Dienstdaten neu konvertieren?</string>
-    <string name="report_reformat_message">Dieser Vorgang überschreibt vorhandene Berichtsdaten. Tu dies nur, wenn die letzte Konvertierung fehlerhaft ist!</string>
 
     <string name="error_sdk_version_too_old">Diese Funktion ist leider nicht verfügbar, da deine Android Version zu alt ist.</string>
 </resources>

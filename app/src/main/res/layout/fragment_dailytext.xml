@@ -21,6 +21,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_tagestext" />
+    <include layout="@layout/content_dailytext" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

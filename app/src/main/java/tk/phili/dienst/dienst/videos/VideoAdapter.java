@@ -133,13 +133,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 }
             } else {
                 new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
-                        .setTitle(context.getString(R.string.download_sure))
+                        .setTitle(context.getString(R.string.ask_sure))
                         .setMessage(context.getString(R.string.download_text).replace("%a", video.getName()))
                         .setIcon(R.drawable.ic_baseline_cloud_download_24)
                         .setPositiveButton(R.string.download_ok, (dialog, which) -> {
                             videoFragment.downloadVideo(video);
                         })
-                        .setNegativeButton(R.string.download_cancel, null)
+                        .setNegativeButton(R.string.cancel, null)
                         .create()
                         .show();
 
@@ -214,7 +214,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         if (file.exists()) {
             new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
-                    .setTitle(context.getString(R.string.delete_sure))
+                    .setTitle(context.getString(R.string.ask_sure))
                     .setMessage(context.getString(R.string.delete_text).replace("%a", vidname))
                     .setIcon(R.drawable.ic_baseline_delete_24)
                     .setPositiveButton(R.string.delete_ok,
@@ -222,7 +222,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                 file.delete();
                                 videoFragment.refreshList(null);
                             })
-                    .setNegativeButton(R.string.delete_cancel,
+                    .setNegativeButton(R.string.cancel,
                             (__, ___) -> {
                             })
                     .create()

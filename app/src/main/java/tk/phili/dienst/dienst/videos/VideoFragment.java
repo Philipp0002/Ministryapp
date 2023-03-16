@@ -2,7 +2,6 @@ package tk.phili.dienst.dienst.videos;
 
 import static android.os.Environment.DIRECTORY_MOVIES;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -30,7 +29,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -163,7 +161,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         params.setMargins(marginHoriz, marginVert, marginHoriz, marginVert);
 
         AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
-                .setTitle(getString(R.string.vid_wait))
+                .setTitle(getString(R.string.video_fetching_infos))
                 .setView(layout)
                 .setCancelable(false)
                 .create();

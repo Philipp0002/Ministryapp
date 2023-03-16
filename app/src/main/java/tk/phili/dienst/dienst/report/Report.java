@@ -93,7 +93,7 @@ public class Report {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
             return getDate().format(dateTimeFormatter);
         }else if(getType() == Type.SUMMARY) {
-            return context.getString(R.string.insgesamt);
+            return context.getString(R.string.total);
         }else{
             return context.getString(R.string.carryover);
         }
@@ -116,7 +116,7 @@ public class Report {
     @SuppressLint("DefaultLocale")
     public String[] getFormattedHoursAndMinutes(Context context){
         String minutesString = "";
-        String timeFormatString = context.getString(R.string.title_activity_stunden);
+        String timeFormatString = context.getString(R.string.title_activity_hours);
 
         if(minutes % 60 == 0){
             minutesString = ((minutes / 60)+ "");

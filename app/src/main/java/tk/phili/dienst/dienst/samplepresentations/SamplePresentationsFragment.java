@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -225,7 +223,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
                 if (listItems.size() > getMonth()) {
                     spinner.setSelection(getMonth());
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.empf_not_available), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.sample_presentations_not_available), Toast.LENGTH_SHORT).show();
                 }
             });
 

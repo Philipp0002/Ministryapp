@@ -23,7 +23,6 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -54,7 +53,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
@@ -232,15 +230,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
                 new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
                         .setTitle(getString(R.string.title_section6))
-                        .setMessage(getString(R.string.bericht_type_name))
+                        .setMessage(getString(R.string.report_input_name))
                         .setView(input_view)
-                        .setPositiveButton(getString(R.string.title_activity_senden), (dialog, whichButton) -> {
+                        .setPositiveButton(getString(R.string.title_activity_send), (dialog, whichButton) -> {
                             String value = input.getText().toString();
                             if (!value.isEmpty()) {
                                 sendReport(value);
                             }
                         })
-                        .setNegativeButton(getString(R.string.gebiet_add_cancel), (dialog, whichButton) -> {
+                        .setNegativeButton(getString(R.string.cancel), (dialog, whichButton) -> {
                         })
                         .show();
             }
@@ -258,7 +256,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                                 updateList();
                             }
                         })
-                        .setNegativeButton(getString(R.string.delete_cancel), (dialog, whichButton) -> {
+                        .setNegativeButton(getString(R.string.cancel), (dialog, whichButton) -> {
                         })
                         .show();
             }
@@ -413,8 +411,8 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public boolean deleteReport(Report report) {
         boolean deleted = reportManager.deleteReport(report);
         if (deleted) {
-            Snackbar.make(getView().findViewById(R.id.coord), R.string.bericht_undo_1, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.bericht_undo_2, v -> {
+            Snackbar.make(getView().findViewById(R.id.coord), R.string.report_undo_1, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.report_undo_2, v -> {
                         reportManager.createReport(report);
                         updateList();
                     }).show();

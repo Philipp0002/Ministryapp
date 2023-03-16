@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -22,9 +21,9 @@ import java.util.Set;
 
 import tk.phili.dienst.dienst.R;
 
-public class KalenderWorker extends Worker {
+public class CalendarWorker extends Worker {
 
-    public KalenderWorker(
+    public CalendarWorker(
             @NonNull Context context,
             @NonNull WorkerParameters params) {
         super(context, params);
@@ -108,7 +107,7 @@ public class KalenderWorker extends Worker {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.calendar_notification_msg).replace("%a", date)))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentText(context.getString(R.string.calendar_notification_msg).replace("%a", day + "." + month + "." + year))
-                .setSmallIcon(R.drawable.dienstapp_icon_nobckgrnd)
+                .setSmallIcon(R.drawable.ministry_icon_nobckgrnd)
                 .setContentIntent(pendingIntent);
 
 

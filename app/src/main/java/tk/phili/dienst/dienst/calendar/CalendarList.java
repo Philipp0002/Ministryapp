@@ -38,7 +38,7 @@ public class CalendarList extends ArrayAdapter<String> {
     LayoutInflater inflater;
 
     public CalendarList(Context context, CalendarFragment calendarFragment, List<Event> events) {
-        super(context, R.layout.kalender_item, (List) events);
+        super(context, R.layout.calendar_item, (List) events);
         this.context = context;
         this.calendarFragment = calendarFragment;
         this.events = events;
@@ -56,14 +56,14 @@ public class CalendarList extends ArrayAdapter<String> {
 
         if (convertView == null) {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.kalender_item, null);
+            convertView = inflater.inflate(R.layout.calendar_item, null);
         }
 
         final ViewHolder holder = new ViewHolder();
-        holder.dateTv = (TextView) convertView.findViewById(R.id.see_kalender_date);
+        holder.dateTv = (TextView) convertView.findViewById(R.id.calendar_item_date);
         holder.mainView = convertView;
-        holder.notesTv = (TextView) convertView.findViewById(R.id.see_kalender_notes);
-        holder.partnerTv = (TextView) convertView.findViewById(R.id.see_kalender_partner);
+        holder.notesTv = (TextView) convertView.findViewById(R.id.calendar_item_notes);
+        holder.partnerTv = (TextView) convertView.findViewById(R.id.calendar_item_partner);
 
         final int id = Integer.parseInt(((String) events.get(position).getData()).split("ʷ")[0]);
         final int day = Integer.parseInt(((String) events.get(position).getData()).split("ʷ")[1]);
@@ -76,9 +76,9 @@ public class CalendarList extends ArrayAdapter<String> {
 
         GregorianCalendar cal = new GregorianCalendar(year, month, day, hour, minute);
         Date newDate = new Date(cal.getTimeInMillis());
-        String s = java.text.DateFormat.getTimeInstance(DateFormat.SHORT).format(newDate);
+        String formattedDate = java.text.DateFormat.getTimeInstance(DateFormat.SHORT).format(newDate);
 
-        holder.dateTv.setText(s);
+        holder.dateTv.setText(formattedDate);
 
         if (partner == null || partner.trim().isEmpty()) {
             holder.partnerTv.setText(getContext().getResources().getString(R.string.no_partner));
@@ -95,45 +95,44 @@ public class CalendarList extends ArrayAdapter<String> {
 
         holder.mainView.setOnLongClickListener(view -> {
 
-            String[] entries = new String[]{context.getString(R.string.kalender_menu_edit), context.getString(R.string.kalender_menu_delete)};
+            String[] entries = new String[]{context.getString(R.string.calendar_menu_edit), context.getString(R.string.calendar_menu_delete)};
             new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
-                    .setTitle(context.getString(R.string.kalender_menu_title))
+                    .setTitle(context.getString(R.string.calendar_menu_title))
                     .setItems(entries, (dialog, which) -> {
                         if (which == 0) {
                             calendarFragment.showEditDialog(id,
                                     day,
                                     month,
                                     year,
-                                    hour, minute,
-                                    !partner.isEmpty() ? partner : null,
-                                    !description.isEmpty() ? description : null);
+                                    hour,
+                                    minute,
+                                    partner.isEmpty() ? null : partner,
+                                    description.isEmpty() ? null : description);
                         } else if (which == 1) {
                             new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
-                                    .setMessage(R.string.kalender_menu_delete_msg)
-                                    .setTitle((context.getString(R.string.kalender_menu_delete_title)))
+                                    .setMessage(R.string.calendar_menu_delete_msg)
+                                    .setTitle((context.getString(R.string.calendar_menu_delete_title)))
                                     .setPositiveButton(context.getString(R.string.delete_ok), (d, e) -> {
                                         SharedPreferences sp = context.getSharedPreferences("MainActivity", context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sp.edit();
 
-                                        Set<String> set = sp.getStringSet("Calendar", new HashSet<>());
-
-                                        Set<String> newSet = new HashSet<String>();
-                                        for (String s1 : set) {
-                                            if (Integer.parseInt(s1.split("ʷ")[0]) != id) {
-                                                newSet.add(s1);
+                                        Set<String> calendarItemsSet = sp.getStringSet("Calendar", new HashSet<>());
+                                        Set<String> newCalendarItemsSet = new HashSet<>();
+                                        for (String calendarItem : calendarItemsSet) {
+                                            if (Integer.parseInt(calendarItem.split("ʷ")[0]) != id) {
+                                                newCalendarItemsSet.add(calendarItem);
                                             }
                                         }
+                                        editor.putStringSet("Calendar", newCalendarItemsSet);
 
-                                        editor.putStringSet("Calendar", newSet);
-
-                                        Set<String> setShown = sp.getStringSet("Calendar_Shown", new HashSet<>());
-                                        Set<String> newSetShown = new HashSet<String>();
-                                        for (String s1 : setShown) {
-                                            if (Integer.parseInt(s1) != id) {
-                                                newSetShown.add(s1);
+                                        Set<String> calendarItemsShownSet = sp.getStringSet("Calendar_Shown", new HashSet<>());
+                                        Set<String> newCalendarItemsShownSet = new HashSet<>();
+                                        for (String shownCalendarItem : calendarItemsShownSet) {
+                                            if (Integer.parseInt(shownCalendarItem) != id) {
+                                                newCalendarItemsShownSet.add(shownCalendarItem);
                                             }
                                         }
-                                        editor.putStringSet("Calendar_Shown", newSetShown);
+                                        editor.putStringSet("Calendar_Shown", newCalendarItemsShownSet);
                                         editor.apply();
 
                                         if (sp.getBoolean("CalendarSyncActive", false)) {
@@ -172,7 +171,7 @@ public class CalendarList extends ArrayAdapter<String> {
 
                                         calendarFragment.refreshAll();
                                     })
-                                    .setNegativeButton(context.getString(R.string.delete_cancel), (dialog1, id1) -> {
+                                    .setNegativeButton(context.getString(R.string.cancel), (dialog1, id1) -> {
                                     })
                                     .setIcon(R.drawable.ic_warning_black_24dp)
                                     .show();

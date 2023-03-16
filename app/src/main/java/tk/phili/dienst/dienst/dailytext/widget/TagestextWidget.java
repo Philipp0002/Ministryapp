@@ -10,8 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
@@ -39,7 +37,7 @@ public class TagestextWidget extends AppWidgetProvider {
 
 
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.tagestext_widget_new);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.dailytext_widget_new);
         views.setTextViewText(R.id.ttw_day, day);
         views.setTextViewText(R.id.ttw_text, text);
 
@@ -61,7 +59,7 @@ public class TagestextWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.tagestext_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.dailytext_widget);
         views.setTextViewText(R.id.ttw_day, context.getString(R.string.widget_no_network_title));
         views.setTextViewText(R.id.ttw_text, context.getString(R.string.widget_no_network_text));
 

@@ -7,8 +7,7 @@ import com.downloader.PRDownloader;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import tk.phili.dienst.dienst.calendar.KalenderWorker;
-import tk.phili.dienst.dienst.drawer.Drawer;
+import tk.phili.dienst.dienst.calendar.CalendarWorker;
 
 public class MinistryApplication extends MultiDexApplication {
 
@@ -29,7 +28,7 @@ public class MinistryApplication extends MultiDexApplication {
             t.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    KalenderWorker.run(getApplicationContext());
+                    CalendarWorker.run(getApplicationContext());
                 }
             }, 0, 600000);
         }

@@ -8,12 +8,10 @@ import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Locale;
-
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.Splash;
 
-public class DSGVOInfo extends AppCompatActivity {
+public class GDPRInfo extends AppCompatActivity {
 
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -21,7 +19,7 @@ public class DSGVOInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dsgvoinfo);
+        setContentView(R.layout.activity_gdpr_info);
 
         boolean b = getIntent().getBooleanExtra("hastoaccept", true);
 
@@ -39,10 +37,10 @@ public class DSGVOInfo extends AppCompatActivity {
             editor.putBoolean("dsgvo_accept", true);
             editor.commit();
 
-            Intent mainIntent = new Intent(DSGVOInfo.this, Splash.class);
+            Intent mainIntent = new Intent(GDPRInfo.this, Splash.class);
 
-            DSGVOInfo.this.startActivity(mainIntent);
-            DSGVOInfo.this.finish();
+            GDPRInfo.this.startActivity(mainIntent);
+            GDPRInfo.this.finish();
         });
     }
 }

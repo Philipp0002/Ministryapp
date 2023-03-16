@@ -22,9 +22,9 @@
 
     <color name="accent_color">#1B1B1B</color>
 
-    <color name="bericht_card_color">#2D566B</color>
-    <color name="bericht_action_color">#407B98</color>
-    <color name="bericht_swipe_up_background">#ffffff</color>
+    <color name="report_card_color">#2D566B</color>
+    <color name="report_action_color">#407B98</color>
+    <color name="report_swipe_up_background">#ffffff</color>
 
     <color name="widget_icon_color">#7d4693</color>
     <color name="widget_background_top">#f8edf8</color>
@@ -36,6 +36,6 @@
 
     <color name="settings_title">@color/green_accent</color>
 
-    <color name="switchThumbColor">@color/bericht_card_color</color>
+    <color name="switchThumbColor">@color/report_card_color</color>
 
 </resources>

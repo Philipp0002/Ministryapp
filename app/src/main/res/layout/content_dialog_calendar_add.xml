@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/kalender_partner"
+        android:hint="@string/calendar_partner"
         app:startIconDrawable="@drawable/ic_people_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/kalender_notes"
+        android:hint="@string/calendar_notes"
         app:startIconDrawable="@drawable/ic_chrome_reader_mode_black_24dp">
 
         <com.google.android.material.textfield.TextInputEditText

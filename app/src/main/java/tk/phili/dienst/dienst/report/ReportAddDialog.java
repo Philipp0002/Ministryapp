@@ -20,7 +20,6 @@ import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
@@ -41,7 +40,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 import tk.phili.dienst.dienst.utils.Utils;
 
@@ -162,7 +160,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         long id = getArguments().getLong("id", Long.MAX_VALUE);
 
         if (id == Long.MAX_VALUE) {
-            toolbar.setSubtitle(getString(R.string.add_bericht));
+            toolbar.setSubtitle(getString(R.string.add_report));
 
             myCalendar = Calendar.getInstance();
             dateView.setText(DateFormat.getDateInstance(DateFormat.DEFAULT).format(new Date()));
@@ -173,7 +171,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
             report.setDate(LocalDate.now());
             report.setType(Report.Type.NORMAL);
         } else {
-            toolbar.setSubtitle(getString(R.string.change_bericht));
+            toolbar.setSubtitle(getString(R.string.change_report));
             report = reportManager.getReportById(id);
         }
 
@@ -334,7 +332,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         if (!text.isEmpty()) {
             int i = Integer.parseInt(text);
             if (i > 59) {
-                showError(getString(R.string.onehour));
+                showError(getString(R.string.hour_max_59min));
                 return;
             }
         }
@@ -343,7 +341,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         if (!text2.isEmpty()) {
             int i = Integer.parseInt(text2);
             if (i > 24) {
-                showError(getString(R.string.twentyfourhours));
+                showError(getString(R.string.day_max_24h));
                 return;
             }
         }

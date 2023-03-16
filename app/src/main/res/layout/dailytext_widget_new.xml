@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tt_widget_bg"
+    android:background="@drawable/dailytext_widget_bg"
     android:id="@+id/tt_widget"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/dienstapp_icon_nobckgrnd"
+        android:src="@drawable/ministry_icon_nobckgrnd"
         android:tint="@color/widget_icon_color" />
 
     <LinearLayout

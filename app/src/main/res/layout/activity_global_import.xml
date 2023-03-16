@@ -94,7 +94,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/import_title"
                 android:textColor="#fff"
-                app:backgroundTint="@color/bericht_action_color"
+                app:backgroundTint="@color/report_action_color"
                 app:icon="@drawable/ic_baseline_redo_24"
                 app:iconTint="#ffffff"
                 app:layout_constraintBottom_toBottomOf="parent"

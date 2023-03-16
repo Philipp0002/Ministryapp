@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tt_widget_bg"
+    android:background="@drawable/dailytext_widget_bg"
     android:id="@+id/tt_widget"
     android:gravity="center"
     android:padding="@dimen/widget_margin">
