@@ -48,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -61,8 +62,10 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
-    public static SharedPreferences sp;
-    public static SharedPreferences.Editor editor;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+
+    public static ReportFragment INSTANCE = null;
 
     final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
@@ -92,6 +95,8 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     View swipeUpRightIcon;
     View noReportView;
 
+    ReportTimer reportTimer;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -111,6 +116,8 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        INSTANCE = this;
+        reportTimer = new ReportTimer(getContext());
         toolbar = view.findViewById(R.id.toolbar);
         addBerichtButton = view.findViewById(R.id.addBerichtButton);
         upswipy = view.findViewById(R.id.upswipy);
@@ -126,6 +133,9 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         swipeUpRightIcon = view.findViewById(R.id.swipe_up_righticon);
         noReportView = view.findViewById(R.id.no_report);
 
+        if (reportTimer.getTimerState() == ReportTimer.TimerState.STOPPED) {
+            toolbar.inflateMenu(R.menu.main_timer);
+        }
         toolbar.inflateMenu(R.menu.main);
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
@@ -391,10 +401,23 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
     public void updateList() {
+        toolbar.getMenu().clear();
+        if (reportTimer.getTimerState() == ReportTimer.TimerState.STOPPED) {
+            toolbar.inflateMenu(R.menu.main_timer);
+        }
+        toolbar.inflateMenu(R.menu.main);
+        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
+
         if (reportRecyclerAdapter == null) {
             initList();
         }
         List<Report> reports = reportManager.getReports(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
+        if (reportTimer.getTimerState() != ReportTimer.TimerState.STOPPED) {
+            Report report = new Report();
+            report.setId(-1);
+            report.setType(Report.Type.TIMER);
+            reports.add(0, report);
+        }
         reportRecyclerAdapter.reports = reports;
         reportRecyclerAdapter.notifyDataSetChanged();
 
@@ -455,6 +478,8 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     .create()
                     .show();
             return true;
+        } else if (item.getItemId() == R.id.action_timer) {
+            reportTimer.startTimer();
         }
         return false;
     }

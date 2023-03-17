@@ -19,7 +19,10 @@
     <string name="resetdialog_message">ALL data will be lost! Continue?</string>
     <string name="resetdialog_title">Really?</string>
     <string name="action_save">Save</string>
-    <string name="action_ziel">Goal</string>
+    <string name="action_goal">Goal</string>
+    <string name="action_timer">Start timer</string>
+    <string name="timer_stop">Stop</string>
+    <string name="timer_pause">Pause</string>
     <string name="title_activity_send">Send</string>
 
 
@@ -70,6 +73,7 @@
     <string name="hour_max_59min">Maximum minute input is 59!</string>
     <string name="day_max_24h">There are only 24 hours a day!</string>
     <string name="total">TOTAL</string>
+    <string name="timer">TIMER</string>
     <string name="swipe_up_for_more">Swipe up for the total statistics</string>
     <string name="no_report">No reportdata for this month! To add data click the "+" button!</string>
 

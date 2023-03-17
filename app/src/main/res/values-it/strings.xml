@@ -15,7 +15,7 @@
     <string name="resetdialog_message">"TUTTI i dati andranno persi! Continua?"</string>
     <string name="resetdialog_title">"Veramente"</string>
     <string name="action_save">"Salvare"</string>
-    <string name="action_ziel">"Obiettivo Mese"</string>
+    <string name="action_goal">"Obiettivo Mese"</string>
     <string name="title_activity_send">"Spedisci"</string>
     <string name="noconnect">"Nessuna Rete Disponibile "</string>
     <string name="URL_end">it</string>
@@ -143,4 +143,8 @@ perso. : /"</string>
     <string name="goal_text_minutes">%a per raggiungere l\'obiettivo</string>
 
     <string name="error_sdk_version_too_old">Sfortunatamente, questa funzione non è disponibile perché la tua versione di Android è troppo vecchia.</string>
+    <string name="action_timer">Avvia il cronometro</string>
+    <string name="timer">TIMER</string>
+    <string name="timer_stop">Fermare</string>
+    <string name="timer_pause">Pausa</string>
 </resources>

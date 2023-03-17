@@ -15,7 +15,7 @@
     <string name="resetdialog_message">ALLE Daten werden gelöscht! Fortfahren?</string>
     <string name="resetdialog_title">Wirklich zurücksetzen?</string>
     <string name="action_save">Speichern</string>
-    <string name="action_ziel">Ziel</string>
+    <string name="action_goal">Ziel</string>
     <string name="title_activity_send">Senden</string>
 
     <string name="noconnect">Keine&#160;Verbindung!</string>
@@ -163,4 +163,8 @@
     <string name="goal_text_minutes">%a um Ziel zu erreichen</string>
 
     <string name="error_sdk_version_too_old">Diese Funktion ist leider nicht verfügbar, da deine Android Version zu alt ist.</string>
+    <string name="action_timer">Timer starten</string>
+    <string name="timer">TIMER</string>
+    <string name="timer_stop">Stopp</string>
+    <string name="timer_pause">Pause</string>
 </resources>

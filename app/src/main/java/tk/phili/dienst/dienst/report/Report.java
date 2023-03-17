@@ -196,6 +196,6 @@ public class Report {
     }
 
     public enum Type {
-        NORMAL, CARRY_SUB, CARRY_ADD, SUMMARY;
+        NORMAL, CARRY_SUB, CARRY_ADD, SUMMARY, TIMER;
     }
 }
