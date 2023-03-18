@@ -2,20 +2,20 @@
 <resources>
     <string name="app_name">"Ministry"</string>
     <string name="splash_app_name">"Ministryapp"</string>
-    <string name="title_section1">"Rapporto di Servizio"</string>
-    <string name="title_section3">"Note"</string>
-    <string name="title_section4">"Presentazioni"</string>
-    <string name="title_section5">"Impostazioni "</string>
+    <string name="title_report">"Rapporto di Servizio"</string>
+    <string name="title_notes">"Note"</string>
+    <string name="title_sample_presentations">"Presentazioni"</string>
+    <string name="title_settings">"Impostazioni "</string>
     <string name="title_section6">"Invia il tuo Rapporto di Servizio "</string>
-    <string name="title_section7">"Video "</string>
-    <string name="title_tt">"Scrittura del giorno"</string>
-    <string name="title_section9">"Calendario "</string>
+    <string name="title_videos">"Video "</string>
+    <string name="title_dailytext">"Scrittura del giorno"</string>
+    <string name="title_calendar">"Calendario "</string>
     <string name="title_section_more">"Altro"</string>
     <string name="reset">"Cancella Impostazioni"</string>
     <string name="resetdialog_message">"TUTTI i dati andranno persi! Continua?"</string>
-    <string name="resetdialog_title">"Veramente"</string>
+    <string name="resetdialog_title">Veramente?</string>
     <string name="action_save">"Salvare"</string>
-    <string name="action_ziel">"Obiettivo Mese"</string>
+    <string name="action_goal">"Obiettivo Mese"</string>
     <string name="title_activity_send">"Spedisci"</string>
     <string name="noconnect">"Nessuna Rete Disponibile "</string>
     <string name="URL_end">it</string>
@@ -52,7 +52,7 @@
     <string name="add_report">"Aggiungi rapporto"</string>
     <string name="change_report">"Cambia Rapporto "</string>
     <string name="date">"Data"</string>
-    <string name="minutes">"Minuti "</string>
+    <string name="minutes">Minuti</string>
     <string name="hour_max_59min">"L'immissione massima dei minuti è 59!"</string>
     <string name="day_max_24h">"Ci sono solo 24 ore al giorno"</string>
     <string name="total">"Totali"</string>
@@ -85,7 +85,7 @@
     <string name="calendar_partner">"Compagno/a"</string>
     <string name="calendar_notes">"Note"</string>
     <string name="calendar_menu_title">"Modifica la voce"</string>
-    <string name="calendar_menu_edit">"Digitare"</string>
+    <string name="calendar_menu_edit">Modificare</string>
     <string name="calendar_menu_delete">"Cancella"</string>
     <string name="calendar_menu_delete_title">"Cancellare la voce?"</string>
     <string name="calendar_menu_delete_msg">"Vuoi veramente cancellare questa voce?"</string>
@@ -104,7 +104,7 @@ perso. : /"</string>
     <string name="report_private_show">"Mostrare"</string>
     <string name="report_private_mode">"Modalità privata"</string>
 
-    <string name="export">Export</string>
+    <string name="export">Esportare</string>
     <string name="import_deletes_data">Importing an .minapp File, will remove all the app already existing data. Continue?</string>
     <string name="import_error_fnf">Si è verificato un errore: File non trovato!</string>
     <string name="import_error">Si è verificato un errore!</string>
@@ -135,7 +135,7 @@ perso. : /"</string>
     <string name="calendar_gcal_setting">Disconnetti Google Calendar</string>
     <string name="calendar_gcal_reset_to_default">Le impostazioni di Google Calendar sono state ripristinate!</string>
     <string name="calendar_gcal_remove_title">Disconnetti Google Calendar?</string>
-    <string name="calendar_gcal_remove_msg">Questo scollegherà Ministryapp da Google Calendar. Continua?</string>
+    <string name="calendar_gcal_remove_msg">Aggiungi rapporto</string>
     <string name="calendar_event_title">Appuntamento con %a</string>
     <string name="calendar_activate_not_found">Impossibile trovare il calendario!</string>
     <string name="report_input_name_hint">Il tuo nome</string>
@@ -143,4 +143,12 @@ perso. : /"</string>
     <string name="goal_text_minutes">%a per raggiungere l\'obiettivo</string>
 
     <string name="error_sdk_version_too_old">Sfortunatamente, questa funzione non è disponibile perché la tua versione di Android è troppo vecchia.</string>
+    <string name="action_timer">Avvia il cronometro</string>
+    <string name="timer">TIMER</string>
+    <string name="timer_stop">Fermare</string>
+    <string name="timer_pause">Pausa</string>
+    <string name="timer_continue">Continua</string>
+    <string name="timer_report_title">Timer di rapporto</string>
+    <string name="timer_running_title">Il cronometro è in funzione</string>
+    <string name="title_running_content">Tocca per aprire l\'app</string>
 </resources>

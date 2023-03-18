@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_bericht_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        android:paddingTop="8dp"
+        app:cardBackgroundColor="@color/report_card_color"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/bericht_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/timer"
+                android:textColor="@color/list_bericht_date"
+                android:textStyle="normal|bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#66FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bericht_date"
+                app:layout_constraintWidth_percent="0.7" />
+
+            <TextView
+                android:id="@+id/bericht_stunden_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="0"
+                android:textColor="@color/list_bericht_data"
+                android:textSize="36sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                android:id="@+id/bericht_stunden_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/title_activity_hours"
+                android:textColor="@color/list_bericht_info"
+                app:layout_constraintTop_toBottomOf="@+id/bericht_stunden_count"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!--
+                    android:fontFamily="@font/archivo" -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bericht_timer_stop"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:insetBottom="0dp"
+                android:minHeight="48dp"
+                android:text="@string/timer_stop"
+                android:textColor="#fff"
+                app:backgroundTint="@color/report_action_color"
+                app:cornerRadius="16dp"
+                app:elevation="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/bericht_timer_pause"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bericht_stunden_info"
+                app:icon="@drawable/ic_baseline_stop_24"
+                app:iconTint="#ffffff"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bericht_timer_pause"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:insetBottom="0dp"
+                android:minHeight="48dp"
+                android:text="@string/timer_pause"
+                android:textColor="#fff"
+                app:backgroundTint="@color/report_action_color"
+                app:cornerRadius="16dp"
+                app:elevation="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bericht_timer_stop"
+                app:layout_constraintTop_toBottomOf="@+id/bericht_stunden_info"
+                app:icon="@drawable/ic_baseline_pause_24"
+                app:iconTint="#ffffff"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

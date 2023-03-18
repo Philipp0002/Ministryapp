@@ -96,7 +96,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        toolbar.setTitle(getResources().getString(R.string.title_section4));
+        toolbar.setTitle(getResources().getString(R.string.title_sample_presentations));
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
 
         WebSettings webSettings = webView.getSettings();

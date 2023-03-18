@@ -75,7 +75,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
 
-        toolbar.setTitle(getResources().getString(R.string.title_section7));
+        toolbar.setTitle(getResources().getString(R.string.title_videos));
 
         sp = getActivity().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();

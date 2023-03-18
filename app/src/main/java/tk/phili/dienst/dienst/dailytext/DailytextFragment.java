@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -81,7 +79,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        toolbar.setTitle(R.string.title_tt);
+        toolbar.setTitle(R.string.title_dailytext);
 
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();

@@ -4,10 +4,10 @@
     tools:context=".report.ReportActivity">
 
     <item
-        android:id="@+id/action_goal"
-        android:icon="@drawable/ic_flag_black_24dp"
+        android:id="@+id/action_timer"
+        android:icon="@drawable/ic_timer_black_24dp"
         android:iconTint="#fff"
-        android:title="@string/action_goal"
+        android:title="@string/action_timer"
         app:showAsAction="ifRoom" />
 
 </menu>

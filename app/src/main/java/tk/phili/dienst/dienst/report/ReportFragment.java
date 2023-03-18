@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,9 +49,12 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
@@ -61,36 +65,33 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
-    public static SharedPreferences sp;
-    public static SharedPreferences.Editor editor;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
 
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+    public static ReportFragment INSTANCE = null;
 
-    Calendar calendarShow;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
-    RoundCornerProgressBar rpb;
-    RecyclerView reportsRecycler;
-    RecyclerView summarizedRecycler;
-    ReportRecyclerAdapter reportRecyclerAdapter;
-    ReportRecyclerAdapter summarizedRecyclerAdapter;
-    ConstraintLayout goalView;
+    private Calendar calendarShow;
 
-    ReportManager reportManager;
-    Toolbar toolbar;
-    ExtendedFloatingActionButton addBerichtButton;
-    RelativeLayout upswipy;
-    MaterialButton swipeUpShare;
-    SlidingUpPanelLayout slidingLayout;
-    MaterialButton swipeUpCarryOver;
-    TextView goalText;
-    FragmentCommunicationPass fragmentCommunicationPass;
-    View privateBlock;
-    View privateDisable;
-    TextView toolbarTitle;
-    View swipeUpText;
-    View swipeUpLeftIcon;
-    View swipeUpRightIcon;
-    View noReportView;
+    private Timer reportUpdateTimer;
+
+    private RoundCornerProgressBar rpb;
+    private RecyclerView reportsRecycler, summarizedRecycler;
+    private ReportRecyclerAdapter reportRecyclerAdapter, summarizedRecyclerAdapter;
+    private ConstraintLayout goalView;
+
+    private ReportManager reportManager;
+    private Toolbar toolbar;
+    private ExtendedFloatingActionButton addBerichtButton;
+    private RelativeLayout upswipy;
+    private MaterialButton swipeUpShare, swipeUpCarryOver;
+    private SlidingUpPanelLayout slidingLayout;
+    private TextView goalText, toolbarTitle;
+    private FragmentCommunicationPass fragmentCommunicationPass;
+    private View privateBlock, privateDisable, swipeUpText, swipeUpLeftIcon, swipeUpRightIcon, noReportView;
+
+    private ReportTimer reportTimer;
 
     @Override
     public void onAttach(Context context) {
@@ -107,10 +108,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+        editor = sp.edit();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        INSTANCE = this;
+        reportTimer = new ReportTimer(getContext());
         toolbar = view.findViewById(R.id.toolbar);
         addBerichtButton = view.findViewById(R.id.addBerichtButton);
         upswipy = view.findViewById(R.id.upswipy);
@@ -126,12 +132,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         swipeUpRightIcon = view.findViewById(R.id.swipe_up_righticon);
         noReportView = view.findViewById(R.id.no_report);
 
-        toolbar.inflateMenu(R.menu.main);
-        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
-
-        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
-        editor = sp.edit();
 
         reportManager = new ReportManager(getContext());
 
@@ -166,56 +167,12 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
 
-
-        toolbarTitle.setOnClickListener(v -> {
-
-            MonthYearPickerDialog simpleDatePickerDialog;
-
-            try {
-                ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
-                Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
-                        int.class,
-                        int.class,
-                        int.class,
-                        MonthFormat.class,
-                        MonthYearPickerDialog.OnDateSetListener.class);
-
-                constructor.setAccessible(true);
-                simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
-                        contextThemeWrapper,
-                        R.style.DialogStyleBasic,
-                        calendarShow.get(Calendar.YEAR),
-                        calendarShow.get(Calendar.MONTH),
-                        MonthFormat.SHORT,
-                        (MonthYearPickerDialog.OnDateSetListener) (year, monthOfYear) -> {
-                            calendarShow.set(Calendar.MONTH, monthOfYear);
-                            calendarShow.set(Calendar.YEAR, year);
-                            toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
-                            updateList();
-                        });
-                Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
-                method.setAccessible(true);
-                method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
-                simpleDatePickerDialog.show();
-                simpleDatePickerDialog
-                        .getButton(DialogInterface.BUTTON_POSITIVE)
-                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
-
-                simpleDatePickerDialog
-                        .getButton(DialogInterface.BUTTON_NEGATIVE)
-                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        });
+        toolbarTitle.setOnClickListener(v -> showMonthYearPicker());
 
 
         slidingLayout.setParallaxOffset(100);
 
-        addBerichtButton.setOnClickListener(v -> {
-            showEditDialog(null);
-        });
+        addBerichtButton.setOnClickListener(v -> showEditDialog(null));
 
         swipeUpShare.setOnClickListener(v -> {
             if (swipeUpShare.getAlpha() != 0F) {
@@ -278,7 +235,83 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             }
         });
 
+        reportUpdateTimer = new Timer();
+        reportUpdateTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (reportTimer.getTimerState() == ReportTimer.TimerState.RUNNING
+                        && getActivity() != null) {
+                    getActivity().runOnUiThread(() -> updateList());
+                }
+            }
+        }, 30 * 1000, 60 * 1000);
+
         updateList();
+    }
+
+    public void scrollToReportId(long reportId) {
+        int reportPos = -1;
+        int i = 0;
+        for(Report report : reportRecyclerAdapter.reports) {
+            if(report.getId() == reportId) {
+                reportPos = i;
+                break;
+            }
+            i++;
+        }
+
+        if(reportPos != -1) {
+            reportsRecycler.smoothScrollToPosition(reportPos);
+        }
+    }
+
+    private void showMonthYearPicker() {
+        MonthYearPickerDialog simpleDatePickerDialog;
+
+        try {
+            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
+            Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
+                    int.class,
+                    int.class,
+                    int.class,
+                    MonthFormat.class,
+                    MonthYearPickerDialog.OnDateSetListener.class);
+
+            constructor.setAccessible(true);
+            simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
+                    contextThemeWrapper,
+                    R.style.DialogStyleBasic,
+                    calendarShow.get(Calendar.YEAR),
+                    calendarShow.get(Calendar.MONTH),
+                    MonthFormat.SHORT,
+                    (MonthYearPickerDialog.OnDateSetListener) (year, monthOfYear) -> {
+                        calendarShow.set(Calendar.MONTH, monthOfYear);
+                        calendarShow.set(Calendar.YEAR, year);
+                        toolbarTitle.setText(dateFormat.format(calendarShow.getTime()));
+                        updateList();
+                    });
+            Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
+            method.setAccessible(true);
+            method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
+            simpleDatePickerDialog.show();
+            simpleDatePickerDialog
+                    .getButton(DialogInterface.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+
+            simpleDatePickerDialog
+                    .getButton(DialogInterface.BUTTON_NEGATIVE)
+                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        reportUpdateTimer.cancel();
+        reportUpdateTimer.purge();
+        reportUpdateTimer = null;
     }
 
     @Override
@@ -353,6 +386,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         }
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                if (viewHolder instanceof ReportRecyclerAdapter.TimerHolder) {
+                    return 0;
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -391,10 +433,23 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
     public void updateList() {
+        toolbar.getMenu().clear();
+        if (reportTimer.getTimerState() == ReportTimer.TimerState.STOPPED) {
+            toolbar.inflateMenu(R.menu.main_timer);
+        }
+        toolbar.inflateMenu(R.menu.main);
+        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
+
         if (reportRecyclerAdapter == null) {
             initList();
         }
         List<Report> reports = reportManager.getReports(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
+        if (reportTimer.getTimerState() != ReportTimer.TimerState.STOPPED) {
+            Report report = new Report();
+            report.setId(-1);
+            report.setType(Report.Type.TIMER);
+            reports.add(0, report);
+        }
         reportRecyclerAdapter.reports = reports;
         reportRecyclerAdapter.notifyDataSetChanged();
 
@@ -455,15 +510,10 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     .create()
                     .show();
             return true;
+        } else if (item.getItemId() == R.id.action_timer) {
+            reportTimer.startTimer();
         }
         return false;
-    }
-
-    public static class ReverseInterpolator implements Interpolator {
-        @Override
-        public float getInterpolation(float paramFloat) {
-            return Math.abs(paramFloat - 1f);
-        }
     }
 
     public void updateSummary() {

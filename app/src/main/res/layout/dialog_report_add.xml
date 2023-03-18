@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/title_section1"/>
+        app:title="@string/title_report"/>
 
     <ScrollView
         android:layout_width="match_parent"

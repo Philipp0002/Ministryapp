@@ -16,6 +16,7 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import tk.phili.dienst.dienst.calendar.CalendarWorker;
@@ -108,15 +109,14 @@ public class Splash extends Activity {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.title_section9);
-            String description = getString(R.string.title_section9);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("calendar", name, importance);
-            channel.setDescription(description);
+            NotificationChannel channelCalendar = new NotificationChannel("calendar", getString(R.string.title_calendar), NotificationManager.IMPORTANCE_HIGH);
+            channelCalendar.setDescription(getString(R.string.title_calendar));
+            NotificationChannel channelReportTimer = new NotificationChannel("reportTimer", getString(R.string.timer_report_title), NotificationManager.IMPORTANCE_DEFAULT);
+            channelReportTimer.setDescription(getString(R.string.timer_report_title));
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannels(Arrays.asList(channelCalendar, channelReportTimer));
         }
     }
 

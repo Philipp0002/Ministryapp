@@ -6,20 +6,24 @@
 
     <string name="app_name">Ministry</string>
     <string name="splash_app_name">Ministryapp</string>
-    <string name="title_section1">Report</string>
-    <string name="title_section3">Notes</string>
-    <string name="title_section4">Sample Presentations</string>
-    <string name="title_section5">Settings</string>
+    <string name="title_report">Report</string>
+    <string name="title_notes">Notes</string>
+    <string name="title_sample_presentations">Sample Presentations</string>
+    <string name="title_settings">Settings</string>
     <string name="title_section6">Send your report</string>
-    <string name="title_section7">Videos</string>
-    <string name="title_tt">Daily Text</string>
-    <string name="title_section9">Calendar</string>
+    <string name="title_videos">Videos</string>
+    <string name="title_dailytext">Daily Text</string>
+    <string name="title_calendar">Calendar</string>
     <string name="title_section_more">More</string>
     <string name="reset">Reset all reportdata</string>
     <string name="resetdialog_message">ALL data will be lost! Continue?</string>
     <string name="resetdialog_title">Really?</string>
     <string name="action_save">Save</string>
-    <string name="action_ziel">Goal</string>
+    <string name="action_goal">Goal</string>
+    <string name="action_timer">Start timer</string>
+    <string name="timer_stop">Stop</string>
+    <string name="timer_pause">Pause</string>
+    <string name="timer_continue">Continue</string>
     <string name="title_activity_send">Send</string>
 
 
@@ -70,6 +74,7 @@
     <string name="hour_max_59min">Maximum minute input is 59!</string>
     <string name="day_max_24h">There are only 24 hours a day!</string>
     <string name="total">TOTAL</string>
+    <string name="timer">TIMER</string>
     <string name="swipe_up_for_more">Swipe up for the total statistics</string>
     <string name="no_report">No reportdata for this month! To add data click the "+" button!</string>
 
@@ -170,4 +175,7 @@
     <string name="calendar_activate_not_found">Calendar can\'t be found!</string>
 
     <string name="error_sdk_version_too_old">We\'re sorry but this feature is unavailable because your Android version is too outdated.</string>
+    <string name="timer_report_title">Report timer</string>
+    <string name="timer_running_title">Timer is running</string>
+    <string name="title_running_content">Tap to open app</string>
 </resources>

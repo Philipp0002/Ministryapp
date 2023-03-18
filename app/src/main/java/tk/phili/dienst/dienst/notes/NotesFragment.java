@@ -50,7 +50,7 @@ public class NotesFragment extends Fragment {
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        toolbar.setTitle(R.string.title_section3);
+        toolbar.setTitle(R.string.title_notes);
 
         sp = getContext().getSharedPreferences("MainActivity3",  Context.MODE_PRIVATE );
         editor = sp.edit();

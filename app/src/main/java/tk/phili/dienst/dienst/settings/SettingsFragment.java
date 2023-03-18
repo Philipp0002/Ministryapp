@@ -93,7 +93,7 @@ public class SettingsFragment extends Fragment {
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        toolbar.setTitle(getResources().getString(R.string.title_section5));
+        toolbar.setTitle(getResources().getString(R.string.title_settings));
 
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();

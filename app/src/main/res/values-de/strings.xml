@@ -2,20 +2,20 @@
 <resources>
     <string name="app_name">Dienst</string>
     <string name="splash_app_name">Dienstapp</string>
-    <string name="title_section1">Bericht</string>
-    <string name="title_section3">Notizen</string>
-    <string name="title_section4">Empfehlungen</string>
-    <string name="title_section5">Einstellungen</string>
+    <string name="title_report">Bericht</string>
+    <string name="title_notes">Notizen</string>
+    <string name="title_sample_presentations">Empfehlungen</string>
+    <string name="title_settings">Einstellungen</string>
     <string name="title_section6">Deinen Bericht versenden</string>
-    <string name="title_section7">Videos</string>
-    <string name="title_tt">Tagestext</string>
-    <string name="title_section9">Kalender</string>
+    <string name="title_videos">Videos</string>
+    <string name="title_dailytext">Tagestext</string>
+    <string name="title_calendar">Kalender</string>
     <string name="title_section_more">Mehr</string>
     <string name="reset">Berichtsdaten zurücksetzen</string>
     <string name="resetdialog_message">ALLE Daten werden gelöscht! Fortfahren?</string>
     <string name="resetdialog_title">Wirklich zurücksetzen?</string>
     <string name="action_save">Speichern</string>
-    <string name="action_ziel">Ziel</string>
+    <string name="action_goal">Ziel</string>
     <string name="title_activity_send">Senden</string>
 
     <string name="noconnect">Keine&#160;Verbindung!</string>
@@ -116,7 +116,7 @@
     <string name="carryover">Übertrag</string>
     <string name="carryover_msg">Die übrigen Minuten werden diesem Monat abgezogen und dem nächsten hinzugefügt.</string>
 
-    <string name="action_refresh_vid">Liste neuladen</string>
+    <string name="action_refresh_vid">Liste aktualisieren</string>
     <string name="video_refresh_error_title">Keine Verbindung</string>
     <string name="video_refresh_error_msg">Bitte überprüfe deine Internetverbindung und versuche es noch einmal.</string>
     <string name="videonew_lostfile">Hmm.. Irgendwie ist das Video verloren gegangen. :/</string>
@@ -144,7 +144,7 @@
     <string name="language">Sprache</string>
     <string name="language_default">Systemsprache</string>
     <string name="widget_no_network_title">Keine Verbindung!</string>
-    <string name="widget_no_network_text">Tippe hier zum laden.</string>
+    <string name="widget_no_network_text">Tippe hier zum Laden.</string>
 
     <string name="select_month_year">Monat / Jahr wählen</string>
     <string name="no_partner">Kein Dienstpartner</string>
@@ -163,4 +163,12 @@
     <string name="goal_text_minutes">%a um Ziel zu erreichen</string>
 
     <string name="error_sdk_version_too_old">Diese Funktion ist leider nicht verfügbar, da deine Android Version zu alt ist.</string>
+    <string name="action_timer">Timer starten</string>
+    <string name="timer">TIMER</string>
+    <string name="timer_stop">Stopp</string>
+    <string name="timer_pause">Pause</string>
+    <string name="timer_continue">Weiter</string>
+    <string name="timer_report_title">Berichtstimer</string>
+    <string name="timer_running_title">Timer läuft</string>
+    <string name="title_running_content">Tippen um App zu öffnen</string>
 </resources>
