@@ -147,4 +147,5 @@ perso. : /"</string>
     <string name="timer">TIMER</string>
     <string name="timer_stop">Fermare</string>
     <string name="timer_pause">Pausa</string>
+    <string name="timer_continue">Continua</string>
 </resources>

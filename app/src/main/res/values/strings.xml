@@ -23,6 +23,7 @@
     <string name="action_timer">Start timer</string>
     <string name="timer_stop">Stop</string>
     <string name="timer_pause">Pause</string>
+    <string name="timer_continue">Continue</string>
     <string name="title_activity_send">Send</string>
 
 

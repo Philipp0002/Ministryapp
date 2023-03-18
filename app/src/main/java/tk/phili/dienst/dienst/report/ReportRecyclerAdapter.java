@@ -11,18 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
 
 
-public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAdapter.Holder>{
+public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Report> reports;
     ReportManager reportManager;
 
-    public ReportRecyclerAdapter(Context context, List<Report> reports){
+    public ReportRecyclerAdapter(Context context, List<Report> reports) {
         this.context = context;
         this.reports = reports;
         this.reportManager = new ReportManager(context);
@@ -30,56 +32,93 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
 
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutId = 0;
-        if(reportManager.getReportLayoutSetting() == 0) {
-            layoutId = R.layout.report_item;
-        }else if(reportManager.getReportLayoutSetting() == 1) {
-            layoutId = R.layout.report_item_tiny;
-        }
-        View v = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == 0) {
+            int layoutId = 0;
+            if (reportManager.getReportLayoutSetting() == 0) {
+                layoutId = R.layout.report_item;
+            } else if (reportManager.getReportLayoutSetting() == 1) {
+                layoutId = R.layout.report_item_tiny;
+            }
+            View v = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
 
-        return new Holder(v);
+            return new Holder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_item_timer, parent, false);
+
+            return new TimerHolder(v);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int position) {
-        Report report = reports.get(position);
+    public int getItemViewType(int position) {
+        return reports.get(position).getType() == Report.Type.TIMER ? 1 : 0;
+    }
 
-        String[] formattedTime = report.getFormattedHoursAndMinutes(context);
-        Integer color = getColor(report);
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder _holder, int position) {
+        if (_holder instanceof Holder) {
+            Holder holder = (Holder) _holder;
+            Report report = reports.get(position);
 
-        holder.date.setText(report.getFormattedDate(context));
-        holder.time.setText(formattedTime[0]);
-        holder.timeInfo.setText(formattedTime[1]);
-        holder.bibleStudies.setText(Integer.toString(report.getBibleStudies()));
-        holder.annotation.setText(report.getAnnotation());
-        holder.returnVisits.setText(Integer.toString(report.getReturnVisits()));
-        holder.placements.setText(Integer.toString(report.getPlacements()));
-        holder.videos.setText(Integer.toString(report.getVideos()));
+            String[] formattedTime = report.getFormattedHoursAndMinutes(context);
+            Integer color = getColor(report);
 
-        if(report.getAnnotation() == null || report.getAnnotation().isEmpty()){
-            holder.annotation.setVisibility(View.GONE);
-        }else{
-            holder.annotation.setVisibility(View.VISIBLE);
-        }
+            holder.date.setText(report.getFormattedDate(context));
+            holder.time.setText(formattedTime[0]);
+            holder.timeInfo.setText(formattedTime[1]);
+            holder.bibleStudies.setText(Integer.toString(report.getBibleStudies()));
+            holder.annotation.setText(report.getAnnotation());
+            holder.returnVisits.setText(Integer.toString(report.getReturnVisits()));
+            holder.placements.setText(Integer.toString(report.getPlacements()));
+            holder.videos.setText(Integer.toString(report.getVideos()));
 
-        if(color != null) {
-            holder.cardView.setCardBackgroundColor(getColor(report));
-        }
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClicked(report, v);
+            if (report.getAnnotation() == null || report.getAnnotation().isEmpty()) {
+                holder.annotation.setVisibility(View.GONE);
+            } else {
+                holder.annotation.setVisibility(View.VISIBLE);
             }
-        });
+
+            if (color != null) {
+                holder.cardView.setCardBackgroundColor(getColor(report));
+            }
+
+            holder.cardView.setOnClickListener(v -> onClicked(report, v));
+        } else {
+            TimerHolder holder = (TimerHolder) _holder;
+            Report report = new Report();
+            ReportTimer reportTimer = new ReportTimer(context);
+            report.setMinutes(reportTimer.getTimer() / 1000 / 60);
+
+            if(reportTimer.getTimerState() == ReportTimer.TimerState.PAUSED){
+                holder.timerPauseButton.setIcon(context.getResources().getDrawable(R.drawable.ic_play_arrow_black_24dp));
+                holder.timerPauseButton.setText(R.string.timer_continue);
+            } else {
+                holder.timerPauseButton.setIcon(context.getResources().getDrawable(R.drawable.ic_baseline_pause_24));
+                holder.timerPauseButton.setText(R.string.timer_pause);
+            }
+
+            String[] display = report.getFormattedHoursAndMinutes(context);
+            holder.time.setText(display[0]);
+            holder.timeInfo.setText(display[1]);
+
+            holder.timerPauseButton.setOnClickListener(v -> {
+                if (reportTimer.getTimerState() == ReportTimer.TimerState.RUNNING) {
+                    reportTimer.pauseTimer();
+                } else {
+                    reportTimer.startTimer();
+                }
+            });
+
+            holder.timerStopButton.setOnClickListener(v -> reportTimer.stopTimerAndSave());
+        }
     }
 
     /*
     Can be overridden
      */
-    public void onClicked(Report report, View view){ }
+    public void onClicked(Report report, View view) {
+    }
 
     @Override
     public int getItemCount() {
@@ -92,26 +131,26 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
     }
 
     public Integer getColor(Report report) {
-        if(report.getType() == Report.Type.SUMMARY){
+        if (report.getType() == Report.Type.SUMMARY) {
             return null;
         }
-        if(report.getType() != Report.Type.NORMAL){
+        if (report.getType() != Report.Type.NORMAL) {
             return Color.BLACK;
         }
         int dayOfWeek = report.getDate().getDayOfWeek().getValue();
-        if(dayOfWeek == 1){
+        if (dayOfWeek == 1) {
             return Color.parseColor("#861E6A");
-        }else if(dayOfWeek == 2){
+        } else if (dayOfWeek == 2) {
             return Color.parseColor("#AA1656");
-        }else if(dayOfWeek == 3){
+        } else if (dayOfWeek == 3) {
             return Color.parseColor("#E5AF4F");
-        }else if(dayOfWeek == 4){
+        } else if (dayOfWeek == 4) {
             return Color.parseColor("#C275DF");
-        }else if(dayOfWeek == 5){
+        } else if (dayOfWeek == 5) {
             return Color.parseColor("#1279BF");
-        }else if(dayOfWeek == 6){
+        } else if (dayOfWeek == 6) {
             return Color.parseColor("#F5BE25");
-        }else if(dayOfWeek == 7){
+        } else if (dayOfWeek == 7) {
             return Color.parseColor("#7885CB");
         }
 
@@ -143,6 +182,24 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<ReportRecyclerAd
             bibleStudies = itemView.findViewById(R.id.bericht_studies_count);
             annotation = itemView.findViewById(R.id.bericht_desc);
         }
+    }
 
+    public class TimerHolder extends RecyclerView.ViewHolder {
+
+        public CardView cardView;
+        public TextView time;
+        public TextView timeInfo;
+        public MaterialButton timerStopButton;
+        public MaterialButton timerPauseButton;
+
+        public TimerHolder(@NonNull View itemView) {
+            super(itemView);
+
+            cardView = itemView.findViewById(R.id.card_view);
+            time = itemView.findViewById(R.id.bericht_stunden_count);
+            timeInfo = itemView.findViewById(R.id.bericht_stunden_info);
+            timerStopButton = itemView.findViewById(R.id.bericht_timer_stop);
+            timerPauseButton = itemView.findViewById(R.id.bericht_timer_pause);
+        }
     }
 }

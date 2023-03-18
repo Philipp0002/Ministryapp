@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -363,6 +364,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         }
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                if(viewHolder instanceof ReportRecyclerAdapter.TimerHolder){
+                    return 0;
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -445,6 +455,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        Log.d("TIMERRR", "onMenuItemClick");
         if (item.getItemId() == R.id.action_goal) {
 
             View input_view = LayoutInflater.from(getContext())
@@ -479,6 +490,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     .show();
             return true;
         } else if (item.getItemId() == R.id.action_timer) {
+            Log.d("TIMERRR", "action_timer");
             reportTimer.startTimer();
         }
         return false;

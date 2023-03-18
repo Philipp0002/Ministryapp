@@ -40,6 +40,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
 
+            <TextView
+                android:id="@+id/bericht_stunden_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="0"
+                android:textColor="@color/list_bericht_data"
+                android:textSize="36sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bericht_date" />
 
             <TextView
                 android:id="@+id/bericht_stunden_info"
@@ -56,20 +69,6 @@
 
             <!--
                     android:fontFamily="@font/archivo" -->
-
-            <TextView
-                android:id="@+id/bericht_stunden_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="0"
-                android:textColor="@color/list_bericht_data"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bericht_date" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bericht_timer_stop"

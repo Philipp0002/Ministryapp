@@ -167,4 +167,5 @@
     <string name="timer">TIMER</string>
     <string name="timer_stop">Stopp</string>
     <string name="timer_pause">Pause</string>
+    <string name="timer_continue">Weiter</string>
 </resources>

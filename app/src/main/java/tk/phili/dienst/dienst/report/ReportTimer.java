@@ -6,6 +6,7 @@ import static tk.phili.dienst.dienst.report.ReportTimer.TimerState.STOPPED;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class ReportTimer {
     private void setTempMillis(long tempMillis){
         SharedPreferences.Editor editor = getSharedPreferencesEditor();
         editor.putLong(KEY_TEMP_MILLIS, tempMillis);
-        editor.commit();
+        editor.apply();
     }
 
     private long getStartMillis() {
@@ -56,7 +57,7 @@ public class ReportTimer {
     private void setStartMillis(long startMillis){
         SharedPreferences.Editor editor = getSharedPreferencesEditor();
         editor.putLong(KEY_START_MILLIS, startMillis);
-        editor.commit();
+        editor.apply();
     }
 
     public TimerState getTimerState() {
@@ -69,8 +70,8 @@ public class ReportTimer {
 
     private void setTimerState(TimerState timerState){
         SharedPreferences.Editor editor = getSharedPreferencesEditor();
-        editor.putString(KEY_TEMP_MILLIS, timerState.name());
-        editor.commit();
+        editor.putString(KEY_STATE, timerState.name());
+        editor.apply();
     }
 
     private void updateReportFragment() {
@@ -84,6 +85,7 @@ public class ReportTimer {
 
     public void startTimer() {
         TimerState timerState = getTimerState();
+        Log.d("TIMERRR", "timerState " + timerState.name());
         if(timerState == RUNNING) {
             return;
         }
@@ -94,6 +96,7 @@ public class ReportTimer {
 
         setTimerState(RUNNING);
         setStartMillis(System.currentTimeMillis());
+        updateReportFragment();
     }
 
     public void pauseTimer() {
@@ -108,20 +111,28 @@ public class ReportTimer {
         setTempMillis(getTempMillis() + timer);
 
         setStartMillis(0);
+        updateReportFragment();
     }
 
     public long getTimer(){
         TimerState timerState = getTimerState();
-        if(timerState == STOPPED) {
-            return 0;
+        switch (timerState){
+            case STOPPED:
+                return 0;
+            case RUNNING:
+                return System.currentTimeMillis() - getStartMillis() + getTempMillis();
+            case PAUSED:
+                return getTempMillis();
+            default:
+                return 0;
         }
-        return System.currentTimeMillis() - getStartMillis() + getTempMillis();
     }
 
     public long stopTimer() {
         long timer = getTimer();
         setTimerState(STOPPED);
         setTempMillis(0);
+        updateReportFragment();
         return timer;
     }
 
@@ -131,17 +142,18 @@ public class ReportTimer {
 
         Report report = new Report();
         report.setDate(LocalDate.now());
-        report.setMinutes(timer / 1000);
+        report.setMinutes(timer / 1000 / 60);
         report.setId(reportManager.getNextId());
 
         reportManager.createReport(report);
+        updateReportFragment();
 
         return timer;
     }
 
 
 
-    public static enum TimerState {
+    public enum TimerState {
         RUNNING, PAUSED, STOPPED;
     }
 
