@@ -1,18 +1,30 @@
 package tk.phili.dienst.dienst.report;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static tk.phili.dienst.dienst.report.ReportTimer.TimerState.PAUSED;
 import static tk.phili.dienst.dienst.report.ReportTimer.TimerState.RUNNING;
 import static tk.phili.dienst.dienst.report.ReportTimer.TimerState.STOPPED;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
+import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.Splash;
 
 public class ReportTimer {
 
+    private static final int NOTIFICATION_ID = 9658654;
     private static final String KEY_TEMP_MILLIS = "timer_temp_millis";
     private static final String KEY_STATE = "timer_state";
     private static final String KEY_START_MILLIS = "timer_start_millis";
@@ -74,18 +86,22 @@ public class ReportTimer {
         editor.apply();
     }
 
-    private void updateReportFragment() {
+    private void updateReportFragment(long reportId) {
         ReportFragment fragment = ReportFragment.INSTANCE;
         if(fragment == null){
             return;
         }
 
         fragment.updateList();
+
+        if(reportId != -1){
+            fragment.scrollToReportId(reportId);
+            fragment.showEditDialog(reportId);
+        }
     }
 
     public void startTimer() {
         TimerState timerState = getTimerState();
-        Log.d("TIMERRR", "timerState " + timerState.name());
         if(timerState == RUNNING) {
             return;
         }
@@ -96,7 +112,8 @@ public class ReportTimer {
 
         setTimerState(RUNNING);
         setStartMillis(System.currentTimeMillis());
-        updateReportFragment();
+        updateReportFragment(-1);
+        sendNotification();
     }
 
     public void pauseTimer() {
@@ -111,7 +128,8 @@ public class ReportTimer {
         setTempMillis(getTempMillis() + timer);
 
         setStartMillis(0);
-        updateReportFragment();
+        updateReportFragment(-1);
+        removeNotification();
     }
 
     public long getTimer(){
@@ -132,7 +150,8 @@ public class ReportTimer {
         long timer = getTimer();
         setTimerState(STOPPED);
         setTempMillis(0);
-        updateReportFragment();
+        updateReportFragment(-1);
+        removeNotification();
         return timer;
     }
 
@@ -146,11 +165,36 @@ public class ReportTimer {
         report.setId(reportManager.getNextId());
 
         reportManager.createReport(report);
-        updateReportFragment();
+        updateReportFragment(report.getId());
 
         return timer;
     }
 
+    private void sendNotification() {
+        Intent i = new Intent(context, Splash.class);
+        i.putExtra("Activity", "MainActivity");
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "reportTimer")
+                .setContentTitle(context.getString(R.string.timer_running_title))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentText(context.getString(R.string.title_running_content))
+                .setSmallIcon(R.drawable.ic_timer_black_24dp)
+                .setUsesChronometer(true)
+                .setShowWhen(true)
+                .setWhen(System.currentTimeMillis() - getTimer())
+                .setSilent(true)
+                .setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void removeNotification() {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.cancel(NOTIFICATION_ID);
+    }
 
 
     public enum TimerState {

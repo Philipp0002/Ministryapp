@@ -6,14 +6,14 @@
 
     <string name="app_name">Ministry</string>
     <string name="splash_app_name">Ministryapp</string>
-    <string name="title_section1">Report</string>
-    <string name="title_section3">Notes</string>
-    <string name="title_section4">Sample Presentations</string>
-    <string name="title_section5">Settings</string>
+    <string name="title_report">Report</string>
+    <string name="title_notes">Notes</string>
+    <string name="title_sample_presentations">Sample Presentations</string>
+    <string name="title_settings">Settings</string>
     <string name="title_section6">Send your report</string>
-    <string name="title_section7">Videos</string>
-    <string name="title_tt">Daily Text</string>
-    <string name="title_section9">Calendar</string>
+    <string name="title_videos">Videos</string>
+    <string name="title_dailytext">Daily Text</string>
+    <string name="title_calendar">Calendar</string>
     <string name="title_section_more">More</string>
     <string name="reset">Reset all reportdata</string>
     <string name="resetdialog_message">ALL data will be lost! Continue?</string>
@@ -175,4 +175,7 @@
     <string name="calendar_activate_not_found">Calendar can\'t be found!</string>
 
     <string name="error_sdk_version_too_old">We\'re sorry but this feature is unavailable because your Android version is too outdated.</string>
+    <string name="timer_report_title">Report timer</string>
+    <string name="timer_running_title">Timer is running</string>
+    <string name="title_running_content">Tap to open app</string>
 </resources>
