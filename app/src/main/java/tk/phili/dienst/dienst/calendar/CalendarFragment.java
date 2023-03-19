@@ -38,6 +38,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.lang.reflect.Constructor;
@@ -64,7 +65,9 @@ public class CalendarFragment extends Fragment {
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
     GregorianCalendar cal;
-    TextView toolbarTitle, noPlansToday, calendarDayText;
+    TextView noPlansToday, calendarDayText;
+
+    MaterialButton toolbarTitle;
     ListView eventList;
     Toolbar toolbar;
 
