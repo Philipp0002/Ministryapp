@@ -24,31 +24,27 @@ import java.util.Set;
 
 public class Export {
 
-    public enum Format{
-        MAEXPORT, DIENSTAPP_GLOBAL;
-    }
-
-    public static void exportGlobal(Context c, Format format){
+    public static void exportGlobal(Context c) {
         SharedPreferences sp = c.getSharedPreferences("MainActivity", c.MODE_PRIVATE);
         SharedPreferences sp2 = c.getSharedPreferences("MainActivity3", c.MODE_PRIVATE);
         JSONObject obj = new JSONObject();
-        for(String key : sp.getAll().keySet()){
+        for (String key : sp.getAll().keySet()) {
             Object value = sp.getAll().get(key);
             try {
-                if(value instanceof Set){
+                if (value instanceof Set) {
                     JSONArray array = new JSONArray();
-                    for(String s : (Set<String>)value){
+                    for (String s : (Set<String>) value) {
                         array.put(s);
                     }
                     obj.put(key, array);
-                }else {
+                } else {
                     obj.put(key, value);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        for(String key : sp2.getAll().keySet()){
+        for (String key : sp2.getAll().keySet()) {
             Object value = sp2.getAll().get(key);
             try {
                 obj.put(key, value);
@@ -63,7 +59,7 @@ public class Export {
             File cachePath = new File(c.getCacheDir(), "exports");
             cachePath.mkdirs(); // don't forget to make the directory
 
-            FileOutputStream stream = new FileOutputStream(cachePath + "/MINISTRYExport-"+millis+".minapp"); // overwrites this image every time
+            FileOutputStream stream = new FileOutputStream(cachePath + "/MINISTRYExport-" + millis + ".minapp"); // overwrites this image every time
 
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(stream);
             outputStreamWriter.write(obj.toString());
@@ -76,7 +72,7 @@ public class Export {
         }
 
         File imagePath = new File(c.getCacheDir(), "exports");
-        File newFile = new File(imagePath, "MINISTRYExport-"+millis+".minapp");
+        File newFile = new File(imagePath, "MINISTRYExport-" + millis + ".minapp");
         Uri contentUri = FileProvider.getUriForFile(c, "tk.phili.dienst.dienst.fileprovider", newFile);
 
         if (contentUri != null) {
@@ -87,19 +83,6 @@ public class Export {
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
             c.startActivity(Intent.createChooser(shareIntent, "Choose an app"));
         }
-    }
-
-
-
-
-    public static int getRandomNumberInRange(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
     }
 
 

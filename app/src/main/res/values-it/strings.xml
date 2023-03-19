@@ -41,10 +41,10 @@
     <string name="reportsentvia">"Invia tramite Ministyapp"</string>
     <string name="title_videos_success">"Download 1 Video"</string>
     <string name="download_text">"Il video \"%a\" sarà scaricato."</string>
-    <string name="download_ok">"Inizia "</string>
+    <string name="download_ok">Scaricamento</string>
     <string name="ask_sure">"Sicuro? "</string>
     <string name="delete_text">"Il video \"%a\" sarà cancellato"</string>
-    <string name="delete_ok">"Cancellare"</string>
+    <string name="delete_ok">Spegnere</string>
     <string name="cancel">"Cancella"</string>
     <string name="video_open_error">"Si è verificato un errore durante l'avvio del video. Si prega di attendere fino al download."</string>
     <string name="data_cleared">"Dati cancellati!"</string>
@@ -54,10 +54,10 @@
     <string name="date">"Data"</string>
     <string name="minutes">Minuti</string>
     <string name="hour_max_59min">"L'immissione massima dei minuti è 59!"</string>
-    <string name="day_max_24h">"Ci sono solo 24 ore al giorno"</string>
-    <string name="total">"Totali"</string>
+    <string name="day_max_24h">Ci sono solo 24 ore al giorno!</string>
+    <string name="total">TOTALI</string>
     <string name="swipe_up_for_more">"Scorri verso l'alto per le statistiche totali"</string>
-    <string name="no_report">"Nessun report per questo mese! Per aggiungere dati, fai clic sul pulsante +!"</string>
+    <string name="no_report">Nessun report per questo mese! Per aggiungere dati, fai clic sul pulsante \"+\"!</string>
     <string name="report_undo_1">"Voce rimossa"</string>
     <string name="report_undo_2">"Eliminare"</string>
     <string name="goal_set">"Imposta il tuo obiettivo mensile"</string>

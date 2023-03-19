@@ -45,13 +45,11 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class SamplePresentationsFragment extends Fragment implements MyWebChromeClient.ProgressListener {
 
-
     private Toolbar toolbar;
-    public SharedPreferences sp;
+    private SharedPreferences sp;
 
     boolean pageSuccess = true;
     public String lasturl = "";
-
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -142,9 +140,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
                 } else {
                     view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
                 }
-
             }
-
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -154,7 +150,6 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
                 } else {
                     setErrorSpinner();
                 }
-
             }
         });
 
@@ -213,7 +208,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
                 }
             }
 
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+            final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                     R.layout.spinner_main, listItems);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -282,8 +277,6 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         ImageView pic = getView().findViewById(R.id.imageView3);
         pic.setVisibility(View.VISIBLE);
         webView.setVisibility(View.INVISIBLE);
-
-
     }
 
 

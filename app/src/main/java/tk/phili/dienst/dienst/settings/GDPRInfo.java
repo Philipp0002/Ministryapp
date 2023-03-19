@@ -13,20 +13,17 @@ import tk.phili.dienst.dienst.Splash;
 
 public class GDPRInfo extends AppCompatActivity {
 
-    public SharedPreferences sp;
-    private SharedPreferences.Editor editor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gdpr_info);
 
+        SharedPreferences sp = getSharedPreferences("Splash", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
         boolean b = getIntent().getBooleanExtra("hastoaccept", true);
 
-        sp = getSharedPreferences("Splash", MODE_PRIVATE);
-        editor = sp.edit();
-
-        if(!b){
+        if (!b) {
             findViewById(R.id.bottombar).setVisibility(View.GONE);
         }
 

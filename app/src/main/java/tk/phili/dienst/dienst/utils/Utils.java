@@ -37,7 +37,6 @@ public class Utils {
         } catch (Exception e) {
             return true;
         }
-
     }
 
     public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {

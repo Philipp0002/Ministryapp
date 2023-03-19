@@ -46,11 +46,11 @@
     <string name="ok">OK</string>
 
     <string name="download_text">Das Video \"%a\" wird heruntergeladen.</string>
-    <string name="download_ok">BEGINNEN</string>
+    <string name="download_ok">Herunterladen</string>
 
     <string name="ask_sure">Bist du dir sicher?</string>
     <string name="delete_text">Das Video \"%a\" wird gelöscht.</string>
-    <string name="delete_ok">LÖSCHEN</string>
+    <string name="delete_ok">Löschen</string>
     <string name="video_open_error">Es gab einen Fehler beim Öffnen des Videos. Bitte warte bis es heruntergeladen ist.</string>
 
     <string name="cancel">Abbrechen</string>

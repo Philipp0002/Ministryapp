@@ -37,7 +37,7 @@ public class Splash extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         try {
             setTheme(R.style.Splash);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onCreate(savedInstanceState);
@@ -59,13 +59,13 @@ public class Splash extends Activity {
                         periodicWorkRequest
                 );
 
-        ((TextView)findViewById(R.id.textView2)).setTypeface(Typeface.createFromAsset(getAssets(), "HammersmithOne-Regular.ttf"));
+        ((TextView) findViewById(R.id.textView2)).setTypeface(Typeface.createFromAsset(getAssets(), "HammersmithOne-Regular.ttf"));
 
         s = getIntent().getStringExtra("Activity");
 
         try {
             Shortcuts.updateShortcuts(Splash.this);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -80,25 +80,25 @@ public class Splash extends Activity {
         runDelayedHandler();
     }
 
-    public void runDelayedHandler(){
-        if(handler != null){
+    public void runDelayedHandler() {
+        if (handler != null) {
             return;
         }
         handler = new Handler();
         handler.postDelayed(() -> {
-            if(isUp) {
+            if (isUp) {
                 Intent mainIntent = new Intent(Splash.this, WrapperActivity.class);
 
                 mainIntent.putExtra("shortcut_started", s);
 
-                if(!sp.getBoolean("dsgvo_accept", false)){
+                if (!sp.getBoolean("dsgvo_accept", false)) {
                     mainIntent = new Intent(Splash.this, GDPRInfo.class);
                 }
 
                 Splash.this.startActivity(mainIntent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 Splash.this.finish();
-            }else{
+            } else {
                 handler = null;
             }
         }, 500);

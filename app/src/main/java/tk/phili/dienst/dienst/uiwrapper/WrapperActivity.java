@@ -82,8 +82,6 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     public void onDataPass(Fragment fragment, String tag, Object object) {
         if(tag == FRAGMENTPASS_TOOLBAR){
             Toolbar toolbar = (Toolbar) object;
-            //setSupportActionBar(toolbar);
-            //getSupportActionBar().setDisplayShowTitleEnabled(false);
             toolbar.bringToFront();
 
             drawerLayout = findViewById(R.id.drawer_layout);
@@ -96,7 +94,6 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
             AdaptiveUtils.updateNavigationViewLayout(
                     screenWidth, drawerLayout, modalNavDrawer, navRail, navDrawer,
                     toolbar, this);
-
 
             drawer.manageDrawers(this, fragment, drawerLayout, modalNavDrawer, navRail, navDrawer);
 

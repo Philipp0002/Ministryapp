@@ -46,23 +46,18 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.utils.MenuTintUtils;
 import tk.phili.dienst.dienst.utils.Utils;
 
 public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {
 
-    Calendar myCalendar = null;
+    Calendar calendar = null;
     long id;
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
-    boolean collapsed = false;
-
     Toolbar toolbar;
-    EditText dateView;
-    EditText partnerView;
-    EditText notesView;
+    EditText dateView, partnerView, notesView;
 
     Runnable dismissCallback;
 
@@ -172,60 +167,47 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
             }
         }
 
-        myCalendar = new GregorianCalendar(year, month, day, hour, minute);
-        Date newDate = new Date(myCalendar.getTimeInMillis());
+        calendar = new GregorianCalendar(year, month, day, hour, minute);
+        Date newDate = new Date(calendar.getTimeInMillis());
         String s = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(newDate);
         dateView.setText(s);
 
         final TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour_of_day, int min) {
-                myCalendar.set(Calendar.HOUR_OF_DAY, hour_of_day);
-                myCalendar.set(Calendar.MINUTE, min);
-                Date newDate = new Date(myCalendar.getTimeInMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, hour_of_day);
+                calendar.set(Calendar.MINUTE, min);
+                Date newDate = new Date(calendar.getTimeInMillis());
                 String s = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(newDate);
                 dateView.setText(s);
 
                 partnerView.requestFocus();
             }
         };
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        final DatePickerDialog.OnDateSetListener date = (view12, year1, monthOfYear, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year1);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
+            new TimePickerDialog(getContext(),
+                    time,
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE),
+                    DateFormat.is24HourFormat(getContext()))
+                    .show();
 
-                new TimePickerDialog(getContext(),
-                        time,
-                        myCalendar.get(Calendar.HOUR_OF_DAY),
-                        myCalendar.get(Calendar.MINUTE),
-                        DateFormat.is24HourFormat(getContext()))
-                        .show();
-
-                partnerView.requestFocus();
-            }
+            partnerView.requestFocus();
         };
 
 
-        dateView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(final View v, boolean hasFocus) {
-                if (ViewCompat.isAttachedToWindow(v)) {
-                    if (hasFocus) {
-                        DatePickerDialog dpd = new DatePickerDialog(getContext(), date, myCalendar
-                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                myCalendar.get(Calendar.DAY_OF_MONTH));
-                        dpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                partnerView.requestFocus();
-                            }
-                        });
-                        dpd.show();
-                    }
+        dateView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (ViewCompat.isAttachedToWindow(v)) {
+                if (hasFocus) {
+                    DatePickerDialog dpd = new DatePickerDialog(getContext(), date, calendar
+                            .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH));
+                    dpd.setOnCancelListener(dialog -> partnerView.requestFocus());
+                    dpd.show();
                 }
             }
         });
@@ -242,11 +224,11 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
 
     public void save() {
         Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
-        int day = myCalendar.get(Calendar.DAY_OF_MONTH);
-        int month = myCalendar.get(Calendar.MONTH);
-        int year = myCalendar.get(Calendar.YEAR);
-        int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
-        int minute = myCalendar.get(Calendar.MINUTE);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
         String dienstpartner = partnerView.getText().toString().isEmpty() ? " " : partnerView.getText().toString();
         String beschreibung = notesView.getText().toString().isEmpty() ? " " : notesView.getText().toString();
 

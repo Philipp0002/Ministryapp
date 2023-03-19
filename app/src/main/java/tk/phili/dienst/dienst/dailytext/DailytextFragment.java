@@ -85,7 +85,6 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
         editor = sp.edit();
 
         init();
-
     }
 
     public void init(){

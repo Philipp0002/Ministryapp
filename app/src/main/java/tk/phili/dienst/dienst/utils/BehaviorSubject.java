@@ -33,6 +33,7 @@ public class BehaviorSubject<T> {
 
     public interface Subscriber<T> {
         public void onNext(T value);
+
         public void onDestroy();
     }
 

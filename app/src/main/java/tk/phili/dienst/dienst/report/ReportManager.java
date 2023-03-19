@@ -25,7 +25,7 @@ public class ReportManager {
 
     private static String SP_REPORTS_KEY = "reports";
 
-    public ReportManager(Context context){
+    public ReportManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
@@ -33,14 +33,15 @@ public class ReportManager {
 
     /**
      * Deletes a report from database
+     *
      * @param report Report to delete
      * @return true if item existed
      */
-    public boolean deleteReport(Report report){
+    public boolean deleteReport(Report report) {
         List<Report> reports = getReports();
         boolean removed = reports.removeIf(report::equals);
 
-        if(removed){
+        if (removed) {
             saveReports(reports);
         }
 
@@ -50,9 +51,10 @@ public class ReportManager {
     /**
      * Adds a report to the database.
      * Report needs a pre-set ID.
+     *
      * @param report Report to add
      */
-    public void createReport(Report report){
+    public void createReport(Report report) {
         List<Report> reports = getReports();
         reports.add(report);
         saveReports(reports);
@@ -61,27 +63,29 @@ public class ReportManager {
     /**
      * Provides the next id to set when
      * creating a report object
+     *
      * @return next id
      */
-    public long getNextId(){
+    public long getNextId() {
         List<Report> reports = getReports();
         long highest = 0;
-        for(Report r : reports){
-            if(highest < r.getId()){
+        for (Report r : reports) {
+            if (highest < r.getId()) {
                 highest = r.getId();
             }
         }
-        return highest+1;
+        return highest + 1;
     }
 
     /**
      * Get a report by its id
+     *
      * @param id id to be looked up
      * @return report or null if doesnt exist
      */
-    public Report getReportById(long id){
-        for(Report report : getReports()){
-            if(report.getId() == id){
+    public Report getReportById(long id) {
+        for (Report report : getReports()) {
+            if (report.getId() == id) {
                 return report;
             }
         }
@@ -90,20 +94,22 @@ public class ReportManager {
 
     /**
      * Retrieve all report objects
+     *
      * @return all report objects
      */
-    public List<Report> getReports(){
+    public List<Report> getReports() {
         String allReportsJson = sharedPreferences.getString(SP_REPORTS_KEY, null);
-        Type listType = new TypeToken<List<Report>>() {}.getType();
+        Type listType = new TypeToken<List<Report>>() {
+        }.getType();
         List<Report> reports = getGson().fromJson(allReportsJson, listType);
 
-        if(reports == null){
-            reports = new ArrayList<Report>();
+        if (reports == null) {
+            reports = new ArrayList<>();
         }
 
         try {
             Collections.sort(reports, getReportComparator());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return reports;
@@ -112,21 +118,22 @@ public class ReportManager {
     /**
      * Retrieve all report objects for
      * a certain month and year
+     *
      * @return all report objects
      */
-    public List<Report> getReports(int month, int year){
+    public List<Report> getReports(int month, int year) {
         ArrayList<Report> reports = new ArrayList<>();
         List<Report> allReports = getReports();
 
-        for(Report report : allReports){
-            if(report.getDate().getMonth() == Month.of(month) && report.getDate().getYear() == year){
+        for (Report report : allReports) {
+            if (report.getDate().getMonth() == Month.of(month) && report.getDate().getYear() == year) {
                 reports.add(report);
             }
         }
 
         try {
             Collections.sort(reports, getReportComparator());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return reports;
@@ -135,15 +142,16 @@ public class ReportManager {
     /**
      * Retrieve a summary of all reports
      * for a given month and year
+     *
      * @return Report object that contains
      * all summarized data
      */
-    public Report getSummary(int month, int year){
+    public Report getSummary(int month, int year) {
         List<Report> allReportsMonth = getReports(month, year);
 
         Report summarizedReport = new Report();
         summarizedReport.setType(Report.Type.SUMMARY);
-        for(Report report : allReportsMonth){
+        for (Report report : allReportsMonth) {
             summarizedReport.setMinutes(summarizedReport.getMinutes() + report.getMinutes());
             summarizedReport.setBibleStudies(summarizedReport.getBibleStudies() + report.getBibleStudies());
             summarizedReport.setVideos(summarizedReport.getVideos() + report.getVideos());
@@ -153,37 +161,37 @@ public class ReportManager {
         return summarizedReport;
     }
 
-    private Comparator<Report> getReportComparator(){
+    private Comparator<Report> getReportComparator() {
         return (o1, o2) -> {
-            if(o1.equals(o2)){
+            if (o1.equals(o2)) {
                 return 0;
             }
-            if(o1.getType() == Report.Type.CARRY_ADD){
+            if (o1.getType() == Report.Type.CARRY_ADD) {
                 return -1;
             }
-            if(o1.getType() == Report.Type.CARRY_SUB){
+            if (o1.getType() == Report.Type.CARRY_SUB) {
                 return 1;
             }
 
-            if(o2.getType() == Report.Type.CARRY_ADD){
+            if (o2.getType() == Report.Type.CARRY_ADD) {
                 return 1;
             }
-            if(o2.getType() == Report.Type.CARRY_SUB){
+            if (o2.getType() == Report.Type.CARRY_SUB) {
                 return -1;
             }
 
             int yearComp = Integer.compare(o1.getDate().getYear(), o2.getDate().getYear());
-            if(yearComp != 0){
+            if (yearComp != 0) {
                 return yearComp;
             }
 
             int monthComp = Integer.compare(o1.getDate().getMonthValue(), o2.getDate().getMonthValue());
-            if(monthComp != 0){
+            if (monthComp != 0) {
                 return monthComp;
             }
 
             int dayComp = Integer.compare(o1.getDate().getDayOfMonth(), o2.getDate().getDayOfMonth());
-            if(dayComp != 0){
+            if (dayComp != 0) {
                 return dayComp;
             }
 
@@ -191,24 +199,24 @@ public class ReportManager {
         };
     }
 
-    private Gson getGson(){
+    private Gson getGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter().nullSafe())
                 .create();
     }
 
-    private void saveReports(List<Report> reports){
-        Type listType = new TypeToken<List<Report>>() {}.getType();
+    private void saveReports(List<Report> reports) {
+        Type listType = new TypeToken<List<Report>>() {
+        }.getType();
         String json = getGson().toJson(reports, listType);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("reports", json);
-        editor.apply();
+        sharedPreferencesEditor.putString("reports", json);
+        sharedPreferencesEditor.apply();
     }
 
-    public int getReportLayoutSetting(){
-        if(sharedPreferences.getInt("report_layout", 0) < 0
-                || sharedPreferences.getInt("report_layout", 0) > 1 ){
+    public int getReportLayoutSetting() {
+        if (sharedPreferences.getInt("report_layout", 0) < 0
+                || sharedPreferences.getInt("report_layout", 0) > 1) {
             return 0;
         }
         return sharedPreferences.getInt("report_layout", 0);

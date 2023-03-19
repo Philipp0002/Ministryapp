@@ -51,14 +51,14 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
     private Report report;
     ReportManager reportManager;
 
-    EditText dateView;
-    EditText hourView;
-    EditText minutesView;
-    EditText placementsView;
-    EditText returnsView;
-    EditText videosView;
-    EditText studiesView;
-    EditText annotationView;
+    EditText dateView,
+            hourView,
+            minutesView,
+            placementsView,
+            returnsView,
+            videosView,
+            studiesView,
+            annotationView;
     Toolbar toolbar;
 
     public Runnable dismissCallback;
@@ -327,7 +327,6 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
     }
 
     public void save() {
-
         String text = minutesView.getText().toString();
         if (!text.isEmpty()) {
             int i = Integer.parseInt(text);

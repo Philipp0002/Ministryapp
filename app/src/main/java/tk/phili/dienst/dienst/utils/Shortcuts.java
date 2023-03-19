@@ -76,12 +76,12 @@ public class Shortcuts {
                     .build();
 
             ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
-            if(maxShortcuts >= 6) shortcuts.add(id6);
-            if(maxShortcuts >= 5) shortcuts.add(id5);
-            if(maxShortcuts >= 4) shortcuts.add(id4);
-            if(maxShortcuts >= 3) shortcuts.add(id3);
-            if(maxShortcuts >= 2) shortcuts.add(id2);
-            if(maxShortcuts >= 1) shortcuts.add(id1);
+            if (maxShortcuts >= 6) shortcuts.add(id6);
+            if (maxShortcuts >= 5) shortcuts.add(id5);
+            if (maxShortcuts >= 4) shortcuts.add(id4);
+            if (maxShortcuts >= 3) shortcuts.add(id3);
+            if (maxShortcuts >= 2) shortcuts.add(id2);
+            if (maxShortcuts >= 1) shortcuts.add(id1);
 
             shortcutManager.setDynamicShortcuts(shortcuts);
         }

@@ -195,8 +195,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                                 sendReport(value);
                             }
                         })
-                        .setNegativeButton(getString(R.string.cancel), (dialog, whichButton) -> {
-                        })
+                        .setNegativeButton(getString(R.string.cancel), null)
                         .show();
             }
         });
@@ -213,8 +212,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                                 updateList();
                             }
                         })
-                        .setNegativeButton(getString(R.string.cancel), (dialog, whichButton) -> {
-                        })
+                        .setNegativeButton(getString(R.string.cancel), null)
                         .show();
             }
         });

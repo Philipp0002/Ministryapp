@@ -46,13 +46,13 @@ public class ReportTimer {
 
     private long getTempMillis() {
         SharedPreferences sp = getSharedPreferences();
-        if(sp.contains(KEY_TEMP_MILLIS)) {
+        if (sp.contains(KEY_TEMP_MILLIS)) {
             return sp.getLong(KEY_TEMP_MILLIS, 0);
         }
         return 0;
     }
 
-    private void setTempMillis(long tempMillis){
+    private void setTempMillis(long tempMillis) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor();
         editor.putLong(KEY_TEMP_MILLIS, tempMillis);
         editor.apply();
@@ -60,13 +60,13 @@ public class ReportTimer {
 
     private long getStartMillis() {
         SharedPreferences sp = getSharedPreferences();
-        if(sp.contains(KEY_START_MILLIS)) {
+        if (sp.contains(KEY_START_MILLIS)) {
             return sp.getLong(KEY_START_MILLIS, 0);
         }
         return 0;
     }
 
-    private void setStartMillis(long startMillis){
+    private void setStartMillis(long startMillis) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor();
         editor.putLong(KEY_START_MILLIS, startMillis);
         editor.apply();
@@ -74,13 +74,13 @@ public class ReportTimer {
 
     public TimerState getTimerState() {
         SharedPreferences sp = getSharedPreferences();
-        if(sp.contains(KEY_STATE)) {
+        if (sp.contains(KEY_STATE)) {
             return TimerState.valueOf(sp.getString(KEY_STATE, STOPPED.name()));
         }
         return STOPPED;
     }
 
-    private void setTimerState(TimerState timerState){
+    private void setTimerState(TimerState timerState) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor();
         editor.putString(KEY_STATE, timerState.name());
         editor.apply();
@@ -88,13 +88,13 @@ public class ReportTimer {
 
     private void updateReportFragment(long reportId) {
         ReportFragment fragment = ReportFragment.INSTANCE;
-        if(fragment == null){
+        if (fragment == null) {
             return;
         }
 
         fragment.updateList();
 
-        if(reportId != -1){
+        if (reportId != -1) {
             fragment.scrollToReportId(reportId);
             fragment.showEditDialog(reportId);
         }
@@ -102,11 +102,11 @@ public class ReportTimer {
 
     public void startTimer() {
         TimerState timerState = getTimerState();
-        if(timerState == RUNNING) {
+        if (timerState == RUNNING) {
             return;
         }
 
-        if(timerState == STOPPED){
+        if (timerState == STOPPED) {
             setTempMillis(0);
         }
 
@@ -118,7 +118,7 @@ public class ReportTimer {
 
     public void pauseTimer() {
         TimerState timerState = getTimerState();
-        if(timerState != RUNNING) {
+        if (timerState != RUNNING) {
             return;
         }
 
@@ -132,9 +132,9 @@ public class ReportTimer {
         removeNotification();
     }
 
-    public long getTimer(){
+    public long getTimer() {
         TimerState timerState = getTimerState();
-        switch (timerState){
+        switch (timerState) {
             case STOPPED:
                 return 0;
             case RUNNING:

@@ -22,8 +22,8 @@ public class MinistryApplication extends MultiDexApplication {
         PRDownloader.initialize(getApplicationContext());
     }
 
-    public void runTimer(){
-        if(t == null){
+    public void runTimer() {
+        if (t == null) {
             t = new Timer();
             t.scheduleAtFixedRate(new TimerTask() {
                 @Override

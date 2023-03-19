@@ -121,12 +121,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/background"
-                    android:id="@+id/event_liste" />
+                    android:id="@+id/event_list" />
 
             </ScrollView>
 
             <TextView
-                android:id="@+id/no_kal"
+                android:id="@+id/no_plans_today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -139,7 +139,7 @@
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/imageButton"
+            android:id="@+id/calendar_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

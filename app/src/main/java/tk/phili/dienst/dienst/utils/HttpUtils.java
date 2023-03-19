@@ -14,10 +14,8 @@ import java.net.URLConnection;
 
 public class HttpUtils {
 
-    public static String getUrlAsString(String url)
-    {
-        try
-        {
+    public static String getUrlAsString(String url) {
+        try {
             URL urlObj = new URL(url);
             URLConnection con = urlObj.openConnection();
 
@@ -30,24 +28,21 @@ public class HttpUtils {
             String inputLine;
 
             String newLine = System.getProperty("line.separator");
-            while ((inputLine = in.readLine()) != null)
-            {
+            while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine + newLine);
             }
 
             in.close();
 
             return response.toString();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             //throw new RuntimeException(e);
             return "ERROR";
         }
     }
 
     public static String getContents(String url) {
-        String contents ="";
+        String contents = "";
 
         try {
             URLConnection conn = new URL(url).openConnection();
@@ -55,7 +50,7 @@ public class HttpUtils {
             InputStream in = conn.getInputStream();
             contents = convertStreamToString(in);
         } catch (MalformedURLException e) {
-            Log.v("ERROR","MALFORMED URL EXCEPTION");
+            Log.v("ERROR", "MALFORMED URL EXCEPTION");
         } catch (IOException e) {
             //e.printStackTrace();
         }

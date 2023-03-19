@@ -22,7 +22,6 @@ import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 
 public class NotesFragment extends Fragment {
 
-    public SharedPreferences spp;
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -52,21 +51,12 @@ public class NotesFragment extends Fragment {
 
         toolbar.setTitle(R.string.title_notes);
 
-        sp = getContext().getSharedPreferences("MainActivity3",  Context.MODE_PRIVATE );
+        sp = getContext().getSharedPreferences("MainActivity3", Context.MODE_PRIVATE);
         editor = sp.edit();
-        spp = getContext().getSharedPreferences("Notizen", Context.MODE_PRIVATE); //LEGACY NOTES SUPPORT
-        if(spp.contains("NOTES")){
-            editor.putString("NOTES", sp.getString("NOTES","")+"\n"+spp.getString("NOTES", ""));
-            editor.commit();
-            SharedPreferences.Editor edit2 = spp.edit();
-            edit2.remove("NOTES");
-            edit2.apply();
-        }
 
-        if(sp.contains("NOTES")){
+        if (sp.contains("NOTES")) {
             notesEditText.setText(sp.getString("NOTES", "0"));
         }
-
 
         Linkify.addLinks(notesEditText, Linkify.WEB_URLS);
         CharSequence text = TextUtils.concat(notesEditText.getText(), "\u200B");
@@ -78,7 +68,8 @@ public class NotesFragment extends Fragment {
                 editor.commit();
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Linkify.addLinks(notesEditText, Linkify.WEB_URLS);

@@ -44,24 +44,24 @@ public class Drawer {
     private String urlString = null;
     private String tickerURL = null;
 
-    private Object[][] positionMapping = new Object[][] {
-            { ReportFragment.class, 0, R.id.drawer_report, Build.VERSION_CODES.BASE },
-            { NotesFragment.class, 1, R.id.drawer_notes, 0, Build.VERSION_CODES.BASE },
-            { SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations, Build.VERSION_CODES.LOLLIPOP },
-            { DailytextFragment.class, 3, R.id.drawer_dailytext, Build.VERSION_CODES.LOLLIPOP },
-            { VideoFragment.class, 4, R.id.drawer_videos, Build.VERSION_CODES.LOLLIPOP },
-            { CalendarFragment.class, 5, R.id.drawer_calendar, Build.VERSION_CODES.BASE },
-            { SettingsFragment.class, 6, R.id.drawer_settings, Build.VERSION_CODES.BASE }
+    private Object[][] positionMapping = new Object[][]{
+            {ReportFragment.class, 0, R.id.drawer_report, Build.VERSION_CODES.BASE},
+            {NotesFragment.class, 1, R.id.drawer_notes, 0, Build.VERSION_CODES.BASE},
+            {SamplePresentationsFragment.class, 2, R.id.drawer_samplepresentations, Build.VERSION_CODES.LOLLIPOP},
+            {DailytextFragment.class, 3, R.id.drawer_dailytext, Build.VERSION_CODES.LOLLIPOP},
+            {VideoFragment.class, 4, R.id.drawer_videos, Build.VERSION_CODES.LOLLIPOP},
+            {CalendarFragment.class, 5, R.id.drawer_calendar, Build.VERSION_CODES.BASE},
+            {SettingsFragment.class, 6, R.id.drawer_settings, Build.VERSION_CODES.BASE}
     };
 
     public void manageDrawers(WrapperActivity activity,
-                                     @NonNull Fragment fragment,
-                                     @NonNull DrawerLayout drawerLayout,
-                                     @NonNull NavigationView modalNavDrawer,
-                                     @NonNull NavigationRailView navRail,
-                                     @NonNull NavigationView navDrawer){
+                              @NonNull Fragment fragment,
+                              @NonNull DrawerLayout drawerLayout,
+                              @NonNull NavigationView modalNavDrawer,
+                              @NonNull NavigationRailView navRail,
+                              @NonNull NavigationView navDrawer) {
 
-        if(!initialized) {
+        if (!initialized) {
             final SharedPreferences sp = activity.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
             final SharedPreferences.Editor editor = sp.edit();
 
@@ -79,7 +79,6 @@ public class Drawer {
             navDrawer.addHeaderView(titleHeaderNav);
 
 
-
             View tickerHeaderNav = activity.getLayoutInflater().inflate(R.layout.drawertickerlayout, null);
             View tickerHeaderNavModal = activity.getLayoutInflater().inflate(R.layout.drawertickerlayout, null);
 
@@ -95,15 +94,13 @@ public class Drawer {
             navDrawer.addView(tickerHeaderNav);
 
 
-
-
-            if(activity.getString(R.string.URL_end).equalsIgnoreCase("de")){
+            if (activity.getString(R.string.URL_end).equalsIgnoreCase("de")) {
                 urlString = "https://www.jw.org/de/nachrichten/jw/rss/NewsSubsectionRSSFeed/feed.xml";
                 tickerURL = "https://www.jw.org/de/nachrichten/jw/";
-            }else if(activity.getString(R.string.URL_end).equalsIgnoreCase("it")){
+            } else if (activity.getString(R.string.URL_end).equalsIgnoreCase("it")) {
                 urlString = "https://www.jw.org/it/news/jw-news/rss/NewsSubsectionRSSFeed/feed.xml";
                 tickerURL = "https://www.jw.org/it/news/jw-news/";
-            }else{
+            } else {
                 urlString = "https://www.jw.org/en/news/jw/rss/NewsSubsectionRSSFeed/feed.xml";
                 tickerURL = "https://www.jw.org/en/news/jw/";
             }
@@ -122,18 +119,18 @@ public class Drawer {
                 @Override
                 public void onTaskCompleted(ArrayList<Article> list) {
                     articles = list;
-                    String toset = "++"+activity.getString(R.string.drawer_ticker_news)+"++ ";
+                    String toset = "++" + activity.getString(R.string.drawer_ticker_news) + "++ ";
 
                     int i = 0;
-                    for(Article a : articles){
+                    for (Article a : articles) {
                         i++;
-                        if(i == 3)
+                        if (i == 3)
                             break;
 
-                        toset += a.getTitle().replace("NEWS RELEASES | " , "").replace("PRESSEMITTEILUNGEN | ", "") + " ++ ";
+                        toset += a.getTitle().replace("NEWS RELEASES | ", "").replace("PRESSEMITTEILUNGEN | ", "") + " ++ ";
                     }
 
-                    toset = toset.substring(0, toset.length()-3) + " ++"+activity.getString(R.string.drawer_ticker_news)+"++";
+                    toset = toset.substring(0, toset.length() - 3) + " ++" + activity.getString(R.string.drawer_ticker_news) + "++";
 
                     editor.putString("LATEST_NEWS", toset);
                     editor.apply();
@@ -143,27 +140,28 @@ public class Drawer {
                 }
 
                 @Override
-                public void onError() { }
+                public void onError() {
+                }
             });
 
 
             initialized = true;
         }
 
-        for(Object[] mapping : positionMapping){
-            if(((Class)mapping[0]).isInstance(fragment)){
-                modalNavDrawer.setCheckedItem(modalNavDrawer.getMenu().getItem((int)mapping[1]));
-                navRail.getMenu().getItem((int)mapping[1]).setChecked(true);
-                navDrawer.setCheckedItem(navDrawer.getMenu().getItem((int)mapping[1]));
+        for (Object[] mapping : positionMapping) {
+            if (((Class) mapping[0]).isInstance(fragment)) {
+                modalNavDrawer.setCheckedItem(modalNavDrawer.getMenu().getItem((int) mapping[1]));
+                navRail.getMenu().getItem((int) mapping[1]).setChecked(true);
+                navDrawer.setCheckedItem(navDrawer.getMenu().getItem((int) mapping[1]));
                 break;
             }
         }
 
         modalNavDrawer.setNavigationItemSelectedListener(item -> {
-            for(Object[] mapping : positionMapping){
-                if((int)mapping[2] == item.getItemId()){
+            for (Object[] mapping : positionMapping) {
+                if ((int) mapping[2] == item.getItemId()) {
                     drawerLayout.closeDrawers();
-                    onItemClicked(activity, (Class)mapping[0]);
+                    onItemClicked(activity, (Class) mapping[0]);
                     break;
                 }
             }
@@ -171,9 +169,9 @@ public class Drawer {
         });
 
         navDrawer.setNavigationItemSelectedListener(item -> {
-            for(Object[] mapping : positionMapping){
-                if((int)mapping[2] == item.getItemId()){
-                    onItemClicked(activity, (Class)mapping[0]);
+            for (Object[] mapping : positionMapping) {
+                if ((int) mapping[2] == item.getItemId()) {
+                    onItemClicked(activity, (Class) mapping[0]);
                     break;
                 }
             }
@@ -181,9 +179,9 @@ public class Drawer {
         });
 
         navRail.setOnItemSelectedListener(item -> {
-            for(Object[] mapping : positionMapping){
-                if((int)mapping[2] == item.getItemId()){
-                    onItemClicked(activity, (Class)mapping[0]);
+            for (Object[] mapping : positionMapping) {
+                if ((int) mapping[2] == item.getItemId()) {
+                    onItemClicked(activity, (Class) mapping[0]);
                     break;
                 }
             }
@@ -192,11 +190,11 @@ public class Drawer {
 
     }
 
-    private void onItemClicked(WrapperActivity activity, Class toOpen){
+    private void onItemClicked(WrapperActivity activity, Class toOpen) {
 
-        for(Object[] mapping : positionMapping){
-            if(mapping[0] == toOpen){
-                if((int)mapping[3] > Build.VERSION.SDK_INT){
+        for (Object[] mapping : positionMapping) {
+            if (mapping[0] == toOpen) {
+                if ((int) mapping[3] > Build.VERSION.SDK_INT) {
                     new MaterialAlertDialogBuilder(new ContextThemeWrapper(activity, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
                             .setTitle(R.string.error)
                             .setIcon(R.drawable.ic_baseline_error_outline_24)

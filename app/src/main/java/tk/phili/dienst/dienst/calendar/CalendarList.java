@@ -171,8 +171,7 @@ public class CalendarList extends ArrayAdapter<String> {
 
                                         calendarFragment.refreshAll();
                                     })
-                                    .setNegativeButton(context.getString(R.string.cancel), (dialog1, id1) -> {
-                                    })
+                                    .setNegativeButton(context.getString(R.string.cancel), null)
                                     .setIcon(R.drawable.ic_warning_black_24dp)
                                     .show();
 

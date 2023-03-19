@@ -34,7 +34,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.github.dewinjm.monthyearpicker.MonthFormat;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
-import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -54,7 +53,6 @@ import java.util.List;
 import java.util.Set;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
@@ -66,10 +64,8 @@ public class CalendarFragment extends Fragment {
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
     GregorianCalendar cal;
-    TextView tbv;
-    TextView noCal;
+    TextView toolbarTitle, noPlansToday, calendarDayText;
     ListView eventList;
-    TextView calendarDayText;
     Toolbar toolbar;
 
     //FORMAT
@@ -95,20 +91,19 @@ public class CalendarFragment extends Fragment {
         editor = sp.edit();
 
         toolbar = view.findViewById(R.id.toolbar);
-        noCal = view.findViewById(R.id.no_kal);
-        eventList = view.findViewById(R.id.event_liste);
+        noPlansToday = view.findViewById(R.id.no_plans_today);
+        eventList = view.findViewById(R.id.event_list);
         calendarDayText = view.findViewById(R.id.calendar_day_text);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         compactCalendarView = view.findViewById(R.id.compactcalendar_view);
         cal = new GregorianCalendar();
-        tbv = view.findViewById(R.id.toolbar_title);
+        toolbarTitle = view.findViewById(R.id.toolbar_title);
         refreshAll();
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                List<Event> events = compactCalendarView.getEvents(dateClicked);
                 cal.setTimeInMillis(dateClicked.getTime());
                 refreshDay();
             }
@@ -121,7 +116,7 @@ public class CalendarFragment extends Fragment {
         });
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        view.findViewById(R.id.imageButton).setOnClickListener(__ -> {
+        view.findViewById(R.id.calendar_add_button).setOnClickListener(__ -> {
             int idmax = 0;
             Set<String> set = sp.getStringSet("Calendar", new HashSet<>());
             for (String s : set) {
@@ -141,51 +136,9 @@ public class CalendarFragment extends Fragment {
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
-        tbv.setText(dateFormat.format(cal.getTime()));
+        toolbarTitle.setText(dateFormat.format(cal.getTime()));
 
-        tbv.setOnClickListener(v -> {
-
-            MonthYearPickerDialog simpleDatePickerDialog;
-
-            try {
-                ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
-                Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
-                        int.class,
-                        int.class,
-                        int.class,
-                        MonthFormat.class,
-                        MonthYearPickerDialog.OnDateSetListener.class);
-
-                constructor.setAccessible(true);
-                simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
-                        contextThemeWrapper,
-                        R.style.DialogStyleBasic,
-                        cal.get(Calendar.YEAR),
-                        cal.get(Calendar.MONTH),
-                        MonthFormat.SHORT,
-                        (MonthYearPickerDialog.OnDateSetListener) (year, monthOfYear) -> {
-                            cal.set(Calendar.MONTH, monthOfYear);
-                            cal.set(Calendar.YEAR, year);
-                            tbv.setText(dateFormat.format(cal.getTime()));
-                            compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
-                            refreshDay();
-                        });
-                Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
-                method.setAccessible(true);
-                method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
-                simpleDatePickerDialog.show();
-                simpleDatePickerDialog
-                        .getButton(DialogInterface.BUTTON_POSITIVE)
-                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
-
-                simpleDatePickerDialog
-                        .getButton(DialogInterface.BUTTON_NEGATIVE)
-                        .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        });
+        toolbarTitle.setOnClickListener(v -> showMonthYearPicker(dateFormat));
 
 
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
@@ -239,6 +192,48 @@ public class CalendarFragment extends Fragment {
         }
 
 
+    }
+
+    private void showMonthYearPicker(SimpleDateFormat dateFormat) {
+        MonthYearPickerDialog simpleDatePickerDialog;
+
+        try {
+            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
+            Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
+                    int.class,
+                    int.class,
+                    int.class,
+                    MonthFormat.class,
+                    MonthYearPickerDialog.OnDateSetListener.class);
+
+            constructor.setAccessible(true);
+            simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
+                    contextThemeWrapper,
+                    R.style.DialogStyleBasic,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    MonthFormat.SHORT,
+                    (MonthYearPickerDialog.OnDateSetListener) (year, monthOfYear) -> {
+                        cal.set(Calendar.MONTH, monthOfYear);
+                        cal.set(Calendar.YEAR, year);
+                        toolbarTitle.setText(dateFormat.format(cal.getTime()));
+                        compactCalendarView.setCurrentDate(new Date(cal.getTimeInMillis()));
+                        refreshDay();
+                    });
+            Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
+            method.setAccessible(true);
+            method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
+            simpleDatePickerDialog.show();
+            simpleDatePickerDialog
+                    .getButton(DialogInterface.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+
+            simpleDatePickerDialog
+                    .getButton(DialogInterface.BUTTON_NEGATIVE)
+                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     static final int GET_ACCOUNT_NAME_REQUEST = 1;
@@ -373,15 +368,14 @@ public class CalendarFragment extends Fragment {
 
 
     public void refreshDay() {
-
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
-        tbv.setText(dateFormat.format(cal.getTime()));
+        toolbarTitle.setText(dateFormat.format(cal.getTime()));
 
         List<Event> events = compactCalendarView.getEvents(cal.getTimeInMillis());
         if (events.isEmpty()) {
-            noCal.setVisibility(View.VISIBLE);
+            noPlansToday.setVisibility(View.VISIBLE);
         } else {
-            noCal.setVisibility(View.INVISIBLE);
+            noPlansToday.setVisibility(View.INVISIBLE);
         }
         final CalendarList adapterlist = new CalendarList(getContext(), CalendarFragment.this, events);
         eventList.setAdapter(adapterlist);
@@ -397,7 +391,7 @@ public class CalendarFragment extends Fragment {
 
         compactCalendarView.removeAllEvents();
 
-        Set<String> set = sp.getStringSet("Calendar", new HashSet<String>());
+        Set<String> set = sp.getStringSet("Calendar", new HashSet<>());
         for (String s : set) {
             int day = Integer.parseInt(s.split("ʷ")[1]);
             int month = Integer.parseInt(s.split("ʷ")[2]);

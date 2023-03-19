@@ -55,10 +55,10 @@
     <string name="title_videos_success">Downloaded 1 video</string>
 
     <string name="download_text">The video \"%a\" will be downloaded.</string>
-    <string name="download_ok">START</string>
+    <string name="download_ok">Download</string>
 
     <string name="delete_text">The video \"%a\" will be deleted.</string>
-    <string name="delete_ok">DELETE</string>
+    <string name="delete_ok">Delete</string>
     <string name="video_open_error">There was an error while starting the video. Please wait until it\'s downloaded.</string>
 
     <string name="ask_sure">Sure?</string>
@@ -79,7 +79,7 @@
     <string name="no_report">No reportdata for this month! To add data click the "+" button!</string>
 
     <string name="report_undo_1">Removed entry</string>
-    <string name="report_undo_2">UNDO</string>
+    <string name="report_undo_2">Undo</string>
 
     <string name="goal">Goal</string>
     <string name="goal_set">Set your monthly goal</string>

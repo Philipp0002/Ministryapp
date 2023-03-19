@@ -30,7 +30,9 @@ import com.google.android.material.navigationrail.NavigationRailView;
 
 import tk.phili.dienst.dienst.R;
 
-/** Utility class for the Adaptive package. */
+/**
+ * Utility class for the Adaptive package.
+ */
 public class AdaptiveUtils {
 
     public static final int MEDIUM_SCREEN_WIDTH_SIZE = 600;
@@ -38,7 +40,8 @@ public class AdaptiveUtils {
 
     private static DrawerLayout.DrawerListener drawerListener;
 
-    private AdaptiveUtils() {}
+    private AdaptiveUtils() {
+    }
 
     /**
      * Updates the visibility of the main navigation view components according to screen size.
@@ -88,7 +91,7 @@ public class AdaptiveUtils {
             drawerLayout.addDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, modalNavDrawer);
-            if(drawerListener != null)
+            if (drawerListener != null)
                 drawerLayout.removeDrawerListener(drawerListener);
         } else if (screenWidth < AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE) {
             // Medium screen
@@ -118,10 +121,12 @@ public class AdaptiveUtils {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
                     drawerLayout.addDrawerListener(drawerListener = new DrawerLayout.DrawerListener() {
                         @Override
-                        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) { }
+                        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                        }
 
                         @Override
-                        public void onDrawerOpened(@NonNull View drawerView) { }
+                        public void onDrawerOpened(@NonNull View drawerView) {
+                        }
 
                         @Override
                         public void onDrawerClosed(@NonNull View drawerView) {
@@ -129,7 +134,8 @@ public class AdaptiveUtils {
                         }
 
                         @Override
-                        public void onDrawerStateChanged(int newState) { }
+                        public void onDrawerStateChanged(int newState) {
+                        }
                     });
                 });
     }

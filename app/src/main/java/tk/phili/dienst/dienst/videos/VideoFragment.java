@@ -42,16 +42,15 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
 
-    public SharedPreferences sp;
+    private SharedPreferences sp;
     private SharedPreferences.Editor editor;
     private Toolbar toolbar;
 
-    VideoAdapter adapter;
-    ArrayList<Video> videos;
-    HashMap<Integer, BehaviorSubject<Float>> videoDownloadProgress;
+    private VideoAdapter adapter;
+    private ArrayList<Video> videos;
+    public HashMap<Integer, BehaviorSubject<Float>> videoDownloadProgress;
 
-
-    FragmentCommunicationPass fragmentCommunicationPass;
+    private FragmentCommunicationPass fragmentCommunicationPass;
 
     @Override
     public void onAttach(Context context) {
@@ -101,7 +100,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
     }
 
     public void refreshList(String searchTerm) {
-        if(!isSafe())
+        if (!isSafe())
             return;
         String fullListString = sp.getString("Videos", "");
 
@@ -157,7 +156,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         int marginVert = Utils.dpToPx(8);
         layout.addView(progressIndicator);
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)progressIndicator.getLayoutParams();
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) progressIndicator.getLayoutParams();
         params.setMargins(marginHoriz, marginVert, marginHoriz, marginVert);
 
         AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)

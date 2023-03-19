@@ -20,7 +20,7 @@ public class Report {
     private int videos;
     private int bibleStudies;
     private String annotation;
-    private Type type = Type.NORMAL;
+    private Type type;
 
     public Report(){
         this(0, null, 0, 0, 0,0,0,null);

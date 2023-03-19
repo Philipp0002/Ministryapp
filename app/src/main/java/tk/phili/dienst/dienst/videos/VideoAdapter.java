@@ -43,7 +43,7 @@ import tk.phili.dienst.dienst.utils.BehaviorSubject;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
     public List<Video> videos;
-    public HashMap<Integer, Drawable> drawables = new HashMap<Integer, Drawable>();
+    public HashMap<Integer, Drawable> drawables = new HashMap<>();
     private Activity context;
     private VideoFragment videoFragment;
 
@@ -79,15 +79,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
-                        Bitmap bMap = ThumbnailUtils.createVideoThumbnail(/*context.getExternalFilesDir(DIRECTORY_MOVIES).getAbsolutePath() + "/MINISTRY/" + video.getName().replace("?", "") + ".mp4"*/file.getPath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                        Bitmap bMap = ThumbnailUtils.createVideoThumbnail(file.getPath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
                         final Drawable d = new BitmapDrawable(context.getResources(), bMap);
                         drawables.put(position, d);
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.imageGradient.setVisibility(View.VISIBLE);
-                                holder.image.setImageDrawable(d);
-                            }
+                        context.runOnUiThread(() -> {
+                            holder.imageGradient.setVisibility(View.VISIBLE);
+                            holder.image.setImageDrawable(d);
                         });
                         return null;
                     }
@@ -104,7 +101,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             holder.mb.setVisibility(View.VISIBLE);
             holder.image.setImageDrawable(null);
 
-            if(videoFragment.videoDownloadProgress.containsKey(video.getId())){
+            if (videoFragment.videoDownloadProgress.containsKey(video.getId())) {
                 videoFragment.videoDownloadProgress.get(video.getId())
                         .subscribe(new BehaviorSubject.Subscriber<Float>() {
                             @Override
@@ -158,14 +155,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView image;
-        public ImageView imageGradient;
-        public TextView title;
-        public TextView time;
-        public TextView mb;
+        public ImageView image, imageGradient;
+        public TextView title, time, mb;
 
-        public ImageView notDownloadedImg;
-        public ImageView downloadedImg;
+        public ImageView notDownloadedImg, downloadedImg;
         public View mainView;
 
         public RoundCornerProgressBar downloadProgressBar;
@@ -222,9 +215,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                 file.delete();
                                 videoFragment.refreshList(null);
                             })
-                    .setNegativeButton(R.string.cancel,
-                            (__, ___) -> {
-                            })
+                    .setNegativeButton(R.string.cancel, null)
                     .create()
                     .show();
         }

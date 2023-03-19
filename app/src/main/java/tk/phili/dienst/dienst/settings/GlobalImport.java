@@ -32,30 +32,26 @@ import tk.phili.dienst.dienst.Splash;
 public class GlobalImport extends AppCompatActivity {
 
     Uri filePath;
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_global_import);
-        ((Toolbar)findViewById(R.id.toolbar)).setTitle(getString(R.string.import_title));
+        ((Toolbar) findViewById(R.id.toolbar)).setTitle(getString(R.string.import_title));
         setTitle(getString(R.string.import_title));
         filePath = getIntent().getData();
 
         findViewById(R.id.import_do).setOnClickListener(view -> {
-                process(filePath);
-                startActivity(new Intent(GlobalImport.this, Splash.class));
-                finish();
+            process(filePath);
+            startActivity(new Intent(GlobalImport.this, Splash.class));
+            finish();
         });
 
         findViewById(R.id.import_cancel).setOnClickListener(view -> finish());
-
-
     }
 
 
-    public void process(Uri filePath){
-
+    public void process(Uri filePath) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(filePath);
             String s = convertStreamToString(inputStream);
@@ -66,27 +62,27 @@ public class GlobalImport extends AppCompatActivity {
             SharedPreferences.Editor edit = sp.edit();
             SharedPreferences sp2 = getSharedPreferences("MainActivity3", Context.MODE_PRIVATE);
             SharedPreferences.Editor edit2 = sp2.edit();
-            while(keys.hasNext()) {
+            while (keys.hasNext()) {
                 String key = keys.next();
                 Object val = obj.get(key);
 
-                if(key.equalsIgnoreCase("NOTES")){
+                if (key.equalsIgnoreCase("NOTES")) {
                     edit2.putString("NOTES", (String) val);
-                }else{
-                    if(val instanceof String)
+                } else {
+                    if (val instanceof String)
                         edit.putString(key, (String) val);
-                    if(val instanceof Boolean)
+                    if (val instanceof Boolean)
                         edit.putBoolean(key, (Boolean) val);
-                    if(val instanceof Integer)
+                    if (val instanceof Integer)
                         edit.putInt(key, (Integer) val);
-                    if(val instanceof Float)
+                    if (val instanceof Float)
                         edit.putFloat(key, (Float) val);
-                    if(val instanceof Long)
+                    if (val instanceof Long)
                         edit.putLong(key, (Long) val);
-                    if(val instanceof JSONArray) {
+                    if (val instanceof JSONArray) {
                         Set<String> set = new HashSet<String>();
                         JSONArray arr = (JSONArray) val;
-                        for (int i = 0 ; i < arr.length(); i++) {
+                        for (int i = 0; i < arr.length(); i++) {
                             String string = arr.getString(i);
                             set.add(string);
                         }
@@ -119,7 +115,7 @@ public class GlobalImport extends AppCompatActivity {
         String line = null;
         Boolean firstLine = true;
         while ((line = reader.readLine()) != null) {
-            if(firstLine){
+            if (firstLine) {
                 sb.append(line);
                 firstLine = false;
             } else {

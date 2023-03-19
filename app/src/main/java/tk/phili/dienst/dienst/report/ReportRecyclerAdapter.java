@@ -20,9 +20,9 @@ import tk.phili.dienst.dienst.R;
 
 public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context context;
+    private Context context;
     List<Report> reports;
-    ReportManager reportManager;
+    private ReportManager reportManager;
 
     public ReportRecyclerAdapter(Context context, List<Report> reports) {
         this.context = context;
@@ -90,7 +90,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ReportTimer reportTimer = new ReportTimer(context);
             report.setMinutes(reportTimer.getTimer() / 1000 / 60);
 
-            if(reportTimer.getTimerState() == ReportTimer.TimerState.PAUSED){
+            if (reportTimer.getTimerState() == ReportTimer.TimerState.PAUSED) {
                 holder.timerPauseButton.setIcon(context.getResources().getDrawable(R.drawable.ic_play_arrow_black_24dp));
                 holder.timerPauseButton.setText(R.string.timer_continue);
             } else {
@@ -160,14 +160,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public class Holder extends RecyclerView.ViewHolder {
 
         public CardView cardView;
-        public TextView date;
-        public TextView time;
-        public TextView timeInfo;
-        public TextView placements;
-        public TextView returnVisits;
-        public TextView videos;
-        public TextView bibleStudies;
-        public TextView annotation;
+        public TextView date, time, timeInfo, placements, returnVisits, videos, bibleStudies, annotation;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
@@ -187,10 +180,8 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public class TimerHolder extends RecyclerView.ViewHolder {
 
         public CardView cardView;
-        public TextView time;
-        public TextView timeInfo;
-        public MaterialButton timerStopButton;
-        public MaterialButton timerPauseButton;
+        public TextView time, timeInfo;
+        public MaterialButton timerStopButton, timerPauseButton;
 
         public TimerHolder(@NonNull View itemView) {
             super(itemView);
