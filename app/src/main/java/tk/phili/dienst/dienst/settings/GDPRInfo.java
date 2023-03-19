@@ -5,12 +5,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.Splash;
@@ -27,10 +28,12 @@ public class GDPRInfo extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("Splash", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-        boolean b = getIntent().getBooleanExtra("hastoaccept", true);
+        MaterialButton acceptButton = findViewById(R.id.gdprAcceptButton);
 
-        if (!b) {
-            findViewById(R.id.bottombar).setVisibility(View.GONE);
+        boolean hasToAccept = getIntent().getBooleanExtra("hastoaccept", true);
+
+        if (!hasToAccept) {
+            acceptButton.setVisibility(View.GONE);
         }
 
         WebView web = findViewById(R.id.webView);
@@ -56,7 +59,7 @@ public class GDPRInfo extends AppCompatActivity {
 
         web.loadUrl(GDPR_URL);
 
-        findViewById(R.id.accept_dsgvo).setOnClickListener(view -> {
+        acceptButton.setOnClickListener(view -> {
             editor.putBoolean("dsgvo_accept", true);
             editor.commit();
 

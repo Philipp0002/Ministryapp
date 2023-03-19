@@ -15,45 +15,34 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/DrawerTheme"
         app:title="@string/gdpr_title">
 
     </androidx.appcompat.widget.Toolbar>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottombar"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/gdprAcceptButton"
+        style="@style/Widget.Material3.Button.TonalButton.Icon"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/background"
+        android:layout_marginRight="8dp"
+        android:text="@string/gdpr_accept"
+        app:icon="@drawable/ic_baseline_check_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/accept_dsgvo"
-            style="@style/Widget.Material3.Button.TonalButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="8dp"
-            android:text="@string/gdpr_accept"
-            app:icon="@drawable/ic_baseline_check_24" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottombar"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/gdprAcceptButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"></WebView>
+        app:layout_constraintTop_toBottomOf="@id/toolbar"></WebView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
