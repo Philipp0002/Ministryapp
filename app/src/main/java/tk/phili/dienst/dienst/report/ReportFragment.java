@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,7 +47,6 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -83,11 +80,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
     private ReportManager reportManager;
     private Toolbar toolbar;
-    private ExtendedFloatingActionButton addBerichtButton;
+    private ExtendedFloatingActionButton reportAddFab;
     private RelativeLayout upswipy;
-    private MaterialButton swipeUpShare, swipeUpCarryOver;
+    private MaterialButton swipeUpShare, swipeUpCarryOver, toolbarTitle;
     private SlidingUpPanelLayout slidingLayout;
-    private TextView goalText, toolbarTitle;
+    private TextView goalText;
     private FragmentCommunicationPass fragmentCommunicationPass;
     private View privateBlock, privateDisable, swipeUpText, swipeUpLeftIcon, swipeUpRightIcon, noReportView;
 
@@ -118,29 +115,29 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         INSTANCE = this;
         reportTimer = new ReportTimer(getContext());
         toolbar = view.findViewById(R.id.toolbar);
-        addBerichtButton = view.findViewById(R.id.addBerichtButton);
-        upswipy = view.findViewById(R.id.upswipy);
-        swipeUpShare = view.findViewById(R.id.swipe_up_share);
+        reportAddFab = view.findViewById(R.id.reportAddFab);
+        upswipy = view.findViewById(R.id.reportSliderPreview);
+        swipeUpShare = view.findViewById(R.id.reportShare);
         slidingLayout = view.findViewById(R.id.sliding_layout);
-        swipeUpCarryOver = view.findViewById(R.id.swipe_up_carryover);
-        goalText = view.findViewById(R.id.goaltext);
-        privateBlock = view.findViewById(R.id.private_block);
-        privateDisable = view.findViewById(R.id.private_disable);
+        swipeUpCarryOver = view.findViewById(R.id.reportCarryover);
+        goalText = view.findViewById(R.id.reportGoalText);
+        privateBlock = view.findViewById(R.id.reportPrivateModeContainer);
+        privateDisable = view.findViewById(R.id.reportPrivateModeDisable);
         toolbarTitle = view.findViewById(R.id.toolbar_title);
-        swipeUpText = view.findViewById(R.id.swipe_up_text);
-        swipeUpLeftIcon = view.findViewById(R.id.swipe_up_lefticon);
-        swipeUpRightIcon = view.findViewById(R.id.swipe_up_righticon);
-        noReportView = view.findViewById(R.id.no_report);
+        swipeUpText = view.findViewById(R.id.reportSliderText);
+        swipeUpLeftIcon = view.findViewById(R.id.reportSliderLeftIcon);
+        swipeUpRightIcon = view.findViewById(R.id.reportSliderRightIcon);
+        noReportView = view.findViewById(R.id.reportsEmptyView);
 
         toolbar.setOnMenuItemClickListener(this);
 
         reportManager = new ReportManager(getContext());
 
-        rpb = view.findViewById(R.id.progress_goal);
+        rpb = view.findViewById(R.id.reportGoalProgress);
 
-        reportsRecycler = view.findViewById(R.id.bericht_liste);
-        summarizedRecycler = view.findViewById(R.id.swipe_up_bericht);
-        goalView = view.findViewById(R.id.goalview);
+        reportsRecycler = view.findViewById(R.id.reportsRecycler);
+        summarizedRecycler = view.findViewById(R.id.reportSummaryRecycler);
+        goalView = view.findViewById(R.id.reportGoalContainer);
 
         //Restore configuration
         if (savedInstanceState != null) {
@@ -158,7 +155,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(View.GONE));
             }
 
-            Animation anim = android.view.animation.AnimationUtils.loadAnimation(addBerichtButton.getContext(), R.anim.slide_in_bottom);
+            Animation anim = android.view.animation.AnimationUtils.loadAnimation(reportAddFab.getContext(), R.anim.slide_in_bottom);
             anim.setDuration(1000L);
             upswipy.startAnimation(anim);
         }
@@ -172,7 +169,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         slidingLayout.setParallaxOffset(100);
 
-        addBerichtButton.setOnClickListener(v -> showEditDialog(null));
+        reportAddFab.setOnClickListener(v -> showEditDialog(null));
 
         swipeUpShare.setOnClickListener(v -> {
             if (swipeUpShare.getAlpha() != 0F) {
@@ -415,11 +412,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
-                    if (addBerichtButton.isExtended())
-                        addBerichtButton.shrink();
+                    if (reportAddFab.isExtended())
+                        reportAddFab.shrink();
                 } else {
-                    if (!addBerichtButton.isExtended())
-                        addBerichtButton.extend();
+                    if (!reportAddFab.isExtended())
+                        reportAddFab.extend();
                 }
             }
 
@@ -464,7 +461,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public boolean deleteReport(Report report) {
         boolean deleted = reportManager.deleteReport(report);
         if (deleted) {
-            Snackbar.make(getView().findViewById(R.id.coord), R.string.report_undo_1, Snackbar.LENGTH_LONG)
+            Snackbar.make(reportAddFab, R.string.report_undo_1, Snackbar.LENGTH_LONG)
                     .setAction(R.string.report_undo_2, v -> {
                         reportManager.createReport(report);
                         updateList();
