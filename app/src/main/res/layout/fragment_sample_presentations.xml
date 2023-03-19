@@ -1,82 +1,88 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".samplepresentations.SamplePresentationsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:theme="@style/DrawerTheme">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <Spinner
-            android:id="@+id/spinner_nav_empf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/title_sample_presentations"
+            app:theme="@style/DrawerTheme">
 
-    </androidx.appcompat.widget.Toolbar>
+            <Spinner
+                android:id="@+id/samplePresentationsMonthSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    <ProgressBar
-        android:id="@+id/progressBar_empf"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_below="@id/toolbar"
-        android:layout_x="6dp"
-        android:layout_y="1dp"
-        android:progressTint="@color/green_accent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/no_network_sample_presentations"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/webView">
+        <ProgressBar
+            android:id="@+id/samplePresentationsProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@id/toolbar"
+            android:layout_x="6dp"
+            android:layout_y="1dp"
+            android:progressTint="@color/green_accent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:tint="@color/ColorSecondary"
-            app:srcCompat="@drawable/ic_signal_wifi_off_black_24dp" />
-
-        <TextView
-            android:id="@+id/no_net"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/samplePresentationsErrorContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageView3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:gravity="center_horizontal"
-            android:text="@string/noconnect"
-            android:textColor="#fff" />
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:tint="@color/ColorSecondary"
+                app:srcCompat="@drawable/ic_signal_wifi_off_black_24dp" />
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fitsSystemWindows="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/noNetwork"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/samplePresentationsWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

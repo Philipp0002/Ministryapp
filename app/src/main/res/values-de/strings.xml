@@ -18,7 +18,7 @@
     <string name="action_goal">Ziel</string>
     <string name="title_activity_send">Senden</string>
 
-    <string name="noconnect">Keine&#160;Verbindung!</string>
+    <string name="noNetwork">Keine&#160;Verbindung!</string>
     <string name="URL_end">de</string>
 
     <string name="title_activity_hours">Stunden</string>

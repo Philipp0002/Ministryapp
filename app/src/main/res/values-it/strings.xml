@@ -17,7 +17,7 @@
     <string name="action_save">"Salvare"</string>
     <string name="action_goal">"Obiettivo Mese"</string>
     <string name="title_activity_send">"Spedisci"</string>
-    <string name="noconnect">"Nessuna Rete Disponibile "</string>
+    <string name="noNetwork">"Nessuna Rete Disponibile "</string>
     <string name="URL_end">it</string>
     <string name="title_activity_hours">"Ore"</string>
     <string name="title_activity_placements">"Pubblicazioni"</string>

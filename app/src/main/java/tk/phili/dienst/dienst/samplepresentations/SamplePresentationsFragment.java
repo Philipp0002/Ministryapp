@@ -18,10 +18,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -88,13 +86,12 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         toolbar = view.findViewById(R.id.toolbar);
-        spinner = view.findViewById(R.id.spinner_nav_empf);
-        webView = view.findViewById(R.id.webView);
-        progressBar = view.findViewById(R.id.progressBar_empf);
+        spinner = view.findViewById(R.id.samplePresentationsMonthSpinner);
+        webView = view.findViewById(R.id.samplePresentationsWebView);
+        progressBar = view.findViewById(R.id.samplePresentationsProgressBar);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        toolbar.setTitle(getResources().getString(R.string.title_sample_presentations));
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
 
         WebSettings webSettings = webView.getSettings();
@@ -161,7 +158,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     }
 
     public void setSpinnerText() {
-        View nonet = getView().findViewById(R.id.no_network_sample_presentations);
+        View nonet = getView().findViewById(R.id.samplePresentationsErrorContainer);
         nonet.setVisibility(View.INVISIBLE);
         webView.setVisibility(View.VISIBLE);
         try {
@@ -272,10 +269,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
 
         spinner.setAdapter(adapter);
 
-        TextView nonet = getView().findViewById(R.id.no_net);
-        nonet.setVisibility(View.VISIBLE);
-        ImageView pic = getView().findViewById(R.id.imageView3);
-        pic.setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.samplePresentationsErrorContainer).setVisibility(View.VISIBLE);
         webView.setVisibility(View.INVISIBLE);
     }
 

@@ -27,7 +27,7 @@
     <string name="title_activity_send">Send</string>
 
 
-    <string name="noconnect">No&#160;network available!</string>
+    <string name="noNetwork">No&#160;network available!</string>
     <string name="URL_end">en</string>
 
     <string name="title_activity_hours">Hours</string>

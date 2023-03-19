@@ -17,7 +17,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -56,7 +55,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
     Toolbar toolbar;
     WebView webView;
     ProgressBar progressBar;
-    RelativeLayout errorLayout;
+    View errorLayout;
 
     @Override
     public void onAttach(Context context) {
@@ -73,13 +72,11 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         toolbar = view.findViewById(R.id.toolbar);
-        webView = view.findViewById(R.id.tt_webview);
-        progressBar = view.findViewById(R.id.tt_progress);
-        errorLayout = view.findViewById(R.id.tt_error);
+        webView = view.findViewById(R.id.dailytextWebView);
+        progressBar = view.findViewById(R.id.dailytextProgressBar);
+        errorLayout = view.findViewById(R.id.dailytextErrorContainer);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
-
-        toolbar.setTitle(R.string.title_dailytext);
 
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -97,8 +94,8 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
             String locale = sp.getString("tt_locale", Locale.getDefault().getLanguage());
             showLink("https://ministryapp.de/dailytext_fwd.php?d=" + d + "&m=" + m + "&y=" + y + "&l=" + locale);
         }else{
-            getView().findViewById(R.id.tt_webview).setVisibility(View.GONE);
-            getView().findViewById(R.id.tt_error).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.dailytextWebView).setVisibility(View.GONE);
+            getView().findViewById(R.id.dailytextErrorContainer).setVisibility(View.VISIBLE);
             getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(
                     "android.net.conn.CONNECTIVITY_CHANGE"));
         }
