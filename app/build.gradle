@@ -31,6 +31,14 @@ android {
 }
 
 dependencies {
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -48,11 +56,11 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.8.0'
     implementation 'com.github.dewinjm:monthyear-picker:1.0.2'
     implementation 'com.github.marcoscgdev:Licenser:2.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
-    implementation 'com.google.android.gms:play-services-base:17.6.0'
-    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
+    implementation 'com.google.android.gms:play-services-base:18.2.0'
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.2'
     implementation 'com.mindorks.android:prdownloader:0.6.0'
     implementation 'androidx.core:core:1.9.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
 }

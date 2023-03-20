@@ -42,7 +42,6 @@
     <string name="reportstudy">Heimbibelstudien:&#160;</string>
     <string name="reportsentvia">Gesendet über Dienstapp</string>
 
-    <string name="title_videos_success">1 Video heruntergeladen</string>
     <string name="ok">OK</string>
 
     <string name="download_text">Das Video \"%a\" wird heruntergeladen.</string>
@@ -95,7 +94,7 @@
 
     <string name="sample_presentations_not_available">Empfehlungen nicht für Systemzeit verfügbar.</string>
 
-    <string name="video_fetching_infos">Bitte warten... Infos werden abgerufen</string>
+    <string name="video_fetching_infos">Bitte warten&#8230; Infos werden abgerufen</string>
 
     <string name="calender_no_events">Kein Dienst für diesen Tag geplant!</string>
     <string name="calendar_partner">Partner</string>
@@ -111,7 +110,6 @@
     <string name="gdpr_title">Datenschutzerklärung</string>
 
     <string name="title_activity_global_import">In Dienstapp importieren (.minapp)</string>
-    <string name="not_accepted_import">Um zu importieren muss der Zugriff auf den Speicher gewährt werden.</string>
 
     <string name="carryover">Übertrag</string>
     <string name="carryover_msg">Die übrigen Minuten werden diesem Monat abgezogen und dem nächsten hinzugefügt.</string>
@@ -150,7 +148,7 @@
     <string name="no_partner">Kein Dienstpartner</string>
     <string name="calendar_activate_gcal_title">Google Kalender nutzen?</string>
     <string name="calendar_activate_gcal_msg">Soll sich die Dienstapp automatisch mit Google Kalender synchronisieren?</string>
-    <string name="calendar_activate_gcal_not_available">Synchronisation kann auf diesem Gerät leider nicht durchgeführt werden..</string>
+    <string name="calendar_activate_gcal_not_available">Synchronisation kann auf diesem Gerät leider nicht durchgeführt werden&#8230;</string>
     <string name="calendar_activate_gcal_not_working">Kalender konnte nicht synchronisiert werden!</string>
     <string name="calendar_gcal_setting">Google Kalender entfernen</string>
     <string name="calendar_gcal_reset_to_default">Google Kalender Einstellungen zurückgesetzt!</string>

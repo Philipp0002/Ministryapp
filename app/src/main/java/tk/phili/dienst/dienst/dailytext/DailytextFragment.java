@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.dailytext;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -130,6 +131,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
         }catch(Exception e){ }
 
         webView.post(new Runnable() {
+            @SuppressLint("SetJavaScriptEnabled")
             @Override
             public void run() {
                 webView.setVisibility(View.VISIBLE);

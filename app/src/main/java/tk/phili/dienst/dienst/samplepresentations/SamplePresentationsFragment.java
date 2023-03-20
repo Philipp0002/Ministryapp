@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.samplepresentations;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -83,6 +84,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         return root;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         toolbar = view.findViewById(R.id.toolbar);

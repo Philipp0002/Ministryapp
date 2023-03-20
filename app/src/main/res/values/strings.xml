@@ -52,8 +52,6 @@
     <string name="reportstudy">Bible Studies:&#160;</string>
     <string name="reportsentvia">Sent via Ministryapp</string>
 
-    <string name="title_videos_success">Downloaded 1 video</string>
-
     <string name="download_text">The video \"%a\" will be downloaded.</string>
     <string name="download_ok">Download</string>
 
@@ -109,7 +107,7 @@
 
     <string name="sample_presentations_not_available">Sample Presentations not available for system date.</string>
 
-    <string name="video_fetching_infos">Please wait... Retrieving information</string>
+    <string name="video_fetching_infos">Please wait&#8230; Retrieving information</string>
 
     <string name="calender_no_events">Nothing planned for this day!</string>
     <string name="calendar_partner">Partner</string>
@@ -125,7 +123,6 @@
     <string name="gdpr_title">Privacy Policy</string>
 
     <string name="title_activity_global_import">Import to Ministryapp (.minapp)</string>
-    <string name="not_accepted_import">You need to allow access to your storage for importing data.</string>
 
     <string name="carryover">Carry</string>
     <string name="carryover_msg">The minutes will be carried over to the next month.</string>
@@ -165,7 +162,7 @@
     <string name="no_partner">No preaching partner</string>
     <string name="calendar_activate_gcal_title">Use Google Calendar?</string>
     <string name="calendar_activate_gcal_msg">Do you want to automatically sync Ministryapp with Google Calendar?</string>
-    <string name="calendar_activate_gcal_not_available">Unfortunately syncing is not supported by your device...</string>
+    <string name="calendar_activate_gcal_not_available">Unfortunately syncing is not supported by your device&#8230;</string>
     <string name="calendar_activate_gcal_not_working">Couldn\'t sync calendar!</string>
     <string name="calendar_gcal_setting">Disconnect Google Calendar</string>
     <string name="calendar_gcal_reset_to_default">Google Calendar settings reset!</string>

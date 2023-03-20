@@ -4,7 +4,6 @@
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

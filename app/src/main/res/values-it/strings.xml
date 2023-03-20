@@ -39,7 +39,6 @@
     <string name="reportvideo">"Video:&#160;"</string>
     <string name="reportstudy">"Studi Biblici:&#160;"</string>
     <string name="reportsentvia">"Invia tramite Ministyapp"</string>
-    <string name="title_videos_success">"Download 1 Video"</string>
     <string name="download_text">"Il video \"%a\" sarà scaricato."</string>
     <string name="download_ok">Scaricamento</string>
     <string name="ask_sure">"Sicuro? "</string>
@@ -80,7 +79,7 @@
     <string name="drawer_ticker_news">"Novità"</string>
     <string name="drawer_ticker_no_news">"++ NOTIZIE ++ Nessuna notizia disponibile ++ NOTIZIE ++"</string>
     <string name="sample_presentations_not_available">"Presentazioni di esempio non disponibili per la data di sistema."</string>
-    <string name="video_fetching_infos">"Si prega di attendere ... Recupero delle informazioni"</string>
+    <string name="video_fetching_infos">Si prega di attendere&#8230; Recupero delle informazioni</string>
     <string name="calender_no_events">"Nessun Appuntamento per questo giorno!"</string>
     <string name="calendar_partner">"Compagno/a"</string>
     <string name="calendar_notes">"Note"</string>
@@ -92,7 +91,6 @@
     <string name="gdpr_accept">"Accetto "</string>
     <string name="gdpr_title">"politica sulla riservatezza"</string>
     <string name="title_activity_global_import">"Importa su Ministryapp (.minapp)"</string>
-    <string name="not_accepted_import">"È necessario consentire l'accesso alla memoria per l'importazione di dati."</string>
     <string name="carryover">"Trasferire"</string>
     <string name="carryover_msg">"I minuti saranno riportati il mese successivo."</string>
     <string name="action_refresh_vid">"Aggiorna la lista"</string>
@@ -130,7 +128,7 @@ perso. : /"</string>
     <string name="no_partner">Nessun compagno di servizio</string>
     <string name="calendar_activate_gcal_title">Utilizzare Google Calendar?</string>
     <string name="calendar_activate_gcal_msg">"Vuoi sincronizzare automaticamente Ministryapp con Google Calendar? "</string>
-    <string name="calendar_activate_gcal_not_available">Purtroppo la sincronizzazione non è supportata dal tuo dispositivo...</string>
+    <string name="calendar_activate_gcal_not_available">Purtroppo la sincronizzazione non è supportata dal tuo dispositivo&#8230;</string>
     <string name="calendar_activate_gcal_not_working">"Impossibile sincronizzare il calendario! "</string>
     <string name="calendar_gcal_setting">Disconnetti Google Calendar</string>
     <string name="calendar_gcal_reset_to_default">Le impostazioni di Google Calendar sono state ripristinate!</string>

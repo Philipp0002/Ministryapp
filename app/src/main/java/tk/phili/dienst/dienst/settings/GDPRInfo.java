@@ -1,5 +1,6 @@
 package tk.phili.dienst.dienst.settings;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -20,6 +21,7 @@ public class GDPRInfo extends AppCompatActivity {
 
     private static final String GDPR_URL = "https://ministryapp.de/privacy";
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

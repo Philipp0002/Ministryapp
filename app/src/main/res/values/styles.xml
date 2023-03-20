@@ -71,16 +71,6 @@
 
     </style>
 
-    <style name="BerichtAddFrameThemeTranslucent" parent="AppTheme">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="background">@android:color/transparent</item>
-
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
     <style name="DrawerTheme" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/toolbar</item>
@@ -89,9 +79,6 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
