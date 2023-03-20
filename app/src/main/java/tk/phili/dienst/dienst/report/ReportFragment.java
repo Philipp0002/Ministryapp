@@ -65,8 +65,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
-    public static ReportFragment INSTANCE = null;
-
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
 
     private Calendar calendarShow;
@@ -111,8 +109,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        INSTANCE = this;
-        reportTimer = new ReportTimer(getContext());
+        reportTimer = new ReportTimer(getContext(), this);
         toolbar = view.findViewById(R.id.toolbar);
         reportAddFab = view.findViewById(R.id.reportAddFab);
         upswipy = view.findViewById(R.id.reportSliderPreview);
@@ -355,7 +352,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
     public void initList() {
-        reportRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.emptyList()) {
+        reportRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.emptyList(), reportTimer) {
             @Override
             public void onClicked(Report report, View view) {
 
@@ -513,7 +510,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public void updateSummary() {
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
-        summarizedRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.singletonList(summarizedReport));
+        summarizedRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.singletonList(summarizedReport), null);
         summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
         summarizedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 

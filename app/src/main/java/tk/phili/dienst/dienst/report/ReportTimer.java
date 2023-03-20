@@ -29,10 +29,13 @@ public class ReportTimer {
     private static final String KEY_STATE = "timer_state";
     private static final String KEY_START_MILLIS = "timer_start_millis";
 
+    private ReportFragment reportFragment;
+
     private Context context;
 
-    public ReportTimer(Context context) {
+    public ReportTimer(Context context, ReportFragment reportFragment) {
         this.context = context;
+        this.reportFragment = reportFragment;
     }
 
     private SharedPreferences getSharedPreferences() {
@@ -87,16 +90,15 @@ public class ReportTimer {
     }
 
     private void updateReportFragment(long reportId) {
-        ReportFragment fragment = ReportFragment.INSTANCE;
-        if (fragment == null) {
+        if (reportFragment == null) {
             return;
         }
 
-        fragment.updateList();
+        reportFragment.updateList();
 
         if (reportId != -1) {
-            fragment.scrollToReportId(reportId);
-            fragment.showEditDialog(reportId);
+            reportFragment.scrollToReportId(reportId);
+            reportFragment.showEditDialog(reportId);
         }
     }
 

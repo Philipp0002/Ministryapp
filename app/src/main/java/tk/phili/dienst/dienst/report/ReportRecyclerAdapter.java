@@ -23,10 +23,12 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private Context context;
     List<Report> reports;
     private ReportManager reportManager;
+    private ReportTimer reportTimer;
 
-    public ReportRecyclerAdapter(Context context, List<Report> reports) {
+    public ReportRecyclerAdapter(Context context, List<Report> reports, ReportTimer reportTimer) {
         this.context = context;
         this.reports = reports;
+        this.reportTimer = reportTimer;
         this.reportManager = new ReportManager(context);
     }
 
@@ -87,7 +89,6 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         } else {
             TimerHolder holder = (TimerHolder) _holder;
             Report report = new Report();
-            ReportTimer reportTimer = new ReportTimer(context);
             report.setMinutes(reportTimer.getTimer() / 1000 / 60);
 
             if (reportTimer.getTimerState() == ReportTimer.TimerState.PAUSED) {
