@@ -267,9 +267,6 @@ public class SettingsFragment extends Fragment {
                         .setLibrary(new Library("Material Components",
                                 "https://github.com/material-components/material-components-android",
                                 License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("AutoFitTextView",
-                                "https://github.com/AndroidDeveloperLB/AutoFitTextView",
-                                License.Companion.getAPACHE2()))
                         .setLibrary(new Library("Android Sliding Up Panel",
                                 "https://github.com/umano/AndroidSlidingUpPanel",
                                 License.Companion.getAPACHE2()))
