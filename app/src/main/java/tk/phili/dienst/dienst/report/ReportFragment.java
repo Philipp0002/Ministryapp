@@ -47,8 +47,8 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -91,15 +91,14 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private ReportTimer reportTimer;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         fragmentCommunicationPass = (FragmentCommunicationPass) context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_report, null);
-        return root;
+        return inflater.inflate(R.layout.fragment_report, null);
     }
 
     @Override
@@ -265,7 +264,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         try {
             ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
-            Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
+            Constructor<MonthYearPickerDialog> constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
                     int.class,
                     int.class,
                     int.class,
@@ -273,7 +272,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     MonthYearPickerDialog.OnDateSetListener.class);
 
             constructor.setAccessible(true);
-            simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
+            simpleDatePickerDialog = constructor.newInstance(
                     contextThemeWrapper,
                     R.style.DialogStyleBasic,
                     calendarShow.get(Calendar.YEAR),
@@ -356,7 +355,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
     public void initList() {
-        reportRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Arrays.asList()) {
+        reportRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.emptyList()) {
             @Override
             public void onClicked(Report report, View view) {
 
@@ -409,7 +408,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         reportsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
                     if (reportAddFab.isExtended())
@@ -421,7 +420,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             }
 
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
@@ -514,7 +513,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public void updateSummary() {
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
-        summarizedRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Arrays.asList(summarizedReport));
+        summarizedRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.singletonList(summarizedReport));
         summarizedRecycler.setAdapter(summarizedRecyclerAdapter);
         summarizedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 

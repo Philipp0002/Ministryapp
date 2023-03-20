@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -71,7 +72,7 @@ public class SettingsFragment extends Fragment {
     private ContextThemeWrapper contextThemeWrapper;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         fragmentCommunicationPass = (FragmentCommunicationPass) context;
     }
@@ -83,8 +84,7 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_settings, null);
-        return root;
+        return inflater.inflate(R.layout.fragment_settings, null);
     }
 
     @Override
@@ -371,7 +371,7 @@ public class SettingsFragment extends Fragment {
             LayoutInflater inflater = SettingsFragment.this.getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.notification_time_popup, null);
 
-            final EditText edt = (EditText) dialogView.findViewById(R.id.time);
+            final EditText edt = dialogView.findViewById(R.id.time);
             MaterialAutoCompleteTextView spinnerView = dialogView.findViewById(R.id.unit);
 
             String[] units = {getResources().getString(R.string.calendar_notification_hour), getResources().getString(R.string.calendar_notification_day)};
