@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.dewinjm.monthyearpicker.MonthFormat;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
+import com.github.dewinjm.monthyearpicker.Presenter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -41,6 +42,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -284,6 +286,17 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
             method.setAccessible(true);
             method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
+
+            // Set calendar of library to dayofMonth = 1 to prevent bugs on the 31st of month
+            Field presenterField = MonthYearPickerDialog.class.getDeclaredField("presenter");
+            presenterField.setAccessible(true);
+            Presenter presenter = (Presenter) presenterField.get(simpleDatePickerDialog);
+
+            Field currentDateField = Presenter.class.getDeclaredField("currentDate");
+            currentDateField.setAccessible(true);
+            calendarShow.set(Calendar.DAY_OF_MONTH, 1);
+            currentDateField.set(presenter, calendarShow);
+
             simpleDatePickerDialog.show();
             simpleDatePickerDialog
                     .getButton(DialogInterface.BUTTON_POSITIVE)
@@ -528,37 +541,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         }else{
             goalView.setVisibility(View.GONE);
         }
-
-        /*if (sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))) {
-            goalView.setVisibility(View.VISIBLE);
-            int goal = Integer.parseInt(sp.getString("goal", "0"));
-            float percent = (float) summarizedReport.getMinutes() / ((float) goal * (float) 60) * 100;
-            rpb.setProgress(percent);
-            if ((int) percent == 100) {
-                goalText.setText(getString(R.string.goal_text_reached));
-            }
-            if ((goal * 60) - summarizedReport.getMinutes() > 0) {
-                if (summarizedReport.getMinutes() % 60 == 0) {
-                    if ((goal) - (summarizedReport.getMinutes() / 60) == 1) {
-                        goalText.setText(getString(R.string.goal_text_1).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
-                    } else {
-                        goalText.setText(getString(R.string.goal_text_mult).replace("%a", "" + (goal - (summarizedReport.getMinutes() / 60))));
-                    }
-                } else {
-                    Report report = new Report();
-                    report.setMinutes((goal * 60) - summarizedReport.getMinutes());
-                    report.setType(Report.Type.NORMAL);
-                    String[] formatted = report.getFormattedHoursAndMinutes(getContext());
-                    goalText.setText(getString(R.string.goal_text_minutes).replace("%a", formatted[0] + " " + formatted[1]));
-                }
-            } else if ((goal * 60) - summarizedReport.getMinutes() < 0) {
-                goalText.setText(getString(R.string.goal_text_reached_more).replace("%a", LocalTime.MIN.plus(
-                        Duration.ofMinutes(summarizedReport.getMinutes())
-                ).toString()));
-            }
-        } else {
-            goalView.setVisibility(View.GONE);
-        }*/
 
     }
 

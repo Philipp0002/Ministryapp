@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.github.dewinjm.monthyearpicker.MonthFormat;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
+import com.github.dewinjm.monthyearpicker.Presenter;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -42,6 +43,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -226,6 +228,17 @@ public class CalendarFragment extends Fragment {
             Method method = MonthYearPickerDialog.class.getDeclaredMethod("createTitle", String.class);
             method.setAccessible(true);
             method.invoke(simpleDatePickerDialog, getString(R.string.select_month_year));
+
+            // Set calendar of library to dayofMonth = 1 to prevent bugs on the 31st of month
+            Field presenterField = MonthYearPickerDialog.class.getDeclaredField("presenter");
+            presenterField.setAccessible(true);
+            Presenter presenter = (Presenter) presenterField.get(simpleDatePickerDialog);
+
+            Field currentDateField = Presenter.class.getDeclaredField("currentDate");
+            currentDateField.setAccessible(true);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            currentDateField.set(presenter, cal);
+
             simpleDatePickerDialog.show();
             simpleDatePickerDialog
                     .getButton(DialogInterface.BUTTON_POSITIVE)
