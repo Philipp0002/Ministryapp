@@ -22,36 +22,38 @@ public class Report {
     private String annotation;
     private Type type;
 
-    public Report(){
-        this(0, null, 0, 0, 0,0,0,null);
+    public Report() {
+        this(0, null, 0, 0, 0, 0, 0, null);
     }
 
     /**
      * Create a report object with type Type.Normal.
-     * @param id Report ID
-     * @param date Date of Report
-     * @param minutes Minutes in ministry
-     * @param placements Amount of placements
+     *
+     * @param id           Report ID
+     * @param date         Date of Report
+     * @param minutes      Minutes in ministry
+     * @param placements   Amount of placements
      * @param returnVisits Amount of return visits
-     * @param videos Amount of videos played
+     * @param videos       Amount of videos played
      * @param bibleStudies Amount of bible studies
-     * @param annotation Annotations by the user
+     * @param annotation   Annotations by the user
      */
     public Report(long id, LocalDate date, long minutes, int placements, int returnVisits, int videos, int bibleStudies, String annotation) {
-        this(id, date,minutes, placements, returnVisits, videos, bibleStudies, annotation, Type.NORMAL);
+        this(id, date, minutes, placements, returnVisits, videos, bibleStudies, annotation, Type.NORMAL);
     }
 
     /**
      * Create a report object.
-     * @param id Report ID
-     * @param date Date of Report
-     * @param minutes Minutes in ministry
-     * @param placements Amount of placements
+     *
+     * @param id           Report ID
+     * @param date         Date of Report
+     * @param minutes      Minutes in ministry
+     * @param placements   Amount of placements
      * @param returnVisits Amount of return visits
-     * @param videos Amount of videos played
+     * @param videos       Amount of videos played
      * @param bibleStudies Amount of bible studies
-     * @param annotation Annotations by the user
-     * @param type Type of report
+     * @param annotation   Annotations by the user
+     * @param type         Type of report
      */
     public Report(long id, LocalDate date, long minutes, int placements, int returnVisits, int videos, int bibleStudies, String annotation, Type type) {
         this.id = id;
@@ -85,16 +87,17 @@ public class Report {
      * Returns the formatted date of a report.
      * If the report is a summary or a carry-over
      * that will be returned instead.
+     *
      * @param context Application context for language support
      * @return Date of report or type of report
      */
-    public String getFormattedDate(Context context){
-        if(getType() == Type.NORMAL) {
+    public String getFormattedDate(Context context) {
+        if (getType() == Type.NORMAL) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
             return getDate().format(dateTimeFormatter);
-        }else if(getType() == Type.SUMMARY) {
+        } else if (getType() == Type.SUMMARY) {
             return context.getString(R.string.total);
-        }else{
+        } else {
             return context.getString(R.string.carryover);
         }
     }
@@ -110,28 +113,29 @@ public class Report {
     /**
      * Converts Hours into HH:mm format if it is necessary.
      * Otherwise only full minutes or hours are returned.
+     *
      * @param context Application context for language support
      * @return String array -> [0] = time -> [1] = time unit
      */
     @SuppressLint("DefaultLocale")
-    public String[] getFormattedHoursAndMinutes(Context context){
+    public String[] getFormattedHoursAndMinutes(Context context) {
         String minutesString = "";
-        String timeFormatString = context.getString(R.string.title_activity_hours);
+        String timeFormatString = context.getString(minutes == 60 ? R.string.title_activity_hour : R.string.title_activity_hours);
 
-        if(minutes % 60 == 0){
-            minutesString = ((minutes / 60)+ "");
-        }else{
-            if(minutes < 60){
+        if (minutes % 60 == 0) {
+            minutesString = ((minutes / 60) + "");
+        } else {
+            if (minutes < 60) {
                 minutesString = minutes + "";
-                timeFormatString = context.getString(R.string.minutes);
-            }else{
+                timeFormatString = context.getString(minutes == 1 ? R.string.minute : R.string.minutes);
+            } else {
                 long HH = minutes / 60;
                 long MM = (minutes % 60);
                 minutesString = String.format("%02d:%02d", HH, MM);
             }
         }
 
-        return new String[]{ minutesString, timeFormatString};
+        return new String[]{minutesString, timeFormatString};
     }
 
     public int getPlacements() {

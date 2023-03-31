@@ -31,6 +31,7 @@
     <string name="URL_end">en</string>
 
     <string name="title_activity_hours">Hours</string>
+    <string name="title_activity_hour">Hour</string>
     <string name="title_activity_placements">Placements</string>
     <string name="title_activity_return_visits">Return Visits</string>
     <string name="title_activity_videos">Videos</string>
@@ -69,6 +70,7 @@
     <string name="change_report">Change report</string>
     <string name="date">Date</string>
     <string name="minutes">Minutes</string>
+    <string name="minute">Minute</string>
     <string name="hour_max_59min">Maximum minute input is 59!</string>
     <string name="day_max_24h">There are only 24 hours a day!</string>
     <string name="total">TOTAL</string>
@@ -84,8 +86,7 @@
     <string name="goal_msg">Enter your monthly hour goal:</string>
     <string name="OK">OK</string>
     <string name="goal_no">Remove goal</string>
-    <string name="goal_text_mult">%a hours to reach the goal</string>
-    <string name="goal_text_1">%a hour to reach the goal</string>
+    <string name="goal_text_1">%a to reach the goal</string>
     <string name="goal_text_minutes">%a to reach the goal</string>
     <string name="goal_text_reached">You reached your goal!</string>
     <string name="goal_text_reached_more">You reached your goal! +%a more</string>

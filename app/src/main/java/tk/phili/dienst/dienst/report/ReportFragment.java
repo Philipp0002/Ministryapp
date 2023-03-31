@@ -520,7 +520,16 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             swipeUpCarryOver.setVisibility(View.VISIBLE);
         }
 
-        if (sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))) {
+        GoalState goalState = reportManager.getGoalState(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
+        if(goalState.hasGoal()) {
+            goalView.setVisibility(View.VISIBLE);
+            rpb.setProgress(goalState.getProgressPercent());
+            goalText.setText(goalState.getLocalizedGoalText());
+        }else{
+            goalView.setVisibility(View.GONE);
+        }
+
+        /*if (sp.contains("goal") && !"0".equals(sp.getString("goal", "0"))) {
             goalView.setVisibility(View.VISIBLE);
             int goal = Integer.parseInt(sp.getString("goal", "0"));
             float percent = (float) summarizedReport.getMinutes() / ((float) goal * (float) 60) * 100;
@@ -549,7 +558,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             }
         } else {
             goalView.setVisibility(View.GONE);
-        }
+        }*/
 
     }
 

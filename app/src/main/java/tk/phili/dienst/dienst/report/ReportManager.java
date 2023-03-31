@@ -8,13 +8,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.utils.LocalDateAdapter;
 
 public class ReportManager {
@@ -23,7 +26,9 @@ public class ReportManager {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
 
-    private static String SP_REPORTS_KEY = "reports";
+    private static final String SP_REPORTS_KEY = "reports";
+    private static final String SP_LAYOUT_KEY = "report_layout";
+    private static final String SP_GOAL_KEY = "goal";
 
     public ReportManager(Context context) {
         this.context = context;
@@ -210,16 +215,53 @@ public class ReportManager {
         }.getType();
         String json = getGson().toJson(reports, listType);
 
-        sharedPreferencesEditor.putString("reports", json);
+        sharedPreferencesEditor.putString(SP_REPORTS_KEY, json);
         sharedPreferencesEditor.apply();
     }
 
     public int getReportLayoutSetting() {
-        if (sharedPreferences.getInt("report_layout", 0) < 0
-                || sharedPreferences.getInt("report_layout", 0) > 1) {
+        if (sharedPreferences.getInt(SP_LAYOUT_KEY, 0) < 0
+                || sharedPreferences.getInt(SP_LAYOUT_KEY, 0) > 1) {
             return 0;
         }
-        return sharedPreferences.getInt("report_layout", 0);
+        return sharedPreferences.getInt(SP_LAYOUT_KEY, 0);
+    }
+
+    public GoalState getGoalState(int month, int year) {
+        GoalState goalState = new GoalState();
+
+        goalState.setHasGoal(sharedPreferences.contains(SP_GOAL_KEY) &&
+                !"0".equals(sharedPreferences.getString(SP_GOAL_KEY, "0")));
+
+        if (goalState.hasGoal()) {
+            int goalHours = Integer.parseInt(sharedPreferences.getString(SP_GOAL_KEY, "0"));
+            long goalMinutes = goalHours * 60;
+            Report report = getSummary(month, year);
+
+            goalState.setProgressPercent((float) report.getMinutes() / goalMinutes * 100);
+
+            long differenceMinutes = goalMinutes - report.getMinutes();
+
+            if (differenceMinutes == 0) {
+                goalState.setLocalizedGoalText(context.getString(R.string.goal_text_reached));
+            } else if (differenceMinutes < 0) {
+                report.setMinutes(Math.abs(differenceMinutes));
+                String[] formattedTime = report.getFormattedHoursAndMinutes(context);
+                goalState.setLocalizedGoalText(
+                        context.getString(R.string.goal_text_reached_more)
+                                .replace("%a", formattedTime[0] + " " + formattedTime[1])
+                );
+            } else if (differenceMinutes > 0) {
+                report.setMinutes(differenceMinutes);
+                String[] formattedTime = report.getFormattedHoursAndMinutes(context);
+                goalState.setLocalizedGoalText(
+                        context.getString(R.string.goal_text_1)
+                                .replace("%a", formattedTime[0] + " " + formattedTime[1])
+                );
+            }
+        }
+
+        return goalState;
     }
 
 }

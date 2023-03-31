@@ -73,8 +73,7 @@
     <string name="goal_msg">Gib hier dein monatliches Stundenziel ein:</string>
     <string name="OK">OK</string>
     <string name="goal_no">Ziel löschen</string>
-    <string name="goal_text_mult">%a Stunden um Ziel zu erreichen</string>
-    <string name="goal_text_1">%a Stunde um Ziel zu erreichen</string>
+    <string name="goal_text_1">%a um Ziel zu erreichen</string>
     <string name="goal_text_reached">Du hast dein Ziel erreicht!</string>
     <string name="goal_text_reached_more">Du hast dein Ziel erreicht! +%a mehr</string>
 
@@ -169,4 +168,6 @@
     <string name="timer_report_title">Berichtstimer</string>
     <string name="timer_running_title">Timer läuft</string>
     <string name="title_running_content">Tippen um App zu öffnen</string>
+    <string name="title_activity_hour">Stunde</string>
+    <string name="minute">Minute</string>
 </resources>
