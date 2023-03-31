@@ -36,7 +36,7 @@ import tk.phili.dienst.dienst.R;
 public class AdaptiveUtils {
 
     public static final int MEDIUM_SCREEN_WIDTH_SIZE = 600;
-    public static final int LARGE_SCREEN_WIDTH_SIZE = 1240;
+    public static final int LARGE_SCREEN_WIDTH_SIZE = 1150;
 
     private static DrawerLayout.DrawerListener drawerListener;
 
