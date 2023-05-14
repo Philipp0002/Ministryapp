@@ -156,14 +156,6 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
                         progressBar.setIndeterminate(false);
                         progressBar.setVisibility(View.VISIBLE);
 
-                        view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
-                        view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
-                        } else {
-                            view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
-                        }
-
                         errorLayout.setVisibility(View.GONE);
                     }
 
@@ -174,6 +166,10 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
                         view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
                         view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
+                        view.loadUrl("javascript:var style = document.createElement('style'); style.innerHTML = \".lnc-firstRunPopup {display: none !important;}\"; document.head.appendChild(style);");
+                        view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
+                        view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
+                        view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
                         } else {

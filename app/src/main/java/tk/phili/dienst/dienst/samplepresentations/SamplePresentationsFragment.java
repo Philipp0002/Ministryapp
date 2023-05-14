@@ -117,13 +117,6 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
                 if (!pageSuccess) return;
                 pageSuccess = true;
                 progressBar.setVisibility(View.VISIBLE);
-                view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
-                view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
-                } else {
-                    view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
-                }
             }
 
             @Override
@@ -134,6 +127,8 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
                 progressBar.setVisibility(View.GONE);
                 view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
                 view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
+                view.loadUrl("javascript:var main = document.getElementById(\"regionMain\"); main.classList.remove(\"showSecondaryNav\"); main.classList.remove(\"hasSecondaryNav\");");
+                view.loadUrl("javascript:var style = document.createElement('style'); style.innerHTML = \".lnc-firstRunPopup {display: none !important;} .articlePositioner {float: none !important; margin-top: 16px;}\"; document.head.appendChild(style);");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
                 } else {
