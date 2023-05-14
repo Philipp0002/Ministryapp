@@ -5,6 +5,7 @@
     <color name="ColorPrimaryDark">#00695C</color-->
     <color name="ColorPrimary">#1B1B1B</color>
     <color name="ColorPrimaryDark">@color/toolbarTop</color>
+    <color name="ColorOnPrimary">#2F0085</color>
     <color name="ColorSecondary">@color/green_accent</color>
     <color name="ColorOnSecondary">#21005D</color>
     <color name="buttonColor">#b71c1c</color>

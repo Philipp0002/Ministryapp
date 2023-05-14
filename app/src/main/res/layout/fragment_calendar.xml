@@ -53,17 +53,15 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="#141414"
+                app:cardBackgroundColor="@color/goalColor"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="8dp">
 
@@ -71,17 +69,19 @@
                     android:id="@+id/compactcalendar_view"
                     android:layout_width="fill_parent"
                     android:layout_height="250dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    app:compactCalendarBackgroundColor="#141414"
-                    app:compactCalendarCurrentDayBackgroundColor="@color/green_accent"
-                    app:compactCalendarCurrentSelectedDayBackgroundColor="@color/buttonColor"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="8dp"
+                    app:compactCalendarBackgroundColor="#00000000"
+                    app:compactCalendarCurrentDayBackgroundColor="@color/ColorOnSecondary"
+                    app:compactCalendarCurrentSelectedDayBackgroundColor="@color/ColorOnPrimaryContainer"
                     app:compactCalendarMultiEventIndicatorColor="#fff"
                     app:compactCalendarTargetHeight="250dp"
                     app:compactCalendarTextColor="#fff"
                     app:compactCalendarTextSize="12sp" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/calendar_day_text"

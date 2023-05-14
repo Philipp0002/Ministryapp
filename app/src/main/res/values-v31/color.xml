@@ -13,11 +13,14 @@
 
     <color name="report_card_color">@android:color/system_accent2_500</color>
     <color name="report_action_color">@android:color/system_accent2_700</color>
-    <color name="report_swipe_up_background">@android:color/system_accent2_10</color>
+    <color name="report_swipe_up_background">@color/m3_sys_color_dynamic_light_background</color>
 
     <color name="widget_icon_color">@android:color/system_accent3_300</color>
 
     <color name="background">@color/m3_sys_color_dynamic_dark_background</color>
+    <color name="toolbar">@color/m3_sys_color_dynamic_dark_background</color>
+    <color name="toolbarTop">@color/m3_sys_color_dynamic_dark_background</color>
+    <color name="goalColor">@color/m3_ref_palette_dynamic_neutral_variant10</color>
 
     <color name="drawer_news_outline">@color/m3_sys_color_dynamic_light_outline</color>
 

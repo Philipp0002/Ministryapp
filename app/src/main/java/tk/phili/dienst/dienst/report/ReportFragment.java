@@ -76,7 +76,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private RoundCornerProgressBar rpb;
     private RecyclerView reportsRecycler, summarizedRecycler;
     private ReportRecyclerAdapter reportRecyclerAdapter, summarizedRecyclerAdapter;
-    private ConstraintLayout goalView;
+    private View goalView;
 
     private ReportManager reportManager;
     private Toolbar toolbar;
@@ -238,6 +238,8 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 }
             }
         }, 30 * 1000, 60 * 1000);
+
+        goalView.setOnClickListener((a) -> openGoalEditDialog());
 
         updateList();
     }
@@ -479,40 +481,43 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         return deleted;
     }
 
+    public void openGoalEditDialog() {
+        View input_view = LayoutInflater.from(getContext())
+                .inflate(R.layout.goal_set_input, null, false);
+        final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
+
+
+        if (sp.contains("goal") && !sp.getString("goal", "0").equals("0")) {
+            edt.setText(sp.getString("goal", "0"));
+        }
+        new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+                .setView(input_view)
+                .setTitle(getString(R.string.goal_set))
+                .setMessage(getString(R.string.goal_msg))
+                .setPositiveButton(getString(R.string.OK), (dialog, whichButton) -> {
+                    try {
+                        Integer.parseInt(edt.getText().toString());
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    editor.putString("goal", edt.getText().toString());
+                    editor.commit();
+                    updateSummary();
+                })
+                .setNegativeButton(getString(R.string.goal_no), (dialog, whichButton) -> {
+                    editor.putString("goal", "0");
+                    editor.commit();
+                    updateSummary();
+                })
+                .create()
+                .show();
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.action_goal) {
-
-            View input_view = LayoutInflater.from(getContext())
-                    .inflate(R.layout.goal_set_input, null, false);
-            final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
-
-
-            if (sp.contains("goal") && !sp.getString("goal", "0").equals("0")) {
-                edt.setText(sp.getString("goal", "0"));
-            }
-            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
-                    .setView(input_view)
-                    .setTitle(getString(R.string.goal_set))
-                    .setMessage(getString(R.string.goal_msg))
-                    .setPositiveButton(getString(R.string.OK), (dialog, whichButton) -> {
-                        try {
-                            Integer.parseInt(edt.getText().toString());
-                        } catch (Exception e) {
-                            Toast.makeText(getContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        editor.putString("goal", edt.getText().toString());
-                        editor.commit();
-                        updateSummary();
-                    })
-                    .setNegativeButton(getString(R.string.goal_no), (dialog, whichButton) -> {
-                        editor.putString("goal", "0");
-                        editor.commit();
-                        updateSummary();
-                    })
-                    .create()
-                    .show();
+            openGoalEditDialog();
             return true;
         } else if (item.getItemId() == R.id.action_timer) {
             reportTimer.startTimer();
@@ -541,7 +546,12 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         }else{
             goalView.setVisibility(View.GONE);
         }
-
+        reportsRecycler.setPadding(reportsRecycler.getPaddingLeft(),
+                goalState.hasGoal() ? goalView.getHeight() - Utils.dpToPx(16) : 0,
+                reportsRecycler.getPaddingRight(),
+                reportsRecycler.getPaddingBottom());
+        Utils.setMargins(reportsRecycler,
+                0, goalState.hasGoal() ? Utils.dpToPx(16) : 0, 0, 0);
     }
 
 
