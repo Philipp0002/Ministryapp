@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import com.github.dewinjm.monthyearpicker.Presenter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -177,8 +179,22 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 View input_view = LayoutInflater.from(getContext())
                         .inflate(R.layout.report_send_input, null, false);
                 final EditText input = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
-
+                final MaterialSwitch detailedSwitch = input_view.findViewById(R.id.detailed_report_switch);
+                final MaterialSwitch activeSwitch = input_view.findViewById(R.id.active_switch);
                 input.setText(sp.getString("lastSendName", ""));
+                detailedSwitch.setChecked(sp.getBoolean("lastSendDetailed", false));
+                activeSwitch.setChecked(sp.getBoolean("lastSendActive", true));
+
+                if(detailedSwitch.isChecked()){
+                    activeSwitch.setVisibility(View.GONE);
+                }
+
+                detailedSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    activeSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                    if(!isChecked) {
+                        activeSwitch.setChecked(true);
+                    }
+                });
 
                 new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
                         .setTitle(getString(R.string.title_section6))
@@ -187,7 +203,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                         .setPositiveButton(getString(R.string.title_activity_send), (dialog, whichButton) -> {
                             String value = input.getText().toString();
                             if (!value.isEmpty()) {
-                                sendReport(value);
+                                sendReport(value, detailedSwitch.isChecked(), activeSwitch.isChecked());
                             }
                         })
                         .setNegativeButton(getString(R.string.cancel), null)
@@ -555,21 +571,35 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
 
-    public void sendReport(String name) {
+    public void sendReport(String name, boolean detailed, boolean wasActive) {
+        if(detailed){
+            wasActive = true;
+        }
+
         editor.putString("lastSendName", name);
+        editor.putBoolean("lastSendDetailed", detailed);
+        editor.putBoolean("lastSendActive", wasActive);
         editor.commit();
         if (!name.matches("")) {
             Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
             String text = getResources().getString(R.string.reportfor) + name + "\n" + getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
 
-            String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(getContext());
+            if(detailed) {
+                String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(getContext());
 
-
-            text = text + getResources().getString(R.string.reportplace) + summarizedReport.getPlacements() + "\n";
-            text = text + getResources().getString(R.string.reportvideo) + summarizedReport.getVideos() + "\n";
-            text = text + formattedTime[1] + ": " + formattedTime[0] + "\n";
-            text = text + getResources().getString(R.string.reportvisits) + summarizedReport.getReturnVisits() + "\n";
-            text = text + getResources().getString(R.string.reportstudy) + summarizedReport.getBibleStudies() + "\n";
+                text += getResources().getString(R.string.reportplace) + summarizedReport.getPlacements() + "\n";
+                text += getResources().getString(R.string.reportvideo) + summarizedReport.getVideos() + "\n";
+                text += formattedTime[1] + ": " + formattedTime[0] + "\n";
+                text += getResources().getString(R.string.reportvisits) + summarizedReport.getReturnVisits() + "\n";
+            }
+            if(wasActive) {
+                if(!detailed) {
+                    text += getResources().getString(R.string.reportActive) + "\n";
+                }
+                text += getResources().getString(R.string.reportstudy) + summarizedReport.getBibleStudies() + "\n";
+            } else {
+                text += getResources().getString(R.string.reportNotActive) + "\n";
+            }
             text = text + "==============\n" + getResources().getString(R.string.reportsentvia);
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);

@@ -150,4 +150,8 @@ perso. : /</string>
     <string name="title_running_content">Tocca per aprire l\'app</string>
     <string name="title_activity_hour">Ora</string>
     <string name="minute">Minuto</string>
+    <string name="report_switch_detailed_hint">Rapporto dettagliato</string>
+    <string name="report_switch_active_hint">Era attivo in servizio</string>
+    <string name="reportActive">✅ Era attivo in servizio</string>
+    <string name="reportNotActive">🔴 Non era attivo in servizio</string>
 </resources>

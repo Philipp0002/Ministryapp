@@ -176,4 +176,8 @@
     <string name="timer_report_title">Report timer</string>
     <string name="timer_running_title">Timer is running</string>
     <string name="title_running_content">Tap to open app</string>
+    <string name="report_switch_detailed_hint">Detailed report</string>
+    <string name="report_switch_active_hint">Was active in the ministry</string>
+    <string name="reportActive">✅ Was active in the ministry</string>
+    <string name="reportNotActive">🔴 Was not active in the ministry</string>
 </resources>
