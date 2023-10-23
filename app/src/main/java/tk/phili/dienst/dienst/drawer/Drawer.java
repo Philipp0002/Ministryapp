@@ -90,8 +90,11 @@ public class Drawer {
             tickerTextNav.setText(tickerDisplayText);
             tickerTextNavModal.setText(tickerDisplayText);
 
-            modalNavDrawer.addView(tickerHeaderNavModal);
-            navDrawer.addView(tickerHeaderNav);
+            // TODO: Figure out a way to re-enable this functionality
+            // GET https://b.jw-cdn.org/tokens/jworg.jwt
+            // THEN AuthorizationHeader -> Bearer https://b.jw-cdn.org/apis/alerts/list?type=news&lang=X&context=newsroom
+            //modalNavDrawer.addView(tickerHeaderNavModal);
+            //navDrawer.addView(tickerHeaderNav);
 
 
             if (activity.getString(R.string.URL_end).equalsIgnoreCase("de")) {
