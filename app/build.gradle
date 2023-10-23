@@ -2,8 +2,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
     defaultConfig {
+        compileSdk 33
         applicationId "tk.phili.dienst.dienst"
         minSdkVersion 16
         targetSdkVersion 33
@@ -11,6 +11,10 @@ android {
         versionName "1.75"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+        buildToolsVersion = '31.0.0'
+    }
+    androidResources {
+        generateLocaleConfig true
     }
     buildTypes {
         release {
@@ -18,16 +22,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    androidResources {
+        generateLocaleConfig true
+    }
     lintOptions {
         abortOnError false
     }
-    buildToolsVersion '31.0.0'
     compileOptions {
         coreLibraryDesugaringEnabled = true
 
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'tk.phili.dienst.dienst'
 }
 
 dependencies {
