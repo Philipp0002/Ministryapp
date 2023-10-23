@@ -586,11 +586,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
             if(detailed) {
                 String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(getContext());
-
-                text += getResources().getString(R.string.reportplace) + summarizedReport.getPlacements() + "\n";
-                text += getResources().getString(R.string.reportvideo) + summarizedReport.getVideos() + "\n";
                 text += formattedTime[1] + ": " + formattedTime[0] + "\n";
-                text += getResources().getString(R.string.reportvisits) + summarizedReport.getReturnVisits() + "\n";
             }
             if(wasActive) {
                 if(!detailed) {
