@@ -170,7 +170,7 @@
     <string name="title_running_content">Tippen um App zu öffnen</string>
     <string name="title_activity_hour">Stunde</string>
     <string name="minute">Minute</string>
-    <string name="report_switch_detailed_hint">Ausführlicher Bericht</string>
+    <string name="report_switch_detailed_hint">Stunden mitsenden</string>
     <string name="report_switch_active_hint">War aktiv im Dienst</string>
     <string name="reportActive">✅ War aktiv im Dienst</string>
     <string name="reportNotActive">🔴 War nicht aktiv im Dienst</string>
