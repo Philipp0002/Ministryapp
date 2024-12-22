@@ -17,9 +17,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        maven { url "https://github.com/omadahealth/omada-nexus/raw/master/release" }
         mavenCentral()
+        maven { url "https://github.com/omadahealth/omada-nexus/raw/master/release" }
         maven { url 'https://jitpack.io' }
-        maven { url "https://jcenter.bintray.com" } //JCenter is shutting down, so we need to add this
     }
 }

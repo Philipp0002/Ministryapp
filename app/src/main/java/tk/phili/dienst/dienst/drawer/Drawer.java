@@ -90,14 +90,14 @@ public class Drawer {
             tickerTextNav.setText(tickerDisplayText);
             tickerTextNavModal.setText(tickerDisplayText);
 
-            // TODO: Figure out a way to re-enable this functionality
+            // Maybe figure out a better way to implement this functionality?
             // GET https://b.jw-cdn.org/tokens/jworg.jwt
             // THEN AuthorizationHeader -> Bearer https://b.jw-cdn.org/apis/alerts/list?type=news&lang=X&context=newsroom
-            //modalNavDrawer.addView(tickerHeaderNavModal);
-            //navDrawer.addView(tickerHeaderNav);
+            modalNavDrawer.addView(tickerHeaderNavModal);
+            navDrawer.addView(tickerHeaderNav);
 
 
-            /*if (activity.getString(R.string.URL_end).equalsIgnoreCase("de")) {
+            if (activity.getString(R.string.URL_end).equalsIgnoreCase("de")) {
                 urlString = "https://www.jw.org/de/nachrichten/jw/rss/NewsSubsectionRSSFeed/feed.xml";
                 tickerURL = "https://www.jw.org/de/nachrichten/jw/";
             } else if (activity.getString(R.string.URL_end).equalsIgnoreCase("it")) {
@@ -145,7 +145,7 @@ public class Drawer {
                 @Override
                 public void onError() {
                 }
-            });*/
+            });
 
 
             initialized = true;
