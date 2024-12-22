@@ -17,21 +17,13 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -48,19 +40,18 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     private SharedPreferences sp;
 
     boolean pageSuccess = true;
-    public String lasturl = "";
+    public String lastUrl = "";
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Utils.isConnectedtoNet(getContext())) {
-                setSpinnerText();
+                tryLoadPage();
             }
         }
     };
 
     FragmentCommunicationPass fragmentCommunicationPass;
-    Spinner spinner;
     WebView webView;
     ProgressBar progressBar;
 
@@ -88,7 +79,6 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         toolbar = view.findViewById(R.id.toolbar);
-        spinner = view.findViewById(R.id.samplePresentationsMonthSpinner);
         webView = view.findViewById(R.id.samplePresentationsWebView);
         progressBar = view.findViewById(R.id.samplePresentationsProgressBar);
 
@@ -104,7 +94,7 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         webView.setWebViewClient(new WebViewClient() {
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.equals(lasturl) || url.contains("/d/")) {
+                if (url.equals(lastUrl) || url.contains("/d/")) {
                     return false;
                 } else {
                     return true;
@@ -140,21 +130,21 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 pageSuccess = false;
                 if (Utils.isConnectedtoNet(getContext())) {
-                    setSpinnerText();
+                    tryLoadPage();
                 } else {
-                    setErrorSpinner();
+                    showErrorState();
                 }
             }
         });
 
         if (Utils.isConnectedtoNet(getContext())) {
-            setSpinnerText();
+            tryLoadPage();
         } else {
-            setErrorSpinner();
+            showErrorState();
         }
     }
 
-    public void setSpinnerText() {
+    public void tryLoadPage() {
         View nonet = getView().findViewById(R.id.samplePresentationsErrorContainer);
         nonet.setVisibility(View.INVISIBLE);
         webView.setVisibility(View.VISIBLE);
@@ -163,83 +153,39 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         } catch (Exception e) {
         }
 
-        String urlend = sp.getString("sample_presentations_locale", Locale.getDefault().getLanguage());
+        String lang = sp.getString("sample_presentations_locale", Locale.getDefault().getLanguage());
 
-        final SamplePresentationsAsyncFetcher asyncFetcher = new SamplePresentationsAsyncFetcher();
-        asyncFetcher.language = urlend;
-        asyncFetcher.futurerun = () -> {
-            resolveResponse(asyncFetcher.response);
-        };
-        asyncFetcher.execute();
-    }
-
-    public void resolveResponse(JSONObject serverResponse) {
-        this.serverResponse = serverResponse;
-        if (serverResponse != null) {
-            if (getActivity() == null)
-                return;
-
-            getActivity().runOnUiThread(() -> spinner.setVisibility(View.VISIBLE));
-
-            ArrayList<String> listItems = new ArrayList<String>();
-            final ArrayList<String> listUrls = new ArrayList<String>();
-            JSONArray monthsArray = null;
-            String baseURL = "";
-            try {
-                monthsArray = serverResponse.getJSONArray("months");
-                baseURL = serverResponse.getString("baseURL");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            for (int i = 0; i < monthsArray.length(); i++) {
-                listItems.add(new DateFormatSymbols().getMonths()[i]);
-                try {
-                    listUrls.add(baseURL + monthsArray.getJSONObject(i).getString("url"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-                    R.layout.spinner_main, listItems);
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            getActivity().runOnUiThread(() -> {
-                spinner.setAdapter(adapter);
-                if (listItems.size() > getMonth()) {
-                    spinner.setSelection(getMonth());
-                } else {
-                    Toast.makeText(getContext(), getString(R.string.sample_presentations_not_available), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                boolean initial = true;
-
-                @Override
-                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    if (initial) {
-                        initial = false;
-                        return;
-                    }
-                    lasturl = listUrls.get(position);
-                    webView.loadUrl(lasturl);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parentView) {
-                }
-
-            });
-
-
-            lasturl = listUrls.get(getMonth());
-            getActivity().runOnUiThread(() -> webView.loadUrl(lasturl));
+        switch (lang) {
+            case "de":
+                lastUrl = "https://wol.jw.org/de/wol/d/r10/lp-x/1102023316";
+                break;
+            case "tr":
+                lastUrl = "https://wol.jw.org/tr/wol/d/r22/lp-tk/1102023316";
+                break;
+            case "fr":
+                lastUrl = "https://wol.jw.org/fr/wol/d/r30/lp-f/1102023316";
+                break;
+            case "it":
+                lastUrl = "https://wol.jw.org/it/wol/d/r6/lp-i/1102023316";
+                break;
+            case "th":
+                lastUrl = "https://wol.jw.org/th/wol/d/r113/lp-si/1102023316";
+                break;
+            case "pl":
+                lastUrl = "https://wol.jw.org/pl/wol/d/r12/lp-p/1102023316";
+                break;
+            case "es":
+                lastUrl = "https://wol.jw.org/es/wol/d/r4/lp-s/1102023316";
+                break;
+            case "el":
+                lastUrl = "https://wol.jw.org/el/wol/d/r11/lp-g/1102023316";
+                break;
+            default:
+                lastUrl = "https://wol.jw.org/en/wol/d/r1/lp-e/1102023316";
+                break;
         }
+
+        webView.loadUrl(lastUrl);
     }
 
     @Override
@@ -251,20 +197,9 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     }
 
 
-    public void setErrorSpinner() {
+    public void showErrorState() {
         getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(
                 "android.net.conn.CONNECTIVITY_CHANGE"));
-
-        String[] tags = new String[]{getString(R.string.error)};
-
-        spinner.setVisibility(View.INVISIBLE);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                R.layout.spinner_main, tags);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
 
         getView().findViewById(R.id.samplePresentationsErrorContainer).setVisibility(View.VISIBLE);
         webView.setVisibility(View.INVISIBLE);

@@ -23,14 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/title_sample_presentations"
-            app:theme="@style/DrawerTheme">
+            app:theme="@style/DrawerTheme"/>
 
-            <Spinner
-                android:id="@+id/samplePresentationsMonthSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
