@@ -17,7 +17,7 @@
         android:paddingTop="8dp"
         app:cardBackgroundColor="@color/report_card_color"
         app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+        app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

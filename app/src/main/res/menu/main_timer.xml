@@ -6,7 +6,6 @@
     <item
         android:id="@+id/action_timer"
         android:icon="@drawable/ic_timer_black_24dp"
-        android:iconTint="#fff"
         android:title="@string/action_timer"
         app:showAsAction="ifRoom" />
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/icon_animatable" >
+    <target
+        android:name="icon"
+        android:animation="@animator/icon_static_scale_animator" />
+    <target
+        android:name="suitcase"
+        android:animation="@animator/icon_suitcase_animator" />
+</animated-vector>

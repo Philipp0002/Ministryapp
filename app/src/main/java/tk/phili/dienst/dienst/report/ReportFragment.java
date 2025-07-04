@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import androidx.annotation.NonNull;
@@ -76,7 +77,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private View goalView;
 
     private ReportManager reportManager;
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private FloatingActionButton reportAddFab;
     private Button reportShareButton, carryOverButton, summaryButton, toolbarTitle;
     private TextView goalText;
@@ -432,7 +433,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             toolbar.inflateMenu(R.menu.main_timer);
         }
         toolbar.inflateMenu(R.menu.main);
-        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
 
         if (reportRecyclerAdapter == null) {
             initList();

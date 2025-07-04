@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.Material3Expressive.Light">
+    <style name="AppTheme" parent="Theme.Material3Expressive.DayNight.NoActionBar">
         <!-- Customize your theme here.-->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryContainer">@color/ColorSecondary</item>
-        <item name="colorOnPrimaryContainer">@color/ColorOnPrimaryContainer</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/ColorOnPrimary</item>
-        <item name="colorAccent">@color/accent_color</item>
-
-        <item name="colorSecondary">@color/ColorSecondary</item>
-        <item name="colorOnSecondary">@color/ColorOnSecondary</item>
-    </style>
-
-    <style name="NavigationTheme" parent="Theme.Material3Expressive.Dark" />
-
-    <style name="ToolbarWithCloseButton" parent="DrawerTheme">
-        <!--item name="navigationContentDescription">@string/toolbar_navigation_close_description</item-->
-        <item name="navigationIcon">@drawable/ic_baseline_close_24</item>
     </style>
 
     <style name="DialogStyleBasic" parent="Theme.Material3Expressive.Dark.Dialog">
@@ -70,15 +52,5 @@
         <item name="android:windowBackground">@color/background</item>
 
     </style>
-
-    <style name="DrawerTheme" parent="Theme.Material3Expressive.Dark.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/toolbar</item>
-        <item name="colorPrimaryDark">@color/toolbarTop</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-    </style>
-
-    <!--style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" /-->
 
 </resources>

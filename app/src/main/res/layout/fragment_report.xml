@@ -4,39 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_container"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/background"
-    android:fitsSystemWindows="false">
+    android:layout_height="fill_parent">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:theme="@style/DrawerTheme">
+        android:fitsSystemWindows="true">
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/toolbar_title"
-            style="@style/Widget.Material3.Button.TextButton"
+            style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MMMM YYYY"
+            tools:text="MMMM YYYY"
             android:textAppearance="@android:style/TextAppearance.Medium"
-            android:textColor="#fff"
             android:textStyle="bold"
             app:icon="@drawable/ic_arrow_drop_down_black_24dp"
             app:iconGravity="end"
-            app:iconTint="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -107,7 +102,6 @@
                 android:id="@+id/reportsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/background"
                 android:clipToPadding="false"
                 android:divider="@null"
                 android:dividerHeight="0dp"
@@ -196,7 +190,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:fitsSystemWindows="true">
 
             <com.google.android.material.floatingtoolbar.FloatingToolbarLayout
                 android:id="@+id/floating_toolbar"
@@ -254,7 +249,9 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/add_report"
                 app:srcCompat="@drawable/ic_add_black_24dp"
-                style="?attr/floatingActionButtonMediumStyle"/>
+                style="?attr/floatingActionButtonMediumStyle"
+                app:elevation="2dp"
+                />
 
         </LinearLayout>
 

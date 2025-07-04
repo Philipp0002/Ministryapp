@@ -6,7 +6,6 @@
     <item
         android:id="@+id/action_goal"
         android:icon="@drawable/ic_flag_black_24dp"
-        android:iconTint="#fff"
         android:title="@string/action_goal"
         app:showAsAction="ifRoom" />
 

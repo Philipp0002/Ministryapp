@@ -41,7 +41,7 @@ public class Splash extends Activity {
             e.printStackTrace();
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash);
+        //setContentView(R.layout.splash);
         isUp = true;
 
         sp = getPreferences(Context.MODE_PRIVATE);
@@ -59,7 +59,7 @@ public class Splash extends Activity {
                         periodicWorkRequest
                 );
 
-        ((TextView) findViewById(R.id.textView2)).setTypeface(Typeface.createFromAsset(getAssets(), "HammersmithOne-Regular.ttf"));
+        //((TextView) findViewById(R.id.textView2)).setTypeface(Typeface.createFromAsset(getAssets(), "HammersmithOne-Regular.ttf"));
 
         s = getIntent().getStringExtra("Activity");
 

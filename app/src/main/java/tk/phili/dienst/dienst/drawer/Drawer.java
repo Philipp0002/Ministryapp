@@ -1,14 +1,14 @@
 package tk.phili.dienst.dienst.drawer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,6 +71,13 @@ public class Drawer {
 
             TextView titleTextHeaderNav = titleHeaderNav.findViewById(R.id.app_text_header);
             TextView titleTextHeaderNavModal = titleHeaderNavModal.findViewById(R.id.app_text_header);
+
+            ImageView iconHeaderNav = titleHeaderNav.findViewById(R.id.app_icon_header);
+            ImageView iconHeaderNavModal = titleHeaderNavModal.findViewById(R.id.app_icon_header);
+            iconHeaderNav.setBackgroundResource(R.drawable.icon_drawer_animation);
+            iconHeaderNavModal.setBackgroundResource(R.drawable.icon_drawer_animation);
+            ((AnimatedVectorDrawable) iconHeaderNav.getBackground()).start();
+            ((AnimatedVectorDrawable) iconHeaderNavModal.getBackground()).start();
 
             titleTextHeaderNav.setTypeface(typeface);
             titleTextHeaderNavModal.setTypeface(typeface);

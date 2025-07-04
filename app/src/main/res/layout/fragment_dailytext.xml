@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".dailytext.DailytextFragment"
-    android:background="@color/background">
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,10 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            app:title="@string/title_dailytext"
-            app:theme="@style/DrawerTheme" />
+            app:title="@string/title_dailytext" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

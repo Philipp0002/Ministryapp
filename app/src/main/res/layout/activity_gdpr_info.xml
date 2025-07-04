@@ -4,22 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context="tk.phili.dienst.dienst.settings.GDPRInfo">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:theme="@style/DrawerTheme"
-        app:title="@string/gdpr_title">
+        app:title="@string/gdpr_title"
+        android:fitsSystemWindows="true">
 
     </androidx.appcompat.widget.Toolbar>
 

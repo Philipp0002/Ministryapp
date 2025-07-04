@@ -26,6 +26,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -129,10 +131,10 @@ public class SettingsFragment extends Fragment {
         setIcon(languageDailyTextSetting, R.drawable.ic_baseline_event_available_24px);
         setIcon(gcalResetSetting, R.drawable.ic_baseline_sync_disabled_24);
         setIcon(calTimeOfNotifySetting, R.drawable.ic_timer_black_24dp);
-        setIcon(notificationSetting, R.drawable.ic_baseline_notifications_24);
+        setIcon(notificationSetting, R.drawable.notification_settings_24px);
         setIcon(imprintSetting, R.drawable.ic_baseline_info_24);
-        setIcon(licensesSetting, R.drawable.ic_baseline_library_books_24);
-        setIcon(gdprSetting, R.drawable.ic_baseline_safety_check_24);
+        setIcon(licensesSetting, R.drawable.attribution_24px);
+        setIcon(gdprSetting, R.drawable.policy_24px);
 
         languageSamplPresSetting.setOnClickListener(__ -> {
             final CharSequence[] items = {getString(R.string.language_default), "English", "German", "Italian", "French", "Polish", "Turkish", "Thai", "Greek"};
@@ -567,8 +569,9 @@ public class SettingsFragment extends Fragment {
             f.setAccessible(true);
             AppCompatImageView imageView = (AppCompatImageView) f.get(preference);
             imageView.setVisibility(VISIBLE);
-            imageView.setColorFilter(Color.argb(255, 255, 255, 255));
+            //imageView.setColorFilter(Color.argb(255, 255, 255, 255));
             imageView.setImageResource(drawableId);
+            //ImageViewCompat.setImageTintList(imageView, ContextCompat.getColorStateList(requireContext(), R.attr.colorPrimary));
         } catch (Exception e) {
             e.printStackTrace();
         }
