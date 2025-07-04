@@ -19,7 +19,7 @@
         android:layout_marginBottom="4dp"
         android:paddingTop="8dp"
         app:cardBackgroundColor="@color/report_card_color"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="32dp"
         app:cardElevation="4dp">
 
         <LinearLayout

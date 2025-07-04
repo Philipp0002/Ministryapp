@@ -16,7 +16,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="4dp"
         app:cardBackgroundColor="@color/report_card_color"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="4dp">
 
         <LinearLayout

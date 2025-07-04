@@ -23,7 +23,6 @@
 
     <ImageButton
         android:id="@+id/nav_button"
-        style="?attr/borderlessButtonStyle"
         android:layout_width="@dimen/mtrl_min_touch_target_size"
         android:layout_height="@dimen/mtrl_min_touch_target_size"
         android:layout_gravity="start"

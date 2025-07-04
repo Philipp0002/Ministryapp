@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.Material3.Light">
+    <style name="AppTheme" parent="Theme.Material3Expressive.Light">
         <!-- Customize your theme here.-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -16,14 +16,14 @@
         <item name="colorOnSecondary">@color/ColorOnSecondary</item>
     </style>
 
-    <style name="NavigationTheme" parent="Theme.Material3.Dark" />
+    <style name="NavigationTheme" parent="Theme.Material3Expressive.Dark" />
 
     <style name="ToolbarWithCloseButton" parent="DrawerTheme">
         <!--item name="navigationContentDescription">@string/toolbar_navigation_close_description</item-->
         <item name="navigationIcon">@drawable/ic_baseline_close_24</item>
     </style>
 
-    <style name="DialogStyleBasic" parent="Theme.Material3.Dark.Dialog">
+    <style name="DialogStyleBasic" parent="Theme.Material3Expressive.Dark.Dialog">
         <item name="android:windowBackground">@drawable/bg_tablet_dialog</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
@@ -47,17 +47,17 @@
     <!-- MaterialDesign Alert Dialog Center Icon and Title -->
     <style name="MaterialAlertDialogCenterStyle">
         <item name="materialAlertDialogTitlePanelStyle">
-            @style/MaterialAlertDialog.Material3.Title.Panel.CenterStacked
+            @style/MaterialAlertDialog.Material3Expressive.Title.Panel.CenterStacked
         </item>
         <item name="materialAlertDialogTitleIconStyle">
             @style/MaterialAlertDialogCenterTitleIconStyle
         </item>
         <item name="materialAlertDialogTitleTextStyle">
-            @style/MaterialAlertDialog.Material3.Title.Text.CenterStacked
+            @style/MaterialAlertDialog.Material3Expressive.Title.Text.CenterStacked
         </item>
     </style>
 
-    <style name="MaterialAlertDialogCenterTitleIconStyle" parent="MaterialAlertDialog.Material3.Title.Icon.CenterStacked">
+    <style name="MaterialAlertDialogCenterTitleIconStyle" parent="MaterialAlertDialog.Material3Expressive.Title.Text.CenterStacked">
         <item name="tint">@color/ColorSecondary</item>
     </style>
 
@@ -79,6 +79,6 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" /-->
 
 </resources>
