@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 
 android {
     defaultConfig {
-        compileSdk 34
+        compileSdk 35
         applicationId "tk.phili.dienst.dienst"
-        minSdkVersion 16
-        targetSdkVersion 34
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 77
         versionName "1.77"
         vectorDrawables.useSupportLibrary = true
