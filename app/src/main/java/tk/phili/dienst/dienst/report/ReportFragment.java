@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +24,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -77,7 +81,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private View goalView;
 
     private ReportManager reportManager;
-    private MaterialToolbar toolbar;
+    private Toolbar toolbar;
     private FloatingActionButton reportAddFab;
     private Button reportShareButton, carryOverButton, summaryButton, toolbarTitle;
     private TextView goalText;
