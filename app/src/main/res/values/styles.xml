@@ -34,7 +34,7 @@
         <item name="android:windowMinWidthMinor">65%</item>
     </style>
 
-    <style name="AppThemeDark" parent="Theme.Material3.Dark">
+    <style name="AppThemeDark" parent="Theme.Material3Expressive.Dark">
         <!-- Customize your theme here.-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -71,7 +71,7 @@
 
     </style>
 
-    <style name="DrawerTheme" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="DrawerTheme" parent="Theme.Material3Expressive.Dark.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/toolbar</item>
         <item name="colorPrimaryDark">@color/toolbarTop</item>

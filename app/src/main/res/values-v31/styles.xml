@@ -11,7 +11,7 @@
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
     </style>
 
-    <style name="NavigationTheme" parent="Theme.Material3.Dark">
+    <style name="NavigationTheme" parent="Theme.Material3Expressive.Dark">
         <item name="colorSurfaceVariant">@color/m3_sys_color_dynamic_dark_surface_variant</item>
         <item name="colorSurface">@color/m3_sys_color_dynamic_dark_surface</item>
         <item name="colorOnSurfaceVariant">@color/m3_sys_color_dynamic_dark_on_surface_variant</item>
