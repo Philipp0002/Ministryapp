@@ -233,7 +233,7 @@ public class ReportManager {
         goalState.setHasGoal(sharedPreferences.contains(SP_GOAL_KEY) &&
                 !"0".equals(sharedPreferences.getString(SP_GOAL_KEY, "0")));
 
-        if (goalState.hasGoal()) {
+        if (goalState.isHasGoal()) {
             int goalHours = Integer.parseInt(sharedPreferences.getString(SP_GOAL_KEY, "0"));
             long goalMinutes = goalHours * 60;
             Report report = getSummary(month, year);

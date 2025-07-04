@@ -68,4 +68,6 @@ dependencies {
     implementation 'com.github.amitshekhariitbhu:PRDownloader:1.0.2'
     implementation 'androidx.core:core:1.9.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 }

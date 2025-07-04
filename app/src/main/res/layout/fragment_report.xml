@@ -38,299 +38,229 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        android:id="@+id/sliding_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:umanoOverlay="true"
-        app:umanoPanelHeight="68dp"
-        app:umanoShadowHeight="4dp">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/reportGoalContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="68dp">
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/reportGoalContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                CircleProgressView:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
-                CircleProgressView:layout_constraintStart_toEndOf="@+id/constraintLayout2"
-                CircleProgressView:layout_constraintTop_toTopOf="parent"
-                app:cardBackgroundColor="@color/goalColor"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="8dp"
-                android:visibility="visible">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/reportGoalText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Goal error"
-                        android:textAlignment="center"
-                        android:textColor="#fff"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                        android:id="@+id/reportGoalProgress"
-                        android:layout_width="0dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/reportGoalText"
-                        app:rcAnimationEnable="true"
-                        app:rcAnimationSpeedScale="0.5"
-                        app:rcBackgroundColor="#363636"
-                        app:rcBackgroundPadding="2dp"
-                        app:rcMax="100"
-                        app:rcProgress="0"
-                        app:rcProgressColor="@color/hours_progress_bar"
-                        app:rcRadius="20dp" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:visibility="visible"
+            CircleProgressView:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
+            CircleProgressView:layout_constraintStart_toEndOf="@+id/constraintLayout2"
+            CircleProgressView:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="@color/goalColor"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reportsRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background"
-                    android:clipToPadding="false"
-                    android:divider="@null"
-                    android:dividerHeight="0dp"
-                    android:footerDividersEnabled="false"
-                    android:headerDividersEnabled="false"
-                    android:paddingBottom="72dp"/>
-
-                <LinearLayout
-                    android:id="@+id/reportsEmptyView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/no_report_img"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:tint="@color/ColorSecondary"
-                        app:srcCompat="@drawable/ic_description_black_24dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:gravity="center_horizontal"
-                        android:text="@string/no_report"
-                        android:textColor="#fff" />
-
-                </LinearLayout>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/reportPrivateModeContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:clickable="true"
-                android:visibility="gone">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/reportGoalText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/report_private"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Goal error"
+                    android:textAlignment="center"
                     android:textColor="#fff"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/reportPrivateModeDisable"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:clickable="true"
-                    android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:text="@string/report_private_show"
-                    android:textColor="#fff"
-                    app:backgroundTint="@color/report_action_color"
-                    app:cornerRadius="16dp"
-                    app:elevation="0dp"
-                    app:icon="@drawable/ic_baseline_remove_red_eye_24"
-                    app:iconTint="#ffffff"
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/reportGoalProgress"
+                    app:trackThickness="12dp"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/reportGoalText" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reportsRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:paddingBottom="86dp" />
 
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:id="@+id/reportAddFab"
+            <LinearLayout
+                android:id="@+id/reportsEmptyView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/no_report_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/ColorSecondary"
+                    app:srcCompat="@drawable/ic_description_black_24dp" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginRight="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:clickable="true"
-                    android:text="@string/add_report"
-                    android:tint="@color/background"
-                    app:icon="@drawable/ic_add_black_24dp" />
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/no_report"
+                    android:textColor="#fff" />
 
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/reportPrivateModeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:clickable="true"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/report_private"
+                android:textColor="#fff"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reportPrivateModeDisable"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:insetBottom="0dp"
+                android:minHeight="48dp"
+                android:text="@string/report_private_show"
+                android:textColor="#fff"
+                app:backgroundTint="@color/report_action_color"
+                app:cornerRadius="16dp"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_baseline_remove_red_eye_24"
+                app:iconTint="#ffffff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/sliding_up_corners"
-            android:orientation="vertical">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center">
 
+            <com.google.android.material.floatingtoolbar.FloatingToolbarLayout
+                android:id="@+id/floating_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_behavior="com.google.android.material.behavior.HideViewOnScrollBehavior">
 
-            <RelativeLayout
-                android:id="@+id/reportSliderPreview"
-                android:layout_width="match_parent"
-                android:layout_height="68dp">
-
-                <TextView
-                    android:id="@+id/reportSliderText"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="45dp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center"
-                    android:text="@string/swipe_up_for_more" />
-
-                <ImageView
-                    android:id="@+id/reportSliderLeftIcon"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_chevron_double_up_grey600_48dp"
-                    android:tint="@color/material_blue_grey_800" />
-
-                <ImageView
-                    android:id="@+id/reportSliderRightIcon"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_chevron_double_up_grey600_48dp"
-                    android:tint="@color/material_blue_grey_800" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/reportShare"
-                    style="@style/Widget.MaterialComponents.Button"
+                <!-- floating toolbar sample content -->
+                <com.google.android.material.overflow.OverflowLinearLayout
+                    android:id="@+id/floating_toolbar_child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="8dp"
-                    android:alpha="0"
-                    android:clickable="true"
-                    android:insetBottom="0dp"
-                    android:minHeight="64dp"
-                    android:text="@string/title_activity_send"
-                    android:textColor="#fff"
-                    app:backgroundTint="@color/report_action_color"
-                    app:cornerRadius="16dp"
-                    app:elevation="0dp"
-                    app:icon="@drawable/ic_baseline_share_24"
-                    app:iconTint="#fff" />
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/reportCarryover"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_toLeftOf="@id/reportShare"
-                    android:alpha="0"
-                    android:clickable="true"
-                    android:insetBottom="0dp"
-                    android:minHeight="64dp"
-                    android:text="@string/carryover"
-                    android:textColor="#fff"
-                    app:backgroundTint="@color/report_action_color"
-                    app:cornerRadius="16dp"
-                    app:elevation="0dp"
-                    app:icon="@drawable/ic_baseline_next_plan_24"
-                    app:iconTint="#fff" />
-            </RelativeLayout>
+                    <Button
+                        android:id="@+id/reportSummary"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/carryover"
+                        app:icon="@drawable/ic_baseline_info_24"
+                        app:layout_overflowIcon="@drawable/ic_baseline_next_plan_24"
+                        app:layout_overflowText="@string/carryover" />
 
+                    <Button
+                        android:id="@+id/reportCarryover"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/carryover"
+                        app:icon="@drawable/ic_baseline_next_plan_24"
+                        app:layout_overflowIcon="@drawable/ic_baseline_next_plan_24"
+                        app:layout_overflowText="@string/carryover" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reportSummaryRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/reportShare"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/title_activity_send"
+                        app:icon="@drawable/ic_baseline_share_24"
+                        app:layout_overflowIcon="@drawable/ic_baseline_share_24"
+                        app:layout_overflowText="@string/title_activity_send" />
+                </com.google.android.material.overflow.OverflowLinearLayout>
 
+            </com.google.android.material.floatingtoolbar.FloatingToolbarLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/reportAddFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/add_report"
+                app:srcCompat="@drawable/ic_add_black_24dp"
+                style="?attr/floatingActionButtonMediumStyle"/>
 
         </LinearLayout>
 
 
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
