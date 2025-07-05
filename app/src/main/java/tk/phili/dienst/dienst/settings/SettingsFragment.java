@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
@@ -108,6 +110,7 @@ public class SettingsFragment extends Fragment {
         MaterialEditTextPreference reportLayoutEdit = view.findViewById(R.id.report_layout_settings);
         MaterialStandardPreference exportSetting = view.findViewById(R.id.export);
         MaterialStandardPreference resetSetting = view.findViewById(R.id.reset);
+        MaterialEditTextPreference darkModeSetting = view.findViewById(R.id.darkMode);
         MaterialSwitchPreference privateModeSwitch = view.findViewById(R.id.report_private_mode);
         MaterialStandardPreference languageSamplPresSetting = view.findViewById(R.id.language_empf);
         MaterialStandardPreference languageDailyTextSetting = view.findViewById(R.id.language_tt);
@@ -120,11 +123,13 @@ public class SettingsFragment extends Fragment {
 
         reportLayoutEdit.setUserInputModule(sim);
         reportLayoutEdit.setStorageModule(ssm);
+        darkModeSetting.setUserInputModule(sim);
+        darkModeSetting.setStorageModule(ssm);
         privateModeSwitch.setStorageModule(ssm);
-
 
         setIcon(exportSetting, R.drawable.ic_baseline_backup_24);
         setIcon(resetSetting, R.drawable.ic_baseline_delete_forever_24);
+        setIcon(darkModeSetting, R.drawable.dark_mode_24px);
         setIcon(reportLayoutEdit, R.drawable.ic_baseline_style_24);
         setIcon(privateModeSwitch, R.drawable.ic_baseline_privacy_tip_24);
         setIcon(languageSamplPresSetting, R.drawable.ic_thumb_up_black_24dp);
@@ -355,9 +360,9 @@ public class SettingsFragment extends Fragment {
         notificationSetting.setOnClickListener(__ -> {
             Intent intent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                intent = new Intent(android.provider.Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                        .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, getContext().getPackageName())
-                        .putExtra(android.provider.Settings.EXTRA_CHANNEL_ID, "calendar");
+                intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName())
+                        .putExtra(Settings.EXTRA_CHANNEL_ID, "calendar");
             } else {
                 intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
 
@@ -470,6 +475,35 @@ public class SettingsFragment extends Fragment {
                         })
                         .show();
 
+            } else if (key.equalsIgnoreCase("dark_mode")) {
+                final CharSequence[] items = {getString(R.string.dark_mode_auto), getString(R.string.dark_mode_dark), getString(R.string.dark_mode_light)};
+
+                int checkedItem = 0;
+                if (sp.contains("dark_mode")) {
+                    checkedItem = sp.getInt("dark_mode", 0);
+                }
+
+                new MaterialAlertDialogBuilder(contextThemeWrapper)
+                        .setTitle(R.string.dark_mode)
+                        .setSingleChoiceItems(items, checkedItem, (dialog, item) -> {
+                            editor.putInt("dark_mode", item);
+                            editor.apply();
+                            listener.onInput(items[item].toString());
+
+                            int mode = 0;
+                            if (item == 0) {
+                                mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                            } else if (item == 1) {
+                                mode = AppCompatDelegate.MODE_NIGHT_YES;
+                            } else if (item == 2) {
+                                mode = AppCompatDelegate.MODE_NIGHT_NO;
+                            }
+                            AppCompatDelegate.setDefaultNightMode(mode);
+
+                            dialog.dismiss();
+                        })
+                        .create()
+                        .show();
             }
         }
 
@@ -530,6 +564,15 @@ public class SettingsFragment extends Fragment {
                     return SettingsFragment.this.getString(R.string.report_layout_1);
                 } else {
                     return SettingsFragment.this.getString(R.string.report_layout_2);
+                }
+            } else if (key.equalsIgnoreCase("dark_mode")) {
+                switch (sp.getInt("dark_mode", 0)) {
+                    case 1:
+                        return SettingsFragment.this.getString(R.string.dark_mode_dark);
+                    case 2:
+                        return SettingsFragment.this.getString(R.string.dark_mode_light);
+                    default:
+                        return SettingsFragment.this.getString(R.string.dark_mode_auto);
                 }
             }
             return null;

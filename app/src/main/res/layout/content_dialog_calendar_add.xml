@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="24dp"
-    android:orientation="vertical"
-    android:theme="@style/AppThemeDark">
+    android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -49,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/calendar_notes"
-        app:startIconDrawable="@drawable/ic_chrome_reader_mode_black_24dp">
+        app:startIconDrawable="@drawable/edit_note_24px">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_calendar_notes"

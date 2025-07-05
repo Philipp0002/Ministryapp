@@ -48,6 +48,14 @@
                     android:layout_height="wrap_content"
                     app:mp_title="@string/reset" />
 
+                <com.yarolegovich.mp.MaterialEditTextPreference
+                    android:id="@+id/darkMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mp_key="dark_mode"
+                    app:mp_show_value="onRight"
+                    app:mp_title="@string/dark_mode" />
+
             </com.yarolegovich.mp.MaterialPreferenceCategory>
 
 

@@ -45,21 +45,14 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {
 
-    Calendar myCalendar = null;
-    DatePickerDialog.OnDateSetListener date = null;
+    private Calendar myCalendar = null;
+    private DatePickerDialog.OnDateSetListener date = null;
 
     private Report report;
-    ReportManager reportManager;
+    private ReportManager reportManager;
 
-    EditText dateView,
-            hourView,
-            minutesView,
-            placementsView,
-            returnsView,
-            videosView,
-            studiesView,
-            annotationView;
-    Toolbar toolbar;
+    private EditText dateView, hourView, minutesView, placementsView, returnsView, videosView, studiesView, annotationView;
+    private Toolbar toolbar;
 
     public Runnable dismissCallback;
 
@@ -84,8 +77,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dialog_report_add, container, false);
     }
 
@@ -122,8 +114,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
             }
 
             if (mBackStackId >= 0) {
-                getParentFragmentManager().popBackStack(mBackStackId,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getParentFragmentManager().popBackStack(mBackStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
                 FragmentTransaction ft = getParentFragmentManager().beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -148,14 +139,13 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
 
         toolbar = view.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.save);
-        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationOnClickListener(view1 -> {
             dismiss();
-            Utils.hideKeyboard(getActivity());
+            Utils.hideKeyboard(requireActivity());
         });
 
-        reportManager = new ReportManager(getContext());
+        reportManager = new ReportManager(requireContext());
 
         long id = getArguments().getLong("id", Long.MAX_VALUE);
 
@@ -209,9 +199,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         dateView.setOnFocusChangeListener((v, hasFocus) -> {
             if (ViewCompat.isAttachedToWindow(v)) {
                 if (hasFocus) {
-                    DatePickerDialog dpd = new DatePickerDialog(getContext(), date, myCalendar
-                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                            myCalendar.get(Calendar.DAY_OF_MONTH));
+                    DatePickerDialog dpd = new DatePickerDialog(requireContext(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                     dpd.setOnCancelListener(dialog -> hourView.requestFocus());
                     dpd.show();
                 }
@@ -306,20 +294,12 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             backInvokedCallback = () -> dismiss();
-            getActivity().getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
-                    OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-                    backInvokedCallback
-            );
+            getActivity().getOnBackInvokedDispatcher().registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, backInvokedCallback);
         }
     }
 
     public void showError(final String messagebox) {
-        AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
-                .setTitle(getString(R.string.error))
-                .setMessage(messagebox)
-                .setPositiveButton(R.string.ok, null)
-                .setNegativeButton("", null)
-                .create();
+        AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark)).setTitle(getString(R.string.error)).setMessage(messagebox).setPositiveButton(R.string.ok, null).setNegativeButton("", null).create();
         dialog.show();
 
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);
@@ -367,8 +347,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
         reportManager.createReport(report);
 
         dismiss();
-        if (dismissCallback != null)
-            dismissCallback.run();
+        if (dismissCallback != null) dismissCallback.run();
     }
 
 

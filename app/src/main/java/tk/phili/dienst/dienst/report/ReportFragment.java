@@ -452,7 +452,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             noReportView.setVisibility(View.GONE);
         }
 
-
         updateSummary();
     }
 
@@ -485,7 +484,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     try {
                         Integer.parseInt(edt.getText().toString());
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), getString(R.string.goal_invalid), Toast.LENGTH_LONG).show();
                         return;
                     }
                     editor.putString("goal", edt.getText().toString());
@@ -529,12 +528,14 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         } else {
             goalView.setVisibility(View.GONE);
         }
-        reportsRecycler.setPadding(reportsRecycler.getPaddingLeft(),
-                goalState.isHasGoal() ? goalView.getHeight() - Utils.dpToPx(16) : 0,
-                reportsRecycler.getPaddingRight(),
-                reportsRecycler.getPaddingBottom());
-        Utils.setMargins(reportsRecycler,
-                0, goalState.isHasGoal() ? Utils.dpToPx(16) : 0, 0, 0);
+        reportsRecycler.post(() -> {
+            reportsRecycler.setPadding(reportsRecycler.getPaddingLeft(),
+                    goalState.isHasGoal() ? goalView.getHeight() - Utils.dpToPx(16) : 0,
+                    reportsRecycler.getPaddingRight(),
+                    reportsRecycler.getPaddingBottom());
+            Utils.setMargins(reportsRecycler,
+                    0, goalState.isHasGoal() ? Utils.dpToPx(16) : 0, 0, 0);
+        });
     }
 
 

@@ -1,5 +1,4 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_container"
@@ -53,17 +52,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
             android:visibility="visible"
-            CircleProgressView:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
-            CircleProgressView:layout_constraintStart_toEndOf="@+id/constraintLayout2"
-            CircleProgressView:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/goalColor"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="?attr/colorSecondaryContainer"
             app:cardCornerRadius="16dp"
-            app:cardElevation="8dp">
+            app:cardElevation="1dp"
+            android:clipToOutline="false"
+            android:clipToPadding="false">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -74,11 +72,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="Goal error"
+                    tools:text="Goal text"
                     android:textAlignment="center"
-                    android:textColor="#fff"
+                    android:textColor="?attr/colorOnSecondaryContainer"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -93,6 +90,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/reportGoalText"
+                    app:trackColor="?attr/colorOnSecondaryFixed"
+                    app:indicatorColor="?attr/colorOnSecondaryContainer"
                     app:trackThickness="12dp" />
 
 
@@ -114,7 +113,9 @@
                 android:dividerHeight="0dp"
                 android:footerDividersEnabled="false"
                 android:headerDividersEnabled="false"
-                android:paddingBottom="86dp" />
+                android:paddingBottom="86dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="0dp" />
 
             <LinearLayout
                 android:id="@+id/reportsEmptyView"
@@ -132,7 +133,6 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:tint="@color/ColorSecondary"
                     app:srcCompat="@drawable/ic_description_black_24dp" />
 
                 <TextView
@@ -142,8 +142,7 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
                     android:gravity="center_horizontal"
-                    android:text="@string/no_report"
-                    android:textColor="#fff" />
+                    android:text="@string/no_report" />
 
             </LinearLayout>
 
@@ -163,7 +162,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/report_private"
-                android:textColor="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -179,12 +177,9 @@
                 android:insetBottom="0dp"
                 android:minHeight="48dp"
                 android:text="@string/report_private_show"
-                android:textColor="#fff"
-                app:backgroundTint="@color/report_action_color"
                 app:cornerRadius="16dp"
                 app:elevation="0dp"
                 app:icon="@drawable/ic_baseline_remove_red_eye_24"
-                app:iconTint="#ffffff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -260,6 +255,7 @@
                 android:contentDescription="@string/add_report"
                 app:elevation="2dp"
                 app:srcCompat="@drawable/ic_add_black_24dp"
+                android:elevation="2dp"
                 android:clipToPadding="false"
                 />
 

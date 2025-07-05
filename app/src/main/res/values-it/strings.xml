@@ -154,4 +154,9 @@ perso. : /</string>
     <string name="report_switch_active_hint">Era attivo in servizio</string>
     <string name="reportActive">✅ Era attivo in servizio</string>
     <string name="reportNotActive">🔴 Non era attivo in servizio</string>
+
+    <string name="dark_mode">Modalità scura</string>
+    <string name="dark_mode_auto">Automatica</string>
+    <string name="dark_mode_dark">Scura</string>
+    <string name="dark_mode_light">Chiara</string>
 </resources>

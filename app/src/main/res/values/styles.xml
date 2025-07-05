@@ -3,6 +3,7 @@
 
     <style name="AppTheme" parent="Theme.Material3Expressive.DayNight.NoActionBar">
         <!-- Customize your theme here.-->
+
     </style>
 
     <style name="DialogStyleBasic" parent="Theme.Material3Expressive.Dark.Dialog">

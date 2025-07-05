@@ -174,4 +174,9 @@
     <string name="report_switch_active_hint">War aktiv im Dienst</string>
     <string name="reportActive">✅ War aktiv im Dienst</string>
     <string name="reportNotActive">🔴 War nicht aktiv im Dienst</string>
+
+    <string name="dark_mode">Dunkler Modus</string>
+    <string name="dark_mode_auto">Automatisch</string>
+    <string name="dark_mode_dark">Dunkel</string>
+    <string name="dark_mode_light">Hell</string>
 </resources>

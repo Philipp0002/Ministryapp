@@ -51,15 +51,15 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {
 
-    Calendar calendar = null;
-    long id;
-    public SharedPreferences sp;
+    private Calendar calendar = null;
+    private long id;
+    private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
-    Toolbar toolbar;
-    EditText dateView, partnerView, notesView;
+    private Toolbar toolbar;
+    private EditText dateView, partnerView, notesView;
 
-    Runnable dismissCallback;
+    public Runnable dismissCallback;
 
     private OnBackInvokedCallback backInvokedCallback;
 
@@ -136,14 +136,13 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
         notesView = view.findViewById(R.id.add_calendar_notes);
 
         toolbar.inflateMenu(R.menu.save);
-        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationOnClickListener(view1 -> {
             dismiss();
-            Utils.hideKeyboard(getActivity());
+            Utils.hideKeyboard(requireActivity());
         });
 
-        sp = getContext().getSharedPreferences("MainActivity", MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("MainActivity", MODE_PRIVATE);
         editor = sp.edit();
 
         int day = getArguments().getInt("day", 1);
@@ -269,15 +268,15 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
             if (!gCalExistsEvent) {
                 long currentTimeMillis = cal.getTimeInMillis();
                 long endTimeMillis = currentTimeMillis + 900000;
-                ContentResolver cr = getContext().getContentResolver();
+                ContentResolver cr = requireContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 values.put(CalendarContract.Events.DTSTART, currentTimeMillis);
                 values.put(CalendarContract.Events.DTEND, endTimeMillis);
                 values.put(CalendarContract.Events.TITLE, getString(R.string.calendar_event_title).replace("%a", dienstpartner));
-                values.put(CalendarContract.Events.DESCRIPTION, beschreibung + "");
+                values.put(CalendarContract.Events.DESCRIPTION, beschreibung);
                 values.put(CalendarContract.Events.CALENDAR_ID, calendarId);
                 values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getDisplayName());
-                int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                int permissionCheck = ContextCompat.checkSelfPermission(requireContext(),
                         Manifest.permission.WRITE_CALENDAR);
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
@@ -295,13 +294,13 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
                 long currentTimeMillis = cal.getTimeInMillis();
                 long endTimeMillis = currentTimeMillis + 900000;
                 long eventId = eventIdEvent;
-                ContentResolver cr = getContext().getContentResolver();
+                ContentResolver cr = requireContext().getContentResolver();
                 ContentValues values = new ContentValues();
                 values.put(CalendarContract.Events.DTSTART, currentTimeMillis);
                 values.put(CalendarContract.Events.DTEND, endTimeMillis);
                 values.put(CalendarContract.Events.TITLE, getString(R.string.calendar_event_title).replace("%a", dienstpartner));
                 values.put(CalendarContract.Events.DESCRIPTION, beschreibung + "");
-                int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                int permissionCheck = ContextCompat.checkSelfPermission(requireContext(),
                         Manifest.permission.WRITE_CALENDAR);
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
@@ -310,9 +309,9 @@ public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuI
             }
         }
 
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat
-                    .requestPermissions(getActivity(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100001);
+                    .requestPermissions(requireActivity(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100001);
             return;
         }
 

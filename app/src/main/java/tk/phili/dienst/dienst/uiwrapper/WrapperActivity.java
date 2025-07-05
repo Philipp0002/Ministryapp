@@ -8,7 +8,9 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -52,7 +54,19 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
+
+        int darkMode = getSharedPreferences("MainActivity", Context.MODE_PRIVATE).getInt("dark_mode", 0);
+        int mode = 0;
+        if (darkMode == 0) {
+            mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        } else if (darkMode == 1) {
+            mode = AppCompatDelegate.MODE_NIGHT_YES;
+        } else if (darkMode == 2) {
+            mode = AppCompatDelegate.MODE_NIGHT_NO;
+        }
+        AppCompatDelegate.setDefaultNightMode(mode);
 
         if (!getSharedPreferences("Splash", Context.MODE_PRIVATE).getBoolean("dsgvo_accept", false)) {
             startActivity(new Intent(this, GDPRInfo.class));

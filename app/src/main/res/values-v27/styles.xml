@@ -2,11 +2,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.Material3Expressive.DayNight.NoActionBar">
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icon_splash_animation</item>
-        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+        <!-- Customize your theme here.-->
         <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
-
-
 </resources>

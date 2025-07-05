@@ -180,6 +180,9 @@
     <string name="report_switch_active_hint">Was active in the ministry</string>
     <string name="reportActive">✅ Was active in the ministry</string>
     <string name="reportNotActive">🔴 Was not active in the ministry</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode_auto">Auto</string>
+    <string name="dark_mode_dark">Dark</string>
+    <string name="dark_mode_light">Light</string>
 </resources>
