@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.Splash;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 
 public class GlobalImport extends AppCompatActivity {
 
@@ -43,7 +43,7 @@ public class GlobalImport extends AppCompatActivity {
 
         findViewById(R.id.import_do).setOnClickListener(view -> {
             process(filePath);
-            startActivity(new Intent(GlobalImport.this, Splash.class));
+            startActivity(new Intent(GlobalImport.this, WrapperActivity.class));
             finish();
         });
 

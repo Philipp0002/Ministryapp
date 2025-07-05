@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.Splash;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 
 public class GDPRInfo extends AppCompatActivity {
 
@@ -65,7 +65,7 @@ public class GDPRInfo extends AppCompatActivity {
             editor.putBoolean("dsgvo_accept", true);
             editor.commit();
 
-            Intent mainIntent = new Intent(GDPRInfo.this, Splash.class);
+            Intent mainIntent = new Intent(GDPRInfo.this, WrapperActivity.class);
 
             GDPRInfo.this.startActivity(mainIntent);
             GDPRInfo.this.finish();

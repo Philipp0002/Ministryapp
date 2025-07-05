@@ -1,32 +1,25 @@
 package tk.phili.dienst.dienst.report;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.dynamicanimation.animation.DynamicAnimation;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.dynamicanimation.animation.SpringForce;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.dewinjm.monthyearpicker.MonthFormat;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
 import com.github.dewinjm.monthyearpicker.Presenter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
@@ -61,7 +55,6 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
-import tk.phili.dienst.dienst.utils.MenuTintUtils;
 import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
@@ -96,6 +89,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         fragmentCommunicationPass = (FragmentCommunicationPass) context;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_report, null);
@@ -105,7 +99,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
     }
 
@@ -416,6 +410,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         });
     }
 
+    @SuppressLint("InflateParams")
     private void showSummaryDialog() {
         final View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_report_summary, null);
         RecyclerView reportSummaryRecycler = dialogView.findViewById(R.id.reportSummaryRecycler);
@@ -474,7 +469,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     }
 
     public void openGoalEditDialog() {
-        View input_view = LayoutInflater.from(getContext())
+        View input_view = LayoutInflater.from(requireContext())
                 .inflate(R.layout.goal_set_input, null, false);
         final EditText edt = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
 
@@ -557,7 +552,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             String text = getResources().getString(R.string.reportfor) + name + "\n" + getResources().getString(R.string.reportmonth) + new DateFormatSymbols().getMonths()[calendarShow.get(Calendar.MONTH)] + "\n==============\n";
 
             if (detailed) {
-                String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(getContext());
+                String[] formattedTime = summarizedReport.getFormattedHoursAndMinutes(requireContext());
                 text += formattedTime[1] + ": " + formattedTime[0] + "\n";
             }
             if (wasActive) {

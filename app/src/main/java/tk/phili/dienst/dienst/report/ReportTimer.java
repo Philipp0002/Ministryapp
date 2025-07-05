@@ -15,12 +15,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.Splash;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 
 public class ReportTimer {
 
@@ -173,7 +170,7 @@ public class ReportTimer {
     }
 
     private void sendNotification() {
-        Intent i = new Intent(context, Splash.class);
+        Intent i = new Intent(context, WrapperActivity.class);
         i.putExtra("Activity", "MainActivity");
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, FLAG_IMMUTABLE);
 

@@ -1,29 +1,39 @@
 package tk.phili.dienst.dienst.uiwrapper;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigationrail.NavigationRailView;
 
-import tk.phili.dienst.dienst.MinistryApplication;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.Splash;
 import tk.phili.dienst.dienst.calendar.CalendarFragment;
+import tk.phili.dienst.dienst.calendar.CalendarWorker;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
 import tk.phili.dienst.dienst.drawer.Drawer;
 import tk.phili.dienst.dienst.notes.NotesFragment;
 import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
+import tk.phili.dienst.dienst.settings.GDPRInfo;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
+import tk.phili.dienst.dienst.utils.Shortcuts;
 import tk.phili.dienst.dienst.videos.VideoFragment;
 
 public class WrapperActivity extends AppCompatActivity implements FragmentCommunicationPass {
@@ -43,6 +53,12 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!getSharedPreferences("Splash", Context.MODE_PRIVATE).getBoolean("dsgvo_accept", false)) {
+            startActivity(new Intent(this, GDPRInfo.class));
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            finish();
+        }
 
         setContentView(R.layout.activity_wrapper);
 
@@ -76,6 +92,26 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
         }else{
             drawer.initialized = false;
         }
+
+        createNotificationChannel();
+
+        PeriodicWorkRequest.Builder builder =
+                new PeriodicWorkRequest.Builder(CalendarWorker.class, 15,
+                        TimeUnit.MINUTES);
+        PeriodicWorkRequest periodicWorkRequest = builder.build();
+        WorkManager.getInstance(getApplicationContext())
+                .enqueueUniquePeriodicWork(
+                        "Calendar",
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        periodicWorkRequest
+                );
+
+        try {
+            Shortcuts.updateShortcuts(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -104,5 +140,21 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     protected void onDestroy() {
         super.onDestroy();
         drawer.initialized = false;
+    }
+
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channelCalendar = new NotificationChannel("calendar", getString(R.string.title_calendar), NotificationManager.IMPORTANCE_HIGH);
+            channelCalendar.setDescription(getString(R.string.title_calendar));
+            NotificationChannel channelReportTimer = new NotificationChannel("reportTimer", getString(R.string.timer_report_title), NotificationManager.IMPORTANCE_DEFAULT);
+            channelReportTimer.setDescription(getString(R.string.timer_report_title));
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannels(Arrays.asList(channelCalendar, channelReportTimer));
+        }
     }
 }

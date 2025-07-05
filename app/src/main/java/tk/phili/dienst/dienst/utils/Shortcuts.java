@@ -10,7 +10,7 @@ import android.os.Build;
 import java.util.ArrayList;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.Splash;
+import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 
 public class Shortcuts {
 
@@ -20,7 +20,7 @@ public class Shortcuts {
 
             int maxShortcuts = shortcutManager.getMaxShortcutCountPerActivity();
 
-            Intent i = new Intent(context, Splash.class);
+            Intent i = new Intent(context, WrapperActivity.class);
             i.putExtra("Activity", "MainActivity");
             ShortcutInfo id1 = new ShortcutInfo.Builder(context, "id1")
                     .setShortLabel(context.getString(R.string.title_report))

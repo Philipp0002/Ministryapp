@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -55,9 +55,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/goalColor"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="8dp">
+                app:cardElevation="16dp">
 
                 <com.github.sundeepk.compactcalendarview.CompactCalendarView
                     android:id="@+id/compactcalendar_view"
@@ -67,15 +66,25 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="8dp"
+                    app:compactCalendarTargetHeight="250dp"
+                    app:compactCalendarTextSize="12sp"
+                    app:compactCalendarBackgroundColor="#00000000"
+                    app:compactCalendarTextColor="?attr/colorOnBackground"
+                    app:compactCalendarCurrentSelectedDayTextColor="?attr/colorOnPrimary"
+                    app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorPrimary"
+                    app:compactCalendarCurrentDayBackgroundColor="?attr/colorSurfaceVariant"
+                    app:compactCalendarCurrentDayTextColor="?attr/colorOnSurfaceVariant"/>
+
+                <!--
+                    app:compactCalendarTextColor="#fff"
+                    app:compactCalendarMultiEventIndicatorColor="#fff"
                     app:compactCalendarBackgroundColor="#00000000"
                     app:compactCalendarCurrentDayBackgroundColor="@color/ColorOnSecondary"
                     app:compactCalendarCurrentSelectedDayBackgroundColor="@color/ColorOnPrimaryContainer"
-                    app:compactCalendarMultiEventIndicatorColor="#fff"
-                    app:compactCalendarTargetHeight="250dp"
-                    app:compactCalendarTextColor="#fff"
-                    app:compactCalendarTextSize="12sp" />
 
-            </com.google.android.material.card.MaterialCardView>
+                -->
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/calendar_day_text"
@@ -87,7 +96,6 @@
                 android:layout_marginBottom="8dp"
                 android:text="TAG"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#fff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -102,7 +110,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:background="@color/background"
                     android:fillViewport="true"
                     android:scrollbarStyle="insideOverlay"
                     android:scrollbars="vertical">
@@ -110,8 +117,7 @@
                     <ListView
                         android:id="@+id/event_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/background" />
+                        android:layout_height="wrap_content" />
 
                 </ScrollView>
 
@@ -124,7 +130,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="@string/calender_no_events"
-                    android:textColor="#fff"
                     android:textSize="20sp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -133,17 +138,16 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/calendar_add_button"
+            style="?attr/floatingActionButtonMediumStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/fab_margin"
             android:layout_marginBottom="@dimen/fab_margin"
-            android:elevation="10dp"
-            android:tint="@color/background"
-            app:backgroundTint="@color/green_accent"
-            app:srcCompat="@drawable/ic_playlist_add_black_24dp" />
+            android:elevation="2dp"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

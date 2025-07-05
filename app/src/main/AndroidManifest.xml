@@ -23,8 +23,14 @@
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".uiwrapper.WrapperActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -36,16 +42,6 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity
-            android:name=".Splash"
-            android:exported="true"
-            android:theme="@style/Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".settings.GDPRInfo" />
         <activity
             android:name=".settings.GlobalImport"

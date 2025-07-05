@@ -43,14 +43,4 @@
         <item name="tint">@color/ColorSecondary</item>
     </style>
 
-
-    <style name="Splash" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimary</item>
-        <item name="android:windowBackground">@color/background</item>
-
-    </style>
-
 </resources>
