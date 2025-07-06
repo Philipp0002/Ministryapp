@@ -238,13 +238,6 @@ public class CalendarFragment extends Fragment {
             currentDateField.set(presenter, cal);
 
             simpleDatePickerDialog.show();
-            simpleDatePickerDialog
-                    .getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
-
-            simpleDatePickerDialog
-                    .getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
         } catch (Exception e) {
             e.printStackTrace();
         }

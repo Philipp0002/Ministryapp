@@ -1,5 +1,7 @@
 package tk.phili.dienst.dienst.report;
 
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -275,13 +277,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             currentDateField.set(presenter, calendarShow);
 
             simpleDatePickerDialog.show();
-            simpleDatePickerDialog
-                    .getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
-
-            simpleDatePickerDialog
-                    .getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -415,13 +410,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
-        ReportRecyclerAdapter summarizedRecyclerAdapter = new ReportRecyclerAdapter(getContext(), Collections.singletonList(summarizedReport), null);
+        ReportRecyclerAdapter summarizedRecyclerAdapter = new ReportRecyclerAdapter(requireContext(), Collections.singletonList(summarizedReport), null);
         reportSummaryRecycler.setAdapter(summarizedRecyclerAdapter);
         reportSummaryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         dialog.setContentView(dialogView);
         dialog.show();
+        dialog.getBehavior().setState(STATE_EXPANDED);
+        dialog.getBehavior().setSkipCollapsed(true);
     }
 
     public void updateList() {

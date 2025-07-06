@@ -70,7 +70,6 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
         toolbar.inflateMenu(R.menu.videos);
-        MenuTintUtils.tintAllIcons(toolbar.getMenu(), Color.WHITE);
         toolbar.setOnMenuItemClickListener(this);
 
         toolbar.setTitle(getResources().getString(R.string.title_videos));

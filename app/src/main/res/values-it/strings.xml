@@ -54,9 +54,9 @@
     <string name="minutes">Minuti</string>
     <string name="hour_max_59min">L\'immissione massima dei minuti è 59!</string>
     <string name="day_max_24h">Ci sono solo 24 ore al giorno!</string>
-    <string name="total">TOTALI</string>
+    <string name="total">Totali</string>
     <string name="swipe_up_for_more">Scorri verso l\'alto per le statistiche totali</string>
-    <string name="no_report">Nessun report per questo mese! Per aggiungere dati, fai clic sul pulsante \"+\"!</string>
+    <string name="no_report">Nessun report per questo mese!\nPer aggiungere dati, fai clic sul pulsante \"+\"!</string>
     <string name="report_undo_1">Voce rimossa</string>
     <string name="report_undo_2">Eliminare</string>
     <string name="goal_set">Imposta il tuo obiettivo mensile</string>

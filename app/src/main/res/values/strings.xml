@@ -73,10 +73,10 @@
     <string name="minute">Minute</string>
     <string name="hour_max_59min">Maximum minute input is 59!</string>
     <string name="day_max_24h">There are only 24 hours a day!</string>
-    <string name="total">TOTAL</string>
+    <string name="total">Total</string>
     <string name="timer">TIMER</string>
     <string name="swipe_up_for_more">Swipe up for the total statistics</string>
-    <string name="no_report">No reportdata for this month! To add data click the "+" button!</string>
+    <string name="no_report">No reportdata for this month!\nTo add data click the "+" button!</string>
 
     <string name="report_undo_1">Removed entry</string>
     <string name="report_undo_2">Undo</string>

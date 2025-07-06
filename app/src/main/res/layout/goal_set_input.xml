@@ -20,7 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:singleLine="true"
-            android:inputType="numberSigned"/>
+            android:inputType="numberSigned">
+
+            <requestFocus />
+
+        </com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
 

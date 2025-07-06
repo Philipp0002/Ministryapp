@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/open_sans"
+                android:textAllCaps="true"
                 android:text="@string/total"
                 android:textColor="@color/list_bericht_date"
                 android:textStyle="normal|bold" />

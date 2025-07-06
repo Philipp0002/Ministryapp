@@ -6,10 +6,8 @@
 
     </style>
 
-    <style name="DialogStyleBasic" parent="Theme.Material3Expressive.Dark.Dialog">
+    <style name="DialogStyleBasic" parent="ThemeOverlay.Material3Expressive.Dialog">
         <item name="android:windowBackground">@drawable/bg_tablet_dialog</item>
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
     <style name="DialogStyle" parent="DialogStyleBasic">

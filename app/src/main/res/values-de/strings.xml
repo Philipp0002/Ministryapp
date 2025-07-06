@@ -61,9 +61,9 @@
     <string name="minutes">Minuten</string>
     <string name="hour_max_59min">Maximale Minutenanzahl ist 59!</string>
     <string name="day_max_24h">Es gibt nur 24 Stunden am Tag!</string>
-    <string name="total">INSGESAMT</string>
+    <string name="total">Insgesamt</string>
     <string name="swipe_up_for_more">Wische hoch für Zusammenfassung</string>
-    <string name="no_report">Keine Berichtsdaten für diesen Monat! Füge Daten mit \"+\" hinzu!</string>
+    <string name="no_report">Keine Berichtsdaten für diesen Monat!\nFüge Daten mit \"+\" hinzu!</string>
 
 
     <string name="report_undo_1">Eintrag entfernt</string>
