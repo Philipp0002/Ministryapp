@@ -21,13 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.downloader.PRDownloader;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.io.File;
 import java.util.HashMap;
@@ -107,7 +105,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                             @Override
                             public void onNext(Float value) {
                                 holder.downloadProgressBar.setVisibility(View.VISIBLE);
-                                holder.downloadProgressBar.setProgress(value * 100);
+                                holder.downloadProgressBar.setProgress((int) (value * 100));
                             }
 
                             @Override
@@ -129,7 +127,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     Toast.makeText(context, context.getString(R.string.videonew_lostfile), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
                         .setTitle(context.getString(R.string.ask_sure))
                         .setMessage(context.getString(R.string.download_text).replace("%a", video.getName()))
                         .setIcon(R.drawable.ic_baseline_cloud_download_24)
@@ -161,7 +159,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         public ImageView notDownloadedImg, downloadedImg;
         public View mainView;
 
-        public RoundCornerProgressBar downloadProgressBar;
+        public LinearProgressIndicator downloadProgressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -189,7 +187,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
             context.startActivity(intent);
         } catch (Exception e) {
-            new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+            new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
                     .setTitle(R.string.error)
                     .setIcon(R.drawable.ic_baseline_error_outline_24)
                     .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
@@ -206,7 +204,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 + "/" + "MINISTRY" + "/" + vidname.replace("?", "") + ".mp4");
 
         if (file.exists()) {
-            new MaterialAlertDialogBuilder(new ContextThemeWrapper(context, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+            new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
                     .setTitle(context.getString(R.string.ask_sure))
                     .setMessage(context.getString(R.string.delete_text).replace("%a", vidname))
                     .setIcon(R.drawable.ic_baseline_delete_24)

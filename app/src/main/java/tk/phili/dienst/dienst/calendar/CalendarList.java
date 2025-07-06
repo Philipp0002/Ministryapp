@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.ContextCompat;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -96,7 +95,7 @@ public class CalendarList extends ArrayAdapter<String> {
         holder.mainView.setOnLongClickListener(view -> {
 
             String[] entries = new String[]{context.getString(R.string.calendar_menu_edit), context.getString(R.string.calendar_menu_delete)};
-            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+            new MaterialAlertDialogBuilder(context)
                     .setTitle(context.getString(R.string.calendar_menu_title))
                     .setItems(entries, (dialog, which) -> {
                         if (which == 0) {
@@ -109,7 +108,7 @@ public class CalendarList extends ArrayAdapter<String> {
                                     partner.isEmpty() ? null : partner,
                                     description.isEmpty() ? null : description);
                         } else if (which == 1) {
-                            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                            new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialogCenterStyle)
                                     .setMessage(R.string.calendar_menu_delete_msg)
                                     .setTitle((context.getString(R.string.calendar_menu_delete_title)))
                                     .setPositiveButton(context.getString(R.string.delete_ok), (d, e) -> {

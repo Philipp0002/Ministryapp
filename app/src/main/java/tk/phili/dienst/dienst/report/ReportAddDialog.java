@@ -21,7 +21,6 @@ import android.window.OnBackInvokedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
@@ -299,7 +298,7 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
     }
 
     public void showError(final String messagebox) {
-        AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark)).setTitle(getString(R.string.error)).setMessage(messagebox).setPositiveButton(R.string.ok, null).setNegativeButton("", null).create();
+        AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext()).setTitle(getString(R.string.error)).setMessage(messagebox).setPositiveButton(R.string.ok, null).setNegativeButton("", null).create();
         dialog.show();
 
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);

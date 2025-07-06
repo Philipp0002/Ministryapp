@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -178,7 +177,7 @@ public class CalendarFragment extends Fragment {
         };
 
         if (!sp.contains("CalendarSyncActive")) {
-            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+            new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                     .setTitle(R.string.calendar_activate_gcal_title)
                     .setMessage(R.string.calendar_activate_gcal_msg)
                     .setIcon(R.drawable.ic_baseline_sync_24)
@@ -203,7 +202,6 @@ public class CalendarFragment extends Fragment {
         MonthYearPickerDialog simpleDatePickerDialog;
 
         try {
-            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
             Constructor constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
                     int.class,
                     int.class,
@@ -213,7 +211,7 @@ public class CalendarFragment extends Fragment {
 
             constructor.setAccessible(true);
             simpleDatePickerDialog = (MonthYearPickerDialog) constructor.newInstance(
-                    contextThemeWrapper,
+                    requireContext(),
                     R.style.DialogStyleBasic,
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
@@ -242,11 +240,11 @@ public class CalendarFragment extends Fragment {
             simpleDatePickerDialog.show();
             simpleDatePickerDialog
                     .getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
 
             simpleDatePickerDialog
                     .getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -355,7 +353,7 @@ public class CalendarFragment extends Fragment {
                 cur.close();
             }
             if (calendarIdList.size() != 0) {
-                MaterialAlertDialogBuilder adb = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark));
+                MaterialAlertDialogBuilder adb = new MaterialAlertDialogBuilder(requireContext());
                 adb.setTitle("Kalender wählen"); //TODO MULTI LANG
                 CharSequence items[] = accountNameList.toArray(new CharSequence[accountNameList.size()]);
                 adb.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {

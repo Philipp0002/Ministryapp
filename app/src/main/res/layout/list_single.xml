@@ -163,27 +163,19 @@
                 app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
 
-            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_download_indeterminate"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/time"
                 app:layout_constraintEnd_toEndOf="@+id/bg"
                 app:layout_constraintStart_toEndOf="@+id/time"
                 app:layout_constraintTop_toTopOf="@+id/time"
-                app:rcAnimationEnable="true"
-                app:rcAnimationSpeedScale="5"
-                app:rcBackgroundColor="#363636"
-                app:rcBackgroundPadding="2dp"
-                app:rcMax="100"
-                app:rcProgress="0"
-                app:rcProgressColor="@color/hours_progress_bar"
-                app:rcRadius="20dp" />
+                app:trackThickness="12dp"
+                android:indeterminate="true"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

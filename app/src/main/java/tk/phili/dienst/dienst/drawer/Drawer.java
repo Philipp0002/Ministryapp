@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
@@ -205,7 +204,7 @@ public class Drawer {
         for (Object[] mapping : positionMapping) {
             if (mapping[0] == toOpen) {
                 if ((int) mapping[3] > Build.VERSION.SDK_INT) {
-                    new MaterialAlertDialogBuilder(new ContextThemeWrapper(activity, R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                    new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogCenterStyle)
                             .setTitle(R.string.error)
                             .setIcon(R.drawable.ic_baseline_error_outline_24)
                             .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())

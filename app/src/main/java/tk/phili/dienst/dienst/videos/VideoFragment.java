@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -159,7 +158,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) progressIndicator.getLayoutParams();
         params.setMargins(marginHoriz, marginVert, marginHoriz, marginVert);
 
-        AlertDialog dialog = new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                 .setTitle(getString(R.string.video_fetching_infos))
                 .setView(layout)
                 .setCancelable(false)
@@ -175,7 +174,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                 refreshList(null);
             } else {
                 dialog.cancel();
-                new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                         .setTitle(R.string.video_refresh_error_title)
                         .setIcon(R.drawable.ic_baseline_signal_cellular_connected_no_internet_4_bar_24)
                         .setPositiveButton(R.string.ok, (dialog1, which) -> dialog1.dismiss())

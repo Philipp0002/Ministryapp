@@ -81,7 +81,6 @@
                     android:id="@+id/report_private_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/AppThemeDark"
                     app:mp_key="private_mode"
                     app:mp_title="@string/report_private_mode" />
 

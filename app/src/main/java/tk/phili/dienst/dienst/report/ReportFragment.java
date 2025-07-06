@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -174,7 +173,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                 }
             });
 
-            new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+            new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.title_section6))
                     .setMessage(getString(R.string.report_input_name))
                     .setView(input_view)
@@ -190,7 +189,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         carryOverButton.setOnClickListener(v -> {
             if (carryOverButton.getAlpha() != 0F) {
-                new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark), R.style.MaterialAlertDialogCenterStyle)
+                new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                         .setIcon(R.drawable.ic_baseline_redo_24)
                         .setTitle(getString(R.string.carryover))
                         .setMessage(getString(R.string.carryover_msg))
@@ -241,7 +240,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         MonthYearPickerDialog simpleDatePickerDialog;
 
         try {
-            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
             Constructor<MonthYearPickerDialog> constructor = MonthYearPickerDialog.class.getDeclaredConstructor(Context.class,
                     int.class,
                     int.class,
@@ -251,7 +249,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
             constructor.setAccessible(true);
             simpleDatePickerDialog = constructor.newInstance(
-                    contextThemeWrapper,
+                    requireContext(),
                     R.style.DialogStyleBasic,
                     calendarShow.get(Calendar.YEAR),
                     calendarShow.get(Calendar.MONTH),
@@ -279,11 +277,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             simpleDatePickerDialog.show();
             simpleDatePickerDialog
                     .getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
 
             simpleDatePickerDialog
                     .getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setTextColor(ContextCompat.getColor(contextThemeWrapper, R.color.settings_title));
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.settings_title));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -476,7 +474,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         if (sp.contains("goal") && !sp.getString("goal", "0").equals("0")) {
             edt.setText(sp.getString("goal", "0"));
         }
-        new MaterialAlertDialogBuilder(new ContextThemeWrapper(getContext(), R.style.AppThemeDark))
+        new MaterialAlertDialogBuilder(requireContext())
                 .setView(input_view)
                 .setTitle(getString(R.string.goal_set))
                 .setMessage(getString(R.string.goal_msg))

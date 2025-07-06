@@ -17,31 +17,17 @@
         <item name="android:windowMinWidthMinor">65%</item>
     </style>
 
-    <style name="AppThemeDark" parent="Theme.Material3Expressive.Dark">
-        <!-- Customize your theme here.-->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/settings_title</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
-        <item name="colorPrimaryContainer">@color/ColorSecondary</item>
-        <item name="colorOnPrimary">@color/ColorOnPrimary</item>
-    </style>
-
     <!-- MaterialDesign Alert Dialog Center Icon and Title -->
     <style name="MaterialAlertDialogCenterStyle">
         <item name="materialAlertDialogTitlePanelStyle">
             @style/MaterialAlertDialog.Material3Expressive.Title.Panel.CenterStacked
         </item>
         <item name="materialAlertDialogTitleIconStyle">
-            @style/MaterialAlertDialogCenterTitleIconStyle
+            @style/MaterialAlertDialog.Material3Expressive.Title.Text.CenterStacked
         </item>
         <item name="materialAlertDialogTitleTextStyle">
             @style/MaterialAlertDialog.Material3Expressive.Title.Text.CenterStacked
         </item>
-    </style>
-
-    <style name="MaterialAlertDialogCenterTitleIconStyle" parent="MaterialAlertDialog.Material3Expressive.Title.Text.CenterStacked">
-        <item name="tint">@color/ColorSecondary</item>
     </style>
 
 </resources>

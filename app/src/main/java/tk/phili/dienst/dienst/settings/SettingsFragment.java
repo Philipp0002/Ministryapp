@@ -9,14 +9,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,11 +26,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -49,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
@@ -73,7 +72,6 @@ public class SettingsFragment extends Fragment {
 
     private Toolbar toolbar;
     private FragmentCommunicationPass fragmentCommunicationPass;
-    private ContextThemeWrapper contextThemeWrapper;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -101,8 +99,6 @@ public class SettingsFragment extends Fragment {
 
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
         editor = sp.edit();
-
-        contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.AppThemeDark);
 
         SettingsStorageModule ssm = new SettingsStorageModule();
         SettingsInputModule sim = new SettingsInputModule();
@@ -150,7 +146,7 @@ public class SettingsFragment extends Fragment {
                 checkedItem = Arrays.asList(langcodes).indexOf(sp.getString("sample_presentations_locale", "0"));
             }
 
-            new MaterialAlertDialogBuilder(contextThemeWrapper)
+            new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.language)
                     .setSingleChoiceItems(items, checkedItem, (dialog, item) -> {
                         if (items[item].toString().equalsIgnoreCase(getString(R.string.language_default))) {
@@ -191,7 +187,7 @@ public class SettingsFragment extends Fragment {
                     checkedItem = Arrays.asList(keysSort.toArray(new String[]{})).indexOf(getString(R.string.language_default));
                 }
 
-                new MaterialAlertDialogBuilder(contextThemeWrapper)
+                new MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.language)
                         .setSingleChoiceItems(keysSort.toArray(new String[]{}), checkedItem, (dialog, item) -> {
                             if (keysSort.toArray(new String[]{})[item].equalsIgnoreCase(getString(R.string.language_default))) {
@@ -224,7 +220,7 @@ public class SettingsFragment extends Fragment {
         });
 
         resetSetting.setOnClickListener(__ ->
-                new MaterialAlertDialogBuilder(contextThemeWrapper, R.style.MaterialAlertDialogCenterStyle)
+                new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                         .setTitle(getResources().getString(R.string.resetdialog_title))
                         .setMessage(getResources().getString(R.string.resetdialog_message))
                         .setIcon(R.drawable.ic_baseline_delete_forever_24)
@@ -260,45 +256,49 @@ public class SettingsFragment extends Fragment {
         });
 
         licensesSetting.setOnClickListener(__ ->
-                new LicenserDialog(getContext(), R.style.Theme_Material3_Dark_Dialog)
-                        .setTitle(getString(R.string.licenses))
-                        .setLibrary(new Library("AndroidX Support Libraries",
-                                "https://developer.android.com/jetpack/androidx",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("CompactCalendarView",
-                                "https://github.com/SundeepK/CompactCalendarView",
-                                License.Companion.getMIT()))
-                        .setLibrary(new Library("Licenser",
-                                "https://github.com/marcoscgdev/Licenser",
-                                License.Companion.getMIT()))
-                        .setLibrary(new Library("Material Components",
-                                "https://github.com/material-components/material-components-android",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("Android Sliding Up Panel",
-                                "https://github.com/umano/AndroidSlidingUpPanel",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("RoundCornerProgressBar",
-                                "https://github.com/akexorcist/RoundCornerProgressBar",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("RSS Parser",
-                                "https://github.com/prof18/RSS-Parser",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("MaterialPreferences",
-                                "https://github.com/yarolegovich/MaterialPreferences",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("Month and Year Picker",
-                                "https://github.com/dewinjm/monthyear-picker",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("Kotlin",
-                                "https://github.com/JetBrains/kotlin",
-                                License.Companion.getAPACHE2()))
-                        .setLibrary(new Library("PRDownloader",
-                                "https://github.com/amitshekhariitbhu/PRDownloader",
-                                License.Companion.getAPACHE2()))
-
-                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                        })
-                        .show());
+        {
+            String htmlContent = new LicenserDialog(getContext(), R.style.ThemeOverlay_Material3Expressive_Dialog)
+                    .setTitle(getString(R.string.licenses))
+                    .setLibrary(new Library("AndroidX Support Libraries",
+                            "https://developer.android.com/jetpack/androidx",
+                            License.Companion.getAPACHE2()))
+                    .setLibrary(new Library("CompactCalendarView",
+                            "https://github.com/SundeepK/CompactCalendarView",
+                            License.Companion.getMIT()))
+                    .setLibrary(new Library("Licenser",
+                            "https://github.com/marcoscgdev/Licenser",
+                            License.Companion.getMIT()))
+                    .setLibrary(new Library("Material Components",
+                            "https://github.com/material-components/material-components-android",
+                            License.Companion.getAPACHE2()))
+                    .setLibrary(new Library("RSS Parser",
+                            "https://github.com/prof18/RSS-Parser",
+                            License.Companion.getAPACHE2()))
+                    .setLibrary(new Library("MaterialPreferences",
+                            "https://github.com/yarolegovich/MaterialPreferences",
+                            License.Companion.getAPACHE2()))
+                    .setLibrary(new Library("Month and Year Picker",
+                            "https://github.com/dewinjm/monthyear-picker",
+                            License.Companion.getAPACHE2()))
+                    .setLibrary(new Library("Kotlin",
+                            "https://github.com/JetBrains/kotlin",
+                            License.Companion.getAPACHE2()))
+                    .setLibrary(new Library("PRDownloader",
+                            "https://github.com/amitshekhariitbhu/PRDownloader",
+                            License.Companion.getAPACHE2()))
+                    .getHtmlContent();
+            final LinearLayout layout = new LinearLayout(requireContext());
+            WebView webView = new WebView(requireContext());
+            layout.addView(webView);
+            webView.loadData(Base64.encodeToString(htmlContent.getBytes(StandardCharsets.UTF_8), Base64.NO_PADDING),
+                    "text/html; charset=UTF-8", "base64");
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.licenses))
+                    .setView(layout)
+                    .setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> {
+                    })
+                    .show();
+        });
 
         gdprSetting.setOnClickListener(__ -> {
             Intent i = new Intent(getContext(), GDPRInfo.class);
@@ -334,7 +334,7 @@ public class SettingsFragment extends Fragment {
                         }
                     };
 
-                    new MaterialAlertDialogBuilder(contextThemeWrapper, R.style.MaterialAlertDialogCenterStyle)
+                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                             .setTitle(R.string.calendar_gcal_remove_title)
                             .setMessage(R.string.calendar_gcal_remove_msg)
                             .setIcon(R.drawable.ic_baseline_sync_disabled_24)
@@ -397,7 +397,7 @@ public class SettingsFragment extends Fragment {
             edt.setText(sp.getInt("Calendar_Time", 1) + "");
 
 
-            new MaterialAlertDialogBuilder(contextThemeWrapper)
+            new MaterialAlertDialogBuilder(requireContext())
                     .setView(dialogView)
                     .setTitle(getString(R.string.calendar_time_of_notification))
                     .setPositiveButton(getString(R.string.action_save), (dialog, whichButton) -> {
@@ -422,7 +422,7 @@ public class SettingsFragment extends Fragment {
             if (key.equalsIgnoreCase("report_layout")) {
                 ReportManager reportManager = new ReportManager(getContext());
 
-                final LinearLayout layout = new LinearLayout(new ContextThemeWrapper(getContext(), R.style.AppThemeDark));
+                final LinearLayout layout = new LinearLayout(requireContext());
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setPadding(Utils.dpToPx(16), 0, Utils.dpToPx(16), 0);
 
@@ -460,7 +460,7 @@ public class SettingsFragment extends Fragment {
                     selectedItem.set(i);
                 });
 
-                new MaterialAlertDialogBuilder(contextThemeWrapper)
+                new MaterialAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.report_layout_settings))
                         .setMessage(getString(R.string.report_layout_msg))
                         .setView(layout)
@@ -483,7 +483,7 @@ public class SettingsFragment extends Fragment {
                     checkedItem = sp.getInt("dark_mode", 0);
                 }
 
-                new MaterialAlertDialogBuilder(contextThemeWrapper)
+                new MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.dark_mode)
                         .setSingleChoiceItems(items, checkedItem, (dialog, item) -> {
                             editor.putInt("dark_mode", item);
