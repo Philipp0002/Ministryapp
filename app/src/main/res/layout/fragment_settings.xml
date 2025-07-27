@@ -116,6 +116,12 @@
                     android:layout_height="wrap_content"
                     app:mp_title="@string/title_dailytext" />
 
+                <com.yarolegovich.mp.MaterialStandardPreference
+                    android:id="@+id/language_videos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mp_title="@string/title_videos" />
+
             </com.yarolegovich.mp.MaterialPreferenceCategory>
 
 

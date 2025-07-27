@@ -22,9 +22,9 @@ import tk.phili.dienst.dienst.utils.LocalDateAdapter;
 
 public class ReportManager {
 
-    private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor sharedPreferencesEditor;
+    private final Context context;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor sharedPreferencesEditor;
 
     private static final String SP_REPORTS_KEY = "reports";
     private static final String SP_LAYOUT_KEY = "report_layout";

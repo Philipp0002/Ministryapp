@@ -46,6 +46,7 @@
 
     <string name="download_text">Das Video \"%a\" wird heruntergeladen.</string>
     <string name="download_ok">Herunterladen</string>
+    <string name="download_quality">Downloadqualität</string>
 
     <string name="ask_sure">Bist du dir sicher?</string>
     <string name="delete_text">Das Video \"%a\" wird gelöscht.</string>

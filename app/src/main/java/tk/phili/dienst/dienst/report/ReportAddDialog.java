@@ -39,7 +39,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.utils.MenuTintUtils;
 import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {

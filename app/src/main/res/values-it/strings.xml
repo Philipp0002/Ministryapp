@@ -41,6 +41,7 @@
     <string name="reportsentvia">Invia tramite Ministyapp</string>
     <string name="download_text">Il video \"%a\" sarà scaricato.</string>
     <string name="download_ok">Scaricamento</string>
+    <string name="download_quality">Qualità del download</string>
     <string name="ask_sure">Sicuro? </string>
     <string name="delete_text">Il video \"%a\" sarà cancellato</string>
     <string name="delete_ok">Spegnere</string>

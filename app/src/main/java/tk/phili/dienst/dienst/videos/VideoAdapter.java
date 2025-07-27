@@ -1,65 +1,142 @@
 package tk.phili.dienst.dienst.videos;
 
-import static android.os.Environment.DIRECTORY_MOVIES;
-
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.downloader.PRDownloader;
+import com.downloader.internal.DownloadRequestQueue;
+import com.downloader.request.DownloadRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
-import java.io.File;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.utils.BehaviorSubject;
 
 /**
  * Created by fipsi on 04.03.2018.
  */
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
+public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public List<Video> videos;
+    public List<Object> items;
     public HashMap<Integer, Drawable> drawables = new HashMap<>();
     private final Activity context;
     private final VideoFragment videoFragment;
+    private final SelectionCallback selectionCallback;
+    private Field downloadRequestsField;
 
-    public VideoAdapter(VideoFragment videoFragment, List<Video> videos) {
-        this.videos = videos;
+    public VideoAdapter(VideoFragment videoFragment, List<Object> items, SelectionCallback selectionCallback) {
+        this.items = items;
         this.context = videoFragment.requireActivity();
         this.videoFragment = videoFragment;
+        this.selectionCallback = selectionCallback;
+
+        try {
+            downloadRequestsField = DownloadRequestQueue.class.getDeclaredField("currentRequestMap");
+            downloadRequestsField.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_single, parent, false);
-        return new ViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 0) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_category_item, parent, false);
+            return new CategoryViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_item, parent, false);
+            return new VideoViewHolder(v);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Video video = videos.get(position);
+    public int getItemViewType(int position) {
+        return items.get(position) instanceof JWVideoCategory ? 0 : 1;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder _holder, int position) {
+        if (_holder instanceof CategoryViewHolder) {
+            CategoryViewHolder holder = (CategoryViewHolder) _holder;
+            JWVideoCategory category = (JWVideoCategory) items.get(position);
+
+            holder.title.setText(category.getName());
+            if (category.getImages() != null
+                    && category.getImages().getPnr() != null
+                    && category.getImages().getPnr().getLg() != null) {
+                Glide.with(context)
+                        .load(category.getImages().getPnr().getLg())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.image);
+            }
+
+            holder.itemView.setOnClickListener(view -> {
+                if (selectionCallback != null) {
+                    selectionCallback.onCategorySelected(category, this);
+                }
+            });
+
+        } else if (_holder instanceof VideoViewHolder) {
+            VideoViewHolder holder = (VideoViewHolder) _holder;
+            JWVideo video = (JWVideo) items.get(position);
+
+            holder.title.setText(video.getTitle());
+            holder.time.setText(video.getDurationFormattedHHMM());
+
+            holder.downloadProgressBar.setVisibility(View.GONE);
+            try {
+                Map<Integer, DownloadRequest> downloads = (Map<Integer, DownloadRequest>) downloadRequestsField.get(DownloadRequestQueue.getInstance());
+                downloads.values().stream().filter(d -> d.getTag() == video.getNaturalKey()).findFirst().ifPresent(downloadRequest -> {
+                    holder.downloadProgressBar.setVisibility(View.VISIBLE);
+                    holder.downloadProgressBar.setIndeterminate(true);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            holder.itemView.setOnClickListener(view -> {
+                if (selectionCallback != null) {
+                    selectionCallback.onVideoSelected(video, this);
+                }
+            });
+
+            if (video.getImages() != null
+                    && video.getImages().getPnr() != null
+                    && video.getImages().getPnr().getLg() != null) {
+                Glide.with(context)
+                        .load(video.getImages().getPnr().getLg())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.image);
+            }
+
+            if (video.isDownloaded(context)) {
+                holder.actionIndicator.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            } else {
+                holder.actionIndicator.setImageResource(R.drawable.ic_cloud_download_black_24dp);
+            }
+
+        }
+        /*Video video = items.get(position);
 
         File file = new File(context.getExternalFilesDir(DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + video.getName().replace("?", "") + ".mp4");
 
@@ -139,15 +216,28 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.mainView.setOnLongClickListener(view -> {
             showDeleteDialog(video.getName());
             return false;
-        });
+        });*/
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder _holder) {
+        if (_holder instanceof CategoryViewHolder) {
+            CategoryViewHolder holder = (CategoryViewHolder) _holder;
+            Glide.with(context).clear(holder.image);
+            holder.image.setImageDrawable(null);
+        } else if (_holder instanceof VideoViewHolder) {
+            VideoViewHolder holder = (VideoViewHolder) _holder;
+            Glide.with(context).clear(holder.image);
+            holder.image.setImageDrawable(null);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return videos.size();
+        return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class VideoViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView title, time;
 
@@ -156,7 +246,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         public LinearProgressIndicator downloadProgressBar;
 
-        public ViewHolder(View itemView) {
+        public VideoViewHolder(View itemView) {
             super(itemView);
             mainView = itemView;
             title = itemView.findViewById(R.id.title);
@@ -169,47 +259,24 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         }
     }
 
-    public static void openFile(Context context, Uri contentUri) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, contentUri);
-            intent.setDataAndType(contentUri, "video/mp4");
-            intent.setClipData(ClipData.newRawUri("", contentUri));
-            intent.addFlags(
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
+        public ImageView image;
+        public TextView title;
+        public View mainView;
 
-            context.startActivity(intent);
-        } catch (Exception e) {
-            new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
-                    .setTitle(R.string.error)
-                    .setIcon(R.drawable.ic_baseline_error_outline_24)
-                    .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
-                    .setCancelable(false)
-                    .setMessage(R.string.video_open_error)
-                    .show();
+
+        public CategoryViewHolder(View itemView) {
+            super(itemView);
+            mainView = itemView;
+            title = itemView.findViewById(R.id.category_title);
+            image = itemView.findViewById(R.id.category_background);
         }
     }
 
-    public void showDeleteDialog(final String vidname) {
-        final File file = new File(context
-                .getExternalFilesDir(DIRECTORY_MOVIES)
-                .getAbsolutePath()
-                + "/" + "MINISTRY" + "/" + vidname.replace("?", "") + ".mp4");
+    public interface SelectionCallback {
+        void onVideoSelected(JWVideo video, VideoAdapter adapter);
 
-        if (file.exists()) {
-            new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
-                    .setTitle(context.getString(R.string.ask_sure))
-                    .setMessage(context.getString(R.string.delete_text).replace("%a", vidname))
-                    .setIcon(R.drawable.ic_baseline_delete_24)
-                    .setPositiveButton(R.string.delete_ok,
-                            (dialog, which) -> {
-                                file.delete();
-                                videoFragment.refreshList(null);
-                            })
-                    .setNegativeButton(R.string.cancel, null)
-                    .create()
-                    .show();
-        }
-
+        void onCategorySelected(JWVideoCategory category, VideoAdapter adapter);
     }
 
 

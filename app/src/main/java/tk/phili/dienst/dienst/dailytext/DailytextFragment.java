@@ -22,41 +22,37 @@ import android.widget.ProgressBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.JWLanguageService;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
 import tk.phili.dienst.dienst.utils.Utils;
 
 public class DailytextFragment extends Fragment implements MyWebChromeClient.ProgressListener {
 
     public SharedPreferences sp;
-    private SharedPreferences.Editor editor;
     boolean loaded = false;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(Utils.isConnectedtoNet(getContext())) {
-                int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-                int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
-                int y = Calendar.getInstance().get(Calendar.YEAR);
-
-                String locale = sp.getString("tt_locale", Locale.getDefault().getLanguage());
-
-                showLink("https://ministryapp.de/dailytext_fwd.php?d=" + d + "&m=" + m + "&y=" + y + "&l=" + locale);
+                showLink();
             }
         }
     };
 
-    FragmentCommunicationPass fragmentCommunicationPass;
-    Toolbar toolbar;
-    WebView webView;
-    ProgressBar progressBar;
-    View errorLayout;
+    private FragmentCommunicationPass fragmentCommunicationPass;
+    private Toolbar toolbar;
+    private WebView webView;
+    private ProgressBar progressBar;
+    private View errorLayout;
+    private JWLanguageService languageService;
 
     @Override
     public void onAttach(Context context) {
@@ -66,8 +62,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_dailytext, null);
-        return root;
+        return inflater.inflate(R.layout.fragment_dailytext, null);
     }
 
     @Override
@@ -79,32 +74,26 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
-        sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
-        editor = sp.edit();
+        sp = requireContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+        languageService = new JWLanguageService(requireContext());
 
         init();
     }
 
     public void init(){
-        if(loaded)return;
+        if(loaded) return;
         if(Utils.isConnectedtoNet(getContext())) {
-            int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
-            int y = Calendar.getInstance().get(Calendar.YEAR);
-
-            String locale = sp.getString("tt_locale", Locale.getDefault().getLanguage());
-            showLink("https://ministryapp.de/dailytext_fwd.php?d=" + d + "&m=" + m + "&y=" + y + "&l=" + locale);
+            showLink();
         }else{
-            getView().findViewById(R.id.dailytextWebView).setVisibility(View.GONE);
-            getView().findViewById(R.id.dailytextErrorContainer).setVisibility(View.VISIBLE);
-            getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(
+            requireView().findViewById(R.id.dailytextWebView).setVisibility(View.GONE);
+            requireView().findViewById(R.id.dailytextErrorContainer).setVisibility(View.VISIBLE);
+            requireActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(
                     "android.net.conn.CONNECTIVITY_CHANGE"));
         }
     }
 
     @Override
     public void onResume() {
-        init();
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
         super.onResume();
     }
@@ -113,7 +102,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
     public void onDestroy() {
         super.onDestroy();
         try {
-            getActivity().unregisterReceiver(mBroadcastReceiver);
+            requireActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
     }
 
@@ -121,13 +110,15 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
     public void onPause() {
         super.onPause();
         try {
-            getActivity().unregisterReceiver(mBroadcastReceiver);
+            requireActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
     }
 
-    public void showLink(final String url){
+    public void showLink(){
+        String jwLang = sp.getString("tt_locale", languageService.getCurrentLanguage("E").getLangcode());
+        String url = "https://www.jw.org/finder?srcid=jwlshare&wtlocale="+ jwLang +"&alias=daily-text&date="+LocalDate.now().toString();
         try {
-            getActivity().unregisterReceiver(mBroadcastReceiver);
+            requireActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
 
         webView.post(new Runnable() {
@@ -143,11 +134,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
                 webView.setWebViewClient(new WebViewClient() {
 
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        if (url.contains("dt") || url.contains("dienstapp")) {
-                            return false;
-                        }else{
-                            return true;
-                        }
+                        return url.contains("https://wol.jw.org") && webView.getUrl().contains("https://wol.jw.org");
                     }
 
                     @Override
@@ -165,16 +152,14 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
                         progressBar.setVisibility(View.GONE);
 
                         view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
+                        view.loadUrl("javascript:var welcome = document.getElementById(\"welcome\"); welcome.parentNode.removeChild(welcome);");
+                        view.loadUrl("javascript:var todayNav = document.getElementById(\"todayNav\"); todayNav.parentNode.removeChild(todayNav);");
                         view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
                         view.loadUrl("javascript:var style = document.createElement('style'); style.innerHTML = \".lnc-firstRunPopup {display: none !important;}\"; document.head.appendChild(style);");
                         view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
                         view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
                         view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
-                        } else {
-                            view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
-                        }
+                        view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
                         loaded = true;
                         errorLayout.setVisibility(View.GONE);
                     }

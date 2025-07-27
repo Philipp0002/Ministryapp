@@ -54,7 +54,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:tint="@color/ColorSecondary"
+                app:tint="?attr/colorOnSurface"
                 app:srcCompat="@drawable/ic_signal_wifi_off_black_24dp" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/noNetwork"
-                android:textColor="#fff" />
+                android:textColor="?attr/colorOnSurface" />
 
         </LinearLayout>
 

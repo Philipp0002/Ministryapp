@@ -35,6 +35,8 @@ import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.GDPRInfo;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
+import tk.phili.dienst.dienst.utils.JWLang;
+import tk.phili.dienst.dienst.utils.JWLanguageService;
 import tk.phili.dienst.dienst.utils.Shortcuts;
 import tk.phili.dienst.dienst.videos.VideoFragment;
 
@@ -56,6 +58,11 @@ public class WrapperActivity extends AppCompatActivity implements FragmentCommun
     protected void onCreate(Bundle savedInstanceState) {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
+
+        JWLanguageService languageService = new JWLanguageService(this);
+        if(!languageService.hasLanguages()) {
+            languageService.getLanguages(null, "en");
+        }
 
         int darkMode = getSharedPreferences("MainActivity", Context.MODE_PRIVATE).getInt("dark_mode", 0);
         int mode = 0;

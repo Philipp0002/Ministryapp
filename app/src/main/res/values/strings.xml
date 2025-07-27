@@ -55,6 +55,7 @@
 
     <string name="download_text">The video \"%a\" will be downloaded.</string>
     <string name="download_ok">Download</string>
+    <string name="download_quality">Download quality</string>
 
     <string name="delete_text">The video \"%a\" will be deleted.</string>
     <string name="delete_ok">Delete</string>

@@ -24,12 +24,14 @@ import androidx.fragment.app.Fragment;
 
 import org.json.JSONObject;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.JWLanguageService;
 import tk.phili.dienst.dienst.utils.MyWebChromeClient;
 import tk.phili.dienst.dienst.utils.Utils;
 
@@ -39,8 +41,8 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     private Toolbar toolbar;
     private SharedPreferences sp;
 
-    boolean pageSuccess = true;
     public String lastUrl = "";
+
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -51,11 +53,11 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         }
     };
 
-    FragmentCommunicationPass fragmentCommunicationPass;
-    WebView webView;
-    ProgressBar progressBar;
+    private FragmentCommunicationPass fragmentCommunicationPass;
+    private WebView webView;
+    private ProgressBar progressBar;
 
-    JSONObject serverResponse = null;
+    private JWLanguageService languageService;
 
     @Override
     public void onAttach(Context context) {
@@ -86,6 +88,8 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
 
         sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
 
+        languageService = new JWLanguageService(requireContext());
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -93,42 +97,34 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
         webView.setWebChromeClient(new MyWebChromeClient(SamplePresentationsFragment.this));
         webView.setWebViewClient(new WebViewClient() {
 
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.equals(lastUrl) || url.contains("/d/")) {
-                    return false;
-                } else {
-                    return true;
-                }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return webView.getOriginalUrl() != null;
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                if (!pageSuccess) return;
-                pageSuccess = true;
                 progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if (!pageSuccess) return;
-                pageSuccess = true;
                 progressBar.setVisibility(View.GONE);
-                view.loadUrl("javascript:var header = document.getElementById(\"regionHeader\"); header.parentNode.removeChild(header);");
-                view.loadUrl("javascript:var footer = document.getElementById(\"regionFooter\"); footer.parentNode.removeChild(footer);");
-                view.loadUrl("javascript:var main = document.getElementById(\"regionMain\"); main.classList.remove(\"showSecondaryNav\"); main.classList.remove(\"hasSecondaryNav\");");
+                view.loadUrl("javascript:var header = document.getElementById(\"mobileNavTopBar\"); header.parentNode.removeChild(header);");
+                view.loadUrl("javascript:var header2 = document.getElementById(\"regionHeader\"); header2.parentNode.removeChild(header2);");
+                view.loadUrl("javascript:var header3 = document.getElementById(\"regionPrimaryNav\"); header3.parentNode.removeChild(header3);");
+                view.loadUrl("javascript:var sidebar = document.getElementById(\"sidebar\"); sidebar.parentNode.removeChild(sidebar);");
+                view.loadUrl("javascript:var breadcrumbs = document.getElementsByClassName(\"breadcrumbs\")[0]; breadcrumbs.parentNode.removeChild(breadcrumbs);");
+                view.loadUrl("javascript:var articleFooterLinks = document.getElementsByClassName(\"articleFooterLinks\")[0]; articleFooterLinks.parentNode.removeChild(articleFooterLinks);");
+                view.loadUrl("javascript:var footer = document.getElementsByTagName(\"footer\")[0]; footer.parentNode.removeChild(footer);");
                 view.loadUrl("javascript:var style = document.createElement('style'); style.innerHTML = \".lnc-firstRunPopup {display: none !important;} .articlePositioner {float: none !important; margin-top: 16px;}\"; document.head.appendChild(style);");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
-                } else {
-                    view.loadUrl("javascript:(function()%7Bdocument.getElementById(\"regionMain\").style.marginTop %3D \"0px\"%7D)();");
-                }
+                view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                pageSuccess = false;
                 if (Utils.isConnectedtoNet(getContext())) {
                     tryLoadPage();
                 } else {
@@ -145,45 +141,16 @@ public class SamplePresentationsFragment extends Fragment implements MyWebChrome
     }
 
     public void tryLoadPage() {
-        View nonet = getView().findViewById(R.id.samplePresentationsErrorContainer);
+        View nonet = requireView().findViewById(R.id.samplePresentationsErrorContainer);
         nonet.setVisibility(View.INVISIBLE);
         webView.setVisibility(View.VISIBLE);
         try {
-            getActivity().unregisterReceiver(mBroadcastReceiver);
+            requireActivity().unregisterReceiver(mBroadcastReceiver);
         } catch (Exception e) {
         }
 
-        String lang = sp.getString("sample_presentations_locale", Locale.getDefault().getLanguage());
-
-        switch (lang) {
-            case "de":
-                lastUrl = "https://wol.jw.org/de/wol/d/r10/lp-x/1102023316";
-                break;
-            case "tr":
-                lastUrl = "https://wol.jw.org/tr/wol/d/r22/lp-tk/1102023316";
-                break;
-            case "fr":
-                lastUrl = "https://wol.jw.org/fr/wol/d/r30/lp-f/1102023316";
-                break;
-            case "it":
-                lastUrl = "https://wol.jw.org/it/wol/d/r6/lp-i/1102023316";
-                break;
-            case "th":
-                lastUrl = "https://wol.jw.org/th/wol/d/r113/lp-si/1102023316";
-                break;
-            case "pl":
-                lastUrl = "https://wol.jw.org/pl/wol/d/r12/lp-p/1102023316";
-                break;
-            case "es":
-                lastUrl = "https://wol.jw.org/es/wol/d/r4/lp-s/1102023316";
-                break;
-            case "el":
-                lastUrl = "https://wol.jw.org/el/wol/d/r11/lp-g/1102023316";
-                break;
-            default:
-                lastUrl = "https://wol.jw.org/en/wol/d/r1/lp-e/1102023316";
-                break;
-        }
+        String jwLang = sp.getString("sample_presentations_locale", languageService.getCurrentLanguage("E").getLangcode());
+        lastUrl = "https://www.jw.org/finder?wtlocale="+ jwLang +"&docid=1102023316&srctype=wol";
 
         webView.loadUrl(lastUrl);
     }

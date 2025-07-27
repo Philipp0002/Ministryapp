@@ -46,7 +46,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import tk.phili.dienst.dienst.R;
-import tk.phili.dienst.dienst.utils.MenuTintUtils;
 import tk.phili.dienst.dienst.utils.Utils;
 
 public class CalendarAddDialog extends DialogFragment implements Toolbar.OnMenuItemClickListener {
