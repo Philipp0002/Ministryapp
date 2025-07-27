@@ -1,183 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tableLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="true">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/tableRow"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
-        app:cardCornerRadius="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="#3a2d2d">
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:fadingEdgeLength="40dp"
+            android:requiresFadingEdge="horizontal"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            tools:text="Video title" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.45">
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_download_indeterminate"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:indeterminate="true"
+            app:trackThickness="12dp" />
 
-                <ImageView
-                    android:id="@+id/listpreviewimage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
-
-                <ImageView
-                    android:id="@+id/listpreviewimagegradient"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/video_list_gradient" />
-
-
-            </RelativeLayout>
-
-
-
-
-            <TextView
-                android:id="@+id/mb"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_alignTop="@+id/imageView5"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:text="0MB"
-                android:textSize="14sp"
-                android:textColor="#fff"
-                app:layout_constraintBottom_toBottomOf="@+id/time"
-                app:layout_constraintEnd_toStartOf="@+id/imageView6" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/bg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.7"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/bg_videos" />
-
-            <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/actionIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/mb"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:tint="#fff"
-                app:layout_constraintBottom_toBottomOf="@+id/time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mb"
-                app:srcCompat="@drawable/ic_cloud_download_black_24dp" />
-
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:tint="#fff"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mb"
-                app:srcCompat="@drawable/ic_done_black_24dp" />
+                android:tint="?attr/colorOnSurfaceVariant"
+                app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_alignTop="@+id/imageView5"
-                android:layout_toEndOf="@+id/imageView5"
-                android:layout_toRightOf="@+id/imageView5"
                 android:gravity="center"
-                android:text="00:00"
-                android:textColor="#fff"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
-                app:layout_constraintTop_toTopOf="@+id/imageView5" />
+                tools:text="00:00 (10 MB)"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginStart="6dp"/>
 
-            <TextView
-                android:id="@+id/txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_toStartOf="@+id/mb"
-                android:layout_toLeftOf="@+id/mb"
-                android:layout_weight=".70"
-                android:ellipsize="none"
-                android:fadingEdgeLength="40dp"
-                android:requiresFadingEdge="horizontal"
-                android:text="ERROR"
-                android:textColor="#fff"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/bg"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txt"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="8dp"
-                android:paddingBottom="16dp"
-                android:tint="#fff"
-                app:layout_constraintStart_toStartOf="@+id/txt"
-                app:layout_constraintTop_toBottomOf="@+id/txt"
-                app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/previewImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerCrop" />
 
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progress_download_indeterminate"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/time"
-                app:layout_constraintEnd_toEndOf="@+id/bg"
-                app:layout_constraintStart_toEndOf="@+id/time"
-                app:layout_constraintTop_toTopOf="@+id/time"
-                app:trackThickness="12dp"
-                android:indeterminate="true"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

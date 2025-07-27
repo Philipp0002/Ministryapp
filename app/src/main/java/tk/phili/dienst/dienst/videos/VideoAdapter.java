@@ -11,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,15 +41,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     public List<Video> videos;
     public HashMap<Integer, Drawable> drawables = new HashMap<>();
-    private Activity context;
-    private VideoFragment videoFragment;
+    private final Activity context;
+    private final VideoFragment videoFragment;
 
-    public VideoAdapter(Activity context, VideoFragment videoFragment, List<Video> videos) {
+    public VideoAdapter(VideoFragment videoFragment, List<Video> videos) {
         this.videos = videos;
-        this.context = context;
+        this.context = videoFragment.requireActivity();
         this.videoFragment = videoFragment;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_single, parent, false);
@@ -59,44 +59,39 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
-
         Video video = videos.get(position);
 
-        holder.title.setText(video.getName());
-        holder.time.setText(video.getLength());
-        holder.mb.setText(video.getMbSize() + " MB");
-
-        holder.imageGradient.setVisibility(View.INVISIBLE);
         File file = new File(context.getExternalFilesDir(DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + video.getName().replace("?", "") + ".mp4");
+
+        holder.title.setText(video.getName());
+        holder.downloadProgressBar.setVisibility(View.GONE);
+
+        StringBuilder timeBuilder = new StringBuilder(video.getLength());
         if (file.exists()) {
-            holder.downloadedImg.setVisibility(View.VISIBLE);
-            holder.notDownloadedImg.setVisibility(View.INVISIBLE);
-            holder.mb.setVisibility(View.INVISIBLE);
+            holder.image.setVisibility(View.VISIBLE);
+            holder.actionIndicator.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+
             if (!drawables.containsKey(position)) {
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        Bitmap bMap = ThumbnailUtils.createVideoThumbnail(file.getPath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                        final Drawable d = new BitmapDrawable(context.getResources(), bMap);
-                        drawables.put(position, d);
-                        context.runOnUiThread(() -> {
-                            holder.imageGradient.setVisibility(View.VISIBLE);
-                            holder.image.setImageDrawable(d);
-                        });
-                        return null;
-                    }
-                }.execute();
+                new Thread(() -> {
+                    Bitmap bMap = ThumbnailUtils.createVideoThumbnail(file.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
+                    final Drawable d = new BitmapDrawable(context.getResources(), bMap);
+                    drawables.put(position, d);
+                    context.runOnUiThread(() -> {
+                        holder.image.setImageDrawable(d);
+                    });
+                }).start();
             } else {
                 context.runOnUiThread(() -> {
-                    holder.imageGradient.setVisibility(View.VISIBLE);
                     holder.image.setImageDrawable(drawables.get(position));
                 });
             }
+
         } else {
-            holder.downloadedImg.setVisibility(View.INVISIBLE);
-            holder.notDownloadedImg.setVisibility(View.VISIBLE);
-            holder.mb.setVisibility(View.VISIBLE);
+            holder.image.setVisibility(View.GONE);
+            holder.actionIndicator.setImageResource(R.drawable.ic_cloud_download_black_24dp);
+            timeBuilder.append(" (")
+                    .append(video.getMbSize())
+                    .append(" MB)");
             holder.image.setImageDrawable(null);
 
             if (videoFragment.videoDownloadProgress.containsKey(video.getId())) {
@@ -110,13 +105,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
                             @Override
                             public void onDestroy() {
-                                holder.downloadProgressBar.setVisibility(View.INVISIBLE);
+                                holder.downloadProgressBar.setVisibility(View.GONE);
                             }
                         });
 
             }
         }
-
+        holder.time.setText(timeBuilder.toString());
 
         holder.mainView.setOnClickListener(view -> {
             if (file.exists()) {
@@ -153,10 +148,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView image, imageGradient;
-        public TextView title, time, mb;
+        public ImageView image;
+        public TextView title, time;
 
-        public ImageView notDownloadedImg, downloadedImg;
+        public ImageView actionIndicator;
         public View mainView;
 
         public LinearProgressIndicator downloadProgressBar;
@@ -164,14 +159,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             mainView = itemView;
-            title = itemView.findViewById(R.id.txt);
-            image = itemView.findViewById(R.id.listpreviewimage);
-            imageGradient = itemView.findViewById(R.id.listpreviewimagegradient);
+            title = itemView.findViewById(R.id.title);
+            image = itemView.findViewById(R.id.previewImage);
             time = itemView.findViewById(R.id.time);
-            mb = itemView.findViewById(R.id.mb);
 
-            notDownloadedImg = itemView.findViewById(R.id.imageView6);
-            downloadedImg = itemView.findViewById(R.id.imageView8);
+            actionIndicator = itemView.findViewById(R.id.actionIndicator);
 
             downloadProgressBar = itemView.findViewById(R.id.progress_download_indeterminate);
         }

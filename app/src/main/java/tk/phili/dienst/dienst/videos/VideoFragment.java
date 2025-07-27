@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -103,7 +104,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         String fullListString = sp.getString("Videos", "");
 
         if (!fullListString.isEmpty()) {
-            ArrayList<String> all = new ArrayList<String>();
+            ArrayList<String> all = new ArrayList<>();
 
             if (fullListString.contains("___")) {
                 for (String s : fullListString.split("___")) {
@@ -132,11 +133,13 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                             && (searchTerm == null || video.getName().toLowerCase().contains(searchTerm.toLowerCase())))
                     .collect(Collectors.toCollection(ArrayList::new));
             if (adapter == null) {
-                adapter = new VideoAdapter(getActivity(), this, videosFiltered);
+                adapter = new VideoAdapter(this, videosFiltered);
 
                 RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation()));
             } else {
                 adapter.videos.clear();
                 adapter.videos.addAll(videosFiltered);
@@ -148,7 +151,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     public void refreshListData() {
         LinearLayout layout = new LinearLayout(getContext());
-        LinearProgressIndicator progressIndicator = new LinearProgressIndicator(getContext());
+        LinearProgressIndicator progressIndicator = new LinearProgressIndicator(requireContext());
         progressIndicator.setIndeterminate(true);
         int marginHoriz = Utils.dpToPx(16);
         int marginVert = Utils.dpToPx(8);
