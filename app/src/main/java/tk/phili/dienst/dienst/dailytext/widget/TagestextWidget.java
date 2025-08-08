@@ -10,20 +10,41 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
-import tk.phili.dienst.dienst.dailytext.DailytextJSONAsyncFetcher;
+import tk.phili.dienst.dienst.utils.JWLanguageService;
 import tk.phili.dienst.dienst.utils.Utils;
 
 /**
@@ -31,11 +52,12 @@ import tk.phili.dienst.dienst.utils.Utils;
  */
 public class TagestextWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, String day, String text) {
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                int appWidgetId) {
 
-
-
+        SharedPreferences sp = context.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+        String day = sp.getString("dailytext_day", "--");
+        String text = sp.getString("dailytext_text", "--");
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.dailytext_widget_new);
         views.setTextViewText(R.id.ttw_day, day);
@@ -50,19 +72,17 @@ public class TagestextWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.tt_widget, pendingIntent);
 
 
-
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     static void errorAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+                               int appWidgetId) {
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.dailytext_widget);
         views.setTextViewText(R.id.ttw_day, context.getString(R.string.widget_no_network_title));
         views.setTextViewText(R.id.ttw_text, context.getString(R.string.widget_no_network_text));
-
 
 
         // Setup update button to send an update request as a pending intent.
@@ -85,80 +105,16 @@ public class TagestextWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.tt_widget, pendingUpdate);
 
 
-
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
 
-    public static Bitmap getFontBitmap(Context context, String text, int color, float fontSizeSP) {
-        int fontSizePX = convertDiptoPix(context, fontSizeSP);
-        int pad = (fontSizePX / 9);
-        Paint paint = new Paint();
-        Typeface typeface = ResourcesCompat.getFont(context, R.font.rubik);
-        paint.setAntiAlias(true);
-        paint.setTypeface(typeface);
-        paint.setColor(color);
-        paint.setTextSize(fontSizePX);
-
-        int textWidth = (int) (paint.measureText(text) + pad * 2);
-        int height = (int) (fontSizePX / 0.75);
-        Bitmap bitmap = Bitmap.createBitmap(textWidth, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        float xOriginal = pad;
-        canvas.drawText(text, xOriginal, fontSizePX, paint);
-        return bitmap;
-    }
-
-    public static int convertDiptoPix(Context context, float dip) {
-        int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, context.getResources().getDisplayMetrics());
-        return value;
-    }
-
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
-        if(Utils.isConnectedtoNet(context)) {
-            int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
-            int y = Calendar.getInstance().get(Calendar.YEAR);
-
-            SharedPreferences sp = context.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
-            String lang = sp.getString("tt_locale", Locale.getDefault().getLanguage());
-
-            final DailytextJSONAsyncFetcher asyncFetcher = new DailytextJSONAsyncFetcher();
-            asyncFetcher.year = y;
-            asyncFetcher.month = m;
-            asyncFetcher.day = d;
-            asyncFetcher.lang = lang;
-
-            asyncFetcher.futurerun = new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject obj = asyncFetcher.response;
-                    if (obj != null) {
-                        try {
-                            String day = obj.getString("date");
-                            String text = obj.getString("text");
-                            String bible = obj.getString("bible");
-
-                            // There may be multiple widgets active, so update all of them
-                            for (int appWidgetId : appWidgetIds) {
-                                updateAppWidget(context, appWidgetManager, appWidgetId, day, text);
-                            }
-
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-                    } else {
-                        for (int appWidgetId : appWidgetIds) {
-                            //errorAppWidget(context, appWidgetManager, appWidgetId);
-                        }
-                    }
-                }
-            };
-            asyncFetcher.execute();
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-
     }
 
     @Override

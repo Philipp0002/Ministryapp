@@ -29,6 +29,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -60,6 +62,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.dailytext.widget.DailytextWorker;
 import tk.phili.dienst.dienst.dailytext.widget.TagestextWidget;
 import tk.phili.dienst.dienst.report.ReportManager;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
@@ -148,13 +151,8 @@ public class SettingsFragment extends Fragment {
 
         languageDailyTextSetting.setOnClickListener(__ -> {
             showLanguagePicker("tt_locale", () -> {
-                Intent intent = new Intent(getActivity(), TagestextWidget.class);
-                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-                // since it seems the onUpdate() is only fired on that:
-                int[] ids = AppWidgetManager.getInstance(requireActivity().getApplication()).getAppWidgetIds(new ComponentName(requireActivity().getApplication(), TagestextWidget.class));
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-                requireActivity().sendBroadcast(intent);
+                OneTimeWorkRequest nowRequest = new OneTimeWorkRequest.Builder(DailytextWorker.class).build();
+                WorkManager.getInstance(requireContext()).enqueue(nowRequest);
             });
         });
 

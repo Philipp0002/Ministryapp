@@ -116,7 +116,7 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
 
     public void showLink(){
         String jwLang = sp.getString("tt_locale", languageService.getCurrentLanguage("E").getLangcode());
-        String url = "https://www.jw.org/finder?srcid=jwlshare&wtlocale="+ jwLang +"&alias=daily-text&date="+LocalDate.now().toString();
+        String url = "https://www.jw.org/finder?srcid=jwlshare&wtlocale=" + jwLang + "&alias=daily-text&date=" + LocalDate.now().toString();
         try {
             requireActivity().unregisterReceiver(mBroadcastReceiver);
         }catch(Exception e){ }
