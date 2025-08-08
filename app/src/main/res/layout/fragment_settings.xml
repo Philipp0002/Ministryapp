@@ -31,9 +31,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/prefs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <com.yarolegovich.mp.MaterialPreferenceCategory
                 android:id="@+id/prefs_general"
@@ -186,7 +188,7 @@
 
             </com.yarolegovich.mp.MaterialPreferenceCategory>
 
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
 

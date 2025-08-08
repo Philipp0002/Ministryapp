@@ -8,10 +8,15 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
@@ -53,12 +58,22 @@ public class Drawer {
             {SettingsFragment.class, 6, R.id.drawer_settings, Build.VERSION_CODES.BASE}
     };
 
+    OnApplyWindowInsetsListener onApplyWindowInsetsListener = (v, windowInsets) -> {
+        Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+        v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+        return WindowInsetsCompat.CONSUMED;
+    };
+
     public void manageDrawers(WrapperActivity activity,
                               @NonNull Fragment fragment,
                               @NonNull DrawerLayout drawerLayout,
                               @NonNull NavigationView modalNavDrawer,
                               @NonNull NavigationRailView navRail,
                               @NonNull NavigationView navDrawer) {
+
+        ViewCompat.setOnApplyWindowInsetsListener(modalNavDrawer, onApplyWindowInsetsListener);
+        ViewCompat.setOnApplyWindowInsetsListener(navRail, onApplyWindowInsetsListener);
+        ViewCompat.setOnApplyWindowInsetsListener(navDrawer, onApplyWindowInsetsListener);
 
         if (!initialized) {
             final SharedPreferences sp = activity.getSharedPreferences("MainActivity", Context.MODE_PRIVATE);

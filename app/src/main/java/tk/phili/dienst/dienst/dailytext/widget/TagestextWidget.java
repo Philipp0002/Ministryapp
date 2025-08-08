@@ -6,46 +6,10 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.util.Log;
-import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-import androidx.core.content.res.ResourcesCompat;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.dailytext.DailytextFragment;
-import tk.phili.dienst.dienst.utils.JWLanguageService;
-import tk.phili.dienst.dienst.utils.Utils;
 
 /**
  * Implementation of App Widget functionality.
