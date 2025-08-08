@@ -54,6 +54,7 @@
     <string name="video_open_error">Es gab einen Fehler beim Öffnen des Videos. Bitte warte bis es heruntergeladen ist.</string>
 
     <string name="cancel">Abbrechen</string>
+    <string name="retry">Nochmal versuchen</string>
 
     <string name="data_cleared">Berichtsdaten gelöscht!</string>
     <string name="add_report">Eintrag hinzufügen</string>

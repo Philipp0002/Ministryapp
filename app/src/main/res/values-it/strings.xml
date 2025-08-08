@@ -46,6 +46,7 @@
     <string name="delete_text">Il video \"%a\" sarà cancellato</string>
     <string name="delete_ok">Spegnere</string>
     <string name="cancel">Cancella</string>
+    <string name="retry">Riprovare</string>
     <string name="video_open_error">Si è verificato un errore durante l\'avvio del video. Si prega di attendere fino al download.</string>
     <string name="data_cleared">Dati cancellati!</string>
     <string name="ok">Ok</string>

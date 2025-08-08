@@ -524,12 +524,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             goalView.setVisibility(View.GONE);
         }
         reportsRecycler.post(() -> {
+
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) goalView.getLayoutParams();
+
             reportsRecycler.setPadding(reportsRecycler.getPaddingLeft(),
-                    goalState.isHasGoal() ? goalView.getHeight() - Utils.dpToPx(16) : 0,
+                    goalState.isHasGoal() ? goalView.getHeight() + mlp.topMargin : 0,
                     reportsRecycler.getPaddingRight(),
                     reportsRecycler.getPaddingBottom());
-            Utils.setMargins(reportsRecycler,
-                    0, goalState.isHasGoal() ? Utils.dpToPx(16) : 0, 0, 0);
+            /*Utils.setMargins(reportsRecycler,
+                    0, goalState.isHasGoal() ? Utils.dpToPx(16) : 0, 0, 0);*/
         });
     }
 

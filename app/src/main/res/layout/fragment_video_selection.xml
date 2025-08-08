@@ -36,6 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retryButton"
+            style="@style/Widget.Material3Expressive.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:icon="@drawable/ic_refresh_black_24dp"
+            android:text="@string/retry"/>
+
     </LinearLayout>
 
     <com.google.android.material.loadingindicator.LoadingIndicator

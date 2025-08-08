@@ -63,6 +63,7 @@
 
     <string name="ask_sure">Sure?</string>
     <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
 
     <string name="data_cleared">Cleared data!</string>
     <string name="ok">OK</string>

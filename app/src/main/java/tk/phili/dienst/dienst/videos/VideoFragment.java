@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -126,6 +127,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         RecyclerView videoSelectionRecycler = dialogView.findViewById(R.id.videoSelectionRecycler);
         LinearLayout errorLayout = dialogView.findViewById(R.id.errorContainer);
         LoadingIndicator loadingIndicator = dialogView.findViewById(R.id.loadingIndicator);
+        Button retryButton = dialogView.findViewById(R.id.retryButton);
         videoSelectionRecycler.setVisibility(View.GONE);
         errorLayout.setVisibility(View.GONE);
         loadingIndicator.setVisibility(View.VISIBLE);
@@ -160,7 +162,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         videoSelectionRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         SharedPreferences sp = getContext().getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
-        videoService.getVideoCategory(new JWCallback<JWVideoCategory>() {
+        JWCallback<JWVideoCategory> callback = new JWCallback<JWVideoCategory>() {
             @Override
             public void onSuccess(JWVideoCategory result) {
                 videoAdapter.items.addAll(result.getSubcategories());
@@ -181,7 +183,23 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                     loadingIndicator.setVisibility(View.GONE);
                 });
             }
-        }, sp.getString("videos_locale", languageService.getCurrentLanguage("E").getLangcode()), category);
+        };
+        videoService.getVideoCategory(
+                callback,
+                sp.getString("videos_locale", languageService.getCurrentLanguage("E").getLangcode()),
+                category
+        );
+
+        retryButton.setOnClickListener(view -> {
+            videoSelectionRecycler.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.GONE);
+            loadingIndicator.setVisibility(View.VISIBLE);
+            videoService.getVideoCategory(
+                    callback,
+                    sp.getString("videos_locale", languageService.getCurrentLanguage("E").getLangcode()),
+                    category
+            );
+        });
 
 
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
