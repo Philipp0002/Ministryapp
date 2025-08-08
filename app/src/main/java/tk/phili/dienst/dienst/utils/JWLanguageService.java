@@ -3,6 +3,7 @@ package tk.phili.dienst.dienst.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,6 +21,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import tk.phili.dienst.dienst.R;
 
 public class JWLanguageService {
 
@@ -80,6 +82,15 @@ public class JWLanguageService {
             currentLang = new JWLang("unknown", fallbackJwLangCode);
         }
         return currentLang;
+    }
+
+    public void showNoLanguageInfo(Context context) {
+        new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
+                .setIcon(R.drawable.ic_baseline_redo_24)
+                .setTitle(context.getString(R.string.languages_unavailable_title))
+                .setMessage(context.getString(R.string.languages_unavailable_body))
+                .setPositiveButton(context.getString(R.string.ok), null)
+                .show();
     }
 
 

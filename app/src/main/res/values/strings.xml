@@ -187,4 +187,7 @@
     <string name="dark_mode_auto">Auto</string>
     <string name="dark_mode_dark">Dark</string>
     <string name="dark_mode_light">Light</string>
+
+    <string name="languages_unavailable_title">Languages unavailable</string>
+    <string name="languages_unavailable_body">This feature requires a list of all available languages of jw.org. Unfortunately, this list could not be downloaded yet. Please try again later.</string>
 </resources>

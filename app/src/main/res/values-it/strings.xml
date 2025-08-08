@@ -6,18 +6,18 @@
     <string name="title_notes">Note</string>
     <string name="title_sample_presentations">Presentazioni</string>
     <string name="title_settings">Impostazioni </string>
-    <string name="title_section6">Invia il tuo Rapporto di Servizio </string>
-    <string name="title_videos">Video </string>
+    <string name="title_section6">Invia il tuo rapporto di servizio </string>
+    <string name="title_videos">Video</string>
     <string name="title_dailytext">Scrittura del giorno</string>
     <string name="title_calendar">Calendario </string>
     <string name="title_section_more">Altro</string>
-    <string name="reset">Cancella Impostazioni</string>
+    <string name="reset">Cancella impostazioni</string>
     <string name="resetdialog_message">TUTTI i dati andranno persi! Continua?</string>
     <string name="resetdialog_title">Veramente?</string>
-    <string name="action_save">Salvare</string>
-    <string name="action_goal">Obiettivo Mese</string>
+    <string name="action_save">Salva</string>
+    <string name="action_goal">Obiettivo mese</string>
     <string name="title_activity_send">Spedisci</string>
-    <string name="noNetwork">Nessuna Rete Disponibile </string>
+    <string name="noNetwork">Nessuna rete disponibile </string>
     <string name="URL_end">it</string>
     <string name="title_activity_hours">Ore</string>
     <string name="title_activity_placements">Pubblicazioni</string>
@@ -26,7 +26,7 @@
     <string name="title_activity_studies">Studi Biblici</string>
     <string name="title_activity_annotations">Nota</string>
     <string name="notes_text">Prendi Nota</string>
-    <string name="sendreport_text">Invia il tuo Rapporto a</string>
+    <string name="sendreport_text">Invia il tuo rapporto a</string>
     <string name="error">Errore</string>
     <string name="no">No</string>
     <string name="yes">Si</string>
@@ -38,13 +38,13 @@
     <string name="reportvisits">Visite Ulteriori:&#160;</string>
     <string name="reportvideo">Video:&#160;</string>
     <string name="reportstudy">Studi Biblici:&#160;</string>
-    <string name="reportsentvia">Invia tramite Ministyapp</string>
+    <string name="reportsentvia">Invia tramite Ministryapp</string>
     <string name="download_text">Il video \"%a\" sarà scaricato.</string>
     <string name="download_ok">Scaricamento</string>
     <string name="download_quality">Qualità del download</string>
     <string name="ask_sure">Sicuro? </string>
     <string name="delete_text">Il video \"%a\" sarà cancellato</string>
-    <string name="delete_ok">Spegnere</string>
+    <string name="delete_ok">Elimina</string>
     <string name="cancel">Cancella</string>
     <string name="retry">Riprovare</string>
     <string name="video_open_error">Si è verificato un errore durante l\'avvio del video. Si prega di attendere fino al download.</string>
@@ -64,7 +64,7 @@
     <string name="goal_set">Imposta il tuo obiettivo mensile</string>
     <string name="goal_msg">Digita il tuo obiettivo orario mensile:</string>
     <string name="OK">Ok</string>
-    <string name="goal_no">Rimuovere Obiettivo</string>
+    <string name="goal_no">Rimuovi obiettivo</string>
     <string name="goal_text_1">%a per raggiungere l\'obiettivo</string>
     <string name="goal_text_reached">Hai raggiunto il tuo obiettivo!</string>
     <string name="goal_text_reached_more">Hai raggiunto il tuo obiettivo! +%a di più</string>
@@ -89,8 +89,8 @@
     <string name="calendar_menu_delete">Cancella</string>
     <string name="calendar_menu_delete_title">Cancellare la voce?</string>
     <string name="calendar_menu_delete_msg">Vuoi veramente cancellare questa voce?</string>
-    <string name="gdpr_accept">Accetto </string>
-    <string name="gdpr_title">politica sulla riservatezza</string>
+    <string name="gdpr_accept">Accetto</string>
+    <string name="gdpr_title">Politica sulla riservatezza</string>
     <string name="title_activity_global_import">Importa su Ministryapp (.minapp)</string>
     <string name="carryover">Trasferire</string>
     <string name="carryover_msg">I minuti saranno riportati il mese successivo.</string>
@@ -104,7 +104,7 @@ perso. : /</string>
     <string name="report_private_mode">Modalità privata</string>
 
     <string name="export">Esportare</string>
-    <string name="import_deletes_data">Importing an .minapp File, will remove all the app already existing data. Continue?</string>
+    <string name="import_deletes_data">Importando un file .minapp, verranno rimossi tutti i dati esistenti dell\'app. Continuare?</string>
     <string name="import_error_fnf">Si è verificato un errore: File non trovato!</string>
     <string name="import_error">Si è verificato un errore!</string>
     <string name="import_title">Import</string>
@@ -161,4 +161,7 @@ perso. : /</string>
     <string name="dark_mode_auto">Automatica</string>
     <string name="dark_mode_dark">Scura</string>
     <string name="dark_mode_light">Chiara</string>
+
+    <string name="languages_unavailable_title">Lingue non disponibili</string>
+    <string name="languages_unavailable_body">Questa funzione richiede un elenco di tutte le lingue disponibili su jw.org. Purtroppo, questo elenco non è stato ancora scaricato. Riprova più tardi.</string>
 </resources>

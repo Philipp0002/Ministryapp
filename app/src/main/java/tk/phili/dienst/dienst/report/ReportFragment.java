@@ -190,19 +190,17 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         });
 
         carryOverButton.setOnClickListener(v -> {
-            if (carryOverButton.getAlpha() != 0F) {
-                new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
-                        .setIcon(R.drawable.ic_baseline_redo_24)
-                        .setTitle(getString(R.string.carryover))
-                        .setMessage(getString(R.string.carryover_msg))
-                        .setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> {
-                            if (carry()) {
-                                updateList();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancel), null)
-                        .show();
-            }
+            new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
+                    .setIcon(R.drawable.ic_baseline_redo_24)
+                    .setTitle(getString(R.string.carryover))
+                    .setMessage(getString(R.string.carryover_msg))
+                    .setPositiveButton(getString(R.string.ok), (dialog, whichButton) -> {
+                        if (carry()) {
+                            updateList();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .show();
         });
 
 
