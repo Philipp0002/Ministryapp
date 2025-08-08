@@ -89,12 +89,10 @@ public class Event {
             contentValues.put(CalendarContract.Events.GUESTS_CAN_INVITE_OTHERS, guestsCanInviteOthers);
         if (guestsCanSeeGuests != null)
             contentValues.put(CalendarContract.Events.GUESTS_CAN_SEE_GUESTS, guestsCanSeeGuests);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (customAppPackage != null)
-                contentValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, customAppPackage);
-            if (customAppUri != null) contentValues.put(CalendarContract.Events.CUSTOM_APP_URI, customAppUri);
-            if (uID2445 != null) contentValues.put(CalendarContract.Events.UID_2445, uID2445);
-        }
+        if (customAppPackage != null)
+            contentValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, customAppPackage);
+        if (customAppUri != null) contentValues.put(CalendarContract.Events.CUSTOM_APP_URI, customAppUri);
+        if (uID2445 != null) contentValues.put(CalendarContract.Events.UID_2445, uID2445);
         if (selfAttendeeStatus != null)
             contentValues.put(CalendarContract.Events.SELF_ATTENDEE_STATUS, selfAttendeeStatus);
         if (hasAlarm != null) contentValues.put(CalendarContract.Events.HAS_ALARM, hasAlarm);
@@ -153,11 +151,9 @@ public class Event {
         };
 
         List<String> tempList = new ArrayList<String>(Arrays.asList(eventProjection));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            tempList.add(CalendarContract.Events.CUSTOM_APP_PACKAGE);
-            tempList.add(CalendarContract.Events.CUSTOM_APP_URI);
-            tempList.add(CalendarContract.Events.UID_2445);
-        }
+        tempList.add(CalendarContract.Events.CUSTOM_APP_PACKAGE);
+        tempList.add(CalendarContract.Events.CUSTOM_APP_URI);
+        tempList.add(CalendarContract.Events.UID_2445);
 
         if (checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -209,11 +205,9 @@ public class Event {
             event1.hasAttendeeData = cursor.getInt(28);
             event1.hasExtendedProperties = cursor.getInt(29);
             event1.eventTimezone = cursor.getString(30);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                event1.customAppPackage = cursor.getString(31);
-                event1.customAppUri = cursor.getString(32);
-                event1.uID2445 = cursor.getString(33);
-            }
+            event1.customAppPackage = cursor.getString(31);
+            event1.customAppUri = cursor.getString(32);
+            event1.uID2445 = cursor.getString(33);
             if (event1.title != null) {
                 result.add(event1);
             }
@@ -252,11 +246,9 @@ public class Event {
             event.hasAttendeeData = cursor.getInt(28);
             event.hasExtendedProperties = cursor.getInt(29);
             event.eventTimezone = cursor.getString(30);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                event.customAppPackage = cursor.getString(31);
-                event.customAppUri = cursor.getString(32);
-                event.uID2445 = cursor.getString(33);
-            }
+            event.customAppPackage = cursor.getString(31);
+            event.customAppUri = cursor.getString(32);
+            event.uID2445 = cursor.getString(33);
             if (event.title != null) {
                 result.add(event);
             }

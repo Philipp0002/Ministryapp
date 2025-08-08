@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:background="?attr/selectableItemBackground"
+    android:focusable="true"
     android:paddingBottom="4dp">
 
 
@@ -16,7 +17,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="4dp"
         android:text="@string/calendar_partner"
         android:textColor="#fff"
@@ -31,7 +31,6 @@
         android:layout_width="20dp"
         android:layout_height="match_parent"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="4dp"
         android:adjustViewBounds="true"
         android:tint="#8c8c8c"
@@ -49,7 +48,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
         android:text="@string/date"
         android:textColor="#8c8c8c"
@@ -66,7 +64,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="4dp"
         android:text="@string/calendar_partner"
         android:textColor="#fff"
@@ -86,7 +83,6 @@
         android:layout_width="3dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:background="@color/green_accent"
         app:layout_constraintBottom_toBottomOf="@+id/calendar_item_notes"
         app:layout_constraintStart_toStartOf="parent"

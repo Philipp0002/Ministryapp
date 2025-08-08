@@ -42,12 +42,10 @@ public class Calendar {
         if (syncEvents != null) contentValues.put(CalendarContract.Calendars.SYNC_EVENTS, syncEvents);
         if (timeZone != null) contentValues.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, timeZone);
         if (allowedReminders != null) contentValues.put(CalendarContract.Calendars.ALLOWED_REMINDERS, allowedReminders);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            if (allowedAvailability != null)
-                contentValues.put(CalendarContract.Calendars.ALLOWED_AVAILABILITY, allowedAvailability);
-            if (allowedAttendeeTypes != null)
-                contentValues.put(CalendarContract.Calendars.ALLOWED_ATTENDEE_TYPES, allowedAttendeeTypes);
-        }
+        if (allowedAvailability != null)
+            contentValues.put(CalendarContract.Calendars.ALLOWED_AVAILABILITY, allowedAvailability);
+        if (allowedAttendeeTypes != null)
+            contentValues.put(CalendarContract.Calendars.ALLOWED_ATTENDEE_TYPES, allowedAttendeeTypes);
 
         return contentValues;
     }
@@ -83,10 +81,8 @@ public class Calendar {
         };
 
         List<String> tempList = new ArrayList<String>(Arrays.asList(calendarProjection));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            tempList.add(CalendarContract.Calendars.ALLOWED_AVAILABILITY);
-            tempList.add(CalendarContract.Calendars.ALLOWED_ATTENDEE_TYPES);
-        }
+        tempList.add(CalendarContract.Calendars.ALLOWED_AVAILABILITY);
+        tempList.add(CalendarContract.Calendars.ALLOWED_ATTENDEE_TYPES);
 
         final Cursor cursor = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, tempList.toArray(new String[tempList.size()]), query, queryArgs, sortOrder);
         cursor.moveToFirst();
@@ -105,10 +101,8 @@ public class Calendar {
             calendar.syncEvents = cursor.getInt(8);
             calendar.timeZone = cursor.getString(9);
             calendar.allowedReminders = cursor.getString(10);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                calendar.allowedAvailability = cursor.getString(11);
-                calendar.allowedAttendeeTypes = cursor.getString(12);
-            }
+            calendar.allowedAvailability = cursor.getString(11);
+            calendar.allowedAttendeeTypes = cursor.getString(12);
             calendars.add(calendar);
         }
         cursor.close();
