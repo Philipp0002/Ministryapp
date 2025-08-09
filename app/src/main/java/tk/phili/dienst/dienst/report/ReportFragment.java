@@ -569,16 +569,6 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         }
     }
 
-    public int getMonth() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH);
-    }
-
-    public int getYear() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.YEAR);
-    }
-
     public void showEditDialog(Long id) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         ReportAddDialog newFragment;
