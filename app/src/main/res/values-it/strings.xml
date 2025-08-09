@@ -97,8 +97,9 @@
     <string name="action_refresh_vid">Aggiorna la lista</string>
     <string name="video_refresh_error_title">Non c\'è connessione </string>
     <string name="video_refresh_error_msg">Controlla la connessione di rete e riprova ad aggiornare.</string>
-    <string name="videonew_lostfile">Hmm .. In qualche modo il video è andato
-perso. : /</string>
+    <string name="videonew_lostfile">Hmm .. In qualche modo il video è andato perso. : /</string>
+    <string name="no_videos">Nessun video scaricato\nScarica i video tramite il pulsante \"+\"!</string>
+
     <string name="report_private">Modalità privata attiva: i tuoi rapporti sono nascosti</string>
     <string name="report_private_show">Mostrare</string>
     <string name="report_private_mode">Modalità privata</string>

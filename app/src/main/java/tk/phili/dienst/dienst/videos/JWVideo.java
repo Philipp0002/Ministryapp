@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.annotations.Expose;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,18 @@ public class JWVideo {
 
     public File getFile(Context context) {
         return new File(context.getFilesDir(), "videos/" + naturalKey + ".mp4");
+    }
+
+    public String getJWLanguage() {
+        List<String> partsKeyNoLanguage = Arrays.asList(languageAgnosticNaturalKey.split("_"));
+        List<String> partsKeyWithLanguage = Arrays.asList(naturalKey.split("_"));
+
+        for(String keyPart : partsKeyWithLanguage) {
+            if(!partsKeyNoLanguage.contains(keyPart)) {
+                return keyPart;
+            }
+        }
+        return null;
     }
 
     @Override

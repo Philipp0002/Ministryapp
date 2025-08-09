@@ -119,6 +119,7 @@
     <string name="video_refresh_error_title">Keine Verbindung</string>
     <string name="video_refresh_error_msg">Bitte überprüfe deine Internetverbindung und versuche es noch einmal.</string>
     <string name="videonew_lostfile">Hmm.. Irgendwie ist das Video verloren gegangen. :/</string>
+    <string name="no_videos">Keine heruntergeladenen Videos\nLade Videos über das \"+\" herunter!</string>
 
     <string name="report_private">Privater Modus an - Dein Bericht ist versteckt.</string>
     <string name="report_private_show">Anzeigen</string>

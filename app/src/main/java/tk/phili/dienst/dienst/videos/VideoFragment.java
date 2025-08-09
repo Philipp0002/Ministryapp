@@ -56,6 +56,8 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     private FragmentCommunicationPass fragmentCommunicationPass;
 
+    private View videosEmptyView;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -73,6 +75,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         FloatingActionButton fab = view.findViewById(R.id.video_add_button);
         videoService = new VideoService(requireContext());
         languageService = new JWLanguageService(requireContext());
+        videosEmptyView = view.findViewById(R.id.videosEmptyView);
 
         fragmentCommunicationPass.onDataPass(this, WrapperActivity.FRAGMENTPASS_TOOLBAR, toolbar);
 
@@ -82,7 +85,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
 
         RecyclerView downloadedRecycler = view.findViewById(R.id.recyclerView);
-        downloadedAdapter = new VideoAdapter(this, new ArrayList<>(videoService.getDownloadedVideos()), new VideoAdapter.SelectionCallback() {
+        downloadedAdapter = new VideoAdapter(requireContext(), new ArrayList<>(videoService.getDownloadedVideos()), new VideoAdapter.SelectionCallback() {
             @Override
             public void onVideoSelected(JWVideo video, VideoAdapter adapter) {
                 Uri contentUri = FileProvider.getUriForFile(
@@ -100,6 +103,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         });
         downloadedRecycler.setAdapter(downloadedAdapter);
         downloadedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        videosEmptyView.setVisibility(downloadedAdapter.items.isEmpty() ? View.VISIBLE : View.GONE);
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -133,7 +137,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         loadingIndicator.setVisibility(View.VISIBLE);
 
 
-        VideoAdapter videoAdapter = new VideoAdapter(this, new ArrayList<>(), new VideoAdapter.SelectionCallback() {
+        VideoAdapter videoAdapter = new VideoAdapter(requireContext(), new ArrayList<>(), new VideoAdapter.SelectionCallback() {
             @Override
             public void onVideoSelected(JWVideo video, VideoAdapter adapter) {
                 new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
@@ -228,6 +232,7 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
                     downloadedAdapter.items.clear();
                     downloadedAdapter.items.addAll(videoService.getDownloadedVideos());
                     downloadedAdapter.notifyDataSetChanged();
+                    videosEmptyView.setVisibility(downloadedAdapter.items.isEmpty() ? View.VISIBLE : View.GONE);
                 }
             }
 

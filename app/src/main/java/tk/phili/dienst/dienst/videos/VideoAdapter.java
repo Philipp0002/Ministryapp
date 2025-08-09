@@ -1,11 +1,6 @@
 package tk.phili.dienst.dienst.videos;
 
-import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.downloader.PRDownloader;
 import com.downloader.internal.DownloadRequestQueue;
 import com.downloader.request.DownloadRequest;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.utils.JWLang;
+import tk.phili.dienst.dienst.utils.JWLanguageService;
 
 /**
  * Created by fipsi on 04.03.2018.
@@ -37,16 +31,13 @@ import tk.phili.dienst.dienst.R;
 public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public List<Object> items;
-    public HashMap<Integer, Drawable> drawables = new HashMap<>();
-    private final Activity context;
-    private final VideoFragment videoFragment;
+    private final Context context;
     private final SelectionCallback selectionCallback;
     private Field downloadRequestsField;
 
-    public VideoAdapter(VideoFragment videoFragment, List<Object> items, SelectionCallback selectionCallback) {
+    public VideoAdapter(Context context, List<Object> items, SelectionCallback selectionCallback) {
         this.items = items;
-        this.context = videoFragment.requireActivity();
-        this.videoFragment = videoFragment;
+        this.context = context;
         this.selectionCallback = selectionCallback;
 
         try {
@@ -72,6 +63,25 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
         return items.get(position) instanceof JWVideoCategory ? 0 : 1;
+    }
+
+    private boolean containsDifferentLanguages() {
+        if (items.isEmpty()) {
+            return false;
+        }
+
+        String firstLanguageCode = null;
+        for (Object item : items) {
+            if (item instanceof JWVideo) {
+                JWVideo video = (JWVideo) item;
+                if (firstLanguageCode == null) {
+                    firstLanguageCode = video.getJWLanguage();
+                } else if (!firstLanguageCode.equals(video.getJWLanguage())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -102,6 +112,15 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             holder.title.setText(video.getTitle());
             holder.time.setText(video.getDurationFormattedHHMM());
+
+            if(containsDifferentLanguages()) {
+                String jwLanguageCode = video.getJWLanguage();
+                JWLang jwLanguage = new JWLanguageService(context).getLanguageByLangcode(jwLanguageCode);
+                holder.language.setText(jwLanguage.getLocalizedLanguageName());
+                holder.language.setVisibility(View.VISIBLE);
+            } else {
+                holder.language.setVisibility(View.GONE);
+            }
 
             holder.downloadProgressBar.setVisibility(View.GONE);
             try {
@@ -136,87 +155,6 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
 
         }
-        /*Video video = items.get(position);
-
-        File file = new File(context.getExternalFilesDir(DIRECTORY_MOVIES).getAbsolutePath(), "MINISTRY" + "/" + video.getName().replace("?", "") + ".mp4");
-
-        holder.title.setText(video.getName());
-        holder.downloadProgressBar.setVisibility(View.GONE);
-
-        StringBuilder timeBuilder = new StringBuilder(video.getLength());
-        if (file.exists()) {
-            holder.image.setVisibility(View.VISIBLE);
-            holder.actionIndicator.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-
-            if (!drawables.containsKey(position)) {
-                new Thread(() -> {
-                    Bitmap bMap = ThumbnailUtils.createVideoThumbnail(file.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
-                    final Drawable d = new BitmapDrawable(context.getResources(), bMap);
-                    drawables.put(position, d);
-                    context.runOnUiThread(() -> {
-                        holder.image.setImageDrawable(d);
-                    });
-                }).start();
-            } else {
-                context.runOnUiThread(() -> {
-                    holder.image.setImageDrawable(drawables.get(position));
-                });
-            }
-
-        } else {
-            holder.image.setVisibility(View.GONE);
-            holder.actionIndicator.setImageResource(R.drawable.ic_cloud_download_black_24dp);
-            timeBuilder.append(" (")
-                    .append(video.getMbSize())
-                    .append(" MB)");
-            holder.image.setImageDrawable(null);
-
-            if (videoFragment.videoDownloadProgress.containsKey(video.getId())) {
-                videoFragment.videoDownloadProgress.get(video.getId())
-                        .subscribe(new BehaviorSubject.Subscriber<Float>() {
-                            @Override
-                            public void onNext(Float value) {
-                                holder.downloadProgressBar.setVisibility(View.VISIBLE);
-                                holder.downloadProgressBar.setProgress((int) (value * 100));
-                            }
-
-                            @Override
-                            public void onDestroy() {
-                                holder.downloadProgressBar.setVisibility(View.GONE);
-                            }
-                        });
-
-            }
-        }
-        holder.time.setText(timeBuilder.toString());
-
-        holder.mainView.setOnClickListener(view -> {
-            if (file.exists()) {
-                Uri contentUri = FileProvider.getUriForFile(context, "tk.phili.dienst.dienst.fileprovider", file);
-                if (file.exists()) {
-                    openFile(context, contentUri);
-                } else {
-                    Toast.makeText(context, context.getString(R.string.videonew_lostfile), Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
-                        .setTitle(context.getString(R.string.ask_sure))
-                        .setMessage(context.getString(R.string.download_text).replace("%a", video.getName()))
-                        .setIcon(R.drawable.ic_baseline_cloud_download_24)
-                        .setPositiveButton(R.string.download_ok, (dialog, which) -> {
-                            videoFragment.downloadVideo(video);
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .create()
-                        .show();
-
-            }
-        });
-
-        holder.mainView.setOnLongClickListener(view -> {
-            showDeleteDialog(video.getName());
-            return false;
-        });*/
     }
 
     @Override
@@ -239,7 +177,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
-        public TextView title, time;
+        public TextView title, time, language;
 
         public ImageView actionIndicator;
         public View mainView;
@@ -252,6 +190,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             title = itemView.findViewById(R.id.title);
             image = itemView.findViewById(R.id.previewImage);
             time = itemView.findViewById(R.id.time);
+            language = itemView.findViewById(R.id.language);
 
             actionIndicator = itemView.findViewById(R.id.actionIndicator);
 

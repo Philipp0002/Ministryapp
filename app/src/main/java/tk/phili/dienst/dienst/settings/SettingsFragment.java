@@ -377,10 +377,9 @@ public class SettingsFragment extends Fragment {
 
         langCode.put(getString(R.string.language_default), "0");
         JWLanguageService languageService = new JWLanguageService(requireContext());
-        languageService.getLanguages().forEach(jwLang -> {
-            String name = new Locale(jwLang.getSymbol()).getDisplayName(Locale.getDefault());
-            langCode.put(name, jwLang.getLangcode());
-        });
+        languageService.getLanguages().forEach(
+                jwLang -> langCode.put(jwLang.getLocalizedLanguageName(), jwLang.getLangcode())
+        );
 
         int checkedIndex = langCode.values().stream()
                 .collect(Collectors.toList())

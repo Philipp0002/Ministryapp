@@ -57,9 +57,23 @@
                 android:layout_height="25dp"
                 android:gravity="center"
                 android:textSize="14sp"
-                tools:text="00:00 (10 MB)"
+                tools:text="00:00"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:layout_marginStart="6dp"/>
+
+            <TextView
+                android:id="@+id/language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:layout_marginStart="6dp"
+                tools:text="German"
+                android:background="@drawable/video_item_language_border"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 

@@ -52,6 +52,13 @@ public class JWLanguageService {
         return languages;
     }
 
+    public JWLang getLanguageByLangcode(String jwLangCode) {
+        return getLanguages().stream()
+                .filter(lang -> lang.getLangcode().equals(jwLangCode))
+                .findFirst()
+                .orElse(new JWLang("unknown", jwLangCode));
+    }
+
     public JWLang getCurrentLanguage(String fallbackJwLangCode) {
         String langCodeISO3 = Locale.getDefault().getISO3Language();
         JWLang currentLang = getLanguages().stream()

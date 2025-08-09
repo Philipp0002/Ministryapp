@@ -78,7 +78,7 @@
     <string name="total">Total</string>
     <string name="timer">TIMER</string>
     <string name="swipe_up_for_more">Swipe up for the total statistics</string>
-    <string name="no_report">No reportdata for this month!\nTo add data click the "+" button!</string>
+    <string name="no_report">No reportdata for this month!\nTo add data click the \"+\" button!</string>
 
     <string name="report_undo_1">Removed entry</string>
     <string name="report_undo_2">Undo</string>
@@ -134,6 +134,7 @@
     <string name="video_refresh_error_title">No connection</string>
     <string name="video_refresh_error_msg">Please check your network connection and try to refresh.</string>
     <string name="videonew_lostfile">Hmm.. Somehow the video got lost. :/</string>
+    <string name="no_videos">No videos downloaded!\nTo download videos click the \"+\" button!</string>
 
     <string name="report_private">Private mode on - Your reports are hidden.</string>
     <string name="report_private_show">Show</string>
