@@ -14,15 +14,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.downloader.internal.DownloadRequestQueue;
 import com.downloader.request.DownloadRequest;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.android.material.shape.ShapeAppearanceModel;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.report.Report;
 import tk.phili.dienst.dienst.utils.JWLang;
 import tk.phili.dienst.dienst.utils.JWLanguageService;
+import tk.phili.dienst.dienst.utils.Utils;
 
 /**
  * Created by fipsi on 04.03.2018.
@@ -88,7 +92,24 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder _holder, int position) {
         if (_holder instanceof CategoryViewHolder) {
             CategoryViewHolder holder = (CategoryViewHolder) _holder;
+            //holder.setIsRecyclable(false);
             JWVideoCategory category = (JWVideoCategory) items.get(position);
+
+            ShapeAppearanceModel.Builder shapeBuilder = new ShapeAppearanceModel.Builder()
+                    .setAllCornerSizes(Utils.dpToPx(32));
+            int connectingCornersSize = Utils.dpToPx(16);
+
+            if(items.size() > 1) {
+                if (position != items.size() -1) {
+                    shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
+                    shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
+                }
+                if(position != 0) {
+                    shapeBuilder.setTopRightCornerSize(connectingCornersSize);
+                    shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+                }
+            }
+            holder.mainView.setShapeAppearanceModel(shapeBuilder.build());
 
             holder.title.setText(category.getName());
             if (category.getImages() != null
@@ -201,12 +222,12 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView title;
-        public View mainView;
+        public MaterialCardView mainView;
 
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            mainView = itemView;
+            mainView = (MaterialCardView) itemView;
             title = itemView.findViewById(R.id.category_title);
             image = itemView.findViewById(R.id.category_background);
         }

@@ -646,6 +646,9 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
                     goalState.isHasGoal() ? goalView.getHeight() + mlp.topMargin : 0,
                     reportsRecycler.getPaddingRight(),
                     reportsRecycler.getPaddingBottom());
+            if(goalState.isHasGoal()) {
+                reportsRecycler.scrollBy(0,  -(goalView.getHeight() + mlp.topMargin));
+            }
             /*Utils.setMargins(reportsRecycler,
                     0, goalState.isHasGoal() ? Utils.dpToPx(16) : 0, 0, 0);*/
         });

@@ -140,6 +140,9 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
         VideoAdapter videoAdapter = new VideoAdapter(requireContext(), new ArrayList<>(), new VideoAdapter.SelectionCallback() {
             @Override
             public void onVideoSelected(JWVideo video, VideoAdapter adapter) {
+                if(video.getFile(requireContext()).exists()) {
+                    return;
+                }
                 new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialogCenterStyle)
                         .setTitle(requireContext().getString(R.string.download_quality))
                         .setIcon(R.drawable.ic_baseline_cloud_download_24)

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
 
-    <com.google.android.material.card.MaterialCardView
+    <tk.phili.dienst.dienst.utils.MaskedMaterialCardView
         style="@style/Widget.Material3.CardView.Filled"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
@@ -244,6 +244,6 @@
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </tk.phili.dienst.dienst.utils.MaskedMaterialCardView>
 
 </RelativeLayout>
