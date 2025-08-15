@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:theme="@style/Theme.Material3.Dark">
+    android:paddingBottom="8dp">
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -17,8 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:strokeColor="@color/drawer_news_outline">
+        app:layout_constraintVertical_bias="1.0">
 
         <tk.phili.dienst.dienst.utils.ScrollTextView
             android:id="@+id/tickerview"
