@@ -1,10 +1,15 @@
 package tk.phili.dienst.dienst.report;
 
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,13 +19,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.dewinjm.monthyearpicker.MonthFormat;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
 import com.github.dewinjm.monthyearpicker.Presenter;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
@@ -56,6 +64,7 @@ import tk.phili.dienst.dienst.R;
 import tk.phili.dienst.dienst.uiwrapper.FragmentCommunicationPass;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
 import tk.phili.dienst.dienst.utils.AdaptiveUtils;
+import tk.phili.dienst.dienst.utils.LockableVisibilityMaterialButton;
 import tk.phili.dienst.dienst.utils.Utils;
 
 public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
@@ -77,12 +86,22 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private ReportManager reportManager;
     private Toolbar toolbar;
     private FloatingActionButton reportAddFab;
-    private Button reportShareButton, carryOverButton, summaryButton, toolbarTitle;
+    private Button reportShareButton, summaryButton, toolbarTitle;
+    private LockableVisibilityMaterialButton carryOverButton;
     private TextView goalText;
     private FragmentCommunicationPass fragmentCommunicationPass;
     private View privateBlock, privateDisable, noReportView;
 
     private ReportTimer reportTimer;
+
+    private ReportRecyclerAdapter summarizedRecyclerAdapter;
+
+    private ObjectAnimator animatorTranslate;
+    private ObjectAnimator animatorAlpha;
+
+    // 0 = animation -> to out
+    // 1 = animation -> to in
+    private int goalViewAnimationStatus = 0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -132,15 +151,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             calendarShow = (Calendar) savedInstanceState.getSerializable("calendarShow");
 
             if (sp.getBoolean("private_mode", false) && !savedInstanceState.getBoolean("private_mode_clicked")) {
-                privateBlock.setVisibility(View.VISIBLE);
-                privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(View.GONE));
+                privateBlock.setVisibility(VISIBLE);
+                privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(GONE));
             }
         } else {
             calendarShow = Calendar.getInstance();
 
             if (sp.getBoolean("private_mode", false)) {
-                privateBlock.setVisibility(View.VISIBLE);
-                privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(View.GONE));
+                privateBlock.setVisibility(VISIBLE);
+                privateDisable.setOnClickListener(__ -> privateBlock.setVisibility(GONE));
             }
         }
 
@@ -152,7 +171,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
 
         reportAddFab.setOnClickListener(v -> showEditDialog(null));
-        summaryButton.setOnClickListener(v -> showSummaryDialog());
+        summaryButton.setOnClickListener(v -> toggleSummaryDialog());
 
         reportShareButton.setOnClickListener(v -> {
             View input_view = LayoutInflater.from(getContext())
@@ -165,11 +184,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             activeSwitch.setChecked(sp.getBoolean("lastSendActive", true));
 
             if (detailedSwitch.isChecked()) {
-                activeSwitch.setVisibility(View.GONE);
+                activeSwitch.setVisibility(GONE);
             }
 
             detailedSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                activeSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                activeSwitch.setVisibility(isChecked ? GONE : VISIBLE);
                 if (!isChecked) {
                     activeSwitch.setChecked(true);
                 }
@@ -217,7 +236,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
         goalView.setOnClickListener((a) -> openGoalEditDialog());
 
-        updateList();
+        initSummaryDialog();
     }
 
     public void scrollToReportId(long reportId) {
@@ -292,7 +311,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("calendarShow", calendarShow);
-        if (privateBlock.getVisibility() != View.VISIBLE) {
+        if (privateBlock.getVisibility() != VISIBLE) {
             outState.putBoolean("private_mode_clicked", true);
         }
     }
@@ -385,13 +404,62 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                /*if (dy > 0) {
-                    if (reportAddFab.isExtended())
-                        reportAddFab.shrink();
+
+                Animator.AnimatorListener listener = new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        //Initial property values
+                        goalView.setTranslationY((float) animatorTranslate.getAnimatedValue());
+                        goalView.setAlpha((float) animatorAlpha.getAnimatedValue());
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+                        goalView.setTranslationY((float) animatorTranslate.getAnimatedValue());
+                        goalView.setAlpha((float) animatorAlpha.getAnimatedValue());
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) { }
+                };
+
+                if (dy > 0) {
+                    // ANIMATE OUT
+                    if(goalViewAnimationStatus == 1) {
+                        if(animatorTranslate != null && animatorTranslate.isRunning()) {
+                            animatorTranslate.cancel();
+                        }
+                        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) goalView.getLayoutParams();
+                        animatorTranslate = ObjectAnimator.ofFloat(goalView,"translationY", -(goalView.getHeight() + layoutParams.topMargin));
+                        animatorAlpha = ObjectAnimator.ofFloat(goalView,"alpha", 0.5f);
+                        animatorTranslate.addListener(listener);
+                        animatorTranslate.setDuration(400);
+                        animatorAlpha.setDuration(400);
+                        goalViewAnimationStatus = 0;
+                        animatorTranslate.start();
+                        animatorAlpha.start();
+                    }
                 } else {
-                    if (!reportAddFab.isExtended())
-                        reportAddFab.extend();
-                }*/
+                    // ANIMATE IN
+                    if(goalViewAnimationStatus == 0) {
+                        if(animatorTranslate != null && animatorTranslate.isRunning()) {
+                            animatorTranslate.cancel();
+                        }
+                        animatorTranslate = ObjectAnimator.ofFloat(goalView,"translationY",0);
+                        animatorAlpha = ObjectAnimator.ofFloat(goalView,"alpha", 1);
+                        animatorTranslate.addListener(listener);
+                        animatorTranslate.setDuration(400);
+                        animatorAlpha.setDuration(400);
+                        goalViewAnimationStatus = 1;
+                        animatorTranslate.start();
+                        animatorAlpha.start();
+                    }
+                }
             }
 
             @Override
@@ -401,22 +469,70 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         });
     }
 
+
+
+    private void toggleSummaryDialog() {
+        LinearLayout bottomSheet = requireView().findViewById(R.id.reportSummaryContent);
+        View reportSummaryContainer = requireView().findViewById(R.id.reportSummaryContainer);
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+        if(behavior.getState() == STATE_COLLAPSED) {
+            reportSummaryContainer.setVisibility(VISIBLE);
+            behavior.setDraggable(true);
+            behavior.setState(STATE_EXPANDED);
+        } else {
+            behavior.setDraggable(false);
+            behavior.setState(STATE_COLLAPSED);
+        }
+    }
+
     @SuppressLint("InflateParams")
-    private void showSummaryDialog() {
-        final View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_report_summary, null);
-        RecyclerView reportSummaryRecycler = dialogView.findViewById(R.id.reportSummaryRecycler);
+    private void initSummaryDialog() {
+        RecyclerView reportSummaryRecycler = requireView().findViewById(R.id.reportSummaryRecycler);
+        View reportSummaryContainer = requireView().findViewById(R.id.reportSummaryContainer);
+        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) reportSummaryContainer.getLayoutParams();
 
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
-        ReportRecyclerAdapter summarizedRecyclerAdapter = new ReportRecyclerAdapter(requireContext(), Collections.singletonList(summarizedReport), null);
+        summarizedRecyclerAdapter = new ReportRecyclerAdapter(requireContext(), Collections.singletonList(summarizedReport), null);
         reportSummaryRecycler.setAdapter(summarizedRecyclerAdapter);
         reportSummaryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
-        dialog.setContentView(dialogView);
-        dialog.show();
-        dialog.getBehavior().setState(STATE_EXPANDED);
-        dialog.getBehavior().setSkipCollapsed(true);
+        LinearLayout bottomSheet = requireView().findViewById(R.id.reportSummaryContent);
+        bottomSheet.post(() -> {
+            WindowInsetsCompat windowInsets = ViewCompat.getRootWindowInsets(requireActivity().getWindow().getDecorView());
+
+            BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
+
+            behavior.setState(STATE_COLLAPSED);
+            behavior.setDraggable(false);
+            reportSummaryContainer.setVisibility(INVISIBLE);
+            int peekHeight = bottomSheet.getHeight() - reportSummaryContainer.getHeight() - mlp.topMargin + Utils.dpToPx(16);
+            if (windowInsets != null) {
+                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                peekHeight += insets.bottom;
+                reportSummaryContainer.setPadding(
+                        reportSummaryContainer.getPaddingLeft(),
+                        reportSummaryContainer.getPaddingTop(),
+                        reportSummaryContainer.getPaddingRight(),
+                        insets.bottom);
+            }
+            behavior.setPeekHeight(peekHeight);
+            behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet1, int newState) {
+                    if (newState == STATE_COLLAPSED) {
+                        reportSummaryContainer.setVisibility(INVISIBLE);
+                        behavior.setDraggable(false);
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet1, float slideOffset) {
+
+                }
+            });
+        });
+
     }
 
     public void updateList() {
@@ -440,9 +556,9 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         reportRecyclerAdapter.notifyDataSetChanged();
 
         if (reports.isEmpty()) {
-            noReportView.setVisibility(View.VISIBLE);
+            noReportView.setVisibility(VISIBLE);
         } else {
-            noReportView.setVisibility(View.GONE);
+            noReportView.setVisibility(GONE);
         }
 
         updateSummary();
@@ -507,22 +623,23 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     public void updateSummary() {
         Report summarizedReport = reportManager.getSummary(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
 
+        carryOverButton.setVisibilityLocked(false);
         if (summarizedReport.getMinutes() % 60 == 0) {
-            carryOverButton.setVisibility(View.GONE);
+            carryOverButton.setVisibility(GONE);
         } else {
-            carryOverButton.setVisibility(View.VISIBLE);
+            carryOverButton.setVisibility(VISIBLE);
         }
+        carryOverButton.setVisibilityLocked(true);
 
         GoalState goalState = reportManager.getGoalState(calendarShow.get(Calendar.MONTH) + 1, calendarShow.get(Calendar.YEAR));
         if (goalState.isHasGoal()) {
-            goalView.setVisibility(View.VISIBLE);
+            goalView.setVisibility(VISIBLE);
             goalProgress.setProgress((int) goalState.getProgressPercent());
             goalText.setText(goalState.getLocalizedGoalText());
         } else {
-            goalView.setVisibility(View.GONE);
+            goalView.setVisibility(GONE);
         }
         reportsRecycler.post(() -> {
-
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) goalView.getLayoutParams();
 
             reportsRecycler.setPadding(reportsRecycler.getPaddingLeft(),
@@ -532,6 +649,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             /*Utils.setMargins(reportsRecycler,
                     0, goalState.isHasGoal() ? Utils.dpToPx(16) : 0, 0, 0);*/
         });
+
+        if (summarizedRecyclerAdapter != null) {
+            summarizedRecyclerAdapter.reports = Collections.singletonList(summarizedReport);
+            summarizedRecyclerAdapter.notifyItemChanged(0);
+        }
     }
 
 

@@ -27,6 +27,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.lang.reflect.Field;
@@ -220,12 +221,12 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
                     try {
                         int i = Integer.parseInt(text);
                         if (i > 59) {
-                            minutesView.setTextColor(Color.RED);
+                            minutesView.setTextColor(MaterialColors.getColor(minutesView, R.attr.colorError));
                         } else {
-                            minutesView.setTextColor(Color.WHITE);
+                            minutesView.setTextColor(MaterialColors.getColor(minutesView, R.attr.colorOnBackground));
                         }
                     } catch (Exception e) {
-                        minutesView.setTextColor(Color.RED);
+                        minutesView.setTextColor(MaterialColors.getColor(minutesView, R.attr.colorError));
                         e.printStackTrace();
                     }
                 }
@@ -249,12 +250,12 @@ public class ReportAddDialog extends DialogFragment implements Toolbar.OnMenuIte
                     try {
                         int i = Integer.parseInt(text);
                         if (i > 24) {
-                            hourView.setTextColor(Color.RED);
+                            hourView.setTextColor(MaterialColors.getColor(hourView, R.attr.colorError));
                         } else {
-                            hourView.setTextColor(Color.WHITE);
+                            hourView.setTextColor(MaterialColors.getColor(hourView, R.attr.colorOnBackground));
                         }
                     } catch (Exception e) {
-                        hourView.setTextColor(Color.RED);
+                        hourView.setTextColor(MaterialColors.getColor(hourView, R.attr.colorError));
                         e.printStackTrace();
                     }
                 }

@@ -12,18 +12,21 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.shape.ShapeAppearanceModel;
 
 import java.util.List;
 
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.utils.Utils;
 
 
 public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
+    private final Context context;
     List<Report> reports;
-    private ReportManager reportManager;
-    private ReportTimer reportTimer;
+    private final ReportManager reportManager;
+    private final ReportTimer reportTimer;
 
     public ReportRecyclerAdapter(Context context, List<Report> reports, ReportTimer reportTimer) {
         this.context = context;
@@ -62,6 +65,31 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (_holder instanceof Holder) {
             Holder holder = (Holder) _holder;
             Report report = reports.get(position);
+
+            ShapeAppearanceModel.Builder shapeBuilder = new ShapeAppearanceModel.Builder()
+                    .setAllCornerSizes(Utils.dpToPx(32));
+            int connectingCornersSize = Utils.dpToPx(16);
+
+            int realPosition = position;
+            int realListSize = reports.size();
+            if(reports.get(0).getType() == Report.Type.TIMER) {
+                realPosition--;
+                realListSize--;
+            }
+
+            if(realListSize > 1) {
+                if (realPosition != realListSize - 1) {
+                    shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
+                    shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
+                }
+                if(realPosition != 0) {
+                    shapeBuilder.setTopRightCornerSize(connectingCornersSize);
+                    shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+                }
+            }
+            holder.cardView.setShapeAppearanceModel(shapeBuilder.build());
+
+
 
             String[] formattedTime = report.getFormattedHoursAndMinutes(context);
             Integer color = getColor(report);
@@ -160,7 +188,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        public CardView cardView;
+        public MaterialCardView cardView;
         public TextView date, time, timeInfo, placements, returnVisits, videos, bibleStudies, annotation;
 
         public Holder(@NonNull View itemView) {
@@ -180,7 +208,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public class TimerHolder extends RecyclerView.ViewHolder {
 
-        public CardView cardView;
+        public MaterialCardView cardView;
         public TextView time, timeInfo;
         public MaterialButton timerStopButton, timerPauseButton;
 
