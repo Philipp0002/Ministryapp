@@ -292,10 +292,6 @@ public class VideoFragment extends Fragment implements Toolbar.OnMenuItemClickLi
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == R.id.action_refresh_vid) {
-            //refreshListData();
-            return true;
-        }
         return false;
     }
 
