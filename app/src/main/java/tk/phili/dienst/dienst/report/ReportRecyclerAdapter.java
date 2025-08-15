@@ -67,8 +67,8 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             Report report = reports.get(position);
 
             ShapeAppearanceModel.Builder shapeBuilder = new ShapeAppearanceModel.Builder()
-                    .setAllCornerSizes(Utils.dpToPx(32));
-            int connectingCornersSize = Utils.dpToPx(16);
+                    .setAllCornerSizes(Utils.dpToPx(24));
+            int connectingCornersSize = Utils.dpToPx(8);
 
             int realPosition = position;
             int realListSize = reports.size();

@@ -71,7 +71,7 @@ public class NotesFragment extends Fragment {
             return WindowInsetsCompat.CONSUMED;
         });
 
-        sp = getContext().getSharedPreferences("MainActivity3", Context.MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("MainActivity3", Context.MODE_PRIVATE);
         editor = sp.edit();
 
         if (sp.contains("NOTES")) {

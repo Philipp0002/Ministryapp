@@ -21,7 +21,7 @@ public class Shortcuts {
             int maxShortcuts = shortcutManager.getMaxShortcutCountPerActivity();
 
             Intent i = new Intent(context, WrapperActivity.class);
-            i.putExtra("Activity", "MainActivity");
+            i.putExtra("shortcut_started", "MainActivity");
             ShortcutInfo id1 = new ShortcutInfo.Builder(context, "id1")
                     .setShortLabel(context.getString(R.string.title_report))
                     .setLongLabel(context.getString(R.string.title_report))
@@ -30,7 +30,7 @@ public class Shortcuts {
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
-            i.putExtra("Activity", "Notizen");
+            i.putExtra("shortcut_started", "Notizen");
             ShortcutInfo id2 = new ShortcutInfo.Builder(context, "id2")
                     .setShortLabel(context.getString(R.string.title_notes))
                     .setLongLabel(context.getString(R.string.title_notes))
@@ -39,7 +39,7 @@ public class Shortcuts {
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
-            i.putExtra("Activity", "Empfehlungen");
+            i.putExtra("shortcut_started", "Empfehlungen");
             ShortcutInfo id3 = new ShortcutInfo.Builder(context, "id3")
                     .setShortLabel(context.getString(R.string.title_sample_presentations))
                     .setLongLabel(context.getString(R.string.title_sample_presentations))
@@ -48,7 +48,7 @@ public class Shortcuts {
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
-            i.putExtra("Activity", "Videos");
+            i.putExtra("shortcut_started", "Videos");
             ShortcutInfo id4 = new ShortcutInfo.Builder(context, "id4")
                     .setShortLabel(context.getString(R.string.title_videos))
                     .setLongLabel(context.getString(R.string.title_videos))
@@ -57,7 +57,7 @@ public class Shortcuts {
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
-            i.putExtra("Activity", "Tagestext");
+            i.putExtra("shortcut_started", "Tagestext");
             ShortcutInfo id5 = new ShortcutInfo.Builder(context, "id5")
                     .setShortLabel(context.getString(R.string.title_dailytext))
                     .setLongLabel(context.getString(R.string.title_dailytext))
@@ -66,7 +66,7 @@ public class Shortcuts {
                     .setIntent(i.setAction(Intent.ACTION_VIEW))
                     .build();
 
-            i.putExtra("Activity", "Kalender");
+            i.putExtra("shortcut_started", "Kalender");
             ShortcutInfo id6 = new ShortcutInfo.Builder(context, "id6")
                     .setShortLabel(context.getString(R.string.title_calendar))
                     .setLongLabel(context.getString(R.string.title_calendar))

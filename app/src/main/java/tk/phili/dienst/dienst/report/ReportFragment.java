@@ -90,7 +90,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
     private LockableVisibilityMaterialButton carryOverButton;
     private TextView goalText;
     private FragmentCommunicationPass fragmentCommunicationPass;
-    private View privateBlock, privateDisable, noReportView;
+    private View privateBlock, privateDisable, noReportView, toolbarWithFab;
 
     private ReportTimer reportTimer;
 
@@ -136,15 +136,15 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         privateDisable = view.findViewById(R.id.reportPrivateModeDisable);
         toolbarTitle = view.findViewById(R.id.toolbar_title);
         noReportView = view.findViewById(R.id.reportsEmptyView);
+        toolbarWithFab = view.findViewById(R.id.reportToolbarWithFab);
+        reportsRecycler = view.findViewById(R.id.reportsRecycler);
+        goalView = view.findViewById(R.id.reportGoalContainer);
 
         toolbar.setOnMenuItemClickListener(this);
 
         reportManager = new ReportManager(requireContext());
 
         goalProgress = view.findViewById(R.id.reportGoalProgress);
-
-        reportsRecycler = view.findViewById(R.id.reportsRecycler);
-        goalView = view.findViewById(R.id.reportGoalContainer);
 
         //Restore configuration
         if (savedInstanceState != null) {
@@ -174,11 +174,11 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         summaryButton.setOnClickListener(v -> toggleSummaryDialog());
 
         reportShareButton.setOnClickListener(v -> {
-            View input_view = LayoutInflater.from(getContext())
+            View inputView = LayoutInflater.from(getContext())
                     .inflate(R.layout.report_send_input, null, false);
-            final EditText input = ((TextInputLayout) input_view.findViewById(R.id.name_text_field)).getEditText();
-            final MaterialSwitch detailedSwitch = input_view.findViewById(R.id.detailed_report_switch);
-            final MaterialSwitch activeSwitch = input_view.findViewById(R.id.active_switch);
+            final EditText input = ((TextInputLayout) inputView.findViewById(R.id.name_text_field)).getEditText();
+            final MaterialSwitch detailedSwitch = inputView.findViewById(R.id.detailed_report_switch);
+            final MaterialSwitch activeSwitch = inputView.findViewById(R.id.active_switch);
             input.setText(sp.getString("lastSendName", ""));
             detailedSwitch.setChecked(sp.getBoolean("lastSendDetailed", false));
             activeSwitch.setChecked(sp.getBoolean("lastSendActive", true));
@@ -197,7 +197,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.title_section6))
                     .setMessage(getString(R.string.report_input_name))
-                    .setView(input_view)
+                    .setView(inputView)
                     .setPositiveButton(getString(R.string.title_activity_send), (dialog, whichButton) -> {
                         String value = input.getText().toString();
                         if (!value.isEmpty()) {
@@ -224,19 +224,35 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
 
 
         reportUpdateTimer = new Timer();
-        reportUpdateTimer.scheduleAtFixedRate(new TimerTask() {
+        reportUpdateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (reportTimer.getTimerState() == ReportTimer.TimerState.RUNNING
                         && getActivity() != null) {
-                    getActivity().runOnUiThread(() -> updateList());
+                    getActivity().runOnUiThread(() -> reportRecyclerAdapter.notifyItemChanged(0));
                 }
             }
         }, 30 * 1000, 60 * 1000);
 
-        goalView.setOnClickListener((a) -> openGoalEditDialog());
+        goalView.setOnClickListener(v -> openGoalEditDialog());
 
         initSummaryDialog();
+
+        ViewCompat.setOnApplyWindowInsetsListener(reportsRecycler, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            toolbarWithFab.post(() -> {
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) toolbarWithFab.getLayoutParams();
+                reportsRecycler.setPadding(
+                        reportsRecycler.getPaddingLeft(),
+                        reportsRecycler.getPaddingTop(),
+                        reportsRecycler.getPaddingRight(),
+                        insets.bottom + toolbarWithFab.getHeight() + mlp.bottomMargin + mlp.topMargin);
+            });
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+
     }
 
     public void scrollToReportId(long reportId) {
@@ -373,30 +389,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
             reportsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         }
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-            @Override
-            public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                if (viewHolder instanceof ReportRecyclerAdapter.TimerHolder) {
-                    return 0;
-                }
-                return super.getSwipeDirs(recyclerView, viewHolder);
-            }
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int pos = viewHolder.getAdapterPosition();
-                if (deleteReport(reportRecyclerAdapter.reports.get(pos))) {
-                    updateList();
-                }
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        ItemTouchHelper itemTouchHelper = getItemTouchHelper();
         itemTouchHelper.attachToRecyclerView(reportsRecycler);
 
         reportsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -469,6 +462,33 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         });
     }
 
+    private ItemTouchHelper getItemTouchHelper() {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                if (viewHolder instanceof ReportRecyclerAdapter.TimerHolder) {
+                    return 0;
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getAdapterPosition();
+                if (deleteReport(reportRecyclerAdapter.reports.get(pos))) {
+                    updateList();
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        return itemTouchHelper;
+    }
 
 
     private void toggleSummaryDialog() {
