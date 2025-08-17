@@ -27,6 +27,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     List<Report> reports;
     private final ReportManager reportManager;
     private final ReportTimer reportTimer;
+    boolean isGrid = false;
 
     public ReportRecyclerAdapter(Context context, List<Report> reports, ReportTimer reportTimer) {
         this.context = context;
@@ -72,23 +73,51 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             int realPosition = position;
             int realListSize = reports.size();
-            if(reports.get(0).getType() == Report.Type.TIMER) {
+            if (reports.get(0).getType() == Report.Type.TIMER) {
                 realPosition--;
                 realListSize--;
             }
 
-            if(realListSize > 1) {
-                if (realPosition != realListSize - 1) {
-                    shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
-                    shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
-                }
-                if(realPosition != 0) {
-                    shapeBuilder.setTopRightCornerSize(connectingCornersSize);
-                    shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+
+            if (realListSize > 1) {
+                if (!isGrid) {
+                    if (realPosition != realListSize - 1) {
+                        shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
+                        shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
+                    }
+                    if (realPosition != 0) {
+                        shapeBuilder.setTopRightCornerSize(connectingCornersSize);
+                        shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+                    }
+                } else {
+                    if((realPosition == position && realPosition % 2 == 0) || (realPosition != position && realPosition % 2 == 1)) {
+                        // LEFT SIDE
+                        if(position != reports.size()-1) {
+                            shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
+                        }
+                        shapeBuilder.setTopRightCornerSize(connectingCornersSize);
+                    } else {
+                        // RIGHT SIDE
+                        if(!(realPosition != position && realPosition == 0)) {
+                            shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+                        }
+                        shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
+                    }
+
+                    if(position > 1) {
+                        if(!(realPosition != position && realPosition == 1)) {
+                            shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+                        }
+                        shapeBuilder.setTopRightCornerSize(connectingCornersSize);
+                    }
+                    if(position < reports.size() - 2) {
+                        shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
+                        shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
+                    }
+
                 }
             }
             holder.cardView.setShapeAppearanceModel(shapeBuilder.build());
-
 
 
             String[] formattedTime = report.getFormattedHoursAndMinutes(context);

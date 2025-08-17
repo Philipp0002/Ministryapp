@@ -14,10 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.shape.ShapeAppearanceModel;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -26,43 +30,66 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lombok.Setter;
 import tk.phili.dienst.dienst.R;
+import tk.phili.dienst.dienst.report.Report;
+import tk.phili.dienst.dienst.utils.Utils;
 
-public class CalendarList extends ArrayAdapter<String> {
+public class CalendarList extends RecyclerView.Adapter<CalendarList.ViewHolder> {
 
     //DECLARATIONS
-    List<Event> events;
-    Context context;
-    CalendarFragment calendarFragment;
-    LayoutInflater inflater;
+    @Setter
+    private List<Event> events;
+    private final Context context;
+    private final CalendarFragment calendarFragment;
 
     public CalendarList(Context context, CalendarFragment calendarFragment, List<Event> events) {
-        super(context, R.layout.calendar_item, (List) events);
         this.context = context;
         this.calendarFragment = calendarFragment;
         this.events = events;
     }
 
-    public class ViewHolder {
-        View mainView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        MaterialCardView mainView;
         TextView dateTv;
         TextView partnerTv;
         TextView notesTv;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            dateTv = (TextView) itemView.findViewById(R.id.calendar_item_date);
+            mainView = (MaterialCardView) itemView;
+            notesTv = (TextView) itemView.findViewById(R.id.calendar_item_notes);
+            partnerTv = (TextView) itemView.findViewById(R.id.calendar_item_partner);
+        }
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_item, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        if (convertView == null) {
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.calendar_item, null);
+        ShapeAppearanceModel.Builder shapeBuilder = new ShapeAppearanceModel.Builder()
+                .setAllCornerSizes(Utils.dpToPx(16));
+        int connectingCornersSize = Utils.dpToPx(4);
+
+        if(events.size() > 1) {
+            if (position != events.size() - 1) {
+                shapeBuilder.setBottomRightCornerSize(connectingCornersSize);
+                shapeBuilder.setBottomLeftCornerSize(connectingCornersSize);
+            }
+            if(position != 0) {
+                shapeBuilder.setTopRightCornerSize(connectingCornersSize);
+                shapeBuilder.setTopLeftCornerSize(connectingCornersSize);
+            }
         }
+        holder.mainView.setShapeAppearanceModel(shapeBuilder.build());
 
-        final ViewHolder holder = new ViewHolder();
-        holder.dateTv = (TextView) convertView.findViewById(R.id.calendar_item_date);
-        holder.mainView = convertView;
-        holder.notesTv = (TextView) convertView.findViewById(R.id.calendar_item_notes);
-        holder.partnerTv = (TextView) convertView.findViewById(R.id.calendar_item_partner);
 
         final int id = Integer.parseInt(((String) events.get(position).getData()).split("ʷ")[0]);
         final int day = Integer.parseInt(((String) events.get(position).getData()).split("ʷ")[1]);
@@ -80,7 +107,7 @@ public class CalendarList extends ArrayAdapter<String> {
         holder.dateTv.setText(formattedDate);
 
         if (partner == null || partner.trim().isEmpty()) {
-            holder.partnerTv.setText(getContext().getResources().getString(R.string.no_partner));
+            holder.partnerTv.setText(context.getResources().getString(R.string.no_partner));
         } else {
             holder.partnerTv.setText(partner);
         }
@@ -108,7 +135,7 @@ public class CalendarList extends ArrayAdapter<String> {
                                     partner.isEmpty() ? null : partner,
                                     description.isEmpty() ? null : description);
                         } else if (which == 1) {
-                            new MaterialAlertDialogBuilder(getContext(), R.style.MaterialAlertDialogCenterStyle)
+                            new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialogCenterStyle)
                                     .setMessage(R.string.calendar_menu_delete_msg)
                                     .setTitle((context.getString(R.string.calendar_menu_delete_title)))
                                     .setPositiveButton(context.getString(R.string.delete_ok), (d, e) -> {
@@ -157,9 +184,9 @@ public class CalendarList extends ArrayAdapter<String> {
                                             if (gCalExistsEvent) {
                                                 long eventId = eventIdEvent;
                                                 // 刪除活動
-                                                ContentResolver cr = getContext().getContentResolver();
+                                                ContentResolver cr = context.getContentResolver();
                                                 // 因為targetSDK=25，所以要在Apps運行時檢查權限
-                                                int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                                                int permissionCheck = ContextCompat.checkSelfPermission(context,
                                                         Manifest.permission.WRITE_CALENDAR);
                                                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                                                     Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
@@ -181,8 +208,11 @@ public class CalendarList extends ArrayAdapter<String> {
 
             return false;
         });
+    }
 
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return events.size();
     }
 
 

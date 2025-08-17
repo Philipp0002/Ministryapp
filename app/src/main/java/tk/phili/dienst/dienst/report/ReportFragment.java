@@ -385,6 +385,7 @@ public class ReportFragment extends Fragment implements Toolbar.OnMenuItemClickL
         int screenWidth = getResources().getConfiguration().screenWidthDp;
         if (AdaptiveUtils.LARGE_SCREEN_WIDTH_SIZE <= screenWidth) {
             reportsRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            reportRecyclerAdapter.isGrid = true;
         } else {
             reportsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         }

@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +26,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.dewinjm.monthyearpicker.MonthFormat;
 import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
@@ -62,20 +66,21 @@ import tk.phili.dienst.dienst.utils.Utils;
 
 public class CalendarFragment extends Fragment {
 
-    CompactCalendarView compactCalendarView;
+    private CompactCalendarView compactCalendarView;
     public SharedPreferences sp;
     private SharedPreferences.Editor editor;
-    GregorianCalendar cal;
-    TextView noPlansToday, calendarDayText;
+    private GregorianCalendar cal;
+    private TextView noPlansToday, calendarDayText;
 
-    MaterialButton toolbarTitle;
-    ListView eventList;
-    Toolbar toolbar;
+    private MaterialButton toolbarTitle;
+    private RecyclerView eventList;
+    private Toolbar toolbar;
 
     //FORMAT
     //IDʷDAYʷMONTHʷYEARʷHOURʷMINUTEʷDIENSTPARTNERʷBESCHREIBUNG
 
-    FragmentCommunicationPass fragmentCommunicationPass;
+    private FragmentCommunicationPass fragmentCommunicationPass;
+    private CalendarList calendarAdapter;
 
     @Override
     public void onAttach(Context context) {
@@ -104,6 +109,22 @@ public class CalendarFragment extends Fragment {
         compactCalendarView = view.findViewById(R.id.compactcalendar_view);
         cal = new GregorianCalendar();
         toolbarTitle = view.findViewById(R.id.toolbar_title);
+
+        calendarAdapter = new CalendarList(requireContext(), CalendarFragment.this, List.of());
+        eventList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        eventList.setAdapter(calendarAdapter);
+
+        ViewCompat.setOnApplyWindowInsetsListener(eventList, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            eventList.setPadding(
+                    eventList.getPaddingLeft(),
+                    eventList.getPaddingTop(),
+                    eventList.getPaddingRight(),
+                    insets.bottom);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         refreshAll();
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -384,8 +405,8 @@ public class CalendarFragment extends Fragment {
         } else {
             noPlansToday.setVisibility(View.INVISIBLE);
         }
-        final CalendarList adapterlist = new CalendarList(getContext(), CalendarFragment.this, events);
-        eventList.setAdapter(adapterlist);
+        calendarAdapter.setEvents(events);
+        calendarAdapter.notifyDataSetChanged();
 
         String s = java.text.DateFormat.getDateInstance(DateFormat.SHORT).format(cal.getTime());
         s = android.text.format.DateFormat.format("EEEE", cal.getTime()) + ", " + s;

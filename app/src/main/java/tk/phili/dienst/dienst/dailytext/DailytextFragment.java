@@ -159,6 +159,8 @@ public class DailytextFragment extends Fragment implements MyWebChromeClient.Pro
                         view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
                         view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
                         view.loadUrl("javascript:document.getElementsByClassName(\"todayItem\")[1].remove();");
+                        view.evaluateJavascript("document.getElementById(\"dailyText\").style.width=\"100%\";", null);
+                        view.evaluateJavascript("document.getElementById(\"dailyText\").style.float=\"none\";", null);
                         view.evaluateJavascript("document.getElementById(\"regionMain\").style.marginTop=\"0px\";", null);
                         loaded = true;
                         errorLayout.setVisibility(View.GONE);

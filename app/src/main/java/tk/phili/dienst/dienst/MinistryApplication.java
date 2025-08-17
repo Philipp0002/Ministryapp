@@ -26,23 +26,29 @@ public class MinistryApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        runTimer();
+        startCalendarWork();
 
         PRDownloader.initialize(getApplicationContext());
 
         startDailyWork();
     }
 
-    public void runTimer() {
-        if (t == null) {
-            t = new Timer();
-            t.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    CalendarWorker.run(getApplicationContext());
-                }
-            }, 0, 600000);
-        }
+    private void startCalendarWork() {
+        // Start one time worker
+        OneTimeWorkRequest nowRequest = new OneTimeWorkRequest.Builder(CalendarWorker.class).build();
+        WorkManager.getInstance(this).enqueue(nowRequest);
+
+        // Start periodic work
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                CalendarWorker.class,
+                15, TimeUnit.MINUTES
+        ).build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "CalendarUpdate",
+                ExistingPeriodicWorkPolicy.UPDATE,
+                workRequest
+        );
     }
 
 
