@@ -36,6 +36,7 @@ import tk.phili.dienst.dienst.report.ReportFragment;
 import tk.phili.dienst.dienst.samplepresentations.SamplePresentationsFragment;
 import tk.phili.dienst.dienst.settings.SettingsFragment;
 import tk.phili.dienst.dienst.uiwrapper.WrapperActivity;
+import tk.phili.dienst.dienst.utils.JWLanguageService;
 import tk.phili.dienst.dienst.utils.Utils;
 import tk.phili.dienst.dienst.videos.VideoFragment;
 
@@ -117,16 +118,17 @@ public class Drawer {
             modalNavDrawer.addView(tickerHeaderNavModal);
             navDrawer.addView(tickerHeaderNav);
 
+            JWLanguageService languageService = new JWLanguageService(activity);
+            String langcode = languageService.getCurrentLanguage("E").getLangcode();
+
+            tickerURL = "https://www.jw.org/finder?wtlocale="+ langcode +"&docid=1011216&srcid=share";
 
             if (activity.getString(R.string.URL_end).equalsIgnoreCase("de")) {
                 urlString = "https://www.jw.org/de/nachrichten/jw/rss/NewsSubsectionRSSFeed/feed.xml";
-                tickerURL = "https://www.jw.org/de/nachrichten/jw/";
             } else if (activity.getString(R.string.URL_end).equalsIgnoreCase("it")) {
                 urlString = "https://www.jw.org/it/news/jw-news/rss/NewsSubsectionRSSFeed/feed.xml";
-                tickerURL = "https://www.jw.org/it/news/jw-news/";
             } else {
                 urlString = "https://www.jw.org/en/news/jw/rss/NewsSubsectionRSSFeed/feed.xml";
-                tickerURL = "https://www.jw.org/en/news/jw/";
             }
             View.OnClickListener urlClickListener = view -> {
                 Intent i = new Intent(Intent.ACTION_VIEW);
